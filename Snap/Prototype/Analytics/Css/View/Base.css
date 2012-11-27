@@ -1,0 +1,8 @@
+.analytics_base_view_proto table td {
+	padding: 2px 4px;
+	border-left: 1px solid black;
+}	
+
+.analytics_base_view_proto table {
+	border-right: 1px solid black;
+}

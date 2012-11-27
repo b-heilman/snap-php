@@ -1,0 +1,8 @@
+The project is currently the combination of 6 years of development.  Some parts are very old, others are a newer.
+
+Old sections needing updated :
+DB Adapter - Currently only mysqli, PDO would be nice adding
+\Snap\Lib\DB - And old attempt at creating a generic SQL model that could the be decoded by adapters
+
+Future updates
+The JS system isn't yet included, I am rewriting how it works.  Will be added shortly.

@@ -1,0 +1,30 @@
+@CHARSET "ISO-8859-1";
+
+.installation-forms {
+	margin-bottom : 8px;
+}
+
+.installation-editor {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	padding: 4px;
+	margin-bottom: 8px;
+}
+
+.installation-editor .form-row .form-element {
+	display: inline-block;
+	margin-right: 16px;
+}
+
+.installation-editor .form-row .form-element-label {
+	margin-right: 4px;
+}
+
+.form-control-row {
+	margin: 4px 0px 0px;	
+}
+
+.form-control-row button {
+	display : inline-block;
+	margin-right: 8px;
+}

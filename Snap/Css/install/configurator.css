@@ -1,0 +1,32 @@
+.install_configurator-menu {
+	list-style-type: none;
+	border-bottom: 1px solid black;
+	margin-bottom: 4px;
+}
+
+.install_configurator-menu li{
+	display: inline-block;
+	margin-left: 15px;
+}
+
+.install_configurator-menu li.first{
+	margin-left: 5px;
+}
+
+.install_configurator-menu li a{
+	color: #f77;
+	text-decoration: none;
+}
+
+.install_configurator-menu li a.selected{
+	color: #f00;
+}
+
+.install_configurator-menu li a:hover{
+	color: #faa;
+}
+
+.install_configurator-pane .search_bar{
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}

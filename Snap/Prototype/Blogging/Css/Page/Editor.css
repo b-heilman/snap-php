@@ -1,0 +1,58 @@
+@CHARSET "ISO-8859-1";
+
+.page-wrapper {
+	background-color: white;
+	margin: 0 auto;
+	width: 960px;
+}
+
+.page-wrapper .blog-content {
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	margin-left: 12px;
+	vertical-align: top;
+	height: 600px;
+	width: 610px;
+}
+
+.blog-content textarea {
+	height: 30em;
+	width: 95%;
+	padding: 2.5%;
+	display: block;
+	margin: 10px 0px 4px;
+	border: 1px solid black;
+}
+
+.blog-content .select-wrapper {
+	margin-top: 10px;
+}
+
+.blog-content .mceEditor {
+	margin-top: 10px;
+	display: block;
+}
+
+.page-wrapper .right-nav {
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	vertical-align: top;
+	min-height: 20px;
+	margin-left: 10px;
+	width: 310px;
+}
+
+.right-nav .file-thread {
+	height: 20em;
+	margin-top: 16px;
+	padding: 2px;
+	border: 1px solid black;
+	overflow-y: scroll;
+}
+
+.page-wrapper input {
+	width: 100%;
+	border: 1px solid black;
+}

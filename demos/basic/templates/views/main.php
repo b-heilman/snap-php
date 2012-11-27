@@ -1,0 +1,1 @@
+<div class='main'>This is the main content</div>

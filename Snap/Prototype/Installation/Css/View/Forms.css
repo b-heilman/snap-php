@@ -1,0 +1,18 @@
+@CHARSET "ISO-8859-1";
+
+.installation-forms li {
+	display: inline-block;
+	margin-right: 4px;
+}
+
+.installation-forms a{
+	display: block;
+	color: #66f;
+	border-bottom: 1px solid #66f;
+	padding: 2px;
+}
+
+.installation-forms a.active {
+	color: #f66;
+	border-bottom-color: #f99;
+}

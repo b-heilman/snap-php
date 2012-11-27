@@ -1,0 +1,41 @@
+<?php
+$comment = new \Snap\Prototype\Comment\Lib\Element( $this->getStreamData()->get(0) );
+		
+$user = new \Snap\Prototype\User\Lib\Element( $comment->info(COMMENT_USER) );
+$time = new \Snap\Lib\Core\Time( $comment->info('creation_date') );
+
+$header = new \Snap\Node\Block(array(
+	'tag'   => 'div', 
+	'class' => 'comment-view-header'
+));
+
+$header->write( $user->name(), 'comment-user' );
+	
+$header->write( 'written '.$time->maxSince().' ago', 'comment-time' );
+
+$this->append( $header );
+//-------
+
+$content = new \Snap\Node\Block(array(
+	'tag' => 'div',
+	'class' => 'comment-view-content'
+));
+
+$content->append( new \Snap\Node\Text(array(
+	'tag' => 'pre', 
+	'text' => $comment->info('content')
+)) );
+		
+$this->append( $content );
+//-------
+
+$footer = new \Snap\Node\Block(array(
+	'tag'   => 'span',
+	'class' => 'comment-view-footer'
+));
+
+if ( \Snap\Prototype\User\Lib\Current::isAdmin() ){
+	$footer->append( new \Snap\Prototype\Comment\Node\Form\Delete(array('data' => $comment)) );
+}
+		
+$this->append( $footer );

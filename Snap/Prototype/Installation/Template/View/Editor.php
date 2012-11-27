@@ -1,0 +1,31 @@
+<?php
+$el = null;
+
+if ( $form instanceof \Snap\Node\Snapable ){
+	$this->append( $el = $form );
+}elseif ( is_string($form) ){
+	$this->append( $el = new $form() );
+}elseif( is_array($form) ){
+	$this->append( $el = new \Snap\Node\Form() );
+	
+	if ( isset($form['form']) ){
+		if ( is_array($form['form']) ){
+			$forms    = $form['form'];
+			$settings = $form['settings'];
+		}else{
+			$forms    = array( $form['form'] );
+			$settings = array( $form['settings'] );
+		}
+	}else{
+		$forms = $form;
+		$settings = array();
+	}
+	
+	foreach ( $forms as $key => $form ){
+		$el->append( new $form(isset($settings[$key])?$settings[$key]:array()) );
+	}
+}
+
+if ( $el && count($el->getElementsByClass('\Snap\Node\Form\Input\Button')) == 0 ){
+	$el->append( new \Snap\Node\Form\Control() );
+}

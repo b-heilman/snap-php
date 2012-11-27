@@ -1,0 +1,14 @@
+.topics_new_form_proto .topics_new_form_proto_title_wrapper input{
+	width: 200px;
+	margin-right: 10px;
+}
+
+.topics_new_form_proto textarea{
+	display: block;
+	width: 600px;
+	height: 6em
+}
+
+.topics_new_form_proto .dl_submit_set{
+	width: 200px;
+}

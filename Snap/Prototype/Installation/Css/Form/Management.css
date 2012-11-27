@@ -1,0 +1,7 @@
+@CHARSET "ISO-8859-1";
+
+.management-prototype-list > ul > li {
+	margin : 10px 10px 0px 10px;
+	padding-bottom: 10px;
+	border-bottom : 1px solid black;
+}
