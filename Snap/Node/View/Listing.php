@@ -22,36 +22,37 @@ abstract class Listing extends \Snap\Node\View {
  			throw new \Exception( 'Path is blank for '.get_class($this) );
  		}
  		
- 		$content = '';
- 		$data = $this->getStreamData();
- 		$c = $data->count();
+ 		// TODO : how to avoid the collisions???
+ 		$__content = '';
+ 		$__data = $this->getStreamData();
+ 		$__c = $__data->count();
  		
- 		for( $i = 0; $i < $c; $i++ ){
+ 		for( $__i = 0; $__i < $__c; $__i++ ){
 	 		$this->translating = true;
 	 		
 	 		ob_start();
 	 		
 	 		// decode the variables for local use of the included function
-	 		$vars = $this->setVariables( $data->get($i) );
-	 		foreach( $vars as $var => $val ){
-	 			${$var} = $val;
+	 		$__vars = $this->getTemplateVariables( $__data->get($__i) );
+	 		foreach( $__vars as $__var => $__val ){
+	 			${$__var} = $__val;
 	 		}
 	 		
 	 		// call the template
 	 		include $this->path;
 	 		
-	 		$innerContent = ob_get_contents();
+	 		$__innerContent = ob_get_contents();
 	 		ob_end_clean();
 	 		
 	 		$this->translating = false;
 	 		
-	 		$content .= "<{$this->childTag}>$innerContent</{$this->childTag}>";
+	 		$__content .= "<{$this->childTag}>$__innerContent</{$this->childTag}>";
  		}
  		
- 		return $content;
+ 		return $__content;
  	}
  	
- 	protected function setVariables( $info = array() ){
+ 	protected function getTemplateVariables( $info = null ){
  		return $info;
  	}
 }

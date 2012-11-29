@@ -35,6 +35,8 @@ class Form extends \Snap\Node\Template {
 		}else{
 			if ( isset($settings['id']) && !empty($settings['id']) ){
     			$this->formName = $settings['id'];
+    		}elseif ( isset($settings['name']) && !empty($settings['name']) ){
+    			$this->formName = $settings['name'];
     		}else{
 				$this->formName = get_called_class();
     		}
@@ -273,15 +275,6 @@ class Form extends \Snap\Node\Template {
 	}
 	
 	protected function isInputReady( \Snap\Lib\Form\Data\Result $proc ){
-		$this->log('isInputReady');
-		if ( $proc->hasChanged() ){
-			$this->log('hasChanged');
-		}
-		
-		if ( $proc->hasErrors() ){
-			$this->log( print_r($proc->getErrors(), true) );
-		}
-		
 		return $proc->hasChanged() && !$proc->hasErrors();
 	}
 	// wrap on the standard append, but this time it checks if it's

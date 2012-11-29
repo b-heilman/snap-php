@@ -52,10 +52,10 @@ class File extends \Snap\Node\Simple
 		
 		if ( isset($_FILES[$name]) ){
 			$this->file->setValue( $_FILES[$name] );
-			$this->log( print_r($_FILES[$name], true) );
+			
 			if ( $_FILES[$name]['error'] && $_FILES[$name]['error']  !== UPLOAD_ERR_OK ){
-				$this->log( 'check in' );
 				$errorCode =  $_FILES[$name]['error'];
+				
 				$uploadErrors = array(
 					UPLOAD_ERR_INI_SIZE   => "Larger than upload_max_filesize.",
 					UPLOAD_ERR_FORM_SIZE  => "Larger than form MAX_FILE_SIZE.",

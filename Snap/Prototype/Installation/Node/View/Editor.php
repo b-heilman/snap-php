@@ -47,7 +47,7 @@ class Editor extends \Snap\Node\View {
 		parent::_consume($data);
 	}
 	
-	protected function setVariables(){
+	protected function getTemplateVariables(){
 		$form      = $this->getStreamData()->get(0);
 		$prototype = new \Snap\Prototype\Installation\Lib\Prototype( $this->getStreamData($this->prototypeStream)->get(0) );
 		

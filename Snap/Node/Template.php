@@ -44,7 +44,7 @@ abstract class Template extends Block {
  	 */
 	protected function processTemplateString( $content ){
 		$this->translation->translate( $content );
- 			
+ 		
  		$this->inside->addAll( $this->translation->getStack() );
  		$this->translation->clear();
  	}
@@ -103,6 +103,7 @@ abstract class Template extends Block {
  		return parent::pend($in);
  	}
  	
+ 	// __ is used to avoid collisions here, not sure if better way?
  	protected function getContent(){
  		if ( $this->path == '' ){
  			throw new \Exception( 'Path is blank for '.get_class($this) );
@@ -113,23 +114,23 @@ abstract class Template extends Block {
  		ob_start();
  		
  		// decode the variables for local use of the included function
- 		$vars = $this->setVariables();
- 		foreach( $vars as $var => $val ){
- 			${$var} = $val;
+ 		$__vars = $this->getTemplateVariables();
+ 		foreach( $__vars as $__var => $__val ){
+ 			${$__var} = $__val;
  		}
  		
  		// call the template
  		include $this->path;
  		
- 		$content = ob_get_contents();
+ 		$__content = ob_get_contents();
  		ob_end_clean();
  		
  		$this->translating = false;
  		
- 		return $content;
+ 		return $__content;
  	}
  	
- 	protected function setVariables(){
+ 	protected function getTemplateVariables(){
  		return array();
  	}
  	

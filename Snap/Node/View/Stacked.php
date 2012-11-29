@@ -135,7 +135,7 @@ class Stacked extends \Snap\Node\View {
 		return $list;
 	}
 	
-	protected function setVariables(){
+	protected function getTemplateVariables(){
 		return array(
 			'content' => $this->getStreamData()
 		);

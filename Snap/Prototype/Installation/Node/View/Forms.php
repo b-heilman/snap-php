@@ -17,8 +17,8 @@ class Forms extends Node\View\Navigation
 		);
 	}
 	
-	protected function setVariables(){
-		$var          = parent::setVariables();
+	protected function getTemplateVariables(){
+		$var          = parent::getTemplateVariables();
 		$prototype    = new \Snap\Prototype\Installation\Lib\Prototype( $this->getStreamData()->get(0) );
 		
 		if ( $prototype->forms ){

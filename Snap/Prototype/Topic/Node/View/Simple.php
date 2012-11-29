@@ -8,7 +8,7 @@ class Simple extends \Snap\Node\View {
 		return $this->getStreamData()->get(0);
 	}
 	
-	protected function setVariables(){
+	protected function getTemplateVariables(){
 		$topic = new \Snap\Prototype\Topic\Lib\Element( $this->getTopic()  );
 		list($date, $time) = explode( ' ', $topic->info('creation_date') );
 		

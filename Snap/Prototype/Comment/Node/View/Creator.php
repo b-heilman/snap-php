@@ -31,7 +31,7 @@ class Creator extends \Snap\Node\View {
 		);
 	}
 	
-	protected function setVariables(){
+	protected function getTemplateVariables(){
 		$info = $this->getStreamData()->getPrimary();
 		
 		$form = new $this->form( array('messaging'=>true,'thread'=>$info[$this->threadVar]) );

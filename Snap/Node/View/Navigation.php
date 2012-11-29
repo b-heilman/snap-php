@@ -37,7 +37,7 @@ class Navigation extends \Snap\Node\View {
 		parent::_consume($data);
 	}
 	
-	protected function setVariables(){
+	protected function getTemplateVariables(){
 		return array(
 			'factory'   => $this->getStreamData( $this->navStream )->getVar( 'factory' ),
 			'active'    => $this->getStreamData( $this->navStream )->get( 0 )

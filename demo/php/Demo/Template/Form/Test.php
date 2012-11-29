@@ -1,27 +1,27 @@
 <?php
 
-$this->append( new form_input_node(array(
+$this->append( new \Snap\Node\Form\Input\Basic(array(
 	'type' => 'text',
 	'name' => 'text_test'
 )) );
 
-$this->append( new form_textarea_node(array(
+$this->append( new \Snap\Node\Form\Input\Textarea(array(
 	'name' => 'textarea_test'
 )) );
 
 ?><div class='form-elements'><?php
-$this->append( new form_element_node(array(
+$this->append( new \Snap\Node\Form\Element(array(
 	'label' => 'Test',
-	'input' => new form_input_node(array(
+	'input' => new \Snap\Node\Form\Input\Basic(array(
 		'name'  => 'element_1',
 		'value' => 'original',
 		'type'  => 'text'
 	))
 )) );
 
-$this->append( new form_element_node(array(
+$this->append( new \Snap\Node\Form\Element(array(
 	'label' => 'Test 2',
-	'input' => new form_input_node(array(
+	'input' => new \Snap\Node\Form\Input\Basic(array(
 		'name'  => 'element_2',
 		'value' => 'original',
 		'type'  => 'text'
@@ -31,14 +31,14 @@ $this->append( new form_element_node(array(
 ?></div>
 
 <?php
-$this->append( new form_input_node(array(
+$this->append( new \Snap\Node\Form\Input\Basic(array(
 	'name' => 'password_test',
 	'type' => 'password'
 )) );
 
-$this->append( new form_element_node(array(
+$this->append( new \Snap\Node\Form\Element(array(
 	'label' => 'Select',
-	'input' => new form_select_node(array(
+	'input' => new \Snap\Node\Form\Input\Select(array(
 		'name'  => 'select',
 		'value' => '',
 		'options'  => array(
@@ -52,13 +52,13 @@ $this->append( new form_element_node(array(
 <div class='checkboxes'>
 <?php
 $this->append(
-	new form_checkbox_node(array(
+	new \Snap\Node\Form\Input\Checkbox(array(
 		'name'  => 'cb[]',
 		'value' => 'first'
 	))
 );
 $this->append(
-	new form_checkbox_node(array(
+	new \Snap\Node\Form\Input\Checkbox(array(
 		'name'  => 'cb[]',
 		'value' => 'second'
 	))
@@ -68,25 +68,25 @@ $this->append(
 <div class='checkboxes'>
 <?php
 $this->append(
-	new form_checkbox_node(array(
+	new \Snap\Node\Form\Input\Checkbox(array(
 		'name'  => 'cb_1',
 		'value' => 'one'
 	))
 );
 $this->append(
-	new form_checkbox_node(array(
+	new \Snap\Node\Form\Input\Checkbox(array(
 		'name'  => 'cb_2',
 		'value' => 'two'
 	))
 );
 $this->append(
-	new form_checkbox_node(array(
+	new \Snap\Node\Form\Input\Checkbox(array(
 		'name'  => 'cb_3',
 		'value' => 'three'
 	))
 );
 $this->append(
-	new form_checkbox_node(array(
+	new \Snap\Node\Form\Input\Checkbox(array(
 		'name'  => 'cb_4',
 		'value' => 'four'
 	))
@@ -96,14 +96,13 @@ $this->append(
 <hr/>
 <?php
 $this->append( $this->messaging );
-
-$this->setValidator(new form_validator(array(
-	'blank' => new form_test_required('You need to fill the text field')
-)) );
-
+?>
+<hr/>
+<?php 
 $this->append(
-	new form_text_node(array(
-		'name' => 'blank'
+	new \Snap\Node\Form\Input\Basic(array(
+		'name' => 'blank',
+		'type' => 'text'
 	))
 );
-$this->append( new form_control_node() );
+$this->append( new \Snap\Node\Form\Control() );

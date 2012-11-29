@@ -1,6 +1,6 @@
 <?php
 
-namespace Snap\Lib\Error;
+namespace Snap\Lib\Form\Error;
 
 class Testable implements \Snap\Lib\Form\Error {
 
@@ -8,9 +8,9 @@ class Testable implements \Snap\Lib\Form\Error {
 		$test, 
 		$node;
 	
-	public function __construct( form_test $test, input_node $node ){
+	public function __construct( \Snap\Lib\Form\Test $test, \Snap\Node\Form\Input $node ){
 		$this->test = $test;
-		$this->node = ($node instanceof wrappableInput_node) ? $node->getWrapper() : $node;
+		$this->node = ($node instanceof \Snap\Node\Form\WrappableInput) ? $node->getWrapper() : $node;
 	}
 	
 	public function getError(){

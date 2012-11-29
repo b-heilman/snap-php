@@ -36,7 +36,7 @@ class Management extends \Snap\Node\Form
 		);
 	}
 	
-	protected function setVariables(){
+	protected function getTemplateVariables(){
 		$fields = array(
 				USER_LOGIN 				=> USER_LOGIN_LABEL,
 				USER_DISPLAY 			=> USER_DISPLAY_LABEL,

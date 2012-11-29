@@ -21,7 +21,7 @@ class Row extends \Snap\Node\ProducerForm {
 		return 'prototype-row';
 	}
 	
-	protected function setVariables(){
+	protected function getTemplateVariables(){
 		return array(
 			'prototype' => $this->prototype
 		);

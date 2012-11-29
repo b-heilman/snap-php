@@ -142,6 +142,7 @@ abstract class View extends \Snap\Node\Template
 		if ( is_null($stream) ){
 			if ( is_array($this->inputStream) ){
 				$content = new \Snap\Lib\Mvc\Data();
+				
 				foreach( $this->inputStream as $stream ) {
 					if ( isset($this->data[$stream]) ){
 						$content->merge($this->data[$stream]);
