@@ -2,10 +2,13 @@
 $el = null;
 
 if ( $form instanceof \Snap\Node\Snapable ){
+	$this->addClass('active');
 	$this->append( $el = $form );
 }elseif ( is_string($form) ){
+	$this->addClass('active');
 	$this->append( $el = new $form() );
 }elseif( is_array($form) ){
+	$this->addClass('active');
 	$this->append( $el = new \Snap\Node\Form() );
 	
 	if ( isset($form['form']) ){

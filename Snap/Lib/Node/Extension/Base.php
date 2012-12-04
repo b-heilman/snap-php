@@ -40,6 +40,10 @@ abstract class Base
 		}
 	}
 	
+	public function isEmpty(){
+		return empty( $this->nodes );
+	}
+	
 	public function clear(){
 		$this->nodes = array();
 	}

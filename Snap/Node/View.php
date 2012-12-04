@@ -73,7 +73,9 @@ abstract class View extends \Snap\Node\Template
 	 * @param $data
 	 */
 	public function consumeRequest( \Snap\Lib\Streams\Request $request ){
+		error_log('consumeRequest');
 		if ( !$this->consumed ){
+			error_log('consuming');
 			$this->consumed = true;
 			$this->_consume( $request->getStreamData()  );
 		}
@@ -84,6 +86,7 @@ abstract class View extends \Snap\Node\Template
 	 * @param hash $data
 	 */
 	protected function _consume( $data = array() ){
+		error_log('-consume');
 		if ( $this->inputStream ){
 			if ( is_array($this->inputStream) ){
 				foreach( $this->inputStream as $stream ){
@@ -95,11 +98,11 @@ abstract class View extends \Snap\Node\Template
 				$this->processStream( $this->inputStream, $data[$this->inputStream] );
 			}
 			
-			$this->processTemplate();
+			if ( !is_null($this->deferTemplate) ){
+				$this->processTemplate();
+			}
 		}
 	}
-	
-	protected function preprocess(){}
 	
 	/**
 	 * This is the new handleInfo hook.  This is where you should manipulate data as it comes in.
@@ -109,13 +112,6 @@ abstract class View extends \Snap\Node\Template
 	 */
 	protected function processStream( $stream, \Snap\Lib\Mvc\Control $ctrl ){
 		$this->addData( $stream, $ctrl );
-	}
-	
-	//TODO : this should eventually be the hook that populates data into the translator before the template itself is read in.
-	protected function processTemplate(){
-		$this->preprocess();
-		
-		parent::processTemplate();
 	}
 	
 	public function addData( $stream, $data ){

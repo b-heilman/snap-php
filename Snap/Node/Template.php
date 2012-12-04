@@ -13,7 +13,8 @@ abstract class Template extends Block {
  		$translation,
  		$translating = false,
  		$path, 
- 		$delayed = false;
+ 		$delayed = false,
+ 		$deferTemplate = null;
  	
  	protected function parseSettings( $settings = array() ){
  		$this->path = isset($settings['template']) 
@@ -21,6 +22,16 @@ abstract class Template extends Block {
  		
 		if ( isset($settings['data']) && !$settings['data'] ){
 			$this->delayed = true;
+		}
+		
+		if ( isset($settings['adminMode']) && $settings['adminMode'] ){
+			$this->deferTemplate = function(){
+				return \Snap\Prototype\User\Lib\Current::isAdmin();
+			};
+		}
+		
+		if ( isset($settings['deferTemplate']) ){ // allows for anonymous function
+			$this->deferTemplate = $settings['deferTemplate'];
 		}
 		
 		$this->unwrapped = isset($settings['unwrapped']) ? $settings['unwrapped'] : false;
@@ -37,7 +48,7 @@ abstract class Template extends Block {
  		parent::parseSettings( $settings );
  	}
 	
-	/**
+ 	/**
  	 * used to translate and add string content onto the stack.  If a translator is defined, it will translate the string content
  	 * in a template and add any nodes to the stack, otherwise it will simply add the string directly onto the stack.
  	 * @param string $content
@@ -149,9 +160,26 @@ abstract class Template extends Block {
 	protected function build(){
 		parent::build();
 		
-		if ( !$this->delayed ){
+		if ( !is_null($this->deferTemplate) ){
+			$this->addClass('defer-process');
+		}elseif ( !$this->delayed ){
 			$this->processTemplate();
 		}
+	}
+	
+	protected function _finalize(){
+		error_log( get_class($this).' : _finalize' );
+		if ( !is_null($this->deferTemplate) ){
+			$t = $this->deferTemplate;
+			error_log( get_class($this).' : deferTemplate' );
+			if ( $t($this) ){
+				$this->processTemplate();
+			}else{
+				$this->addClass('reject-process');
+			}
+		}
+		
+		parent::_finalize();
 	}
 	
 	public function html(){
@@ -165,6 +193,7 @@ abstract class Template extends Block {
 	 			$content .= $this->inner();
 	 		}else{
 	 			$inner = $this->inner();
+	 			error_log( get_class($this).' : getAttributes' );
 				$content .= "<{$this->tag} {$this->getAttributes()}>{$inner}</{$this->tag}>";
 	 		}
 	 		

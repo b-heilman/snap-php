@@ -25,6 +25,13 @@ class Javascript extends Base
 	protected function _run( Node\Snapable $node ){
 		if ( $node instanceof Node\Actionable ){
 			$actions = $node->getActions();
+			
+			if ( !is_array($actions) ){
+				throw new \Exception(
+					'Need to pass an array of type Resource\Local or Resource\Remote from '.get_class($node)
+				);
+			}
+			
 			$c = count($actions);
 			
 			for( $i = 0; $i < $c; $i++ ){
