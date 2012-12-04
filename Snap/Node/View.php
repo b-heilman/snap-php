@@ -73,9 +73,7 @@ abstract class View extends \Snap\Node\Template
 	 * @param $data
 	 */
 	public function consumeRequest( \Snap\Lib\Streams\Request $request ){
-		error_log('consumeRequest');
 		if ( !$this->consumed ){
-			error_log('consuming');
 			$this->consumed = true;
 			$this->_consume( $request->getStreamData()  );
 		}
@@ -86,7 +84,6 @@ abstract class View extends \Snap\Node\Template
 	 * @param hash $data
 	 */
 	protected function _consume( $data = array() ){
-		error_log('-consume');
 		if ( $this->inputStream ){
 			if ( is_array($this->inputStream) ){
 				foreach( $this->inputStream as $stream ){
@@ -98,7 +95,7 @@ abstract class View extends \Snap\Node\Template
 				$this->processStream( $this->inputStream, $data[$this->inputStream] );
 			}
 			
-			if ( !is_null($this->deferTemplate) ){
+			if ( is_null($this->deferTemplate) ){
 				$this->processTemplate();
 			}
 		}

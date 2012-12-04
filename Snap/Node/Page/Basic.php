@@ -121,7 +121,7 @@ abstract class Basic extends Node\Template
 			
 			if ( !empty(static::$logs) ){
 				$jsContent .= '<script id="framework_debug">';
-				error_log( count(static::$logs) );
+				
 				foreach( static::$logs as $obj ){
 					$jsContent .= 'console.log("'.addslashes($obj->class).'", ';
 				

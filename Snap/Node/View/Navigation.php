@@ -32,15 +32,12 @@ class Navigation extends \Snap\Node\View {
 	}
 	
 	protected function _consume( $data = array() ){
-		error_log( print_r($data,true) );
 		$this->processStream( $this->navStream, $data[$this->navStream] );
 		
 		parent::_consume($data);
 	}
 	
 	protected function getTemplateVariables(){
-		error_log( print_r($this->navStream,true) );
-		error_log( print_r($this->getStreamData( $this->navStream ),true) );
 		return array(
 			'factory'   => $this->getStreamData( $this->navStream )->getVar( 'factory' ),
 			'active'    => $this->getStreamData( $this->navStream )->get( 0 )

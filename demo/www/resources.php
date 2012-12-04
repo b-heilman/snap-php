@@ -14,8 +14,7 @@ if ( isset($_GET['r']) ){
 		
 		$find = explode( '/', $_SERVER['PHP_SELF']  );
 		$path = explode( '/', $_SERVER['REDIRECT_URL'], count($find) + 1 );
-		error_log( print_r($find, true) );
-		error_log( print_r($path, true) );
+		
 		$resource = array_pop( $path );
 	}elseif( isset($_SERVER['PATH_INFO']) ){
 		// PATH_INFO

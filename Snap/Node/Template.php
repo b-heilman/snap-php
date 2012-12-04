@@ -168,10 +168,9 @@ abstract class Template extends Block {
 	}
 	
 	protected function _finalize(){
-		error_log( get_class($this).' : _finalize' );
 		if ( !is_null($this->deferTemplate) ){
 			$t = $this->deferTemplate;
-			error_log( get_class($this).' : deferTemplate' );
+			
 			if ( $t($this) ){
 				$this->processTemplate();
 			}else{
@@ -193,8 +192,7 @@ abstract class Template extends Block {
 	 			$content .= $this->inner();
 	 		}else{
 	 			$inner = $this->inner();
-	 			error_log( get_class($this).' : getAttributes' );
-				$content .= "<{$this->tag} {$this->getAttributes()}>{$inner}</{$this->tag}>";
+	 			$content .= "<{$this->tag} {$this->getAttributes()}>{$inner}</{$this->tag}>";
 	 		}
 	 		
 	 		return "<!-- $class -->".$content."<!-- end : $class -->";

@@ -2,10 +2,11 @@
 
 namespace Snap\Lib\Streams;
 
-use \Snap\Node\Consumer;
-use \Snap\Node\Producer;
-use \Snap\Lib\Streams\WaitingQueue;
-use \Snap\Lib\Streams\Request;
+use 
+	\Snap\Node\Consumer,
+	\Snap\Node\Producer,
+	\Snap\Lib\Streams\WaitingQueue,
+	\Snap\Lib\Streams\Request;
 
 class Streamer {
 	
@@ -21,8 +22,6 @@ class Streamer {
 	public function register( Producer $node ){
 		if ( !$node->hasStreamer() ){
 			$stream = $node->getOuputStream();
-			
-			error_log( get_class($node).' -> register : '.$stream );
 			
 			$node->setStreamer($this);
 			$this->waiting->addAvailable( $stream );
@@ -51,8 +50,6 @@ class Streamer {
 			$request = $node->getStreamRequest();
 			$streams = $request->getRequestedStreams();
 			
-			error_log( get_class($node).' -> consumerNode : '.print_r( $streams, true) );
-				
 			/****************
 			 * Since we request only after all the streams are registered, if a stream doesn't exist, it just doesn't exist.
 			 * We can then issue the consume.
@@ -66,23 +63,18 @@ class Streamer {
 			}
 			
 			if ( !$request->needsData() ){
-				error_log('has data');
 				$this->forceConsume($node, $request);
 				
 				return true;
 			}elseif( !$node->isWaiting() ){
-				error_log('add to waiting');
 				$this->addWaiting( $request );
 				
 				return false;
-			}else{
-				error_log('is already waiting');
 			}
 		}
 	}
 	
 	protected function forceConsume( Consumer $node, Request $request ){
-		error_log( get_class($node).' -> forceConsume' );
 		if ( !$node->hasConsumed() ){
 			$node->consumeRequest( $request );
 		}
@@ -109,16 +101,16 @@ class Streamer {
 		if ( !isset($this->streams[$stream]) ){
 			$this->streams[$stream] = new \Snap\Lib\Mvc\Control();
 		}
-		error_log( 'setting... '.$stream );
+		
 		$this->streams[$stream]->merge( $data );
 		
 		// send content to the waiting queue, get back and element that are now ready
 		// passed in the current content for the stream
 		$ready = $this->waiting->streamReady( $stream, $this->getContent($stream) );
-		error_log('got ready');
+		
 		foreach( $ready as $request ){
 			$master = $request->getMaster();
-			error_log( 'ready : '.get_class($master) );
+			
 			if ( $master instanceof \Snap\Node\Producer ){
 				$this->produceNode( $master );
 			}else{

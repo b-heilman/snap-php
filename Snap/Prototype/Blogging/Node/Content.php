@@ -6,7 +6,6 @@ class Content extends \Snap\Prototype\Topic\Node\View\Simple {
  	
 	protected function getTopic(){
 		$mvc = $this->getStreamData();
-		
 		return $mvc->get( $mvc->getVar('active') );
 	}
 	
