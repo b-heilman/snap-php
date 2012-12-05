@@ -1,5 +1,4 @@
 <?php
-@include_once('prototypes/analytics/my_config.php');
 
 if ( !defined('ANALYTICS_DB') ){
 	define('ANALYTICS_DB', SITE_DB);

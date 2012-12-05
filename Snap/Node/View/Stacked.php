@@ -18,11 +18,14 @@ class Stacked extends \Snap\Node\View {
 		$childStreams;
 	
 	protected function parseSettings( $settings = array() ){
+		if ( !isset($settings['primaryView']) ){
+			throw new \Exception('View\Stacked needs a primaryView');
+		}else{
+			$this->primaryView = $settings['primaryView'];
+		}
+		
 		$this->linkVar = isset($settings['linkVar']) 
 			? $settings['linkVar'] : false;
-			
-		$this->primaryView = isset($settings['primaryView']) 
-			? $settings['primaryView'] : 'default_view';
 			
 		$this->secondaryView = isset($settings['secondaryView']) 
 			? $settings['secondaryView'] : $this->primaryView;

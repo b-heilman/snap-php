@@ -1,5 +1,4 @@
 <?php
-@include_once('prototypes/user/my_config.php');
 
 if ( !defined('USER_DB') ){
 	define( 'USER_DB', SITE_DB );

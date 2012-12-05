@@ -169,7 +169,8 @@ class Bootstrap {
 	}
 	*/
 	static public function includeClass( $className ){
-		if ( include_once( $className.'.php' ) ){
+		error_log('== includeClass ==');
+		if ( stream_resolve_include_path( $className.'.php' ) ){
 			$include = null;
 			$lead = explode( '\\', $className );
 			$lead = $lead[1];
@@ -178,12 +179,18 @@ class Bootstrap {
 			if ( $lead == 'Adapter' ){
 				$include = static::getExtensionFile( $className, 'Adapter', 'Config', '.php' );
 			}elseif ( $lead == 'Prototype' ){
-				$include = static::getRelatedFile( $className, array('Node','Lib'), 'Install\config.php' );
+				$include = static::getRelatedFile( $className, array('Node','Lib','Install'), 'Install\config.php' );
 			}
+			
+			error_log('== includeClass - config == '.$include);
 			
 			if ( $include ){
 				static::includeConfig( $include );
 			}
+			
+			error_log('== includeClass - class == '.$className);
+			
+			include_once( $className.'.php' );
 		}
 	}
 	

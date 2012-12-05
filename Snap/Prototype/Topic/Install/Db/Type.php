@@ -1,15 +1,16 @@
 <?php
 
-namespace Snap\Prototype\Topics\Install\Db;
+namespace Snap\Prototype\Topic\Install\Db;
 
-use \Snap\Lib\Db\Defintion;
+use \Snap\Lib\Db;
 
 class Type {
 	public function __construct(){
-		Definition::addTable( TOPIC_TYPE_TABLE, array( 'PRIMARY KEY ('.TOPIC_TYPE_ID.')','UNIQUE ('.TOPIC_TYPE_NAME.')' ), 'InnoDB' );
+		Db\Definition::addTable( TOPIC_TYPE_TABLE, array( 'PRIMARY KEY ('.TOPIC_TYPE_ID.')',
+			'UNIQUE ('.TOPIC_TYPE_NAME.')' ), 'InnoDB' );
 		
-		Definition::addTableField( TOPIC_TYPE_TABLE, TOPIC_TYPE_ID, 'int unsigned', false, array('AUTO_INCREMENT') );
-		Definition::addTableField( TOPIC_TYPE_TABLE, TOPIC_TYPE_NAME, 'varchar(32)', false );
-		Definition::addTableField( TOPIC_TYPE_TABLE, 'active', 'bool', false, array("default '1'") );
+		Db\Definition::addTableField( TOPIC_TYPE_TABLE, TOPIC_TYPE_ID, 'int unsigned', false, array('AUTO_INCREMENT') );
+		Db\Definition::addTableField( TOPIC_TYPE_TABLE, TOPIC_TYPE_NAME, 'varchar(32)', false );
+		Db\Definition::addTableField( TOPIC_TYPE_TABLE, 'active', 'bool', false, array("default '1'") );
 	}
 }

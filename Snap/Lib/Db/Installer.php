@@ -103,9 +103,9 @@ class Installer {
 		return true;
 	}
 
-	static public function registerAction(db_adapter $db, $tableName, db_table_definition $table ){
+	static public function registerAction( \Snap\Adapter\Db $db, $tableName, \Snap\Lib\Db\Table\Definition $table ){
 		if ( self::$instance == null ){
-			self::$instance = new db_installer($db);
+			self::$instance = new Installer($db);
 		}
 
 		$tables = $table->getParentTables();

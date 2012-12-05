@@ -64,7 +64,9 @@ class Prototype {
 			foreach( $dirs as $table ){
 				if ( $table{0} != '.' ){
 					if ( preg_match('/^[^.]*/', $table, $matches) ){
-						$class = $this->name.'_db_'.$matches[0].'_install_proto';
+						// TODO : obviously this breaks with nested prototypes
+						$class = $this->name.'\Install\Db\\'.$matches[0];
+						error_log( $class );
 						$db_def = new $class();
 					}
 				}
@@ -93,15 +95,8 @@ class Prototype {
 				}
 			}
 		
-			// TODO : this needs to move to an install section for the prototype
-			if ( !$db->tableExists(PROTOTYPE_TABLE) ){
-				try {
-					new \Snap\Prototype\Installation\Install\Db\Prototype();
-			
-					\Snap\Lib\Db\Definition::install( $db, false, true );
-				}catch( Exceptions $ex ){
-					throw new \Exception( 'Could not install ' );
-				}
+			if ( !static::isControlInstalled($db) ){
+				self::installControl( $db );
 			}
 			
 			$res = $db->select( PROTOTYPE_TABLE );
@@ -110,5 +105,30 @@ class Prototype {
 		}else{
 			$this->write('You need to set a CONTROL_DB to turn on install_prototyper functionality');
 		}
+	}
+	
+	public static function installControl( $db = null ){
+		if ( $db == null ){
+			$class = CONTROL_DB_ADAPTER;
+			$db = new $class(CONTROL_DB);
+		}
+		
+		
+		try {
+			new \Snap\Prototype\Installation\Install\Db\Prototype();
+				
+			\Snap\Lib\Db\Definition::install( $db, false, true );
+		}catch( Exceptions $ex ){
+			throw new \Exception( 'Could not install base tables' );
+		}
+	}
+	
+	public static function isControlInstalled( $db = null ){
+		if ( $db == null ){
+			$class = CONTROL_DB_ADAPTER;
+			$db = new $class(CONTROL_DB);
+		}
+		
+		return $db->tableExists(PROTOTYPE_TABLE);
 	}
 }
