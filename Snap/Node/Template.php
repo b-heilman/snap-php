@@ -65,6 +65,7 @@ abstract class Template extends Block {
  	 */
  	protected function processTemplate(){
  		try {
+ 			$this->deferTemplate = null; // acts as a lock, saves on a boolean
  			$this->processTemplateString( $this->getContent() );
  		}catch( Exception $ex ){
  			throw new \Exception(
@@ -167,11 +168,14 @@ abstract class Template extends Block {
 		}
 	}
 	
+	protected function canRunTemplate(){
+		$t = $this->deferTemplate;
+		return is_null($t) || $t($this);
+	}
+	
 	protected function _finalize(){
 		if ( !is_null($this->deferTemplate) ){
-			$t = $this->deferTemplate;
-			
-			if ( $t($this) ){
+			if ( $this->canRunTemplate() ){
 				$this->processTemplate();
 			}else{
 				$this->addClass('reject-process');

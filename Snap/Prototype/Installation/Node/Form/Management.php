@@ -10,5 +10,4 @@ class Management extends \Snap\Node\Form
 			new \Snap\Lib\Linking\Resource\Local($this)
 		);
 	}
-	
 }

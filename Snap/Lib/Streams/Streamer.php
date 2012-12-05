@@ -98,6 +98,7 @@ class Streamer {
 	}
 	
 	public function setStreamData( $stream, $data ){
+		error_log( 'settings stream : '.$stream );
 		if ( !isset($this->streams[$stream]) ){
 			$this->streams[$stream] = new \Snap\Lib\Mvc\Control();
 		}

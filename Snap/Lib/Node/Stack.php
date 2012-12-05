@@ -11,11 +11,7 @@ class Stack extends Core\Stack {
 	protected 
 		$references = array(),
 		$extender, 
-		$master, 
-		$canProcess = true, 
-		$canFinalize = true, 
-		$extending = true, 
-		$buffer = array();
+		$master;
 	
 	public function __construct( Node\Snapping $master, \Snap\Lib\Node\Extender $extender ){
 		$this->extender = $extender;
@@ -50,18 +46,6 @@ class Stack extends Core\Stack {
 	
 	public function getReference( $ref ){
 		return isset($this->references[$ref]) ? $this->references[$ref] : null;
-	}
-	
-	public function stopExtending(){
-		$this->extending = false;
-	}
-	
-	public function startExtending(){
-		$this->extending = true;
-		
-		while( !empty($this->buffer) ){
-			$this->extender->addNode( array_shift($this->buffer) );
-		}
 	}
 	
 	public function getExtender(){
@@ -103,7 +87,7 @@ class Stack extends Core\Stack {
 	
 	
 	public function render(){
-		$this->extender->run();
+	//	$this->extender->run();
 	}
 	
 	protected function _add( Core\Token $node, $where ){
@@ -120,11 +104,7 @@ class Stack extends Core\Stack {
 			$this->master->verifyControl( $node );
 		}
 		
-		if ( $this->extending ){
-			$this->extender->addNode( $node );
-		}else{
-			$this->buffer[] = $node;
-		}
+		$this->extender->addNode( $node );
 		
 		parent::_add( $node, $where );
 	}

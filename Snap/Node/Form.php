@@ -323,6 +323,8 @@ class Form extends \Snap\Node\Template {
     }
     
     protected function _finalize(){
+    	parent::_finalize();
+    	
     	if ( $this->messaging && (!$this->messagingOwner || $this->messaging->childCount() == 0) ){
     		$this->remove( $this->messaging );
     	}

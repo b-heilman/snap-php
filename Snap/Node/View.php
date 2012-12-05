@@ -95,10 +95,14 @@ abstract class View extends \Snap\Node\Template
 				$this->processStream( $this->inputStream, $data[$this->inputStream] );
 			}
 			
-			if ( is_null($this->deferTemplate) ){
+			if ( $this->canRunTemplate() ){
 				$this->processTemplate();
 			}
 		}
+	}
+	
+	protected function canRunTemplate(){
+		return parent::canRunTemplate() && !$this->needsData();
 	}
 	
 	/**

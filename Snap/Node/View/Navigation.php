@@ -38,6 +38,10 @@ class Navigation extends \Snap\Node\View {
 	}
 	
 	protected function getTemplateVariables(){
+		if ( is_null($this->getStreamData($this->navStream)) ){
+			throw new \Exception('yay');
+		}
+		
 		return array(
 			'factory'   => $this->getStreamData( $this->navStream )->getVar( 'factory' ),
 			'active'    => $this->getStreamData( $this->navStream )->get( 0 )

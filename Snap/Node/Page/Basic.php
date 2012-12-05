@@ -101,19 +101,20 @@ abstract class Basic extends Node\Template
 		ob_start();
 		try{	
 			$extender = $this->inside->getExtender();
+			$extender->run();
 			
 			$html = parent::html();
 			
 			$title = $this->getTitle();
 			$meta = $this->getMeta();
 			
-			$javascript = $extender->find('\Snap\Lib\Node\Extension\Javascript');
+			$javascript = $extender->findExtension('\Snap\Lib\Node\Extension\Javascript');
 			$javascript = $javascript[0];
 			
 			$jsLinks    = $javascript->getLinks();
 			$jsContent  = $javascript->getContent();
 			
-			$css = $extender->find('\Snap\Lib\Node\Extension\Css');
+			$css = $extender->findExtension('\Snap\Lib\Node\Extension\Css');
 			$css = $css[0];
 			
 			$cssContent = $css->getLinks();

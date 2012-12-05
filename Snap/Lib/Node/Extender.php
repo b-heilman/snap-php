@@ -6,10 +6,8 @@ use \Snap\Node\Snapable;
 
 class Extender {
 
-	static private 
-		$newNodeAdded = false;
-		
-	protected 
+	protected
+		$queuedNodes = array(),
 		$extensions = array(),
 		$position = 0;
 	
@@ -36,16 +34,24 @@ class Extender {
 	public function run(){
 		$c = count($this->extensions);
 		
-		for( $i = 0; $i < $c; ++$i ){
-			if ( self::$newNodeAdded ){
-				self::$newNodeAdded = false;
-				$i = 0;
+		while( !empty($this->queuedNodes) ){
+			$nodes = $this->queuedNodes;
+			$this->queuedNodes = array();
+			
+			$co = count($nodes);
+			
+			for( $i = 0; $i < $c; ++$i ){
+				$ext = $this->extensions[$i];
+				
+				for( $j = 0; $j < $co; ++$j ){
+					$ext->addNode( $nodes[$j] );
+				}
+				$ext->run();
 			}
-			$this->extensions[$i]->run();
 		}
 	}
 	
-	public function find( $class ){
+	public function findExtension( $class ){
 		$ext = array();
 		$c = count($this->extensions);
 		
@@ -59,13 +65,7 @@ class Extender {
 	}
 	
 	public function addNode( Snapable $node ){
-		self::$newNodeAdded = true;
-		
-		$c = count($this->extensions);
-		
-		for( $i = 0; $i < $c; ++$i ){
-			$this->extensions[$i]->addNode( $node );
-		}
+		$this->queuedNodes[] = $node;
 	}
 	
 	public function removeNode( Snapable $node ){
@@ -73,6 +73,12 @@ class Extender {
 		
 		for( $i = 0; $i < $c; ++$i ){
 			$this->extensions[$i]->removeNode( $node );
+		}
+		
+		$where = array_search( $node, $this->queuedNodes, true );
+		
+		if ( $where !== false ){
+			array_splice( $this->queuedNodes, $where, 1 );
 		}
 	}
 	
@@ -82,5 +88,7 @@ class Extender {
 		for( $i = 0; $i < $c; ++$i ){
 			$this->extensions[$i]->clear();
 		}
+		
+		$this->queuedNodes = array();
 	}
 }
