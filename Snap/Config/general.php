@@ -1,7 +1,7 @@
 <?php
 
 if ( !defined('SITE_DB_ADAPTER') ){
-	\Snap\Lib\Core\Bootstrap::includeConfig( '\Snap\Config\Db.php' );
+	\Snap\Lib\Core\Bootstrap::includeConfig( 'Snap/Config/Db.php' );
 }
 
 //TODO : I need to clean up a lot of definitions in here, they aren't system global anymore

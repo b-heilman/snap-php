@@ -2,7 +2,7 @@
 
 namespace Snap\Lib\Db;
 
-\Snap\Lib\Core\Bootstrap::includeConfig('\Snap\Config\db.php');
+\Snap\Lib\Core\Bootstrap::includeConfig('Snap/Config/Db.php');
 
 class Definition {
 	

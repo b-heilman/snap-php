@@ -4,7 +4,7 @@ namespace Snap\Prototype\Topic\Install\Db;
 
 use \Snap\Lib\Db;
 
-\Snap\Lib\Core\Bootstrap::includeConfig( 'Snap\Prototype\Comment\Install\config.php' );
+\Snap\Lib\Core\Bootstrap::includeConfig( 'Snap/Prototype/Comment/Install/config.php' );
 
 class Topic {
 

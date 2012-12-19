@@ -197,18 +197,20 @@ class Bootstrap {
 		$myFile = substr($file, 0, $pos).'/my_'.substr($file, $pos+1);
 		
 		$found = stream_resolve_include_path( $myFile );
-
-		if ( $found !== FALSE ) {
+		
+		if ( $found !== false ) {
+			error_log( $found );
 			include_once $found;
 		}
 		
 		$found = stream_resolve_include_path( $file );
-		if ( $found ) {
+		if ( $found !== false ) {
 			error_log( $found );
+			error_log('=====');
 			include_once $found;
 			return true;
 		}else{
-			//error_log( 'Could not load config file: '.$file );
+			error_log('=====');
 			return false;
 		}
 	}
