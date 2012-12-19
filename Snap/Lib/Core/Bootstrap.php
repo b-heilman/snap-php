@@ -169,16 +169,18 @@ class Bootstrap {
 	}
 	*/
 	static public function includeClass( $className ){
+		$className = str_replace('\\', '/', $className);
+		
 		if ( stream_resolve_include_path( $className.'.php' ) ){
 			$include = null;
-			$lead = explode( '\\', $className );
+			$lead = explode( '/', $className );
 			$lead = $lead[1];
 			
 			// TODO : this should be offloaded to the classes themselves
 			if ( $lead == 'Adapter' ){
 				$include = static::getExtensionFile( $className, 'Adapter', 'Config', '.php' );
 			}elseif ( $lead == 'Prototype' ){
-				$include = static::getRelatedFile( $className, array('Node','Lib','Install'), 'Install\config.php' );
+				$include = static::getRelatedFile( $className, array('Node','Lib','Install'), 'Install/config.php' );
 			}
 			
 			if ( $include ){
@@ -190,8 +192,9 @@ class Bootstrap {
 	}
 	
 	static public function includeConfig( $file ){
-		$pos = strrpos( $file, '\\' );
-		$myFile = substr($file, 0, $pos).'\my_'.substr($file, $pos+1);
+		error_log( $file );
+		$pos = strrpos( $file, '/' );
+		$myFile = substr($file, 0, $pos).'/my_'.substr($file, $pos+1);
 		
 		$found = stream_resolve_include_path( $myFile );
 
@@ -201,6 +204,7 @@ class Bootstrap {
 		
 		$found = stream_resolve_include_path( $file );
 		if ( $found ) {
+			error_log( $found );
 			include_once $found;
 			return true;
 		}else{
@@ -214,5 +218,5 @@ Bootstrap::init();
 
 spl_autoload_register('\Snap\Lib\Core\Bootstrap::includeClass');
 
-Bootstrap::includeConfig('\Snap\Config\server.php');
-Bootstrap::includeConfig('\Snap\Config\general.php');
+Bootstrap::includeConfig('Snap/Config/server.php');
+Bootstrap::includeConfig('Snap/Config/general.php');
