@@ -169,12 +169,11 @@ class Bootstrap {
 	}
 	*/
 	static public function includeClass( $className ){
-		error_log( $className );
 		$className = str_replace('\\', '/', $className);
-		error_log( $className );
+		
 		if ( stream_resolve_include_path( $className.'.php' ) ){
-			error_log('OK');
 			$include = null;
+			
 			$lead = explode( '/', $className );
 			$lead = $lead[1];
 			
@@ -200,7 +199,6 @@ class Bootstrap {
 		$found = stream_resolve_include_path( $myFile );
 		
 		if ( $found !== false ) {
-			error_log( $found );
 			include_once $found;
 		}
 		
