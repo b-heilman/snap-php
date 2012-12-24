@@ -7,3 +7,5 @@ Configuring for use
 You need to add the Snap-PHP directory to your include path.  
 The autoloader for the framework is located in /Snap/Lib/Core/Bootstrap.php
 An example set up can be found in the demos directory.
+
+This currently uses mysqli.  If you are using Ubuntu with the apt-get installed version, you will need to run "apt-get install php5-mysql"

@@ -113,7 +113,7 @@ class Bootstrap {
 	 * 
 	 */
 	static public function getExactFile( $type, $file ){
-		return "Snap\\$type\\$file";
+		return "Snap/$type/$file";
 	}
 	
 	static public function getRelatedFile( $obj, $search, $file ){
@@ -134,7 +134,7 @@ class Bootstrap {
 		if ( $pos === false ){
 			return null;
 		}else{
-			return substr( $class, 0, $pos ).$file;
+			return str_replace('\\', '/', substr($class,0,$pos).$file );
 		}
 	}
 	
@@ -145,13 +145,13 @@ class Bootstrap {
 			$class = $obj;
 		}
 		
-		return str_replace( $search, $type, $class ).$ext;
+		return str_replace('\\', '/', str_replace($search,$type,$class).$ext );
 	}
 	
 	static protected function getFile( $obj, $file, $search, $type, $ext ){
 		return ( $obj )
 			? ( $file != null
-					? static::getRelatedFile( $obj, $search, $type.'\\'.$file )
+					? static::getRelatedFile( $obj, $search, $type.'/'.$file )
 					: static::getExtensionFile( $obj, $search, $type, $ext )
 			) : static::getExactFile( $type, $file );
 	}

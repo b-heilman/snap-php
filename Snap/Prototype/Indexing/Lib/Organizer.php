@@ -356,7 +356,7 @@ class Organizer {
 		if ( $target instanceof \Snap\Node\Page ){
 			$target->setPageData( $node->getSetting() + $data );
 		}
-
+		error_log( 'Organizer : expressing' );
 		return $this->express($target,$node);
 	}
 
@@ -368,7 +368,9 @@ class Organizer {
 
 	protected function express( $ele, Point $node ){
 		if ( is_object($ele) ){
+			error_log('is this a page?');
 			if ( !($ele instanceof \Snap\Node\Page) ){
+				error_log('nope');
 				$t = new \Snap\Node\Page\Basic();
 
 				$t->append( $ele );
@@ -377,7 +379,7 @@ class Organizer {
 			}
 			
 			$ele->setTitle( $node->getSetting('title') );
-
+			error_log( 'page to string' );
 			$res = $ele->toString();
 		}else{
 			$res = $ele;

@@ -40,6 +40,7 @@ abstract class Basic extends Node\Template
 	
 	// allow a page to just be an object, no template needed, but preferred
 	protected function getContent(){
+		error_log( '=>'.$this->path );
 		return ( $this->path == '' ) ? '' : parent::getContent();
 	}
 	

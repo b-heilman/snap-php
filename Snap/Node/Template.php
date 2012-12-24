@@ -18,7 +18,7 @@ abstract class Template extends Block {
  	
  	protected function parseSettings( $settings = array() ){
  		$this->path = isset($settings['template']) 
-			? $settings['template'] : $this->getTemplate( get_class( $this ) );
+			? $settings['template'] : $this->getTemplate( get_class($this) );
  		
 		if ( isset($settings['data']) && !$settings['data'] ){
 			$this->delayed = true;
@@ -64,10 +64,13 @@ abstract class Template extends Block {
  	 * Begins the translating of a template located at $this->path. 
  	 */
  	protected function processTemplate(){
+ 		error_log('processTemplate');
  		try {
+ 			error_log('so....');
  			$this->deferTemplate = null; // acts as a lock, saves on a boolean
  			$this->processTemplateString( $this->getContent() );
  		}catch( Exception $ex ){
+ 			error_log('um....');
  			throw new \Exception(
  				"==== ".get_class($this)." - processTemplate ====\n"
  				. "\n{$ex->getFile()}: {$ex->getLine()}\n----"
@@ -78,6 +81,8 @@ abstract class Template extends Block {
 	
  	protected function getTemplate( $class ){
  		do {
+ 			error_log( Bootstrap::getTemplateFile($class) );
+ 			
  			$path = Bootstrap::testFile( Bootstrap::getTemplateFile($class) );
  			$class = get_parent_class( $class );
  		}while( $class && !$path );
@@ -117,6 +122,7 @@ abstract class Template extends Block {
  	
  	// __ is used to avoid collisions here, not sure if better way?
  	protected function getContent(){
+ 		error_log('eh?');
  		if ( $this->path == '' ){
  			throw new \Exception( 'Path is blank for '.get_class($this) );
  		}
@@ -130,7 +136,7 @@ abstract class Template extends Block {
  		foreach( $__vars as $__var => $__val ){
  			${$__var} = $__val;
  		}
- 		
+ 		error_log( $this->path );
  		// call the template
  		include $this->path;
  		
