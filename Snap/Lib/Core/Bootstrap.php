@@ -66,13 +66,7 @@ class Bootstrap {
 			
 			foreach( $dirs as $prototype ){
 				if ( $prototype{0} != '.' ){
-					$file = $name.DIRECTORY_SEPARATOR.$prototype;
-					
-					if ( DIRECTORY_SEPARATOR == '/' ){
-						$file = str_replace('/', '\\', $file);
-					}
-					
-					$prototypes[] = '\\'.$file;
+					$prototypes[] = '/'.$name.'/'.$prototype;
 				}
 			}
 		}

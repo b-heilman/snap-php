@@ -32,7 +32,7 @@ class Prototype {
 			$this->installed = isset( self::$prototypes[$prototype] );
 			
 			$row = stream_resolve_include_path( $prototype.'/Node/Install/Row.php' );
-			$class = $row ? $prototype.'\Node\Install\Row' : '\Snap\Prototype\Installation\Node\Install\Row';
+			$class = $row ? str_replace('/', '\\', $prototype).'\Node\Install\Row' : '\Snap\Prototype\Installation\Node\Install\Row';
 			
 			$this->installRow = new $class(array(
 				'prototype'    => $this,
@@ -65,8 +65,8 @@ class Prototype {
 				if ( $table{0} != '.' ){
 					if ( preg_match('/^[^.]*/', $table, $matches) ){
 						// TODO : obviously this breaks with nested prototypes
-						$class = $this->name.'\Install\Db\\'.$matches[0];
-						error_log( $class );
+						$class = str_replace('/', '\\', $this->name).'\Install\Db\\'.$matches[0];
+						
 						$db_def = new $class();
 					}
 				}
