@@ -1,4 +1,5 @@
 <?php
+
 if ( $accessible ){
 	$this->append( 
 		$this->login = new \Snap\Prototype\User\Node\Form\Access()
@@ -35,5 +36,4 @@ if ( $accessible ){
 		'primaryView' => '\Snap\Node\View\Dump',
 		'inputStream' => 'install_messages'
 	)) );
-}else{?> <h5>You need to set up the database</h5> <?php 
-}
+}else{?> <h5>You need to set up the database</h5> <?php }

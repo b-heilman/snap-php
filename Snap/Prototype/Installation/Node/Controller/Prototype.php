@@ -3,6 +3,10 @@
 namespace Snap\Prototype\Installation\Node\Controller;
 
 class Prototype extends \Snap\Node\Controller {
+	public function __construct( $settings = array() ){
+		parent::__construct($settings);
+	}
+	
 	protected function makeData(){
 		$rtn = new \Snap\Lib\Mvc\Data();
 		

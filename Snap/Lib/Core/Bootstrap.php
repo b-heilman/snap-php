@@ -46,11 +46,11 @@ class Bootstrap {
 				$subdirs = scandir( $dir );
 				foreach( $subdirs as $instance ){
 					if ( $instance{0} != '.' ){
-						$check = $instance.DIRECTORY_SEPARATOR.'Prototype';
-						$loc = $dir.DIRECTORY_SEPARATOR.$check;
+						$name = $instance.'\\'.'Prototype';
+						$loc = $dir.'/'.$instance.'/Prototype';
 						
 						if ( file_exists($loc) ){
-							self::$prototypeRoots[ $loc ] = $check;
+							self::$prototypeRoots[ $loc ] = $name;
 						}
 					}
 				}
@@ -66,7 +66,7 @@ class Bootstrap {
 			
 			foreach( $dirs as $prototype ){
 				if ( $prototype{0} != '.' ){
-					$prototypes[] = '/'.$name.'/'.$prototype;
+					$prototypes[] = '\\'.$name.'\\'.$prototype;
 				}
 			}
 		}

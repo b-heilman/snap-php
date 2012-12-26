@@ -24,15 +24,17 @@ class Prototype {
 		
 		// $prototype is just the prototype name
 		$this->name = $prototype;
-		$this->forms = stream_resolve_include_path( $prototype.'/Install/Forms.php' );
-		$this->installDir = stream_resolve_include_path( $prototype.'/Install/Db' );
+		$this->dir = substr( str_replace('\\','/',$this->name), 1 );
+		
+		$this->forms = stream_resolve_include_path( $this->dir.'/Install/forms.php' );
+		$this->installDir = stream_resolve_include_path( $this->dir.'/Install/Db' );
 		$this->installable = ($this->installDir != null);
 		
 		if ( $this->installable ){
 			$this->installed = isset( self::$prototypes[$prototype] );
 			
-			$row = stream_resolve_include_path( $prototype.'/Node/Install/Row.php' );
-			$class = $row ? str_replace('/', '\\', $prototype).'\Node\Install\Row' : '\Snap\Prototype\Installation\Node\Install\Row';
+			$row = stream_resolve_include_path( $this->dir.'/Node/Install/Row.php' );
+			$class = $row ? $this->name.'\Node\Install\Row' : '\Snap\Prototype\Installation\Node\Install\Row';
 			
 			$this->installRow = new $class(array(
 				'prototype'    => $this,
@@ -65,7 +67,7 @@ class Prototype {
 				if ( $table{0} != '.' ){
 					if ( preg_match('/^[^.]*/', $table, $matches) ){
 						// TODO : obviously this breaks with nested prototypes
-						$class = str_replace('/', '\\', $this->name).'\Install\Db\\'.$matches[0];
+						$class = $this->name.'\Install\Db\\'.$matches[0];
 						
 						$db_def = new $class();
 					}
