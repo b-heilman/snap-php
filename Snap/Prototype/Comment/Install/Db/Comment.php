@@ -15,7 +15,7 @@ class Comment {
 		Definition::addTableField( COMMENT_TABLE, 'creation_date', 'timestamp', false, array("DEFAULT CURRENT_TIMESTAMP") );
 		Definition::addTableField( COMMENT_TABLE, 'active', 'bool', false, array("default '1'") );
 		Definition::addTableField( COMMENT_TABLE, COMMENT_PARENT, 'int unsigned', true );
-		
+		/* TODO : drop support, this info is maintained in the software level
 		Definition::addTableRelation(COMMENT_TABLE, COMMENT_USER, 
 			USER_DB.'.'.USER_TABLE, USER_ID, 'CASCADE', 'RESTRICT');
 			
@@ -24,5 +24,6 @@ class Comment {
 			
 		Definition::addTableRelation(COMMENT_TABLE, COMMENT_PARENT, 
 			COMMENT_TABLE, COMMENT_ID, 'CASCADE', 'CASCADE');
+		*/
 	}
 }

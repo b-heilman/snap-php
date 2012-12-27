@@ -19,4 +19,5 @@ $this->append( $r = new \Snap\Node\Form\Row() );
 		)) );
 	}
 	
+	$r->append( $this->messaging );
 	$r->append( new \Snap\Node\Form\Input\Textarea(array('name' => 'new_topic_content')) );

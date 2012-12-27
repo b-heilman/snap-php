@@ -51,7 +51,16 @@ class Element extends \Snap\Lib\Db\Element
 	
 	static public function create( $data ){
 		if ( !isset($data[TOPIC_COMMENT_THREAD]) ){
-			$data[TOPIC_COMMENT_THREAD] = \Snap\Prototype\Comment\Lib\Element::createThread();
+			$thread = \Snap\Prototype\Comment\Lib\Element::createThread();
+			
+			if ( !$thread ){
+				throw new \Exception( \Snap\Adapter\Db\Mysql::lastError()
+					. "\n===\n"
+					. \Snap\Adapter\Db\Mysql::lastQuery() 
+				);
+			}else{
+				$data[TOPIC_COMMENT_THREAD] = $thread;
+			} 
 		}
 		
 		return parent::create($data);

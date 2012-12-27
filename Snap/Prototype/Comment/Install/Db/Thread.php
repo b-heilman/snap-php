@@ -12,7 +12,8 @@ class Thread {
 		Definition::addTableField( COMMENT_THREAD_TABLE, COMMENT_THREAD_USER, 'int unsigned', false);
 		Definition::addTableField( COMMENT_THREAD_TABLE, 'creation_date', 'timestamp', false, array("DEFAULT CURRENT_TIMESTAMP") );
 		Definition::addTableField( COMMENT_THREAD_TABLE, 'active', 'bool', false, array("default '1'") );
-		
+		/* TODO : drop support, this info is maintained in the software level
 		Definition::addTableRelation( COMMENT_THREAD_TABLE, COMMENT_THREAD_USER, USER_DB.'.'.USER_TABLE, USER_ID, 'CASCADE', 'RESTRICT' );
+		*/
 	}
 }

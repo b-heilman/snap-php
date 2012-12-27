@@ -23,7 +23,7 @@ class Content extends \Snap\Prototype\Topic\Node\View\Simple {
  		}
  		
  		if ( !$translator ){
- 			$translator = new \Snap\Prototype\Blogging\Translator();
+ 			$translator = new \Snap\Prototype\Blogging\Lib\Translator();
  		}
 		
  		$res['content'] = new \Snap\Node\Content(array(

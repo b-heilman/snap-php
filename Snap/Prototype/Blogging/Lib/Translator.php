@@ -1,13 +1,13 @@
 <?php
 
-namespace Snap\Prototype\Blogging;
+namespace Snap\Prototype\Blogging\Lib;
 
 use 
 	\Snap\Lib\Markup,
 	\Snap\Lib\Token\Prototype,
 	\Snap\Lib\Template;
 
-class Translator extends Snap\Lib\Markup\Translator {
+class Translator extends \Snap\Lib\Markup\Translator {
 	// TODO need to do setting data
 	protected function tokenHook( Prototype $in ){
 		if ( !($in->getType() == '*' || $in->getType() == '#') && strpos($in->getContent(), '{{') !== false ) {

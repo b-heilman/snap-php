@@ -49,22 +49,28 @@ class Create extends \Snap\Node\ProducerForm
 			'content' => $this->formatContent( $formData->getValue('new_topic_content') )
 		);
 		
-		if ( $id = \Snap\Prototype\Topic\Lib\Element::create($info) ){
-			$res = new \Snap\Prototype\Topic\Lib\Element($id);
-			
-			$this->prepend( $notes = new \Snap\Node\Block(array(
-				'tag'   => 'span', 
-				'class' => 'infos'
-			)) );
-			
-			$notes->write( 'Topic created' );
-			
-			$this->reset();
-		}else{
+		try {
+			if ( $id = \Snap\Prototype\Topic\Lib\Element::create($info) ){
+				$res = new \Snap\Prototype\Topic\Lib\Element($id);
+				
+				$this->prepend( $notes = new \Snap\Node\Block(array(
+					'tag'   => 'span', 
+					'class' => 'infos'
+				)) );
+				
+				$notes->write( 'Topic created' );
+				
+				$this->reset();
+			}else{
+				$formData->addError( 'Error creating topic' );
+				
+				$this->addNote( \Snap\Adapter\Db\Mysql::lastQuery() );
+				$this->addNote( \Snap\Adapter\Db\Mysql::lastError() );
+			}
+		}catch( \Exception $ex ){
 			$formData->addError( 'Error creating topic' );
 			
-			$this->addNote( \Snap\Adapter\Db\Mysql::lastQuery() );
-			$this->addNote( \Snap\Adapter\Db\Mysql::lastError() );
+			$this->addNote( $ex->getMessage() );
 		}
 		
 		return $res;

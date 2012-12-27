@@ -21,7 +21,7 @@ class Thread extends \Snap\Lib\Db\Element {
 		$db = self::pullStatic('db');
 		
 		$user = \Snap\Prototype\User\Lib\Current::getUser();
-		
+		error_log('creating thread');
 		$db->insert(COMMENT_THREAD_TABLE, array(
 			COMMENT_THREAD_USER => $user->id()
 		));

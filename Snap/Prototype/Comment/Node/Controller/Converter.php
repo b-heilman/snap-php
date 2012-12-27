@@ -26,22 +26,25 @@ class Converter extends \Snap\Node\Controller\Converter {
 	
 	protected function makeData(){
 		$ctrl = $this->input;
+		$info = null;
 		
 		if ( $ctrl->hasVar('active') ){
 			$info = $ctrl->get( $ctrl->getVar('active') );
-		}elseif( $ctrl->data->count() > 0 ){
+		}elseif( $ctrl->count() > 0 ){
 			$info = $ctrl->get( 0 );
-		}else{
-			throw new \Exception("This is broke");
 		}
 		
-		$this->comment_thread = $info[$this->variable];
-		
-		$ctrl = new \Snap\Lib\Mvc\Control( $this->factory, new \Snap\Lib\Mvc\Data(
-			\Snap\Prototype\Comment\Lib\Element::data(
-				array(COMMENT_THREAD_ID => $this->comment_thread)
-			)
-		));
+		if ( $info ){
+			$this->comment_thread = $info[$this->variable];
+			
+			$ctrl = new \Snap\Lib\Mvc\Control( $this->factory, new \Snap\Lib\Mvc\Data(
+					\Snap\Prototype\Comment\Lib\Element::data(
+							array(COMMENT_THREAD_ID => $this->comment_thread)
+					)
+			));
+		}else{
+			$ctrl = new \Snap\Lib\Mvc\Control( $this->factory, new \Snap\Lib\Mvc\Data(array()) );
+		}
 		
 		return $ctrl;
 	}
