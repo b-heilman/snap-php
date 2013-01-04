@@ -10,7 +10,14 @@ class Simple extends \Snap\Node\View {
 	
 	protected function getTemplateVariables(){
 		$topic = new \Snap\Prototype\Topic\Lib\Element( $this->getTopic()  );
-		list($date, $time) = explode( ' ', $topic->info('creation_date') );
+		$timestamp = $topic->info('creation_date');
+		
+		if( $timestamp ){
+			list($date, $time) = explode( ' ', $timestamp );
+		}else{
+			$date = 0;
+			$time = 0;
+		}
 		
 		return array(
 			'topic'   => $topic->info( TOPIC_TITLE ),
