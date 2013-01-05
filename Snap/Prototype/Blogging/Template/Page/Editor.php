@@ -1,9 +1,9 @@
 <?php 
-	$this->append( $this->login = new \Snap\Prototype\User\Node\Form\Access() );
+	$this->append( $this->login );
 
 	$this->append( new \Snap\Prototype\Blogging\Node\Form\Editor(array(
 		'class'    => 'blog-content',
-		'type'     => 'Blog',
+		'type'     => $this->blogType,
 		'controls' => true
 	)) );
 ?>

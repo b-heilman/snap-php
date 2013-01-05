@@ -89,7 +89,7 @@ abstract class Template extends Block {
  		$path = $this->getTemplate( get_parent_class($this) );
  		
  		if ( $path ){
- 			include( $path );
+ 			$this->loadTemplate( $path );
  		}
  	}
  	
@@ -125,14 +125,7 @@ abstract class Template extends Block {
  		
  		ob_start();
  		
- 		// decode the variables for local use of the included function
- 		$__vars = $this->getTemplateVariables();
- 		foreach( $__vars as $__var => $__val ){
- 			${$__var} = $__val;
- 		}
- 		
- 		// call the template
- 		include $this->path;
+ 		$this->loadTemplate( $this->path );
  		
  		$__content = ob_get_contents();
  		ob_end_clean();
@@ -140,6 +133,17 @@ abstract class Template extends Block {
  		$this->translating = false;
  		
  		return $__content;
+ 	}
+ 	
+ 	protected function loadTemplate( $template ){
+ 		// decode the variables for local use of the included function
+ 		$__vars = $this->getTemplateVariables();
+ 		foreach( $__vars as $__var => $__val ){
+ 			${$__var} = $__val;
+ 		}
+ 			
+ 		// call the template
+ 		include $template;
  	}
  	
  	protected function getTemplateVariables(){

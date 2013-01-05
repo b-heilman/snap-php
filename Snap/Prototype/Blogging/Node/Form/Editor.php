@@ -18,4 +18,15 @@ class Editor extends \Snap\Prototype\Topic\Node\Form\Create
 		
 		parent::processInput($formData);
 	}
+	
+	// If setting a type that doesn't exist, make it
+	public function setType( $type ){
+		parent::setType( $type );
+		
+		if (!$this->type) { // this is ok, 0 id is impossible new \Snap\Prototype\Topic\Lib\Type($type);
+			$this->type = \Snap\Prototype\Topic\Lib\Type::create(array(
+					TOPIC_TYPE_NAME => $type
+			));
+		}
+	}
 }

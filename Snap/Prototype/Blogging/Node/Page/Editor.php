@@ -8,7 +8,20 @@ use
 class Editor extends Node\Page\Basic {
 		
 	protected 
-		$login;
+		$login,
+		$blogType;
+	
+	public function __construct( $settings = array() ){
+		$this->login = new \Snap\Prototype\User\Node\Form\Access();
+		
+		parent::__construct( $settings );
+	}
+	
+	protected function parseSettings( $settings = array() ){
+		$this->blogType = isset($settings['blogType']) ? $settings['blogType'] : 'Blog';
+		
+		parent::parseSettings( $settings );
+	}
 	
 	public function getActions(){
 		$actions = parent::getActions();
@@ -21,17 +34,17 @@ class Editor extends Node\Page\Basic {
 		return 'Build-A-Site';
 	}
 	
+	protected function getMeta(){
+		return '';
+	}
+	
 	protected function _finalize(){
 		if ( !\Snap\Prototype\User\Lib\Current::isAdmin() ){
 			$this->clear();
-			
+				
 			$this->append( $this->login );
 		}
-		
-		parent::_finalize();
-	}
 	
-	protected function getMeta(){
-		return '';
+		parent::_finalize();
 	}
 }

@@ -9,12 +9,12 @@ class Create extends \Snap\Node\ProducerForm
 		$select, 
 		$type = null;
 	
-	public function __construct( $settings = array() ){
-		parent::__construct( $settings );
-		
+	protected function parseSettings( $settings = array() ){
 		if ( isset($settings['type']) ){
 			$this->setType( $settings['type'] );
 		}
+		
+		parent::parseSettings( $settings );
 	}
 	
 	public function getOuputStream(){
@@ -26,6 +26,7 @@ class Create extends \Snap\Node\ProducerForm
 			'type' => 'preset the topic to have a preset type'
 		);
 	}
+	
 	public function setType( $type ){
 		$tt = new \Snap\Prototype\Topic\Lib\Type($type);
 		
