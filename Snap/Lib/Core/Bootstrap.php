@@ -2,7 +2,7 @@
 
 namespace Snap\Lib\Core;
 
-require_once( '\Snap\Lib\Core\StdObject.php' );
+require_once( 'Snap/Lib/Core/StdObject.php' );
 
 class Bootstrap extends StdObject {
 
