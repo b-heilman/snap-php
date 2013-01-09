@@ -25,7 +25,7 @@ class Editor extends Node\Page\Basic {
 	
 	public function getActions(){
 		$actions = parent::getActions();
-		$actions[] = new \Snap\Lib\Linking\Resource\Local( $this, '/tiny_mce/jquery.tinymce.js' );
+		$actions[] = new \Snap\Lib\Linking\Resource\Local( $this->page, $this, '/tiny_mce/jquery.tinymce.js' );
 		
 		return $actions;
 	}

@@ -7,11 +7,12 @@ class Simple implements \Snap\Node\Snapable {
 	protected static
 		$logs = array();
 	
-    protected 
+    protected
 		$id, 
 		$class, 
 		$tag, 
 		$style,
+		$page = null,
 		$parent = null, 
 		$clones = null, 
 		$flags = array(),
@@ -158,17 +159,13 @@ class Simple implements \Snap\Node\Snapable {
 		return $this->id;
 	}
 	
+	public function setPage( \Snap\Node\Page $page ){
+		$this->page = $page;
+	}
+	
 	// add this element to the DOM
 	public function setParent( \Snap\Node\Snapping $parent ){
-		if ( !is_null($this->parent) ){ // TODO : I need to get rid of this, it's old and stale
-			if ( !is_array($this->parent) ){
-				$this->parent = array( $this->parent, $parent );
-			}else{
-				$this->parent[] = $parent;
-			}
-		}else{
-			$this->parent = $parent;
-		}
+		$this->parent = $parent; // One parent... screw it
 	}
 
 	public function getParent(){

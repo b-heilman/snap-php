@@ -13,7 +13,7 @@ class Basic extends \Snap\Node\Controller\Nav
 		$nextNode, 
 		$prevNode;
 	
-	protected function build(){
+	public function build(){
 		$this->append( $this->prevNode = new Node\Listed(array(
 			'tag'   => 'ol',
 			'class' => 'prev-links linking_linkanator-nav'
@@ -68,7 +68,7 @@ class Basic extends \Snap\Node\Controller\Nav
 		$this->currNode->append( $this->modifyTitle($this->buildNavTitle($data), $data) );
 	}
 	
-	protected function buildNavLink( $data ){
+	public function buildNavLink( $data ){
 		$link = $this->createLink( $data[linking_linkanator_INDEX] );
 		$link->append( new Node\Text(array(
 			'tag'   => 'span', 
@@ -84,7 +84,7 @@ class Basic extends \Snap\Node\Controller\Nav
 		return $link;
 	}
 	
-	protected function buildNavTitle( $data ){
+	public function buildNavTitle( $data ){
 		$title = new block_node(array(
 			'tag'   => 'span', 
 			'class' => 'linking_linkanator-nav-title'

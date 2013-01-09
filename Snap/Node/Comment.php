@@ -5,11 +5,12 @@ namespace Snap\Node;
 class Comment implements \Snap\Node\Snapable {
 
 	protected 
-		$comment = null, 
 		$stager, 
+		$id = null,
+		$page = null, 
+		$dead = false, 
 		$parent = null, 
-		$id = null, 
-		$dead = false;
+		$comment = null;
 
 	public function __construct( $settings = array() ){
 		$this->parseSettings($settings);
@@ -23,6 +24,10 @@ class Comment implements \Snap\Node\Snapable {
 		return array(
 			'comment' => 'The content of the comment'
 		);
+	}
+	
+	public function setPage( \Snap\Node\Page $page ){
+		$this->page = $page;
 	}
 	
 	public function kill(){

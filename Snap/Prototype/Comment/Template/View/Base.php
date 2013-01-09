@@ -1,8 +1,4 @@
 <?php
-$comment = new \Snap\Prototype\Comment\Lib\Element( $this->getStreamData()->get(0) );
-		
-$user = new \Snap\Prototype\User\Lib\Element( $comment->info(COMMENT_USER) );
-$time = new \Snap\Lib\Core\Time( $comment->info('creation_date') );
 
 $header = new \Snap\Node\Block(array(
 	'tag'   => 'div', 

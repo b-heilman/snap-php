@@ -14,7 +14,10 @@ abstract class Controller extends \Snap\Node\Comment
 	protected function parseSettings( $settings ){
 		$this->outputStream = isset($settings['outputStream']) 
 			? $settings['outputStream']
-			: ( isset($settings['stream']) ? $settings['stream'] : $this->defaultStreamName() );
+			: ( isset($settings['stream']) 
+				? $settings['stream'] 
+				: $this->defaultStreamName() 
+			);
 			
 		$this->factory = isset($settings['factory']) ? $settings['factory'] : $this->defaultFactory();
 		

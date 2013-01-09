@@ -55,7 +55,7 @@ class Facebook extends \Snap\Node\Block
 		return $this->stream;	
 	}
 	
-	protected function build(){
+	public function build(){
 		$this->append( $this->loginLink );
 	}
 	

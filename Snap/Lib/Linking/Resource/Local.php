@@ -5,10 +5,13 @@ namespace Snap\Lib\Linking\Resource;
 class Local {
 	
 	public 
+		$page,
 		$resouce,
 		$file;
 	
-	public function __construct( $resource, $file = null ){
+	public function __construct( \Snap\Node\Page $page, $resource, $file = null ){
+		$this->page = $page;
+		
 		if ( $file == null ){
 			if ( is_string($resource) ){
 				$this->resource = null;
@@ -51,6 +54,6 @@ class Local {
 	}
 	
 	public function getLink( $type, $ext ){
-		return '/resources.php?r='.$this->getResource($type,$ext);
+		return $this->page->makeResourceLink( $this->getResource($type,$ext) );
 	}
 }

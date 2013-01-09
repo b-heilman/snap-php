@@ -39,7 +39,7 @@ abstract class View extends \Snap\Node\Template
 		);
 	}
 	
-	protected function build(){
+	public function build(){
 		// if you have your data, then run, otherwise wait for the consume process
 		if ( !$this->needsData() ){
 			parent::build();

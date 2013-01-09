@@ -169,7 +169,7 @@ class Time extends \Snap\Node\Block
 		$this->value->setDefaultValue( $value );
 	}
 	
-	protected function buildTime( $hour, $min, $toggle = null ){
+	public function buildTime( $hour, $min, $toggle = null ){
 		if ( $toggle == 'PM' )
 			$hour += 12;
 			

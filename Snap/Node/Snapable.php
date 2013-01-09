@@ -16,6 +16,7 @@ interface Snapable extends \Snap\Lib\Core\Token {
 	public function hasId();
 	public function getId();
 	
+	public function setPage( \Snap\Node\Page $page );
 	public function setParent( \Snap\Node\Snapping $parent );
 	public function getParent();
 	public function hasParent();

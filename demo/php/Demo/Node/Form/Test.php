@@ -7,7 +7,7 @@ class Test extends \Snap\Node\Form
 	
 	public function getStyles(){
 		return array(
-			new \Snap\Lib\Linking\Resource\Local( $this, 'Form/Testee.css' )
+			new \Snap\Lib\Linking\Resource\Local( $this->page, $this, 'Form/Testee.css' )
 		);
 	}
 	

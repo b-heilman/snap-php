@@ -13,6 +13,7 @@ class StackFactory {
 		if ( is_null($extender) ){
 			$extender = new Extender();
 		
+			$extender->addExtension( \Snap\Lib\Node\Extension\Builder::getInstance() );
 			$extender->addExtension( \Snap\Lib\Node\Extension\Streams::getInstance() );
 			$extender->addExtension( \Snap\Lib\Node\Extension\Javascript::getInstance() );
 			$extender->addExtension( \Snap\Lib\Node\Extension\Css::getInstance() );

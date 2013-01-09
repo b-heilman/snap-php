@@ -87,7 +87,7 @@ class Create extends \Snap\Node\ProducerForm
 	
 	public function getStyles(){
 		return array(
-			new \Snap\Lib\Linking\Resource\Local($this)
+			new \Snap\Lib\Linking\Resource\Local( $this->page,$this)
 		);
 	}
 }

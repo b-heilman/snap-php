@@ -22,6 +22,7 @@ class Javascript extends Base
 		);
 	}
 	
+	// TODO : Actionable is horrible, it should all be merged and the link type set by the class...
 	protected function _run( Node\Snapable $node ){
 		if ( $node instanceof Node\Actionable ){
 			$actions = $node->getActions();

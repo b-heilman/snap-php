@@ -32,7 +32,7 @@ class Management extends \Snap\Node\Form
 	
 	public function getStyles(){
 		return array(
-			new \Snap\Lib\Linking\Resource\Local($this)
+			new \Snap\Lib\Linking\Resource\Local( $this->page,$this)
 		);
 	}
 	

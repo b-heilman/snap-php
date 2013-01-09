@@ -26,7 +26,7 @@ abstract class AjaxForm extends \Snap\Node\Form
 	
 	public function getActions(){
 		return array(
-			new \Snap\Lib\Linking\Resource\Local($this)
+			new \Snap\Lib\Linking\Resource\Local( $this->page,$this)
 		);
 	}
 }

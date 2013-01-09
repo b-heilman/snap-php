@@ -162,7 +162,7 @@ abstract class Template extends Block {
 		$this->processTemplate();
 	}
 	
-	protected function build(){
+	public function build(){
 		parent::build();
 		
 		if ( !is_null($this->deferTemplate) ){

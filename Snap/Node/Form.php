@@ -144,7 +144,7 @@ class Form extends \Snap\Node\Template {
 		return parent::getAttributes().$atts;
 	}
 
-	protected function build(){
+	public function build(){
 		$this->append( new \Snap\Node\Form\Input\Hidden(array(
 			'name'  => 'form_'.$this->formName, 
 			'value' => 1

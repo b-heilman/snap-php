@@ -13,7 +13,7 @@ class Block extends \Snap\Node\Simple
 	private static 
 		$factory = null;
 	
-	protected 
+	protected
 		$inside, 
 		$stream = null, 
 		$rendered;
@@ -34,7 +34,11 @@ class Block extends \Snap\Node\Simple
 		
 		$this->parseSettings($settings);
 		
-		$this->build();
+		/*
+		 * Moving this to an extension because I want the page to be defined before the template rendering kicks off.
+		 * This simply means template will need to be appended before they are processed, and it shouldn't break anything
+		 */
+		// $this->build();
 	}
 	
 	protected function parseSettings( $settings = array() ){
@@ -47,7 +51,7 @@ class Block extends \Snap\Node\Simple
 		$this->stream = isset($settings['stream']) ? $settings['stream'] : null; 
 	}
 	
-	protected function build(){}
+	public function build(){}
 	
 	public static function getSettings(){
 		return parent::getSettings() + array(
@@ -80,25 +84,33 @@ class Block extends \Snap\Node\Simple
 		return $this->inside->get($place);
 	}
 	
+	// This element is taking control of another element
 	public function verifyControl( Snapable $in ){
 		$parent = $in->getParent();
 		
-		if ( $parent == null 
-			|| (!is_array($parent) && $parent != $this)
-			|| (is_array($parent) && array_search($this, $parent) == false) ) {
+		if ( $parent == null || $parent != $this ){
 			$in->setParent( $this );
 			$this->takeControl($in);
 		}
 	}
 	
+	// Register all the way up the tree a node has been added
+	// TODO : this name is retarded
 	protected function takeControl( Snapable $in ){
 		if ( $this->parent ){
-			if ( is_array($this->parent) ){
-				foreach( $this->parent as $parent ){
-					$parent->takeControl( $in );
+			error_log( get_class($this->parent) );
+			$this->parent->takeControl( $in );
+			
+			// TODO : this can not be performance friendly...
+			if ( $in instanceof Block ){
+				$c = $in->inside->count();
+				for( $i = 0; $i < $c; $i++ ){
+					$t = $in->inside->get($i);
+					
+					if ( $in instanceof Snapable ){
+						$this->takeControl( $t );
+					}
 				}
-			}else{
-				$this->parent->takeControl( $in );
 			}
 		}
 	}

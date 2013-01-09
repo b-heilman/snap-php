@@ -6,6 +6,7 @@ class Bootstrap {
 
 	static private 
 		$init = false,
+		$libraries,
 		$prototypeRoots = array(); // for later use when I am including js + css files
 
 	/**
@@ -41,6 +42,12 @@ class Bootstrap {
 				if ( $dir{0} == '.' ){
 					// crap, it's relative, make it absolute
 					$dir = $cwd.DIRECTORY_SEPARATOR.$dir;
+				}
+				
+				$dir = rtrim($dir,'/');
+				
+				if ( substr($dir, -3) === 'php' && file_exists($dir.'/../lib') ){
+					self::$libraries[] = $dir.'/../lib';
 				}
 				
 				$subdirs = scandir( $dir );
@@ -152,6 +159,22 @@ class Bootstrap {
 	
 	static public function getTemplateFile( $obj, $file = null ){
 		return static::getFile( $obj, $file, 'Node', 'Template', '.php');
+	}
+	
+	static public function getLibraryFile( $file ){
+		foreach( self::$libraries as $library ){
+			$f = $library.'/'.$file;
+			
+			if ( file_exists($f) ){
+				return $f;
+			}
+		}
+		
+		return null;
+	}
+	
+	static public function getLibraries(){
+		return self::$libraries;
 	}
 	/*
 	static public function getStyleFile( $obj, $file = null ){
