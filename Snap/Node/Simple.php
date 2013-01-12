@@ -16,7 +16,8 @@ class Simple implements \Snap\Node\Snapable {
 		$parent = null, 
 		$clones = null, 
 		$flags = array(),
-		$dead = false;
+		$dead = false,
+    	$extender = null;
     
     static protected 
 		$index = array();
@@ -174,6 +175,13 @@ class Simple implements \Snap\Node\Snapable {
 	
 	public function hasParent(){
 		return !is_null($this->parent);
+	}
+	
+	public function setExtender( \Snap\Lib\Node\Extender $extender ){
+		$this->extender = $extender;
+	}
+	public function hasExtender(){
+		return $this->extender != null;
 	}
 	
 	// clone the object

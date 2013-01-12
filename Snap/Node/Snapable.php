@@ -20,6 +20,8 @@ interface Snapable extends \Snap\Lib\Core\Token {
 	public function setParent( \Snap\Node\Snapping $parent );
 	public function getParent();
 	public function hasParent();
+	public function setExtender( \Snap\Lib\Node\Extender $extender );
+	public function hasExtender();
 	
 	public function removeFromParent();
 	public function closest( $class );

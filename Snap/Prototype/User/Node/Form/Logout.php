@@ -17,4 +17,13 @@ class Logout extends \Snap\Node\ProducerForm {
 		
 		return true;
 	}
+	
+	protected function getTemplateVariables(){
+		$args = parent::getTemplateVariables();
+	
+		$user = \Snap\Prototype\User\Lib\Current::getUser();
+		$args['logoutText'] = 'Logout, '.$user->name();
+	
+		return $args;
+	}
 }

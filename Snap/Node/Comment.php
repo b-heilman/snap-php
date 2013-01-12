@@ -10,7 +10,8 @@ class Comment implements \Snap\Node\Snapable {
 		$page = null, 
 		$dead = false, 
 		$parent = null, 
-		$comment = null;
+		$comment = null,
+		$extender = null;
 
 	public function __construct( $settings = array() ){
 		$this->parseSettings($settings);
@@ -24,6 +25,13 @@ class Comment implements \Snap\Node\Snapable {
 		return array(
 			'comment' => 'The content of the comment'
 		);
+	}
+	
+	public function setExtender( \Snap\Lib\Node\Extender $extender ){
+		$this->extender = $extender;
+	}
+	public function hasExtender(){
+		return $this->extender != null;
 	}
 	
 	public function setPage( \Snap\Node\Page $page ){

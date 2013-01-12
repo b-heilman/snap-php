@@ -51,8 +51,6 @@ class Block extends \Snap\Node\Simple
 		$this->stream = isset($settings['stream']) ? $settings['stream'] : null; 
 	}
 	
-	public function build(){}
-	
 	public static function getSettings(){
 		return parent::getSettings() + array(
 			'stream' => "The stream this element's process data is pushed to"
@@ -98,19 +96,19 @@ class Block extends \Snap\Node\Simple
 	// TODO : this name is retarded
 	protected function takeControl( Snapable $in ){
 		if ( $this->parent ){
-			error_log( get_class($this->parent) );
 			$this->parent->takeControl( $in );
-			
 			// TODO : this can not be performance friendly...
 			if ( $in instanceof Block ){
 				$c = $in->inside->count();
+				
 				for( $i = 0; $i < $c; $i++ ){
 					$t = $in->inside->get($i);
 					
-					if ( $in instanceof Snapable ){
+					if ( $t instanceof Snapable ){
 						$this->takeControl( $t );
 					}
 				}
+				
 			}
 		}
 	}
@@ -227,6 +225,9 @@ class Block extends \Snap\Node\Simple
         	return false;
     }
 	
+    public function build(){
+    }
+    
 	public function process(){
 		$this->_process();
 	}

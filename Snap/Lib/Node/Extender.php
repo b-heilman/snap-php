@@ -33,22 +33,41 @@ class Extender {
 	
 	public function run(){
 		$c = count($this->extensions);
+		$extensionStack = array();
+		
+		for( $i = 0; $i < $c; $i++ ){
+			$extensionStack[$i] = array();
+		}
+		$extensionStack[$c] = array();
 		
 		while( !empty($this->queuedNodes) ){
-			$nodes = $this->queuedNodes;
+			$extensionStack[0] = $this->queuedNodes;
 			$this->queuedNodes = array();
 			
-			$co = count($nodes);
-			
 			for( $i = 0; $i < $c; ++$i ){
+				// Interate the extensions
+				$nodes = $extensionStack[$i];
 				$ext = $this->extensions[$i];
 				
+				$co = count($nodes);
+				
 				for( $j = 0; $j < $co; ++$j ){
+					// Interate the nodes
 					$ext->addNode( $nodes[$j] );
 				}
 				$ext->run();
+				
+				// shift the current nodes to the next extension
+				$extensionStack[ $i ] = array();
+				$extensionStack[ $i+1 ] = array_merge( $extensionStack[$i+1], $nodes );
+				
+				if ( !empty($this->queuedNodes) ){
+					break;
+				}
 			}
 		}
+		
+		unset( $extensionStack );
 	}
 	
 	public function findExtension( $class ){
@@ -65,7 +84,10 @@ class Extender {
 	}
 	
 	public function addNode( Snapable $node ){
-		$this->queuedNodes[] = $node;
+		if ( !$node->hasExtender() ){
+			$node->setExtender( $this );
+			$this->queuedNodes[] = $node;
+		}
 	}
 	
 	public function removeNode( Snapable $node ){
