@@ -2,7 +2,8 @@
 // inline HTML objects, such as scripts or inputs
 namespace Snap\Node;
 
-class Simple implements \Snap\Node\Snapable {
+class Simple extends \Snap\Lib\Core\StdObject
+	implements \Snap\Node\Snapable {
 	// TODO : the id shit needs to be cleaned up
 	protected static
 		$logs = array();
@@ -11,7 +12,6 @@ class Simple implements \Snap\Node\Snapable {
 		$id, 
 		$class, 
 		$tag, 
-		$style,
 		$page = null,
 		$parent = null, 
 		$clones = null, 
@@ -24,14 +24,15 @@ class Simple implements \Snap\Node\Snapable {
 
 	// set up the tag, class, and id of the object.  Initialize the attributes of the object to nothing and give it an unique id.
 	public function __construct( $settings = array() ){
+		parent::__construct();
+		
 		$this->parseSettings($settings);	
 	}
 	
 	protected function parseSettings( $settings ) {
 		$this->id = isset($settings['id']) ? $settings['id'] : false;
-		$this->class = ( isset($settings['class']) ? $settings['class'] : '' ) . ' ' . $this->baseClass();
+		$this->class = ( isset($settings['class']) ? $settings['class'].' ' : '' ) . $this->baseClass();
 		$this->tag = isset($settings['tag']) ? $settings['tag'] : 'span';
-		$this->style = isset($settings['style']) ? $settings['style'] : '';
 	}
 	
 	protected function baseClass(){
@@ -65,14 +66,6 @@ class Simple implements \Snap\Node\Snapable {
         $this->class = '';
     }
 
-    public function addStyle( $style ){
-    	$this->style .= ' '.$style;
-    }
-    
-	public function clearStyle(){
-        $this->style = '';
-    }
-    
     public function removeFromParent(){
     	if ( !is_null($this->parent) ){
     		if ( is_array($this->parent) ){
@@ -97,8 +90,7 @@ class Simple implements \Snap\Node\Snapable {
     
 	protected function getAttributes(){
     	return ( $this->id ? "id=\"{$this->id}\"" : '' )
-    		. ( $this->class != '' ? " class=\"{$this->class}\"" : '' )
-    		. ( $this->style != '' ? " style=\"{$this->style}\"" : '' );
+    		. ( $this->class != '' ? " class=\"{$this->class}\"" : '' );
     }
     
 	// Copy the important information of the object
@@ -115,8 +107,7 @@ class Simple implements \Snap\Node\Snapable {
 		return array(
 			'id'    => 'id of the element',
 			'class' => 'css class(es) of the element',
-			'tag'   => 'the tag of the element',
-			'style' => 'element style'
+			'tag'   => 'the tag of the element'
 		);
 	}
 	

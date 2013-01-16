@@ -8,9 +8,9 @@ abstract class Basic extends Node\Template
 	implements Node\Page, Node\Actionable, Node\Styleable {
 		
 	protected 
-		$basePath = '/',
 		$mode,
 		$title,
+		$basePath = '/',
 		$debugContent = '';
 	
 	public function __construct( $settings = array() ){
@@ -23,29 +23,7 @@ abstract class Basic extends Node\Template
 				."\n".$ex->getTraceAsString();
 		}
 		
-		if ( isset($_SERVER['REDIRECT_URL']) ){
-			// REDIRECT_URL - PHP_SELF
-			// http://localhost/test/ym/something/or/other?woot=1
-			// '/test/ym/something/or/other' - '/redirect.php'
-			// /ym/something/or/other
-		
-			$find = explode( '/', $_SERVER['PHP_SELF']  );
-			$path = explode( '/', $_SERVER['REDIRECT_URL'], count($find) + 1 );
-		
-			$this->basePath = array_pop( $path );
-		}elseif( isset($_SERVER['PATH_INFO']) ){
-			// PATH_INFO
-			// http://localhost/test/index.php/ym/something/or/other?woot=1
-			// /ym/something/or/other
-			$this->basePath = $_SERVER['PATH_INFO'];
-		}else{
-			$this->basePath = $_SERVER['PHP_SELF'];
-		}
-		
-		$this->basePath .= ( strpos($this->basePath,'?') === false )
-			? '?'
-			: '&';
-		
+		$this->manager = new \Snap\Lib\File\Manager();
 		$this->debugContent .= ob_get_contents();
 		
 		// Need to do this, as page will be top level and not in the extensions
@@ -87,14 +65,7 @@ abstract class Basic extends Node\Template
 		ob_start();
 		
 		try{
-			switch( $this->mode ){
-				case 'ajax' :
-					$this->ajaxBuild();
-					break;
-					
-				default :
-					$this->htmlBuild();
-			}
+			parent::build();
 		}catch( Exception $ex ){
 			echo "==== ".get_class($this)." - build ====\n"
 				. "\n{$ex->getFile()}: {$ex->getLine()}\n----"
@@ -104,18 +75,6 @@ abstract class Basic extends Node\Template
 		$this->debugContent .= ob_get_contents();
 			
 		ob_end_clean();
-	}
-	
-	protected function ajaxBuild(){
-		// TODO : holy hell I should be sanitizing this
-		$class = $_GET[ '__ajaxClass' ];
-		$vars = json_decode( $_GET['__ajaxInit'] );
-		
-		$this->append( new $class( $vars ) );
-	}
-	
-	protected function htmlBuild(){
-		parent::build();
 	}
 	
 	protected function getTranslator(){
@@ -166,60 +125,15 @@ abstract class Basic extends Node\Template
 		return $legal;
 	}
 	
-	protected function serveLibrary(){
-		if ( isset($_GET['__library']) ){
-			$libFile = $_GET['__library'];
-			
-			if ( strpos(substr($libFile, 0, strlen($libFile) - 4), '..') === false ){
-				$file = \Snap\Lib\Core\Bootstrap::getLibraryFile( $libFile );
-				
-				if ( $this->loadHeaders($file) ){
-					$this->loadHeaders( $file );
-					
-					return file_get_contents( $file );
-				}
-			}
-		}
-		
-		return '';
-	}
-	
-	protected function serveResource(){
-		if ( isset($_GET['__resource']) ){
-			$resFile = $_GET['__resource'];
-			
-			$file = \Snap\Lib\Core\Bootstrap::testFile( $resFile );
-			
-			if ( $file && $this->loadHeaders($resFile) ){
-				return file_get_contents( $file );
-			}
-		}
-			
-		return '';
-	}
-	
 	public function serve(){
-		$service = isset($_GET['__service']) ? $_GET['__service'] : null;
+		$manager = new \Snap\Lib\File\Manager( true ); // populate from $_GET
 		
-		switch( $service ){
-			case 'library' :
-				$this->mode = 'library';
-				$tmp = $this->serveLibrary();
-				break;
-				
-			case 'resource' :
-				$this->mode = 'resource';
-				$tmp = $this->serveResource();
-				break;
-				
-			case 'ajax' :
-				$this->mode = 'ajax';
-				$tmp = $this->inner();
-				break;
-				
-			default :
-				$this->mode = 'default';
-				$tmp = $this->html();
+		if ( $manager->getMode() ){
+			error_log( $manager->getAccessor()->getPath() );
+			$this->loadHeaders( $manager->getAccessor()->getPath() );
+			$tmp = $manager->getContent();
+		}else{
+			$tmp = $this->html();
 		}
 		
 		\Snap\Lib\Core\Session::save();
@@ -328,16 +242,25 @@ HTML;
  		);
  	}
  	
+ 	public function getBasePath(){
+ 		return $this->basePath;
+ 	}
+ 	
  	public function makeResourceLink( $resource ){
- 		return $this->basePath.'__service=resource&__resource='.urlencode( $resource );
+ 		$manager = new \Snap\Lib\File\Manager( new \Snap\Lib\File\Accessor\Resource($resource) );
+ 		
+ 		return $manager->makeLink();
  	}
  	
  	public function makeLibraryLink( $library ){
- 		return $this->basePath.'__service=library&__library='.urlencode( $library );
+ 		$manager = new \Snap\Lib\File\Manager( new \Snap\Lib\File\Accessor\Library($library) );
+ 		
+ 		return $manager->makeLink();
  	}
  	
  	public function makeAjaxLink( $class, $data ){
- 		return $this->basePath.'__service=ajax&__ajaxClass='.urlencode( $class )
- 			.'&__ajaxInit='.urlencode(json_encode($data));
+ 		$manager = new \Snap\Lib\File\Manager( new \Snap\Lib\File\Accessor\Ajax($class,$data) );
+ 		
+ 		return $manager->makeLink();
  	}
 }

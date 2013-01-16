@@ -2,7 +2,9 @@
 
 namespace Snap\Lib\Core;
 
-class Bootstrap {
+require_once( '\Snap\Lib\Core\StdObject.php' );
+
+class Bootstrap extends StdObject {
 
 	static private 
 		$init = false,
@@ -19,43 +21,25 @@ class Bootstrap {
 	 */
 	static public function init(){
 		if ( !self::$init ){
+			static::loadAll();
+			
 			$changes = false;
 			self::$init = true;
 				
-			$include = '';
-			$cwd = getcwd();
-				
-			$pos = strripos( $cwd, DIRECTORY_SEPARATOR.'www' );
-				
-			if ( $pos !== false ){
-				$root = substr( $cwd, 0, $pos+1 );
-
-				set_include_path( $root.'php'.PATH_SEPARATOR.get_include_path() );
-			}
-				
-			$dirs = explode( PATH_SEPARATOR, get_include_path() );
+			set_include_path( implode(PATH_SEPARATOR, static::$phpLibraries) );
+			
+			$dirs = static::$phpLibraries;
 			
 			// scan the include path
 			for( $i = 0, $c = count($dirs); $i < $c; $i++ ){
 				$dir = $dirs[$i];
-				
-				if ( $dir{0} == '.' ){
-					// crap, it's relative, make it absolute
-					$dir = $cwd.DIRECTORY_SEPARATOR.$dir;
-				}
-				
-				$dir = rtrim($dir,'/');
-				
-				if ( substr($dir, -3) === 'php' && file_exists($dir.'/../lib') ){
-					self::$libraries[] = $dir.'/../lib';
-				}
-				
+			
 				$subdirs = scandir( $dir );
 				foreach( $subdirs as $instance ){
 					if ( $instance{0} != '.' ){
 						$name = $instance.'\\'.'Prototype';
 						$loc = $dir.'/'.$instance.'/Prototype';
-						
+			
 						if ( file_exists($loc) ){
 							self::$prototypeRoots[ $loc ] = $name;
 						}
@@ -161,20 +145,15 @@ class Bootstrap {
 		return static::getFile( $obj, $file, 'Node', 'Template', '.php');
 	}
 	
+	// TODO : this needs to go
 	static public function getLibraryFile( $file ){
-		foreach( self::$libraries as $library ){
-			$f = $library.'/'.$file;
-			
-			if ( file_exists($f) ){
-				return $f;
-			}
-		}
+		$link = new \Snap\Lib\File\Accessor\Library( $file );
 		
-		return null;
+		return $link->getFullPath();
 	}
 	
 	static public function getLibraries(){
-		return self::$libraries;
+		return self::$fileLibraries;
 	}
 	/*
 	static public function getStyleFile( $obj, $file = null ){
