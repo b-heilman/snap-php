@@ -129,7 +129,6 @@ abstract class Basic extends Node\Template
 		$manager = new \Snap\Lib\File\Manager( true ); // populate from $_GET
 		
 		if ( $manager->getMode() ){
-			error_log( $manager->getAccessor()->getPath() );
 			$this->loadHeaders( $manager->getAccessor()->getPath() );
 			$tmp = $manager->getContent();
 		}else{
