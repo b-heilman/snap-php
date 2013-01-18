@@ -8,7 +8,7 @@ class StdObject {
 		$projectRoot,
 		$phpRoot,
 		$webRoot,
-		$fileLibraries = array(),
+		$fileDocuments = array(),
 		$phpLibraries = array();
 	
 	public function __construct(){
@@ -66,8 +66,8 @@ class StdObject {
 			
 			$dir = rtrim($dir,'/');
 		
-			if ( substr($dir, -3) === 'php' && file_exists($dir.'/../lib') ){
-				static::$fileLibraries[] = $dir.'/../lib';
+			if ( substr($dir, -3) === 'php' && file_exists($dir.'/../doc') ){
+				static::$fileDocuments[] = $dir.'/../doc';
 			}
 		}
 	}

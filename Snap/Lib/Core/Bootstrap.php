@@ -145,13 +145,6 @@ class Bootstrap extends StdObject {
 		return static::getFile( $obj, $file, 'Node', 'Template', '.php');
 	}
 	
-	// TODO : this needs to go
-	static public function getLibraryFile( $file ){
-		$link = new \Snap\Lib\File\Accessor\Library( $file );
-		
-		return $link->getFullPath();
-	}
-	
 	static public function getLibraries(){
 		return self::$fileLibraries;
 	}

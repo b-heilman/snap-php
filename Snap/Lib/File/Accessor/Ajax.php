@@ -10,7 +10,7 @@ class Ajax
 		$data;
 	
 	public function __construct( $class = null, $data = null ){
-		if ( $this->class == null ){
+		if ( $class == null ){
 			$this->class = $_GET[ '__ajaxClass' ];
 			$this->data = json_decode( $_GET['__ajaxInit'], true );
 		}else{

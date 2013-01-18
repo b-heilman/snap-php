@@ -2,14 +2,14 @@
 
 namespace Snap\Lib\File\Accessor;
 
-class Library extends Crawler {
+class Document extends Crawler {
 	
 	public function __construct( $path = null ){
 		if ( !$path ){
 			$path = $_GET['__file'];
 		}
 		
-		$this->roots = static::$fileLibraries;
+		$this->roots = static::$fileDocuments;
 		
 		parent::__construct( $path );
 	}

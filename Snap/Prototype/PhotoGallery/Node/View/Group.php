@@ -38,7 +38,7 @@ class Group extends \Snap\Node\View
 		$manager = $this->page->getManager();
 		$images = $group->getImages();
 		$links = array();
-		error_log( print_r($images, true) );
+		
 		foreach ( $images as $link => $title ){
 			$child = $accessor->getChildAccessor( $link );
 			

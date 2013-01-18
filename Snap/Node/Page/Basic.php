@@ -260,7 +260,7 @@ HTML;
  	}
  	
  	public function makeLibraryLink( $library ){
- 		$manager = new \Snap\Lib\File\Manager( new \Snap\Lib\File\Accessor\Library($library) );
+ 		$manager = new \Snap\Lib\File\Manager( new \Snap\Lib\File\Accessor\Document($library) );
  		
  		return $manager->makeLink();
  	}
