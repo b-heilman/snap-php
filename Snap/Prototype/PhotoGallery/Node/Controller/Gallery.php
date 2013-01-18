@@ -11,10 +11,17 @@ class Gallery extends \Snap\Node\Controller {
 	protected function parseSettings( $settings = array() ){
 		parent::parseSettings( $settings );
 		
-		if ( isset($settings['gallery']) ){
-			$this->gallery = new \Snap\Prototype\PhotoGallery\Lib\Gallery( $settings['gallery'] );
+		if ( isset($settings['accessor']) ){
+			if ( $settings['accessor'] instanceof \Snap\Lib\File\Accessor\Crawler ){
+				$this->gallery = new \Snap\Prototype\PhotoGallery\Lib\Gallery( $settings['accessor'] );
+			}elseif ( isset($settings['root']) ){
+				$class = $settings['accessor'];
+				$this->gallery = new \Snap\Prototype\PhotoGallery\Lib\Gallery( new $class($settings['root']) );
+			}else{
+				throw new \Exception('Gallery requires a accessor to work with');
+			}
 		}else{
-			throw new \Exception('Gallery requires a gallery to work with');
+			throw new \Exception('Gallery requires a accessor to work with');
 		}
 		
 		$this->breakdown = isset($settings['breakdown']) ? $settings['breakdown'] : true;

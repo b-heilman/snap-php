@@ -10,25 +10,33 @@ class Ajax
 		$data;
 	
 	public function __construct( $class = null, $data = null ){
-		$this->class = $class;
-		$this->data = $data;
+		if ( $this->class == null ){
+			$this->class = $_GET[ '__ajaxClass' ];
+			$this->data = json_decode( $_GET['__ajaxInit'], true );
+		}else{
+			$this->class = $class;
+			$this->data = $data;
+		}
 	}
 	
 	public function isValid(){
-		return class_exists( $this->class );
+		return class_exists( $this->class ) && array_search( 'Snap\Node\Accessor\Ajax', class_implements($this->class) );
 	}
 	
-	public function getContent(){
-		$class = $_GET[ '__ajaxClass' ];
-		$vars = json_decode( $_GET['__ajaxInit'] );
+	public function getContent( \Snap\Node\Page $page ){
+		$class = $this->class;
 		
-		$node = new $class( $vars );
+		$page->append( new $class($this->data) );
 		
-		return $node->html();
+		return $page->inner();
 	}
 	
 	public function getLink( $root ){
 		return $root.'__ajaxClass='.urlencode( $this->class )
 			.'&__ajaxInit='.urlencode( json_encode($this->data) );
+	}
+	
+	public function getContentType(){
+		return 'html';
 	}
 }

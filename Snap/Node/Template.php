@@ -82,6 +82,7 @@ abstract class Template extends Block {
  			$class = get_parent_class( $class );
  		}while( $class && !$path );
  		
+ 		// TODO : this can now pick up StdObj by accident... need to fix that one...
  		return $path;
  	}
  	
@@ -135,15 +136,15 @@ abstract class Template extends Block {
  		return $__content;
  	}
  	
- 	protected function loadTemplate( $template ){
+ 	protected function loadTemplate( $__template ){
  		// decode the variables for local use of the included function
  		$__vars = $this->getTemplateVariables();
  		foreach( $__vars as $__var => $__val ){
  			${$__var} = $__val;
  		}
- 			
+ 		
  		// call the template
- 		include $template;
+ 		include $__template;
  	}
  	
  	protected function getTemplateVariables(){

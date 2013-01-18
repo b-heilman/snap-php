@@ -57,7 +57,7 @@ abstract class Crawler extends \Snap\Lib\Core\StdObject
 	// get the full accessor path if it exists, null otherwise
 	public function getPath( $file = null ){
 		if ( $file ){
-			if ( file_exists($this->directory.'/'.$file) ){
+			if ( $this->fileExists( $file ) ){
 				return $this->path.'/'.$file;
 			}else return null;
 		}else return $this->path;
@@ -66,32 +66,38 @@ abstract class Crawler extends \Snap\Lib\Core\StdObject
 	// get the full accessor path from the root if it exists, null otherwise
 	public function getFullPath( $file = null ){
 		if ( $file ){
-			if ( file_exists($this->directory.'/'.$file) ){
+			if ( $this->fileExists( $file ) ){
 				return $this->directory.'/'.$file;
 			}else return null;
 		}else return $this->directory;
 	}
 	
-	// get an instance of the same class
-	public function getClone( $file = null ){
+	public function getClone(){
 		$class = get_class( $this );
 		
-		if ( $file ){
-			if ( $this->fileExists($file) ){
-				return $class( $this->path.'/'.$file );
-			}else return null;
-		}else{
-			return $class( $this->path );
-		}
+		return new $class( $this->path );
+	}
+		
+	// get an instance of the same class
+	public function getChildAccessor( $file ){
+		$class = get_class( $this );
+		
+		if ( $this->fileExists($file) ){
+			return new $class( $this->path.'/'.$file );
+		}else return null;
 	}
 
 	public function isValid(){
 		return $this->fileExists();
 	}
 	
-	public function getContent(){
+	public function getContent( \Snap\Node\Page $page ){
 		if ( $this->fileExists() ){
 			return file_get_contents( $this->directory );
 		}else return '';
+	}
+	
+	public function getContentType(){
+		return substr( $this->path, strrpos( $this->path, '.' )+1 );
 	}
 }

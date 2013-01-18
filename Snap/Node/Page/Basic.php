@@ -10,6 +10,7 @@ abstract class Basic extends Node\Template
 	protected 
 		$mode,
 		$title,
+		$manager,
 		$basePath = '/',
 		$debugContent = '';
 	
@@ -25,10 +26,6 @@ abstract class Basic extends Node\Template
 		
 		$this->manager = new \Snap\Lib\File\Manager();
 		$this->debugContent .= ob_get_contents();
-		
-		// Need to do this, as page will be top level and not in the extensions
-		$extender = $this->inside->getExtender();
-		$extender->addNode( $this ); 
 		
 		ob_end_clean();
 	}
@@ -97,40 +94,35 @@ abstract class Basic extends Node\Template
 		ob_end_clean();
 	}
 	
-	protected function loadHeaders( $file ){
-		$legal = false;
-		
-		if ( substr($file, -2) === 'js' ){
-			$legal = true;
-			header('Content-type: application/javascript');
-		}else{
-			$ctype = substr($file, -3);
-			switch ( $ctype ){
-				case 'css' :
-					$legal = true;
-					header('Content-type: text/css');
-					break;
-		
-				case "jpeg":
-					$ctype = 'jpg';
-				case "jpg" :
-				case "gif" :
-				case "png" :
-					$legal = true;
-					header('Content-type: image/'.$ctype);
-					break;
-			}
+	protected function loadHeaders( $ctype ){
+		error_log( $ctype );
+		switch ( $ctype ){
+			case 'js' :
+				header('Content-type: application/javascript');
+				break;
+			case 'css' :
+				header('Content-type: text/css');
+				break;
+	
+			case "jpeg":
+				$ctype = 'jpg';
+			case "jpg" :
+			case "gif" :
+			case "png" :
+				header('Content-type: image/'.$ctype);
+				break;
+				
+			default :
+				break;
 		}
-		
-		return $legal;
 	}
 	
 	public function serve(){
 		$manager = new \Snap\Lib\File\Manager( true ); // populate from $_GET
 		
 		if ( $manager->getMode() ){
-			$this->loadHeaders( $manager->getAccessor()->getPath() );
-			$tmp = $manager->getContent();
+			$this->loadHeaders( $manager->getAccessor()->getContentType() );
+			$tmp = $manager->getContent( $this );
 		}else{
 			$tmp = $this->html();
 		}
@@ -138,6 +130,16 @@ abstract class Basic extends Node\Template
 		\Snap\Lib\Core\Session::save();
 		
 		echo $tmp;
+	}
+	
+	public function inner(){
+		if ( $this->rendered == '' ){
+			// TODO : this need to go to inner...
+			$extender = $this->inside->getExtender();
+			$extender->run();
+		}
+		
+		return parent::inner();
 	}
 	
 	public function html(){
@@ -149,9 +151,10 @@ abstract class Basic extends Node\Template
 		$jsContent = '';
 		
 		ob_start();
-		try{	
+		try{
+			// Need to do this, as page will be top level and not in the extensions
 			$extender = $this->inside->getExtender();
-			$extender->run();
+			$extender->addNode( $this );
 			
 			$html = parent::html();
 			
@@ -245,6 +248,11 @@ HTML;
  		return $this->basePath;
  	}
  	
+ 	public function getManager(){
+ 		return $this->manager;
+ 	}
+ 	
+ 	// TODO : these need to be removed
  	public function makeResourceLink( $resource ){
  		$manager = new \Snap\Lib\File\Manager( new \Snap\Lib\File\Accessor\Resource($resource) );
  		

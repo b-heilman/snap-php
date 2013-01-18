@@ -74,16 +74,20 @@ class Manager extends \Snap\Lib\Core\StdObject {
 		return false;
 	}
 	
-	public function getContent( $file = null ){
-		if ( $file === null || $this->accessor->fileExists($file) ){
-			return $this->accessor->getContent( $file );
+	public function getContent( \Snap\Node\Page $page ){
+		if ( $this->accessor->isValid() ){
+			return $this->accessor->getContent( $page );
 		}
 		
 		return null;
 	}
 	
 	// generate a link to a file in the current directory
-	public function makeLink(){
+	public function makeLink( \Snap\Lib\File\Accessor $accessor = null ){
+		if ( $accessor ){
+			$this->setAccessor( $accessor );
+		}
+		
 		if ( $this->accessor->isValid() ){
 			return $this->accessor->getLink( static::$pageUrl.'?__service='.$this->mode.'&' );
 		}else return null;

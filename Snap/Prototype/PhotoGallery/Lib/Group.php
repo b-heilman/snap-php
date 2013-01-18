@@ -5,28 +5,31 @@ namespace Snap\Prototype\PhotoGallery\Lib;
 class Group {
 	
 	protected
-		$root,
+		$accessor,
 		$icon = null,
 		$title = null,
 		$stats = array(),
 		$images = array();
 	
-	public function __construct( $info ){
-		if ( is_string($info ) ){
-			$root = \Snap\Lib\Core\Bootstrap::getLibraryFile($info);
-			$this->root = $info;
-			// $info is a file path
-			if ( file_exists($root.'/.info/titles') ){
-				$stat = file($root.'/.info/titles');
+	public function __construct( \Snap\Lib\File\Accessor\Crawler $accessor ){
+		$this->accessor = $accessor;
+		$info = $accessor->getFullPath( '/.info/titles' );
+			
+		// $info is a file path
+		if ( $info ){
+			$stat = file( $info );
 				
-				$this->icon = $info.'/.info/icon.jpg';
-				$this->title = array_shift($stat);
-				$this->stats = $stat;
-			}
+			$this->icon = $accessor->getChildAccessor( '/.info/icon.jpg' );
+			$this->title = array_shift($stat);
+			$this->stats = $stat;
 		}
 	}
 	
-	public function getIcon(){
+	public function getAccessor(){
+		return $this->accessor;
+	}
+	
+	public function getIconAccessor(){
 		return $this->icon;
 	}
 	
@@ -39,8 +42,8 @@ class Group {
 			$hashLookup = array();
 			
 			foreach( $this->stats as $line ){
-				list( $file, $name ) = explode( ':', $line, 1 );
-				$haskLookup[ $this->root.'/'.trim($file) ] = trim($name); 
+				list( $file, $name ) = explode( ':', $line, 2 );
+				$hashLookup[ trim($file) ] = trim($name); 
 			}
 			
 			$this->images = $hashLookup;
