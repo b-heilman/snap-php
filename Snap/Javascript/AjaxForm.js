@@ -3,7 +3,7 @@
 		jQuery(document.body).append('<iframe style="display: none;" id="oFrame" name="oFrame"></iframe>');
 	}
 		
-	jQuery(document.body).delegate("form.ajax-form", 'submit', function(){
+	$(document.body).delegate("form.ajax-form", 'submit', function(){
 		var 
 			frame = window.frames['oFrame'],
 			$this = jQuery(this),
@@ -26,7 +26,7 @@
 			.append( "<input type='hidden' name='ajaxClass' value='"+$this.attr("data-ajax-class")+"'/>" )
 			.append( "<input type='hidden' name='ajaxInit' value='"+$this.attr("data-ajax-init")+"'/>" );
 			
-		jQuery( '#oFrame' )
+		$( '#oFrame' )
 			.attr( 'src', 'o.O' )
 			.load( func ); // clear the frame
 	});

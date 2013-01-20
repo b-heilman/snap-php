@@ -66,9 +66,11 @@ class Javascript extends Base
 	}
 	
 	public function getLinks(){
+		$links = array_unique( $this->links );
 		$js = '';
 		
-		foreach( $this->links as $link ){
+		
+		foreach( $links as $link ){
 			$js .= "\n<script type='text/javascript' src='$link'></script>";
 		}
 			

@@ -95,7 +95,6 @@ abstract class Basic extends Node\Template
 	}
 	
 	protected function loadHeaders( $ctype ){
-		error_log( $ctype );
 		switch ( $ctype ){
 			case 'js' :
 				header('Content-type: application/javascript');

@@ -1,0 +1,66 @@
+.carousel-overlay {
+	background-color: black;
+	opacity: .5;
+}
+
+.carousel-viewport {
+	width : 600px;
+	margin: 20px auto;
+	position: relative;
+}
+
+.carousel-viewport .carousel-close {
+	position: absolute;
+	top : 0px;
+	right : 0px;
+	width: 16px;
+	height: 16px;
+	background-color: red;
+}
+
+.carousel-viewport .slide-left {
+	position: absolute;
+	top : 100%;
+	left : 0px;
+}
+
+.no-left .slide-left {
+	display: none;
+}
+
+.carousel-viewport .slide-right {
+	position: absolute;
+	top : 100%;
+	right : 0px;
+}
+
+.no-right .slide-right {
+	display: none;
+}
+
+.carousel-content-wrapper {
+	height : 400px;
+	background-color: white;
+	border: 15px solid black;
+	padding: 5px;
+	border-radius: 10px;
+}
+
+.carousel-content {
+	overflow: hidden;
+	background-color: white;
+}
+
+.image-wrapper b {
+	text-align: center;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+	font-size: 24px;
+	line-height: 50px;
+	display: block;
+}
+
+.image-wrapper img {
+	display: block;
+	margin: 0px auto;
+	height: 350px;
+}

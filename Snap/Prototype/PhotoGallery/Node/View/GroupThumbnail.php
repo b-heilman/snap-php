@@ -2,8 +2,22 @@
 
 namespace Snap\Prototype\PhotoGallery\Node\View;
 
-class GroupThumbnail extends \Snap\Node\View {
+class GroupThumbnail extends \Snap\Node\View 
+	implements \Snap\Node\Actionable, \Snap\Node\Styleable {
 
+	public function getStyles(){
+		return array(
+				new \Snap\Lib\Linking\Resource\Local( $this->page, $this )
+		);
+	}
+	
+	public function getActions(){
+		return array(
+				new \Snap\Lib\Linking\Resource\Local( $this->page, $this ),
+				new \Snap\Lib\Linking\Resource\Local( $this->page, $this, 'jquery.carousel.js' )
+		);
+	}
+	
 	protected function baseClass(){
 		return 'group-thumbnail';
 	}
