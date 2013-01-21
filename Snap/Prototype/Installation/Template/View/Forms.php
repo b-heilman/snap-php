@@ -2,13 +2,16 @@
 
 if ( !empty($forms) ){ ?>
 	<ul>
-	<?php foreach( $forms as $form ){ ?>
+	<?php 
+	foreach( $forms as $form ){ 
+	?>
 	<li><?php 
-		$this->append( $link = $factory->createLink($form,$form) );
-		if( $form == $active ){
-			$link->addClass('active');
-		}
-	?></li>
-	<?php } ?>
-	</ul><?php 
+		// TODO : this should go to the view
+		$link = $factory->createLink( $form );
+		
+		?><a href='<?php echo $link['href']; ?>' class='<?php echo $link['class']
+			.( $prototype->name == $active ? 'active' : '' )?>'><?php echo $form; ?></a></li>
+	<?php 
+	} 
+	?></ul><?php 
 }

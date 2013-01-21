@@ -2,7 +2,7 @@
 
 namespace Snap\Node\Form;
 
-use Snap\Node\Text;
+use Snap\Node\Core\Text;
 // Wrapper for input fields.  Adds labels and comments to the input
 /*
  * TODO __construct($type, $name, $label = false, $value = '', $options = '')
@@ -13,7 +13,7 @@ use Snap\Node\Text;
 // TODO start using options to toggle between attributes for inputs
 // TODO $name needs to be switched to $id to make more sense
 
-class Element extends \Snap\Node\Template 
+class Element extends \Snap\Node\Core\Template 
 	implements \Snap\Node\Form\Input {
 		
 	public    
@@ -79,7 +79,7 @@ class Element extends \Snap\Node\Template
 		if ( isset($settings['note']) ){
 			$note = $settings['note'];
 
-			if ( $note instanceof \Snap\Node\Simple ){
+			if ( $note instanceof \Snap\Node\Core\Simple ){
 				$note->addClass( 'form-element-note' );
 				$this->note = $note;
 			}elseif( is_string($note) ){
@@ -98,7 +98,7 @@ class Element extends \Snap\Node\Template
 		return $this->input->getType();
 	}
 	
-	public function getInput( \Snap\Node\Form $form ){
+	public function getInput( \Snap\Node\Core\Form $form ){
 		$res = $this->input->getInput( $form );
 		
 		// TODO : what to do with labels now?

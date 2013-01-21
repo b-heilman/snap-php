@@ -2,7 +2,7 @@
 
 namespace Snap\Node\Translation;
 
-class Markup extends \Snap\Node\Template {
+class Markup extends \Snap\Node\Core\Template {
  	protected function getTranslator(){
  		return new \Snap\Lib\Markup\Translator();
  	}

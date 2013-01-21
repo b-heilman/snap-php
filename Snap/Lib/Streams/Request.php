@@ -26,7 +26,7 @@ class Request {
 	 * Accepts as input a string, an array, or a hash.  When finished, the streams will be in the form of
 	 * 'read stream' => 'consumed as stream'
 	 */
-	public function __construct( $streamData, \Snap\Node\Consumer $master ){
+	public function __construct( $streamData, \Snap\Node\Core\Consumer $master ){
 		$this->master = $master;
 		$this->data = array();
 		
@@ -54,7 +54,7 @@ class Request {
 	/**
 	 * Returns back the consumer node this request if for
 	 *----
-	 *@return \Snap\Node\Consumer
+	 *@return \Snap\Node\Core\Consumer
 	 */
 	public function getMaster(){
 		return $this->master;

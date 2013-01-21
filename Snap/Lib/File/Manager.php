@@ -73,7 +73,7 @@ class Manager extends \Snap\Lib\Core\StdObject {
 		return false;
 	}
 	
-	public function getContent( \Snap\Node\Page $page ){
+	public function getContent( \Snap\Node\Core\Page $page ){
 		if ( $this->accessor->isValid() ){
 			return $this->accessor->getContent( $page );
 		}

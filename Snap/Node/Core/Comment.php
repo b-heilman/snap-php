@@ -1,8 +1,9 @@
 <?php
 
-namespace Snap\Node;
+namespace Snap\Node\Core;
 
-class Comment implements \Snap\Node\Snapable {
+class Comment 
+	implements \Snap\Node\Core\Snapable {
 
 	protected 
 		$stager, 
@@ -34,7 +35,7 @@ class Comment implements \Snap\Node\Snapable {
 		return $this->extender != null;
 	}
 	
-	public function setPage( \Snap\Node\Page $page ){
+	public function setPage( \Snap\Node\Core\Page $page ){
 		$this->page = $page;
 	}
 	
@@ -71,7 +72,7 @@ class Comment implements \Snap\Node\Snapable {
 		return $this->id;
 	}
 	
-	public function setParent( \Snap\Node\Snapping $parent ){
+	public function setParent( \Snap\Node\Core\Snapping $parent ){
 		$this->parent = $parent;
 	}
 	

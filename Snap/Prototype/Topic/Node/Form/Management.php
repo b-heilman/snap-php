@@ -2,8 +2,8 @@
 
 namespace Snap\Prototype\Topic\Node\Form;
 
-class Management extends \Snap\Node\Form 
-	implements \Snap\Node\Styleable, \Snap\Node\Consumer {
+class Management extends \Snap\Node\Core\Form 
+	implements \Snap\Node\Core\Styleable, \Snap\Node\Core\Consumer {
 		
 	protected 
 		$consumed = false,

@@ -2,7 +2,7 @@
 
 namespace Snap\Node\View;
 
-abstract class Listing extends \Snap\Node\View {
+abstract class Listing extends \Snap\Node\Core\View {
 	
 	protected
 		$childTag;

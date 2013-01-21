@@ -2,7 +2,7 @@
 
 namespace Snap\Lib\Node;
 
-use \Snap\Node\Snapable;
+use \Snap\Node\Core\Snapable;
 
 interface Extension {
 	static public function getInstance();

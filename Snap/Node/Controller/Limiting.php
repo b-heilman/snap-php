@@ -4,7 +4,7 @@ namespace Snap\Node\Controller;
 
 use \Snap\Lib\Db\Executable;
 
-class Limiting extends \Snap\Node\Controller\NavigationQuery {
+class Limiting extends NavigationQuery {
 	
 	protected 
 		$prevMax, 

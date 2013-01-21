@@ -18,9 +18,9 @@
  
 namespace Snap\Lib\Node\Extension;
 
-use \Snap\Node\Snapable;
-use \Snap\Node\Producer;
-use \Snap\Node\Consumer;
+use \Snap\Node\Core\Snapable;
+use \Snap\Node\Core\Producer;
+use \Snap\Node\Core\Consumer;
 
 class Streams 
 	implements \Snap\Lib\Node\Extension {

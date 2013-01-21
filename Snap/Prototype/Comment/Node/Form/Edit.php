@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\Comment\Node\Form;
 
-class Edit extends \Snap\Node\Form {
+class Edit extends \Snap\Node\Core\Form {
 
 	protected 
 		$comment = null,
@@ -41,15 +41,15 @@ class Edit extends \Snap\Node\Form {
 				}
 				
 				if ( \Snap\Prototype\Comment\Lib\Element::create($info) ){
-					$this->prepend( new \Snap\Node\Text('comment created') );
+					$this->prepend( new \Snap\Node\Core\Text('comment created') );
 				}else{
-					$this->prepend( new \Snap\Node\Text(array(
+					$this->prepend( new \Snap\Node\Core\Text(array(
 						'text'  => 'Error creating comment',
 						'class' => 'error'
 					)) );
 				}
 			}else{
-				$this->prepend( new \Snap\Node\Text(array(
+				$this->prepend( new \Snap\Node\Core\Text(array(
 					'text'  => 'You comment was blank',
 					'class' => 'error'
 				)) );

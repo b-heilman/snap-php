@@ -2,8 +2,8 @@
 
 namespace Demo\Node\Form;
 
-class Test extends \Snap\Node\Form 
-	implements \Snap\Node\Styleable {
+class Test extends \Snap\Node\Core\Form 
+	implements \Snap\Node\Core\Styleable {
 	
 	public function getStyles(){
 		return array(

@@ -13,7 +13,7 @@ abstract class Group {
 		$changes, 
 		$errors;
 
-    public function __construct( \Snap\Node\Form $form = null ){
+    public function __construct( \Snap\Node\Core\Form $form = null ){
     	$this->form = $form;
     	$this->data = array();
 		$this->changes = array();

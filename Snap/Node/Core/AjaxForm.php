@@ -1,9 +1,10 @@
 <?php
 
-namespace Snap\Node;
+namespace Snap\Node\Core;
 
-abstract class AjaxForm extends \Snap\Node\Form 
-	implements \Snap\Node\Actionable {
+// TODO : move this somewhere better than core, or make as a trait
+abstract class AjaxForm extends \Snap\Node\Core\Form 
+	implements \Snap\Node\Core\Actionable {
 	
 	protected
 		$storedSettings;

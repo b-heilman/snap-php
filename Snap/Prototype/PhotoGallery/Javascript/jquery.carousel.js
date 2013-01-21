@@ -135,6 +135,7 @@
 		
 		if ( $el.is('ul') || $el.is('ol') ){
 			var
+				lis,
 				contentWidth = this.$content.innerWidth(),
 				fullWidth = 0;
 				
@@ -154,7 +155,8 @@
 			this.$list = $el;
 			
 			// parse the li elements
-			this.$active = $el.find('> li').each( function(){
+			lis = $el.find('> li');
+			lis.each( function(){
 				fullWidth += contentWidth;
 				$(this).css({
 					display : 'inline-block',
@@ -164,20 +166,26 @@
 					margin  : '0px',
 					border  : 'none'
 				}).addClass( 'carousel-cell' );
-			}).first().addClass('active');
+			});
 			
 			$el.css({
 				width : fullWidth+'px',
 				left  : '0px'
 			}).addClass( 'carousel-menu' );
 			
-			this.$.addClass('no-left');
+			this.$active = lis.first().addClass('active');
+			
+			if ( lis.length > 1 ){
+				this.$.addClass('no-left').removeClass('no-right');
+			}else{
+				this.$.addClass('no-left').addClass('no-right');
+			}
+			
 			this.show();
 		}
 	};
 	
 	$.fn.carousel = function( settings ){
-		console.log( 'carousel' );
 		if ( carousel == null ){
 			carousel = new Carousel();
 		}

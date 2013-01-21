@@ -1,9 +1,9 @@
 <?php
 
-namespace Snap\Node;
+namespace Snap\Node\Core;
 
-abstract class View extends \Snap\Node\Template
-	implements \Snap\Node\Consumer {
+abstract class View extends \Snap\Node\Core\Template
+	implements \Snap\Node\Core\Consumer {
 	
 	protected 
 		$consumed = false,
@@ -44,7 +44,7 @@ abstract class View extends \Snap\Node\Template
 		if ( !$this->needsData() ){
 			parent::build();
 		}else{
-			\Snap\Node\Block::build();
+			\Snap\Node\Core\Block::build();
 		}
 	}
  	

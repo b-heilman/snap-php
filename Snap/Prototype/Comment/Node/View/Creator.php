@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\Comment\Node\View;
 
-class Creator extends \Snap\Node\View {
+class Creator extends \Snap\Node\Core\View {
 	
 	protected 
 		$form, 

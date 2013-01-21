@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\Installation\Node\View;
 
-class Editor extends \Snap\Node\View {
+class Editor extends \Snap\Node\Core\View {
 	
 	protected 
 		$prototypeStream;

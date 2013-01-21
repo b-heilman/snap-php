@@ -2,8 +2,8 @@
 
 namespace Snap\Prototype\User\Node;
 
-class Facebook extends \Snap\Node\Block 
-	implements \Snap\Node\Producer {
+class Facebook extends \Snap\Node\Core\Block 
+	implements \Snap\Node\Core\Producer {
 		
 	protected 
 		$rtn_url, 
@@ -40,13 +40,9 @@ class Facebook extends \Snap\Node\Block
 			. "&redirect_uri=" . urlencode($this->rtn_url)
 			. "&state=". $this->state;
 		
-		$this->loginLink = new \Snap\Node\Href(array(
-			'href' => $dialog_url,
-			'title' => 'Log in through Facebook',
-			'class' => 'facebook-login-link'
-		));
+		$this->loginLink = new \Snap\Node\Core\Text($dialog_url);
 			
-		$this->loginLink->write('Facebook', 'login-text');
+		// $this->loginLink->write('Facebook', 'login-text');
 		
 		parent::__construct( $settings );
 	}

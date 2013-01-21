@@ -26,7 +26,7 @@ class Content extends \Snap\Prototype\Topic\Node\View\Simple {
  			$translator = new \Snap\Prototype\Blogging\Lib\Translator();
  		}
 		
- 		$res['content'] = new \Snap\Node\Content(array(
+ 		$res['content'] = new \Snap\Node\Translation\Content(array(
 			'content'    => $content,
 			'translator' => $translator
 		));

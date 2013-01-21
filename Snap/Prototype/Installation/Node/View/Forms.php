@@ -5,7 +5,7 @@ namespace Snap\Prototype\Installation\Node\View;
 use \Snap\Node;
 
 class Forms extends Node\View\Navigation 
-	implements Node\Styleable {
+	implements Node\Core\Styleable {
 	
 	protected function baseClass(){
 		return 'installation-forms';

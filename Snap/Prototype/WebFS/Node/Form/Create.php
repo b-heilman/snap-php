@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\WebFs\Node\Form;
 
-class Create extends \Snap\Node\ProducerForm {
+class Create extends \Snap\Node\Core\ProducerForm {
 	
 	public function getOuputStream(){
 		return 'new_file';

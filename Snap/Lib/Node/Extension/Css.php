@@ -14,12 +14,12 @@ class Css extends Base
 		$links = array(), 
 		$local = array();
 
-	protected function canHandle( Node\Snapable $node ){
-		return ( $node instanceof Node\Styleable );
+	protected function canHandle( Node\Core\Snapable $node ){
+		return ( $node instanceof Node\Core\Styleable );
 	}
 
-	protected function _run( Node\Snapable $node ){
-		if ( $node instanceof Node\Styleable ){
+	protected function _run( Node\Core\Snapable $node ){
+		if ( $node instanceof Node\Core\Styleable ){
 			$actions = $node->getStyles();
 			
 			if ( !is_array($actions) ){

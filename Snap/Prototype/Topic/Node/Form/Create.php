@@ -2,8 +2,8 @@
 
 namespace Snap\Prototype\Topic\Node\Form;
 
-class Create extends \Snap\Node\ProducerForm 
-	implements \Snap\Node\Styleable {
+class Create extends \Snap\Node\Core\ProducerForm 
+	implements \Snap\Node\Core\Styleable {
 		
 	protected 
 		$select, 
@@ -54,7 +54,7 @@ class Create extends \Snap\Node\ProducerForm
 			if ( $id = \Snap\Prototype\Topic\Lib\Element::create($info) ){
 				$res = new \Snap\Prototype\Topic\Lib\Element($id);
 				
-				$this->prepend( $notes = new \Snap\Node\Block(array(
+				$this->prepend( $notes = new \Snap\Node\Core\Block(array(
 					'tag'   => 'span', 
 					'class' => 'infos'
 				)) );

@@ -1,8 +1,9 @@
 <?php
 
-namespace Snap\Node;
+namespace Snap\Node\Translation;
 
-class Content extends Template {
+// TODO : I guess this goes here?
+class Content extends \Snap\Node\Core\Template {
 	
 	protected
 		$content;

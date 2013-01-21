@@ -1,6 +1,6 @@
 <?php
 
-$header = new \Snap\Node\Block(array(
+$header = new \Snap\Node\Core\Block(array(
 	'tag'   => 'div', 
 	'class' => 'comment-view-header'
 ));
@@ -12,12 +12,12 @@ $header->write( 'written '.$time->maxSince().' ago', 'comment-time' );
 $this->append( $header );
 //-------
 
-$content = new \Snap\Node\Block(array(
+$content = new \Snap\Node\Core\Block(array(
 	'tag' => 'div',
 	'class' => 'comment-view-content'
 ));
 
-$content->append( new \Snap\Node\Text(array(
+$content->append( new \Snap\Node\Core\Text(array(
 	'tag' => 'pre', 
 	'text' => $comment->info('content')
 )) );
@@ -25,7 +25,7 @@ $content->append( new \Snap\Node\Text(array(
 $this->append( $content );
 //-------
 
-$footer = new \Snap\Node\Block(array(
+$footer = new \Snap\Node\Core\Block(array(
 	'tag'   => 'span',
 	'class' => 'comment-view-footer'
 ));

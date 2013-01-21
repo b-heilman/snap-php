@@ -4,7 +4,7 @@ namespace Snap\Prototype\User\Node\Form;
 
 use \Snap\Adapter\Db\Mysql;
 
-class Create extends \Snap\Node\ProducerForm {
+class Create extends \Snap\Node\Core\ProducerForm {
 	protected 
 		$login = false,
 		$admin = false;

@@ -6,7 +6,7 @@ use
 	\Snap\Node;
 
 class Admin extends Node\Page\Basic
-	implements Node\Styleable {
+	implements Node\Core\Styleable {
 	
 	protected function getMeta(){
 		return '';

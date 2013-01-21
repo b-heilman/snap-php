@@ -6,7 +6,7 @@
 
 namespace Snap\Node\Form\Input;
 
-abstract class Base extends \Snap\Node\Block 
+abstract class Base extends \Snap\Node\Core\Block 
 	implements \Snap\Node\Form\WrappableInput {
 		
 	protected 
@@ -41,7 +41,7 @@ abstract class Base extends \Snap\Node\Block
 		);
 	}
 	
-	public function setWrapper( \Snap\Node\Snapable $node ){
+	public function setWrapper( \Snap\Node\Core\Snapable $node ){
 		$this->wrapper = null;
 	}
 	
@@ -58,7 +58,7 @@ abstract class Base extends \Snap\Node\Block
 		return $this->trueValue;
 	}
 
-	public function getInput( \Snap\Node\Form $form ){
+	public function getInput( \Snap\Node\Core\Form $form ){
     	$data = $form->getValue( $this->value->getName() );
     	
     	if ( $data !== null ){

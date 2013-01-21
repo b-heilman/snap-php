@@ -1,8 +1,8 @@
 <?php
 
-namespace Snap\Node;
+namespace Snap\Node\Core;
 
-class Form extends \Snap\Node\Template {
+class Form extends \Snap\Node\Core\Template {
 	
     private 
     	$proc = null, 
@@ -225,9 +225,9 @@ class Form extends \Snap\Node\Template {
 	   	return $this->proc;
 	}
 	
-	public function takeControl( \Snap\Node\Snapable $in ){
-		if ( ($in instanceof \Snap\Node\Snapping && !($in instanceof Form)
-			|| ($in instanceof \Snap\Node\Snapping && $in instanceof Form && $this->tag != 'div')) ){
+	public function takeControl( \Snap\Node\Core\Snapable $in ){
+		if ( ($in instanceof \Snap\Node\Core\Snapping && !($in instanceof Form)
+			|| ($in instanceof \Snap\Node\Core\Snapping && $in instanceof Form && $this->tag != 'div')) ){
 			if ( $in instanceof Form ){
 				$this->alterSubForm( $in );
 			}else{
@@ -335,9 +335,9 @@ class Form extends \Snap\Node\Template {
     }
     
     // TODO : search the treee and see if a message block has been set via the template
-    protected function activateMessaging( \Snap\Node\Snapping $block = null ){
+    protected function activateMessaging( \Snap\Node\Core\Snapping $block = null ){
     	if ( $block == null ){
-    		$this->messaging = new \Snap\Node\Block(array(
+    		$this->messaging = new \Snap\Node\Core\Block(array(
 				'tag'   => 'div',
 				'class' => 'form-messages '
 			));

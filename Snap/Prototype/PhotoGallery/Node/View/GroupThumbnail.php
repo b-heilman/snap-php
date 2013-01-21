@@ -2,8 +2,8 @@
 
 namespace Snap\Prototype\PhotoGallery\Node\View;
 
-class GroupThumbnail extends \Snap\Node\View 
-	implements \Snap\Node\Actionable, \Snap\Node\Styleable {
+class GroupThumbnail extends \Snap\Node\Core\View 
+	implements \Snap\Node\Core\Actionable, \Snap\Node\Core\Styleable {
 
 	public function getStyles(){
 		return array(

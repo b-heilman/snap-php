@@ -1,7 +1,7 @@
 <?php
 
-// TODO this should be called \Snap\Node\Template
-namespace Snap\Node;
+// TODO this should be called \Snap\Node\Core\Template
+namespace Snap\Node\Core;
 
 use 
 	\Snap\Lib\Core\Bootstrap;
@@ -80,9 +80,9 @@ abstract class Template extends Block {
  		do {
  			$path = Bootstrap::testFile( Bootstrap::getTemplateFile($class) );
  			$class = get_parent_class( $class );
- 		}while( $class && !$path );
+ 			// don't allow this to search past template
+ 		}while( $class && !$path && $class != 'Snap\Node\Core\Template' );
  		
- 		// TODO : this can now pick up StdObj by accident... need to fix that one...
  		return $path;
  	}
  	
@@ -97,12 +97,12 @@ abstract class Template extends Block {
  	/**
  	 * A hook for when the template is being processed.  If someone called ->append() in the template, this will gracefully
  	 * add the node to the stack, and process the previous string content.
- 	 * @param \Snap\Node\Snapable $in
+ 	 * @param \Snap\Node\Core\Snapable $in
  	 * 
  	 * (non-PHPdoc)
- 	 * @see \Snap\Node\Block::pend()
+ 	 * @see \Snap\Node\Core\Block::pend()
  	 */
- 	protected function pend( \Snap\Node\Snapable $in ){
+ 	protected function pend( \Snap\Node\Core\Snapable $in ){
  		if ( $this->translating ){
  			$content = ob_get_contents();
  			

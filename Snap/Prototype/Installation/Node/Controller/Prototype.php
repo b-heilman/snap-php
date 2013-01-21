@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\Installation\Node\Controller;
 
-class Prototype extends \Snap\Node\Controller {
+class Prototype extends \Snap\Node\Core\Controller {
 	public function __construct( $settings = array() ){
 		parent::__construct($settings);
 	}

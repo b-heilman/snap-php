@@ -5,7 +5,7 @@ namespace Snap\Prototype\Installation\Node\View;
 use \Snap\Node;
 
 class Prototype extends Node\View\Navigation 
-	implements Node\Styleable {
+	implements Node\Core\Styleable {
 	
 	protected function getTemplateVariables(){
 		$var = parent::getTemplateVariables();

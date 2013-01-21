@@ -10,12 +10,11 @@ if ( $prototype->installable ){
 <?php
 if ( $prototype->forms ){?>
 	<span class='install-forms'><?php 
-		$this->append( $link = $factory->createLink($prototype->name,'View Forms') );
+		// TODO : this should go to the view
+		$link = $factory->createLink( $prototype->name );
 		
-		if( $prototype->name == $active ){
-			$link->addClass('active');
-		}
-	?></span><?php 
+		?><a href='<?php echo $link['href']; ?>' class='<?php echo $link['class']
+			.( $prototype->name == $active ? 'active' : '' )?>'>View Forms</a></span><?php 
 }
 
 if ( $prototype->installable ) {

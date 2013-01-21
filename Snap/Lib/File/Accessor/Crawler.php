@@ -91,7 +91,7 @@ abstract class Crawler extends \Snap\Lib\Core\StdObject
 		return $this->fileExists();
 	}
 	
-	public function getContent( \Snap\Node\Page $page ){
+	public function getContent( \Snap\Node\Core\Page $page ){
 		if ( $this->fileExists() ){
 			return file_get_contents( $this->directory );
 		}else return '';

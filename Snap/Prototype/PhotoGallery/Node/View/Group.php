@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\PhotoGallery\Node\View;
 
-class Group extends \Snap\Node\View
+class Group extends \Snap\Node\Core\View
 	implements \Snap\Node\Accessor\Reflective {
 
 	protected 

@@ -3,7 +3,7 @@
 namespace Snap\Prototype\Blogging\Node\Form;
 
 class Editor extends \Snap\Prototype\Topic\Node\Form\Create 
-	implements \Snap\Node\Actionable {
+	implements \Snap\Node\Core\Actionable {
 		
 	public function getActions(){
 		return array(

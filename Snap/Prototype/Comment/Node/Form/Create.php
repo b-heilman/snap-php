@@ -4,7 +4,7 @@ namespace Snap\Prototype\Comment\Node\Form;
 
 use \Snap\Prototype\User\Lib\Current;
 
-class Create extends \Snap\Node\ProducerForm {
+class Create extends \Snap\Node\Core\ProducerForm {
 
 	protected 
 		$parentComment = null,
@@ -73,7 +73,7 @@ class Create extends \Snap\Node\ProducerForm {
 				$this->addNote( 'Comment Created' );
 				$this->reset();
 			}else{
-				$this->prepend( $notes = new \Snap\Node\Block(array(
+				$this->prepend( $notes = new \Snap\Node\Core\Block(array(
 					'tag'  => 'span', 
 					'class' => 'errors'
 				)) );

@@ -2,7 +2,7 @@
 
 namespace Snap\Node\View;
 
-class Navigation extends \Snap\Node\View {
+class Navigation extends \Snap\Node\Core\View {
 
 	protected 
 		$navStream;

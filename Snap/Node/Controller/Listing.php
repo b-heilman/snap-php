@@ -2,7 +2,7 @@
 
 namespace Snap\Node\Controller;
 
-class Listing extends \Snap\Node\Controller\Query {
+class Listing extends Query {
 
 	protected function getAllRows( \Snap\Lib\Db\Executable $query ){
 		$query->reset();

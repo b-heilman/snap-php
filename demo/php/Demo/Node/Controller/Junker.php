@@ -2,7 +2,7 @@
 
 namespace Demo\Node\Controller;
 
-class Junker extends \Snap\Node\Controller {
+class Junker extends \Snap\Node\Core\Controller {
 	protected function makeData(){
 		$data = new \Snap\Lib\Mvc\Data();
 		

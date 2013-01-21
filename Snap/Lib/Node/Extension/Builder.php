@@ -2,12 +2,12 @@
 
 namespace Snap\Lib\Node\Extension;
 
-use \Snap\Node\Snapable;
+use \Snap\Node\Core\Snapable;
 
 class Builder extends Base {
 
 	protected function canHandle( Snapable $node ){
-		return ( $node instanceof \Snap\Node\Block );
+		return ( $node instanceof \Snap\Node\Core\Block );
 	}
 	
 	protected function _run( Snapable $node ){

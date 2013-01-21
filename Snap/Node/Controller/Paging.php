@@ -2,7 +2,7 @@
 
 namespace Snap\Node\Controller;
 
-class Paging extends \Snap\Node\Controller\Query {
+class Paging extends Query {
 	
 	protected 
 		$url,

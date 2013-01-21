@@ -2,8 +2,8 @@
 
 namespace Snap\Prototype\Analytics\Node;
 
-class Base extends \Snap\Node\Comment 
-	implements \Snap\Node\Consumer {
+class Base extends \Snap\Node\Core\Comment 
+	implements \Snap\Node\Core\Consumer {
 		
 	protected 
 		$note = null, 

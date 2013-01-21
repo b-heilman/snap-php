@@ -13,7 +13,7 @@ class Stack extends Core\Stack {
 		$extender, 
 		$master;
 	
-	public function __construct( Node\Snapping $master, \Snap\Lib\Node\Extender $extender ){
+	public function __construct( Node\Core\Snapping $master, \Snap\Lib\Node\Extender $extender ){
 		$this->extender = $extender;
 		$this->master = $master;
 		
@@ -76,7 +76,7 @@ class Stack extends Core\Stack {
 					// do nothing
 				}elseif ( $el instanceof $class ){
 					$found[] = $el;
-				}elseif( $el instanceof Node\Snapping ){
+				}elseif( $el instanceof Node\Core\Snapping ){
 					$found = array_merge($found, $el->getElementsByClass($class) );
 				}
 			}
@@ -91,8 +91,8 @@ class Stack extends Core\Stack {
 	}
 	
 	protected function _add( Core\Token $node, $where ){
-		if ( $node instanceof Node\Stacking ){
-			if ( !($this->master instanceof Node\Stacking) ){
+		if ( $node instanceof Node\Core\Stacking ){
+			if ( !($this->master instanceof Node\Core\Stacking) ){
 				throw new \Exception(
 					"can not add an stacking_node node to a master that is not stacking_node node\n"
 						. 'tried adding a '.get_class($node).' to a '.get_class($this->master)
@@ -100,7 +100,7 @@ class Stack extends Core\Stack {
 			}
 		}
 		
-		if ( $node instanceof Node\Snapable ){
+		if ( $node instanceof Node\Core\Snapable ){
 			$this->master->verifyControl( $node );
 		}
 		
@@ -109,7 +109,7 @@ class Stack extends Core\Stack {
 		parent::_add( $node, $where );
 	}
 	
-	protected function _remove( Node\Snapable $node ){
+	protected function _remove( Node\Core\Snapable $node ){
 		$this->extender->removeNode( $node );
 		
 		parent::_remove($node);

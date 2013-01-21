@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\Topic\Node\View;
 
-class Simple extends \Snap\Node\View {
+class Simple extends \Snap\Node\Core\View {
 
 	protected function getTopic(){
 		return $this->getStreamData()->get(0);

@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\Comment\Node\View;
 
-class Base extends \Snap\Node\View {
+class Base extends \Snap\Node\Core\View {
 	
 	protected 
 		$comment, 

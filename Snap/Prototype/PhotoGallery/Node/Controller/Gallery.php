@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\PhotoGallery\Node\Controller;
 
-class Gallery extends \Snap\Node\Controller {
+class Gallery extends \Snap\Node\Core\Controller {
 	
 	protected
 		$gallery,

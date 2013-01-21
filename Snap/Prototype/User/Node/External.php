@@ -4,8 +4,8 @@ namespace Snap\Prototype\User\Node;
 
 use \Snap\Adapter\Db\Mysql;
 
-class External extends \Snap\Node\Form 
-	implements \Snap\Node\Consumer {
+class External extends \Snap\Node\Core\Form 
+	implements \Snap\Node\Core\Consumer {
 		
 	protected 
 		$external,
@@ -90,7 +90,7 @@ class External extends \Snap\Node\Form
 					
 					$info[USER_DISPLAY] = $proc->getValue(USER_DISPLAY);
 					
-					$this->messaging = new \Snap\Node\Block( array('tag' => 'div') );
+					$this->messaging = new \Snap\Node\Core\Block( array('tag' => 'div') );
 	        		if ( $rtn = $this->insertUser($id, $src, $info, $this->messaging ) ){
 	        			$sess->clear();
 	        		}

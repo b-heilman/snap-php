@@ -8,7 +8,7 @@ class Result extends \Snap\Lib\Form\Data\Group {
 	protected 
 		$nodes;
 	
-	public function __construct( \Snap\Node\Form $form = null ){
+	public function __construct( \Snap\Node\Core\Form $form = null ){
 		parent::__construct();
 		
 		$this->nodes = array();

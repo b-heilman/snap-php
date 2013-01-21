@@ -13,7 +13,7 @@ class Named extends \Snap\Lib\Template\Token {
 	}
 	
 	public function evaluate(){
-		$node = new \Snap\Node\Content( array(
+		$node = new \Snap\Node\Translation\Content( array(
 			'id'        => $this->id, 
 			'content'   => $this->content,
 			'unwrapped' => true,

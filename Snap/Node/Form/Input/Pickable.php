@@ -30,7 +30,7 @@ abstract class Pickable extends \Snap\Node\Form\Input\Basic {
     	return trim( $this->name, '[]' );
     }
     
-	public function getInput( \Snap\Node\Form $form ){
+	public function getInput( \Snap\Node\Core\Form $form ){
 		$name = $this->getName();
 		
 		if ( $form->wasFormSubmitted() ){

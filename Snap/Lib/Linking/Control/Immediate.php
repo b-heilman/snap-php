@@ -2,6 +2,7 @@
 
 namespace Snap\Lib\Linking\Control;
 
+// TODO : this should be removed ?
 class Immediate extends \Snap\Lib\Linking\Control\Basic {
 	public function setPrevData( array $data){
 		if ( isset($this->prevNode) && !empty($data) ){

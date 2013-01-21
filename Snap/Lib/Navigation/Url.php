@@ -2,6 +2,7 @@
 
 namespace Snap\Lib\Navigation;
 
+// TODO : this should move over to accessor shouldn't it?
 class Url {
 
 	protected 
@@ -28,16 +29,16 @@ class Url {
 		$this->currentValue = $input->readGet( $this->navVar );
 	}
 	
-	public function createLink( $value, $text = '' ){
-		$node = new \Snap\Node\Href( array(
-			'href' => '?'.$this->base.($this->base != ''?'&':'').$this->getControlVar().'='.urlencode($value)
-		) ); 
+	public function createLink( $value, $text = '', $class = '' ){
+		$e = new \Exception();
 		
-		if ( $text != '' ){
-			$node->write( $text );
-		}
+		error_log( $e->getTraceAsString() );
 		
-		return $node;
+		return array(
+			'class' => $class, 
+			'text'  => $text,
+			'href'  => '?'.$this->base.($this->base != ''?'&':'').$this->getControlVar().'='.urlencode($value)
+		);
 	}
 	
 	public function getBase(){

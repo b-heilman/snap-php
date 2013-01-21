@@ -62,7 +62,7 @@ class Stack {
 		}
 	}
 	
-	protected function _remove( Node\Snapable $in ){
+	protected function _remove( Node\Core\Snapable $in ){
 		unset( $in );
 	}
 	
@@ -86,7 +86,7 @@ class Stack {
 		while ( !empty($this->content) ){
 			$node = array_pop( $this->content );
 			
-			if ( $node instanceof Node\Snapping ){
+			if ( $node instanceof Node\Core\Snapping ){
 				$this->_remove( $node );
 			}
 		}

@@ -1,6 +1,6 @@
 <?php
 
-namespace Snap\Node;
+namespace Snap\Node\Core;
 
 interface Snapable extends \Snap\Lib\Core\Token {
 	public function __construct( $settings = array() );
@@ -16,8 +16,8 @@ interface Snapable extends \Snap\Lib\Core\Token {
 	public function hasId();
 	public function getId();
 	
-	public function setPage( \Snap\Node\Page $page );
-	public function setParent( \Snap\Node\Snapping $parent );
+	public function setPage( \Snap\Node\Core\Page $page );
+	public function setParent( \Snap\Node\Core\Snapping $parent );
 	public function getParent();
 	public function hasParent();
 	public function setExtender( \Snap\Lib\Node\Extender $extender );

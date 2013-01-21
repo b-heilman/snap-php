@@ -15,16 +15,16 @@ class Javascript extends Base
 		$local = array(), 
 		$libraries = array();
 	
-	protected function canHandle( Node\Snapable $node ){
+	protected function canHandle( Node\Core\Snapable $node ){
 		return ( 
-			$node instanceof Node\Actionable 
-			|| $node instanceof Node\Actionable\Dynamic
+			$node instanceof Node\Core\Actionable 
+			|| $node instanceof Node\Core\Actionable\Dynamic
 		);
 	}
 	
 	// TODO : Actionable is horrible, it should all be merged and the link type set by the class...
-	protected function _run( Node\Snapable $node ){
-		if ( $node instanceof Node\Actionable ){
+	protected function _run( Node\Core\Snapable $node ){
+		if ( $node instanceof Node\Core\Actionable ){
 			$actions = $node->getActions();
 			
 			if ( !is_array($actions) ){
@@ -46,7 +46,7 @@ class Javascript extends Base
 			}	
 		}
 
-		if ( $node instanceof Node\Actionable\Dynamic ){
+		if ( $node instanceof Node\Core\Actionable\Dynamic ){
 			$this->content .= '/* '.get_class($node)." */\n".$node->getJavascript()."\n";
 		}
 	}

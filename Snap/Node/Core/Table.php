@@ -1,8 +1,8 @@
 <?php
 
-namespace Snap\Node;
+namespace Snap\Node\Core;
 
-class Table extends \Snap\Node\Section{
+class Table extends \Snap\Node\Block {
 
 	protected 
 		$body,
@@ -24,7 +24,7 @@ class Table extends \Snap\Node\Section{
 		
 		parent::__construct( $settings );
 
-		parent::append( $this->body = new \Snap\Node\Block(array('tag' => 'tbody')) );
+		parent::append( $this->body = new \Snap\Node\Core\Block(array('tag' => 'tbody')) );
 
 		$this->cell = isset($settings['cellClass']) ? $settings['cellClass'] : 'dl-table-cell';
 		$this->colCount = 0;
@@ -96,7 +96,7 @@ class Table extends \Snap\Node\Section{
 	 * As rows are filled up, new ones are created.
 	 */
 	public function write( $txt, $class = '', $row = -1, $col = -1 ){
-		return $this->append( new \Snap\Node\Text(array(
+		return $this->append( new \Snap\Node\Core\Text(array(
 			'tag'   => 'span', 
 			'text'  => $txt, 
 			'class' => $class
@@ -115,12 +115,12 @@ class Table extends \Snap\Node\Section{
 			$j = $startJ;
 			
 			foreach( $r as $c ){
-				if ( $c instanceof \Snap\Node\Snapable ){
+				if ( $c instanceof \Snap\Node\Core\Snapable ){
 					$this->append( $c, $i, $j );
 				}elseif ( is_string($c) ) {
-					$this->append( new \Snap\Node\Text($c), $i, $j );
+					$this->append( new \Snap\Node\Core\Text($c), $i, $j );
 				}else{
-					$this->append( new \Snap\Node\Comment('nothing to see here') , $i, $j );
+					$this->append( new \Snap\Node\Core\Comment('nothing to see here') , $i, $j );
 				}
 				
 				$j++;
@@ -131,7 +131,7 @@ class Table extends \Snap\Node\Section{
 	}
 	
 	//TODO I need to do the prepend here, move most of this to pend
-	public function append( \Snap\Node\Snapable $in, $row = -1, $col = -1, $ref = null ){
+	public function append( \Snap\Node\Core\Snapable $in, $row = -1, $col = -1, $ref = null ){
 		$this->rendered = '';
 
 		if ( $in instanceof \Snap\Node\Table\Row ){
@@ -180,24 +180,6 @@ class Table extends \Snap\Node\Section{
 		}
 	}
 
-	public function setOrder($order){
-		if ( !$this->orderSet ){
-			$j = 0;
-
-			$this->body->inside->walk(function($el) use (&$j, &$order){
-		    	if ( $el instanceof \Snap\Node\Linear ){
-		    		$t = $el->setOrder($order);
-		            $order += $t;
-		            $j += $t;
-		        }
-		    });
-
-		    $this->orderSet = true;
-		}
-
-		return $j;
-    }
-
 	public function inner(){
 		if ( !empty($this->columns) ){
 			$co = count( $this->columns );
@@ -208,7 +190,7 @@ class Table extends \Snap\Node\Section{
 					
 					parent::append( $c );
 				}else{
-					parent::append( new \Snap\Node\Simple(array('tag'=>'col')) );
+					parent::append( new \Snap\Node\Core\Simple(array('tag'=>'col')) );
 				}
 			}
 		}

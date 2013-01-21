@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\Comment\Node\Form;
 
-class Delete extends \Snap\Node\ProducerForm {
+class Delete extends \Snap\Node\Core\ProducerForm {
 
 	protected 
 		$comment = null;

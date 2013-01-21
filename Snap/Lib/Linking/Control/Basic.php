@@ -5,6 +5,7 @@ namespace Snap\Lib\Linking\Control;
 
 use \Snap\Node;
 
+//TODO : this should be removed?
 class Basic extends \Snap\Node\Controller\Nav 
 	implements \Snap\Lib\Linking\Control {
 
@@ -18,7 +19,7 @@ class Basic extends \Snap\Node\Controller\Nav
 			'tag'   => 'ol',
 			'class' => 'prev-links linking_linkanator-nav'
 		)) );
-		$this->append( $this->currNode = new Node\Block(array(
+		$this->append( $this->currNode = new Node\Core\Block(array(
 			'tag'   => 'span', 
 			'class' => 'current-link linking_linkanator-nav'
 		)) );
@@ -70,12 +71,12 @@ class Basic extends \Snap\Node\Controller\Nav
 	
 	public function buildNavLink( $data ){
 		$link = $this->createLink( $data[linking_linkanator_INDEX] );
-		$link->append( new Node\Text(array(
+		$link->append( new Node\Core\Text(array(
 			'tag'   => 'span', 
 			'text'  => isset($data[linking_linkanator_TIME])?$data[linking_linkanator_TIME]:'', 
 			'class' => 'link-time'
 		)) );
-		$link->append( new Node\Text(array(
+		$link->append( new Node\Core\Text(array(
 			'tag'   => 'span', 
 			'text'  => $data[linking_linkanator_SHORT_TITLE], 
 			'class' => 'link-title'
@@ -90,13 +91,13 @@ class Basic extends \Snap\Node\Controller\Nav
 			'class' => 'linking_linkanator-nav-title'
 		));
 		
-			$title->append( new Node\Text(array(
+			$title->append( new Node\Core\Text(array(
 				'tag'   => 'span', 
 				'text'  => isset($data[linking_linkanator_TIME])?$data[linking_linkanator_TIME]:'', 
 				'class' => 'link-time'
 			)) );
 			
-			$title->append( new Node\Text(array(
+			$title->append( new Node\Core\Text(array(
 				'tag'   => 'span', 
 				'text'  => $data[linking_linkanator_SHORT_TITLE], 
 				'class' => 'link-title'
@@ -111,7 +112,7 @@ class Basic extends \Snap\Node\Controller\Nav
 		return $link;
 	}
 	
-	protected function modifyTitle( Node\Snapable $title, array $data ){
+	protected function modifyTitle( Node\Core\Snapable $title, array $data ){
 		$title->addClass('showing');
 		
 		return $title;

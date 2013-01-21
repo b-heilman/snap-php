@@ -2,6 +2,7 @@
 
 namespace Snap\Lib\Markup\Token;
 
+// TODO : ancient code
 class Factory implements \Snap\Lib\Token\Factory {
 
 	protected 
@@ -18,29 +19,7 @@ class Factory implements \Snap\Lib\Token\Factory {
 			$translatorClass = '\Snap\Lib\Markup\Translator';
 			
 		if ( $type == '*' || $type == '#' ){
-			$list = new list_node( array('tag'=>($type == '*' ? 'ul' : 'ol')) );
-			
-			$translator = new $translatorClass(false);
-			$translator->translate( $proto->getContent() );
-			
-			$stack = $translator->getStack();
-			
-			$c = $stack->count();
-			$last = null;
-			
-			for( $i = 0; $i < $c; ++$i ){
-				$el = $stack->get( $i );
-				
-				if ( $el instanceof \Snap\Node\Listed ){
-					if ( $last == null ){
-						throw new \Exception('You can not start a sub list on the first element');
-					}else{
-						$last->append( $el );
-					}
-				}elseif ( $el instanceof \Snap\Node\Snapable ){
-					$last = $list->append( $el );
-				}
-			}
+			throw new Exception('this was all old, need to redo');
 			
 			return $list;
 		}elseif( $type == '=' ){
@@ -49,12 +28,12 @@ class Factory implements \Snap\Lib\Token\Factory {
 			$content = $proto->getContent();
 			
 			if ( is_string($content) ){
-				return new \Snap\Node\Text(array(
+				return new \Snap\Node\Core\Text(array(
 					'text'  => trim($content), 
 					'tag'   => 'p',
 					'class' => 'markup-paragraph'
 				));
-			}elseif( $content instanceof \Snap\Node\Snapable ){
+			}elseif( $content instanceof \Snap\Node\Core\Snapable ){
 				return $content;
 			}elseif( $content instanceof \Snap\Lib\Core\Stack ){
 				$rtn = new block_node(array(
@@ -65,7 +44,7 @@ class Factory implements \Snap\Lib\Token\Factory {
 				for( $i = 0; $i < $content->count(); $i++ ){
 					$el = $content->get($i);
 					
-					if ( $el instanceof \Snap\Node\Snapable ){
+					if ( $el instanceof \Snap\Node\Core\Snapable ){
 						$rtn->append( $el );
 					}elseif( is_string($el) ){
 						$rtn->write( $el );

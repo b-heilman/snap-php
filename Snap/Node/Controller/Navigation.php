@@ -2,7 +2,7 @@
 
 namespace Snap\Node\Controller;
 
-class Navigation extends \Snap\Node\Controller {
+class Navigation extends \Snap\Node\Core\Controller {
 	
 	protected 
 		$url;

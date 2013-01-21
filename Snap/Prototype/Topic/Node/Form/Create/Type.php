@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\Topic\Node\Form\Create;
 
-class Type extends \Snap\Node\Form{
+class Type extends \Snap\Node\Core\Form{
 
 	protected 
 		$topics_new_form_proto = false;
@@ -14,16 +14,16 @@ class Type extends \Snap\Node\Form{
 			);
 			
 			if ( \Snap\Prototype\Topic\Lib\Type::create($info) ){
-				$this->prepend( new \Snap\Node\Text('topics_element_proto type created') );
+				$this->prepend( new \Snap\Node\Core\Text('topics_element_proto type created') );
 				$this->reset();
 			}else{
-				$this->prepend( new \Snap\Node\Text(array(
+				$this->prepend( new \Snap\Node\Core\Text(array(
 					'text'  => 'Error creating topic type',
 					'class' => 'error'
 				)) );
 			}
 		}else{
-			$this->prepend( new \Snap\Node\Text(array(
+			$this->prepend( new \Snap\Node\Core\Text(array(
 				'text'  => 'You topic type was blank',
 				'class' => 'error'
 			)) );

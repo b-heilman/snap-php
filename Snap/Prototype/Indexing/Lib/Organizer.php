@@ -353,7 +353,7 @@ class Organizer {
 			$target = '';
 		}
 
-		if ( $target instanceof \Snap\Node\Page ){
+		if ( $target instanceof \Snap\Node\Core\Page ){
 			$target->setPageData( $node->getSetting() + $data );
 		}
 		
@@ -361,7 +361,7 @@ class Organizer {
 	}
 
 	protected function output( $html ){
-		if ( $html instanceof \Snap\Node\Page ){
+		if ( $html instanceof \Snap\Node\Core\Page ){
 			$html->serve();
 		}else{
 			echo $html;
@@ -369,12 +369,8 @@ class Organizer {
 	}
 
 	protected function express( $ele, Point $node ){
-		if ( !($ele instanceof \Snap\Node\Page) ){
-			$t = new \Snap\Node\Page\Basic();
-
-			$t->append( $ele );
-
-			$ele = $t;
+		if ( !($ele instanceof \Snap\Node\Core\Page) ){
+			throw new Exception('It needs to be a page passed into the '.get_class($this) );
 		}
 		
 		$ele->setTitle( $node->getSetting('title') );

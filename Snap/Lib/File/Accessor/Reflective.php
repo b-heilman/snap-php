@@ -23,7 +23,7 @@ class Reflective
 		return class_exists( $this->class ) && array_search( 'Snap\Node\Accessor\Reflective', class_implements($this->class) );
 	}
 	
-	public function getContent( \Snap\Node\Page $page ){
+	public function getContent( \Snap\Node\Core\Page $page ){
 		$class = $this->class;
 		
 		$page->append( new $class($this->data) );

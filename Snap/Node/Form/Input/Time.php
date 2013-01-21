@@ -2,7 +2,7 @@
 
 namespace Snap\Node\Form\Input;
 
-class Time extends \Snap\Node\Block 
+class Time extends \Snap\Node\Core\Block 
 	implements \Snap\Node\Form\WrappableInput {
 	
 	protected 
@@ -79,7 +79,7 @@ class Time extends \Snap\Node\Block
 		)) );
 	}
 
-	public function setWrapper( \Snap\Node\Snapable $node ){
+	public function setWrapper( \Snap\Node\Core\Snapable $node ){
 		$this->wrapper = null;
 	}
 	
@@ -117,7 +117,7 @@ class Time extends \Snap\Node\Block
 		$this->tog->reset();
 	}
 
-	public function getInput( \Snap\Node\Form $form ){
+	public function getInput( \Snap\Node\Core\Form $form ){
 	    $h = $this->hour->getInput( $form );
 		$hour = ( (int)$h->getValue() );
 		if ( $h->error ){

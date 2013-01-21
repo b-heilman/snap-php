@@ -2,7 +2,8 @@
 
 namespace Snap\Node\Form;
 
-class Table extends \Snap\Node\Block 
+// TODO : Why doesn't this extend table?
+class Table extends \Snap\Node\Core\Block 
 	implements \Snap\Node\Form\Input {
 	
 	private 
@@ -67,7 +68,7 @@ class Table extends \Snap\Node\Block
 			$headers = $this->tableInfo['headers'];
 			$cols  = count($headers);
 
-			$this->append( $this->table = new \Snap\Node\Table(array(
+			$this->append( $this->table = new \Snap\Node\Core\Table(array(
 				'id'      => $this->id.'_tbl', 
 				'columns' => $cols, 
 				'class'   => 'input_table'
@@ -243,7 +244,7 @@ class Table extends \Snap\Node\Block
 		// TODO : yeah, gotta
 	}
 	
-	public function getInput( \Snap\Node\Form $form ) {
+	public function getInput( \Snap\Node\Core\Form $form ) {
 	    $inputs = &$this->inputs;
 
 	    $c = count($inputs);

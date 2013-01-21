@@ -2,7 +2,7 @@
 
 namespace Snap\Node\Form\Input;
 
-class File extends \Snap\Node\Simple 
+class File extends \Snap\Node\Core\Simple 
 	implements \Snap\Node\Form\WrappableInput {
 	
 	protected 
@@ -27,7 +27,7 @@ class File extends \Snap\Node\Simple
 		return 'file';
 	}
 	
-	public function setWrapper( \Snap\Node\Snapable $node ){
+	public function setWrapper( \Snap\Node\Core\Snapable $node ){
 		$this->wrapper = null;
 	}
 	
@@ -47,7 +47,7 @@ class File extends \Snap\Node\Simple
 		$this->file->hasChanged();
 	}
 	
-	public function getInput( \Snap\Node\Form $form ){
+	public function getInput( \Snap\Node\Core\Form $form ){
 		$name = $this->file->getName();
 		
 		if ( isset($_FILES[$name]) ){
@@ -97,7 +97,7 @@ class File extends \Snap\Node\Simple
     protected function getAttributes() {
     	//throw new \Exception();
     	
-    	$form = $this->closest('\Snap\Node\Form');
+    	$form = $this->closest('\Snap\Node\Core\Form');
 		$form->setEncoding('multipart/form-data'); // TODO : gotta do a build on this
 		
     	return parent::getAttributes().' type="file" '."name=\"{$this->file->getName()}\"";

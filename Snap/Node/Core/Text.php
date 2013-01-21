@@ -1,6 +1,7 @@
 <?php
 
-namespace Snap\Node;
+namespace Snap\Node\Core;
+
 // HTML objects that are supposed to contain only text.  Generally h1-h5, span, p, pre tags
 class Text extends Simple {
 	

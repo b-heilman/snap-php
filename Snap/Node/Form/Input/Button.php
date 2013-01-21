@@ -29,7 +29,7 @@ class Button extends \Snap\Node\Form\Input\Pickable {
 	public function changeText( $text ){
 		$this->clear();
 		
-		if ( is_object($text) && $text instanceof \Snap\Node\Snapable ){
+		if ( is_object($text) && $text instanceof \Snap\Node\Core\Snapable ){
 			$this->append( $text );
 		}else{
     		$this->write( $text );

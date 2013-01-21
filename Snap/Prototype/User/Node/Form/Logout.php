@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\User\Node\Form;
 
-class Logout extends \Snap\Node\ProducerForm {
+class Logout extends \Snap\Node\Core\ProducerForm {
 	
 	public function getOuputStream(){
 		return 'user_logout';

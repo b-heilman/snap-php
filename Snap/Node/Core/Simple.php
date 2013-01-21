@@ -1,9 +1,9 @@
 <?php
 // inline HTML objects, such as scripts or inputs
-namespace Snap\Node;
+namespace Snap\Node\Core;
 
 class Simple extends \Snap\Lib\Core\StdObject
-	implements \Snap\Node\Snapable {
+	implements \Snap\Node\Core\Snapable {
 	// TODO : the id shit needs to be cleaned up
 	protected static
 		$logs = array();
@@ -151,12 +151,12 @@ class Simple extends \Snap\Lib\Core\StdObject
 		return $this->id;
 	}
 	
-	public function setPage( \Snap\Node\Page $page ){
+	public function setPage( \Snap\Node\Core\Page $page ){
 		$this->page = $page;
 	}
 	
 	// add this element to the DOM
-	public function setParent( \Snap\Node\Snapping $parent ){
+	public function setParent( \Snap\Node\Core\Snapping $parent ){
 		$this->parent = $parent; // One parent... screw it
 	}
 

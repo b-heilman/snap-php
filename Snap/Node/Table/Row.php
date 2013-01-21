@@ -2,9 +2,11 @@
 // table row element used for building tables
 namespace Snap\Node\Table;
 
-use Snap\Node;
+use 
+	Snap\Node;
 
-class Row extends \Snap\Node\Linear {
+// TODO : used to be Linear, need to clean up
+class Row extends \Snap\Node\Core\Block {
 
 	public 
 		$cell,
@@ -38,28 +40,28 @@ class Row extends \Snap\Node\Linear {
 	public function growTo( $size ){
 		while( $this->childCount() < $size ){
 			if ($this->header){
-				parent::append( new Node\Block(array('tag'=>'th','class'=>$this->cell)) );
+				parent::append( new Node\Core\Block(array('tag'=>'th','class'=>$this->cell)) );
 			}else{
-				parent::append( new Node\Block(array('tag'=>'td','class'=>$this->cell)) );
+				parent::append( new Node\Core\Block(array('tag'=>'td','class'=>$this->cell)) );
 			}
 		}
 	}
 
 	public function write( $txt, $class = '', $place = -1 ){
 		$settings = array( 'text' => $txt, 'class' => $class, 'tag' => 'span' );
-		return $this->append( new Node\Text($settings), $place);
+		return $this->append( new Node\Core\Text($settings), $place);
 	}
 
 	// childwrap is used here to wrap all elements passed in into a table cell or header
 	// TODO what about prepend?
-	public function append( Node\Snapable $in, $place = -1, $ref = null ){
+	public function append( Node\Core\Snapable $in, $place = -1, $ref = null ){
 		if ( $place == -1 ){
 			$i = ++$this->lastWrite;
 			if ( $i == $this->childCount() ) {
 				if ($this->header){
-					parent::append( $e = new Node\Block(array('tag'=>'th','class'=>$this->cell)) );
+					parent::append( $e = new Node\Core\Block(array('tag'=>'th','class'=>$this->cell)) );
 				}else{
-					parent::append( $e = new Node\Block(array('tag'=>'td','class'=>$this->cell)) );
+					parent::append( $e = new Node\Core\Block(array('tag'=>'td','class'=>$this->cell)) );
 				}
 			}else{
 				$e = $this->inside->get($i);

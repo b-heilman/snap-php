@@ -1,6 +1,6 @@
 <?php
 
-namespace Snap\Node\Actionable;
+namespace Snap\Node\Core\Actionable;
 
 interface Dynamic {
 	public function getJavascript();

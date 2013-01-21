@@ -3,7 +3,8 @@
 // Form row objects.  Keeps form elements in line and handles the formatting of the form.
 namespace Snap\Node\Form;
 
-class Row extends \Snap\Node\Linear {
+// TODO : this should be taken away
+class Row extends \Snap\Node\Core\Block {
 	
 	protected 
 		$alignment, 
@@ -36,7 +37,7 @@ class Row extends \Snap\Node\Linear {
 	
 	// only form elements are allowed to be in a form_row
 	// TODO append / prepend / pend
-	public function append( \Snap\Node\Snapable $in, $width = 1, $ref = null ){
+	public function append( \Snap\Node\Core\Snapable $in, $width = 1, $ref = null ){
 		// i think this needs to be fixed...
 		parent::append($in);
 
@@ -50,7 +51,7 @@ class Row extends \Snap\Node\Linear {
 		parent::_finalize();
 		
 		if ( $this->header ){
-			parent::prepend( new \Snap\Node\Text(array('tag'=>'h5','text'=>$this->header)), true );
+			parent::prepend( new \Snap\Node\Core\Text(array('tag'=>'h5','text'=>$this->header)), true );
 		}
 	}
 }

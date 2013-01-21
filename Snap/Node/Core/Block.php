@@ -1,14 +1,14 @@
 <?php
 // This of the class for box and collection objects.
 
-namespace Snap\Node;
+namespace Snap\Node\Core;
 
 use 
-	\Snap\Node\Snapable,
-	\Snap\Node\Text;
+	\Snap\Node\Core\Snapable,
+	\Snap\Node\Core\Text;
 
-class Block extends \Snap\Node\Simple 
-	implements \Snap\Node\Snapping, \Snap\Node\Processable, \Snap\Node\Finalizable {
+class Block extends \Snap\Node\Core\Simple 
+	implements \Snap\Node\Core\Snapping, \Snap\Node\Core\Processable, \Snap\Node\Core\Finalizable {
 		
 	private static 
 		$factory = null;
@@ -258,7 +258,7 @@ class Block extends \Snap\Node\Simple
 		
 		$addition = '';
 		
-		if ( $this instanceof \Snap\Node\Actionable\Inline ){
+		if ( $this instanceof \Snap\Node\Core\Actionable\Inline ){
 			$inline = $this->getInlineJavascript();
 			if ( $inline && is_string($inline) ){
 				$addition = "\n<script type='text/javascript'>{$inline}</script>";

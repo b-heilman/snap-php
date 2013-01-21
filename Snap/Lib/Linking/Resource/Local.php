@@ -9,7 +9,7 @@ class Local {
 		$resouce,
 		$file;
 	
-	public function __construct( \Snap\Node\Page $page, $resource, $file = null ){
+	public function __construct( \Snap\Node\Core\Page $page, $resource, $file = null ){
 		$this->page = $page;
 		
 		if ( $file == null ){

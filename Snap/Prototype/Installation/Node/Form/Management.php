@@ -2,8 +2,8 @@
 
 namespace Snap\Prototype\Installation\Node\Form;
 
-class Management extends \Snap\Node\Form 
-	implements \Snap\Node\Styleable {
+class Management extends \Snap\Node\Core\Form 
+	implements \Snap\Node\Core\Styleable {
 	
 	public function getStyles(){
 		return array(

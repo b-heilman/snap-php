@@ -1,6 +1,6 @@
 <?php
 
-namespace Snap\Node;
+namespace Snap\Node\Core;
 
 interface Page {
 	public function setTitle( $title );

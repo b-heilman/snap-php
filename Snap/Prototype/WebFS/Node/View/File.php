@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\WebFs\Node\View;
 
-class File extends \Snap\Node\View {
+class File extends \Snap\Node\Core\View {
 	
 	protected function baseClass(){
 		return 'file-view';

@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\User\Node\Form;
 
-class Access extends \Snap\Node\ProducerForm {
+class Access extends \Snap\Node\Core\ProducerForm {
 	
 	protected function _finalize(){
 		parent::_finalize();

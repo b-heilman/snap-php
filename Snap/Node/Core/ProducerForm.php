@@ -1,71 +1,48 @@
 <?php
 
-namespace Snap\Node;
+namespace Snap\Node\Core;
 
-abstract class Controller extends \Snap\Node\Comment 
-	implements \Snap\Node\Producer {
+// TODO : move this somewhere better than core
+class ProducerForm extends Form
+	implements Producer {
 		
 	protected 
 		$outputStream, 
 		$produced = false,
 		$streamer = null,
 		$factory = null;
-	
-	protected function parseSettings( $settings ){
+		
+	protected function parseSettings( $settings = array() ){
 		$this->outputStream = isset($settings['outputStream']) 
-			? $settings['outputStream']
-			: ( isset($settings['stream']) 
-				? $settings['stream'] 
-				: $this->defaultStreamName() 
-			);
+			? $settings['outputStream'] : ( isset($settings['stream']) ? $settings['stream'] : $this->defaultStreamName() );
 			
 		$this->factory = isset($settings['factory']) ? $settings['factory'] : $this->defaultFactory();
 		
 		parent::parseSettings( $settings );
 	}
 	
-	public static function getSettings(){
-		return parent::getSettings() + array(
-			'factory'       => 'factory to pass around, defaults to mvc_view_factory',
-			'outputStream'  => 'the stream feeding to, defaults to name of class'
-		);
-	}
-	
 	public function getOuputStream(){
 		return $this->outputStream;
 	}
-
+	
 	public function setStreamer( \Snap\Lib\Streams\Streamer $streamer ){
 		$this->streamer = $streamer;
 	}
 	
 	public function hasStreamer(){
-		return !is_null( $this->streamer );
+		return !is_null($this->streamer);
 	}
 	
 	public function hasProduced(){
-		return $this->produced !== false;
+		return $this->processResult !== false;
 	}
 	
 	public function produceStream(){
-		if ( $this->produced === false ){
-			if ( $this->comment == null ){
-				$this->comment = 'output stream : '.$this->outputStream;
-			}
-			
-			$this->produced = $this->_produce();
+		if ( $this->processResult === false ){
+			$this->_process();
 		}
 		
-		return $this->produced;
-	}
-	
-	/**
-	 * @return \Snap\Lib\Mvc\Data
-	 */	
-	abstract protected function makeData();
-	
-	private function _produce(){
-		return $this->cleanOutput( $this->makeData() );	
+		return $this->cleanOutput( new \Snap\Lib\Mvc\Data\Instance($this->processResult) );
 	}
 	
 	/**

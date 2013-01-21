@@ -3,8 +3,8 @@
 namespace Snap\Lib\Streams;
 
 use 
-	\Snap\Node\Consumer,
-	\Snap\Node\Producer,
+	\Snap\Node\Core\Consumer,
+	\Snap\Node\Core\Producer,
 	\Snap\Lib\Streams\WaitingQueue,
 	\Snap\Lib\Streams\Request;
 
@@ -111,7 +111,7 @@ class Streamer {
 		foreach( $ready as $request ){
 			$master = $request->getMaster();
 			
-			if ( $master instanceof \Snap\Node\Producer ){
+			if ( $master instanceof \Snap\Node\Core\Producer ){
 				$this->produceNode( $master );
 			}else{
 				$this->forceConsume( $master, $request);

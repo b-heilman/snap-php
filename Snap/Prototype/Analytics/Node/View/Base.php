@@ -2,8 +2,8 @@
 
 namespace Snap\Analytics\Node\View;
 
-class Base extends \Snap\Node\Block 
-	implements \Snap\Node\Styleable {
+class Base extends \Snap\Node\Core\Block 
+	implements \Snap\Node\Core\Styleable {
 	
 	protected 
 		$paging_paginator;

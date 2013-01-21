@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\User\Node\Form;
 
-class Login extends \Snap\Node\ProducerForm {
+class Login extends \Snap\Node\Core\ProducerForm {
 	
 	public function getOuputStream(){
 		return 'user_login';

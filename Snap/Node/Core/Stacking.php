@@ -1,6 +1,6 @@
 <?php
 
-namespace Snap\Node;
+namespace Snap\Node\Core;
 
 interface Stacking {
 	public function getStack();

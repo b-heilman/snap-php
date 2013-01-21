@@ -2,7 +2,7 @@
 
 namespace Snap\Node\Controller;
 
-abstract class Query extends \Snap\Node\Controller {
+abstract class Query extends \Snap\Node\Core\Controller {
 	
 	private 
 		$executable;

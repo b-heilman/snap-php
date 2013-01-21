@@ -7,7 +7,7 @@ class Factory {
 	protected 
 		$controller = null;
 	
-	public function __construct( \Snap\Node\Producer $controller ){
+	public function __construct( \Snap\Node\Core\Producer $controller ){
 		$this->master = $controller;
 	}
 	

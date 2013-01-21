@@ -3,7 +3,7 @@
 namespace Snap\Lib\Node;
 
 class StackFactory {
-	public function makeStack( \Snap\Node\Snapable $node ){
+	public function makeStack( \Snap\Node\Core\Snapable $node ){
 		return new Stack( $node, $this->makeExtender() );
 	}
 	

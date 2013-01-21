@@ -3,8 +3,8 @@
 namespace Snap\Node\Controller;
 
 // abstract because it still needs to define makeData, which takes in a \Snap\Lib\Mvc\Control and returns a \Snap\Lib\Mvc\Control
-abstract class Converter extends \Snap\Node\Controller 
-	implements \Snap\Node\Consumer {
+abstract class Converter extends \Snap\Node\Core\Controller 
+	implements \Snap\Node\Core\Consumer {
 		
 	protected 
 		$waitingQueue = null,

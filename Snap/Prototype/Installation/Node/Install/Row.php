@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\Installation\Node\Install;
 
-class Row extends \Snap\Node\ProducerForm {
+class Row extends \Snap\Node\Core\ProducerForm {
 	
 	protected 
 		$prototype;

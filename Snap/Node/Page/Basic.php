@@ -4,8 +4,8 @@ namespace Snap\Node\Page;
 
 use Snap\Node;
 
-abstract class Basic extends Node\Template 
-	implements Node\Page, Node\Actionable, Node\Styleable {
+abstract class Basic extends Node\Core\Template 
+	implements Node\Core\Page, Node\Core\Actionable, Node\Core\Styleable {
 		
 	protected 
 		$mode,
@@ -48,7 +48,7 @@ abstract class Basic extends Node\Template
 		parent::parseSettings( $settings );
 	}
 	
-	protected function takeControl( \Snap\Node\Snapable $in ){
+	protected function takeControl( \Snap\Node\Core\Snapable $in ){
 		// Nothing should be above the page
 		$in->setPage( $this );
 	}

@@ -55,7 +55,7 @@ class Tokenizer implements \Snap\Lib\Core\Tokenizer{
 				}
 			}elseif( strlen($next) == 0 ){
 				$action = '=';
-				$cmd = new \Snap\Node\Simple( array('tag' => 'br') );
+				$cmd = new \Snap\Node\Core\Simple( array('tag' => 'br') );
 			}else{
 				$action = '';
 				$cmd = $next;

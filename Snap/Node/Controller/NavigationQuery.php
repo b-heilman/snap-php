@@ -2,7 +2,7 @@
 
 namespace Snap\Node\Controller;
 
-abstract class NavigationQuery extends \Snap\Node\Controller\Query {
+abstract class NavigationQuery extends Query {
 	
 	protected 
 		$url,
