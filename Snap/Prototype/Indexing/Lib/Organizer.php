@@ -361,28 +361,24 @@ class Organizer {
 	}
 
 	protected function output( $html ){
-		\Snap\Lib\Core\Session::save();
-		
-		echo $html;
+		if ( $html instanceof \Snap\Node\Page ){
+			$html->serve();
+		}else{
+			echo $html;
+		}
 	}
 
 	protected function express( $ele, Point $node ){
-		if ( is_object($ele) ){
-			if ( !($ele instanceof \Snap\Node\Page) ){
-				$t = new \Snap\Node\Page\Basic();
+		if ( !($ele instanceof \Snap\Node\Page) ){
+			$t = new \Snap\Node\Page\Basic();
 
-				$t->append( $ele );
+			$t->append( $ele );
 
-				$ele = $t;
-			}
-			
-			$ele->setTitle( $node->getSetting('title') );
-			
-			$res = $ele->toString();
-		}else{
-			$res = $ele;
+			$ele = $t;
 		}
-
-		return $res;
+		
+		$ele->setTitle( $node->getSetting('title') );
+		
+		return $ele;
 	}
 }
