@@ -11,17 +11,22 @@
 
 .carousel-viewport .carousel-close {
 	position: absolute;
-	top : 0px;
-	right : 0px;
-	width: 16px;
-	height: 16px;
-	background-color: red;
+	top : -8px;
+	right : -8px;
+	background: url('imgs/close.png') no-repeat center center;
+	width: 31px;
+	height: 31px;
+	text-indent: -9999px;
 }
 
 .carousel-viewport .slide-left {
 	position: absolute;
 	top : 100%;
 	left : 0px;
+	background: url('imgs/left.png') no-repeat center center;
+	height: 30px;
+	width: 60px;
+	text-indent: -9999px;
 }
 
 .no-left .slide-left {
@@ -32,6 +37,10 @@
 	position: absolute;
 	top : 100%;
 	right : 0px;
+	background: url('imgs/right.png') no-repeat center center;
+	height: 30px;
+	width: 60px;
+	text-indent: -9999px;
 }
 
 .no-right .slide-right {
