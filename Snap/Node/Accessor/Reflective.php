@@ -2,4 +2,4 @@
 
 namespace Snap\Node\Accessor;
 
-interface Ajax {}
+interface Reflective {}

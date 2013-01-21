@@ -2,7 +2,7 @@
 
 namespace Snap\Lib\File\Accessor;
 
-class Ajax 
+class Reflective 
 	implements \Snap\Lib\File\Accessor {
 	
 	protected
@@ -12,7 +12,7 @@ class Ajax
 	public function __construct( $class, $data = null ){
 		if ( $data == null ){
 			$this->class = str_replace( '/','\\', $class );
-			$this->data = json_decode( $_GET['__ajaxInit'], true );
+			$this->data = json_decode( $_GET['__reflectiveInit'], true );
 		}else{
 			$this->class = $class;
 			$this->data = $data;
@@ -20,7 +20,7 @@ class Ajax
 	}
 	
 	public function isValid(){
-		return class_exists( $this->class ) && array_search( 'Snap\Node\Accessor\Ajax', class_implements($this->class) );
+		return class_exists( $this->class ) && array_search( 'Snap\Node\Accessor\Reflective', class_implements($this->class) );
 	}
 	
 	public function getContent( \Snap\Node\Page $page ){
@@ -32,7 +32,7 @@ class Ajax
 	}
 	
 	public function getLink( $root ){
-		return $root.str_replace( '\\','/', $this->class ).'?__ajaxInit='.urlencode( json_encode($this->data) );
+		return $root.str_replace( '\\','/', $this->class ).'?__reflectiveInit='.urlencode( json_encode($this->data) );
 	}
 	
 	public function getContentType(){

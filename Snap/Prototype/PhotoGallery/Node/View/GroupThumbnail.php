@@ -30,7 +30,7 @@ class GroupThumbnail extends \Snap\Node\View
 		return array(
 			'src'   => $manager->makeLink( $group->getIconAccessor() ),
 			'link'  => $manager->makeLink(
-				new \Snap\Lib\File\Accessor\Ajax( '\Snap\Prototype\PhotoGallery\Node\View\Group', array(
+				new \Snap\Lib\File\Accessor\Reflective( '\Snap\Prototype\PhotoGallery\Node\View\Group', array(
 					'accessor' => get_class($accessor),
 					'root'     => $accessor->getPath()
 				))

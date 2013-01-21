@@ -10,7 +10,7 @@ class Manager extends \Snap\Lib\Core\StdObject {
 	
 	static protected
 		$accessors = array(
-			'__ajax'     => 'Snap\Lib\File\Accessor\Ajax',
+			'__reflect'  => 'Snap\Lib\File\Accessor\Reflective',
 			'__document' => 'Snap\Lib\File\Accessor\Document',
 			'__resource' => 'Snap\Lib\File\Accessor\Resource',
 			'__www'      => 'Snap\Lib\File\Accessor\Web'
