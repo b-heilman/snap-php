@@ -11,7 +11,7 @@
 		if ( $.fn.tinymce ){
 			$('textarea').tinymce({
 				// Location of TinyMCE script
-				script_url : '/js_lib/Snap/Prototype/Blogging/Javascript/tiny_mce/tiny_mce.js',
+				script_url : '/index.php/__resource/Snap/Prototype/Blogging/Javascript/tiny_mce/tiny_mce.js',
 		
 				// General options
 				theme : "advanced",

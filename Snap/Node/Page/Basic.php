@@ -117,12 +117,29 @@ abstract class Basic extends Node\Template
 	}
 	
 	public function serve(){
-		$manager = new \Snap\Lib\File\Manager( true ); // populate from $_GET
+		$tmp = null;
+		$path = static::$pagePath;
 		
-		if ( $manager->getMode() ){
-			$this->loadHeaders( $manager->getAccessor()->getContentType() );
-			$tmp = $manager->getContent( $this );
-		}else{
+		if ( strlen($path) > 0 ){
+			$pos = strpos( $path, '/', 1 );
+			
+			if ( $pos !== false ){
+				$info = substr( $path, $pos+1 );
+				$mode = substr( $path, 1, $pos-1 );
+			}else{
+				$mode = substr( $path, 1 );
+				$info = '';
+			}
+			
+			$manager = new \Snap\Lib\File\Manager( $mode, $info ); // populate from $_GET
+			
+			if ( $manager->getMode() ){
+				$this->loadHeaders( $manager->getAccessor()->getContentType() );
+				$tmp = $manager->getContent( $this );
+			}
+		}
+		
+		if ( is_null($tmp) ){
 			$tmp = $this->html();
 		}
 		

@@ -10,30 +10,29 @@ class Manager extends \Snap\Lib\Core\StdObject {
 	
 	static protected
 		$accessors = array(
-			'ajax'     => 'Snap\Lib\File\Accessor\Ajax',
-			'document' => 'Snap\Lib\File\Accessor\Document',
-			'resource' => 'Snap\Lib\File\Accessor\Resource',
-			'www'      => 'Snap\Lib\File\Accessor\Web'
+			'__ajax'     => 'Snap\Lib\File\Accessor\Ajax',
+			'__document' => 'Snap\Lib\File\Accessor\Document',
+			'__resource' => 'Snap\Lib\File\Accessor\Resource',
+			'__www'      => 'Snap\Lib\File\Accessor\Web'
 		),
 		$lookUp = null;
 	
-	public function __construct( $autoload = false ){
+	public function __construct( $accessor = null, $info = null ){
 		parent::__construct();
 		
 		if ( self::$lookUp == null ){
 			self::$lookUp = array_flip( self::$accessors );
 		}
 		
-		if ( $autoload ){
-			if ( is_object($autoload) ){
-				$this->setAccessor( $autoload );
-			}elseif( isset($_GET['__service']) ){
-				$mode = $_GET['__service'];
-				$class = '\\'.self::$accessors[$mode];
+		if ( $accessor ){
+			if ( is_object($accessor) ){
+				$this->setAccessor( $accessor );
+			}elseif( isset(self::$accessors[$accessor]) ){
+				$class = '\\'.self::$accessors[$accessor];
 			
 				if ( class_exists( $class ) ){
 					// calling an accessor this way, it autoloads itself
-					$this->setAccessor( new $class() );
+					$this->setAccessor( new $class($info) );
 				}
 			}
 		}
@@ -89,7 +88,7 @@ class Manager extends \Snap\Lib\Core\StdObject {
 		}
 		
 		if ( $this->accessor->isValid() ){
-			return $this->accessor->getLink( static::$pageUrl.'?__service='.$this->mode.'&' );
+			return $this->accessor->getLink( static::$pageUrl.'/'.$this->mode.'/' );
 		}else return null;
 	}
 }

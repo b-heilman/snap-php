@@ -9,9 +9,9 @@ class Ajax
 		$class,
 		$data;
 	
-	public function __construct( $class = null, $data = null ){
-		if ( $class == null ){
-			$this->class = $_GET[ '__ajaxClass' ];
+	public function __construct( $class, $data = null ){
+		if ( $data == null ){
+			$this->class = str_replace( '/','\\', $class );
 			$this->data = json_decode( $_GET['__ajaxInit'], true );
 		}else{
 			$this->class = $class;
@@ -32,8 +32,7 @@ class Ajax
 	}
 	
 	public function getLink( $root ){
-		return $root.'__ajaxClass='.urlencode( $this->class )
-			.'&__ajaxInit='.urlencode( json_encode($this->data) );
+		return $root.str_replace( '\\','/', $this->class ).'?__ajaxInit='.urlencode( json_encode($this->data) );
 	}
 	
 	public function getContentType(){

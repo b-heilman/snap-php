@@ -5,6 +5,8 @@ namespace Snap\Lib\Core;
 class StdObject {
 	static protected 
 		$pageUrl = null,
+		$pageRename,
+		$pagePath,
 		$projectRoot,
 		$phpRoot,
 		$webRoot,
@@ -12,7 +14,7 @@ class StdObject {
 		$phpLibraries = array();
 	
 	public function __construct(){
-		if ( static::$pageUrl == null ){
+		if ( self::$pageUrl == null ){
 			static::loadAll();
 		}
 	}
@@ -22,28 +24,28 @@ class StdObject {
 	}
 	
 	static protected function loadVariables(){
-		if ( isset($_SERVER['REDIRECT_URL']) ){
-			// REDIRECT_URL - PHP_SELF
-			// http://localhost/test/ym/something/or/other?woot=1
-			// '/test/ym/something/or/other' - '/redirect.php'
-			// /ym/something/or/other
-		
-			$find = explode( '/', $_SERVER['PHP_SELF']  );
-			$path = explode( '/', $_SERVER['REDIRECT_URL'], count($find) + 1 );
-		
-			$basePath = array_pop( $path );
-		}elseif( isset($_SERVER['PATH_INFO']) ){
-			// PATH_INFO
-			// http://localhost/test/index.php/ym/something/or/other?woot=1
-			// /ym/something/or/other
-			$basePath = $_SERVER['PATH_INFO'];
+		if ( isset($_SERVER['PATH_INFO']) ){
+			// direct access to script
+			
+			static::$pagePath = $_SERVER['PATH_INFO'];
+			static::$pageRename = null;
+		}elseif( isset($_SERVER['REDIRECT_URL']) ){
+			// rename access to script
+			
+			$url = $_SERVER['REDIRECT_URL'];
+			$pos = strpos( $url, '/', 1 );
+			
+			static::$pagePath = substr( $url, $pos );
+			static::$pageRename = substr( $url, 1, $pos-1 );
 		}else{
-			$basePath = $_SERVER['PHP_SELF'];
+			static::$pagePath = '';
+			static::$pageRename = null;
 		}
 		
 		// this is supposed to be the reflexive url to the page, sans any GET data
-		self::$pageUrl = $basePath;
+		self::$pageUrl = $_SERVER['SCRIPT_NAME'];
 		
+		// figure out internal roots
 		$cwd = getcwd();
 		
 		static::$projectRoot = substr( $cwd, 0, strripos($cwd, DIRECTORY_SEPARATOR.'www')+1 );
