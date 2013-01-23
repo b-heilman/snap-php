@@ -45,7 +45,6 @@
 					
 					dis.$list.css( 'left', left + dis.width );
 				
-					console.log( 'prev : '+dis.$active.prev().length );
 					if ( dis.$active.prev().length == 0 ){
 						dis.$.addClass('no-left');
 					}
@@ -71,7 +70,6 @@
 					
 					dis.$list.css( 'left', left - dis.width );
 					
-					console.log( 'next : '+dis.$active.next().length );
 					if ( dis.$active.next().length == 0 ){
 						dis.$.addClass('no-right');
 					}
@@ -94,6 +92,8 @@
 		}
 	}
 	
+	Carousel.prototype.onLoadTemplate = '<div class="loading-wrapper"><span class="loading">Loading...</span></div>';
+	
 	Carousel.prototype.template = '<div class="carousel" style="position: absolute; left: 0px; top: 0px; margin: 0px; padding: 0px; border: none; width: 100%; height: 100%;">'
 		+ '<div class="carousel-overlay" style="position: absolute; left: 0px; top: 0px; margin: 0px; padding: 0px; border: none; width: 100%; height: 100%;"/>'
 		+ '<div class="carousel-mat" style="position: absolute; left: 0px; top: 0px; margin: 0px; padding: 0px; border: none; width: 100%; height: 100%;">'
@@ -105,7 +105,6 @@
 	+'</div>';
 	
 	Carousel.prototype.changeSettings = function( settings ){
-		
 	};
 	
 	Carousel.prototype.hide = function(){
@@ -123,65 +122,87 @@
 	};
 	
 	Carousel.prototype.add = function( $el ){
-		console.log( 'add' );
 		if ( typeof($el) == 'string' ){
 			$el = $($el);
 		}
 		
 		if ( !$el.is('ul') && !$el.is('ol') ){
-			console.log( 'find list' );
 			$el = $( $el.find('ul , ol').get(0) );
 		}
 		
 		if ( $el.is('ul') || $el.is('ol') ){
 			var
 				lis,
+				dis = this,
+				imageCount = 0,
+				imageLoaded = false,
 				contentWidth = this.$content.innerWidth(),
-				fullWidth = 0;
+				onReady = function(){
+					var
+						fullWidth = 0;
+					
+					dis.$list = $el;
+					
+					// parse the li elements
+					lis = $el.find('> li');
 				
-			$el.css({
-				position : 'relative',
-				left     : '-999999px',
-				top      : '0px',
-				padding  : '0px',
-				margin   : '0px',
-				border   : 'none'
-			});
+					lis.each( function(){
+						fullWidth += contentWidth;
+						$(this).css({
+							display : 'inline-block',
+							width   : contentWidth+'px',
+							height  : '100%',
+							padding : '0px',
+							margin  : '0px',
+							border  : 'none'
+						}).addClass( 'carousel-cell' );
+					});
+					
+					$el.css({
+						width : fullWidth+'px',
+						left  : '0px'
+					}).addClass( 'carousel-menu' );
+					
+					dis.$active = lis.first().addClass('active');
+					
+					if ( lis.length > 1 ){
+						dis.$.addClass('no-left').removeClass('no-right');
+					}else{
+						dis.$.addClass('no-left').addClass('no-right');
+					}
+					
+					dis.$content.empty();
+					dis.$content.append( $el );
+				};
 			
 			this.width = contentWidth;
 			
-			this.$content.empty();
-			this.$content.append( $el );
-			this.$list = $el;
-			
-			// parse the li elements
-			lis = $el.find('> li');
-			lis.each( function(){
-				fullWidth += contentWidth;
-				$(this).css({
-					display : 'inline-block',
-					width   : contentWidth+'px',
-					height  : '100%',
-					padding : '0px',
-					margin  : '0px',
-					border  : 'none'
-				}).addClass( 'carousel-cell' );
-			});
-			
-			$el.css({
-				width : fullWidth+'px',
-				left  : '0px'
-			}).addClass( 'carousel-menu' );
-			
-			this.$active = lis.first().addClass('active');
-			
-			if ( lis.length > 1 ){
-				this.$.addClass('no-left').removeClass('no-right');
-			}else{
-				this.$.addClass('no-left').addClass('no-right');
-			}
+			this.$content.html( this.onLoadTemplate );
+			this.$.addClass('no-left').removeClass('no-right');
 			
 			this.show();
+			
+			$el.find('img').each(function(){
+				var
+					image = new Image();
+				
+				imageCount++;
+				
+				image.onload = function(){
+					imageCount--;
+					
+					if ( imageCount == 0 && imageLoaded ){
+						onReady();
+					}
+				};
+				
+				image.src = this.src;
+			});
+			
+			imageLoaded = true;
+			if ( imageCount == 0 ){
+				onReady();
+			}
 		}
 	};
 	
