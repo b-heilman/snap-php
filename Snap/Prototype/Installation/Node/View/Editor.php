@@ -49,10 +49,15 @@ class Editor extends \Snap\Node\Core\View {
 	
 	protected function getTemplateVariables(){
 		$form      = $this->getStreamData()->get(0);
-		$prototype = new \Snap\Prototype\Installation\Lib\Prototype( $this->getStreamData($this->prototypeStream)->get(0) );
-		
-		return array(
-			'form' => isset($prototype->forms[$form]) ? $prototype->forms[$form] : null
-		);
+
+		if ( $form ){
+			$prototype = new \Snap\Prototype\Installation\Lib\Prototype( $this->getStreamData($this->prototypeStream)->get(0) );
+			
+			return array(
+				'form' => isset($prototype->forms[$form]) ? $prototype->forms[$form] : null
+			);
+		}else{
+			return array( 'form' => null );
+		}
 	}
 }

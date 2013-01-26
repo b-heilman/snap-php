@@ -2,7 +2,7 @@
 
 namespace Snap\Lib\Db;
 
-\Snap\Lib\Core\Bootstrap::includeConfig('Snap/Config/Db.php');
+\Snap\Lib\Core\Bootstrap::includeConfig( 'Snap/Config/Db.php' );
 
 class Definition {
 	
@@ -14,7 +14,7 @@ class Definition {
 
 		self::$tables[$table] = new $class( $table, $options, $engine );
 	}
-
+	/*
 	static public function addTableRelation($table, $field, $foreignTable, $foreignField,
 								 $onUpdate = '', $onDelete = '', $options = array()){
 		if ( !isset(self::$tables[$table]) ){
@@ -26,17 +26,13 @@ class Definition {
 															$onUpdate, $onDelete, $options) );
 		}
 	}
-
+	*/
 	static public function addTableField($table, $field, $type, $nullable = true, $options = array()){
-		if ( !isset(self::$tables[$table]) ){
-			throw new \Exception($table.' was not defined in a class, but field was added.');
-		}else{
-			$class = SITE_DB_TABLE_FIELD;
+		$class = SITE_DB_TABLE_FIELD;
 
-			self::$tables[$table]->addField( new $class($field, $type, $nullable, $options) );
-		}
+		self::$tables[$table]->addField( new $class($field, $type, $nullable, $options) );
 	}
-
+	/*
 	static public function addTableTrigger($table, $action, $when, $trigger, $options = array()){
 		if ( !isset(self::$tables[$table]) ){
 			throw new \Exception($table.' was not defined in a class, but field was added.');
@@ -46,13 +42,13 @@ class Definition {
 			self::$tables[$table]->addTrigger( new $class($table, $action, $when, $trigger, $options) );
 		}
 	}
+	*/
+	static public function addPrepop( $table, $info ){
+		self::$tables[$table]->addPrepop( $info );
+	}
 	
 	static public function addPostInstall( $table, $func ){
-		if ( !isset(self::$tables[$table]) ){
-			throw new \Exception($table.' was not defined in a class, but field was added.');
-		}else{
-			self::$tables[$table]->addPostInstall( $func );
-		}
+		self::$tables[$table]->addPostInstall( $func );
 	}
 
 	static public function install( \Snap\Adapter\Db $handler ){

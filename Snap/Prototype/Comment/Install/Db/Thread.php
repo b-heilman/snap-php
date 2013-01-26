@@ -2,18 +2,35 @@
 
 namespace Snap\Prototype\Comment\Install\Db;
 
-use \Snap\Lib\Db\Definition;
-
-class Thread {
-	public function __construct(){
-		Definition::addTable( COMMENT_THREAD_TABLE, array('PRIMARY KEY ('.COMMENT_THREAD_ID.')'), 'InnoDB' );
-		
-		Definition::addTableField( COMMENT_THREAD_TABLE, COMMENT_THREAD_ID, 'int unsigned', false, array('AUTO_INCREMENT') );
-		Definition::addTableField( COMMENT_THREAD_TABLE, COMMENT_THREAD_USER, 'int unsigned', false);
-		Definition::addTableField( COMMENT_THREAD_TABLE, 'creation_date', 'timestamp', false, array("DEFAULT CURRENT_TIMESTAMP") );
-		Definition::addTableField( COMMENT_THREAD_TABLE, 'active', 'bool', false, array("default '1'") );
-		/* TODO : drop support, this info is maintained in the software level
-		Definition::addTableRelation( COMMENT_THREAD_TABLE, COMMENT_THREAD_USER, USER_DB.'.'.USER_TABLE, USER_ID, 'CASCADE', 'RESTRICT' );
-		*/
+class Thread 
+	implements \Snap\Prototype\Installation\Lib\Definition {
+	
+	public function getTable(){
+		return COMMENT_THREAD_TABLE;
+	}
+	
+	public function getTableEngine(){
+		return 'InnoDB';
+	}
+	
+	public function getTableOptions(){
+		return array('PRIMARY KEY ('.COMMENT_THREAD_ID.')');
+	}
+	
+	public function getFields(){
+		return array(
+			COMMENT_THREAD_ID   => array( 'type' => 'int unsigned', 'options' => array('AUTO_INCREMENT') ),
+			COMMENT_THREAD_USER => array( 'type' => 'int unsigned' ),
+			'creation_date'     => array( 'type' => 'timestamp',    'options' => array("DEFAULT CURRENT_TIMESTAMP") ),
+			'active'            => array( 'type' => 'bool',         'options' => array("default '1'") )
+		);
+	}
+	
+	public function getPrepop(){
+		return array();
 	}
 }
+
+/* TODO : drop support, this info is maintained in the software level
+	Definition::addTableRelation( COMMENT_THREAD_TABLE, COMMENT_THREAD_USER, USER_DB.'.'.USER_TABLE, USER_ID, 'CASCADE', 'RESTRICT' );
+*/

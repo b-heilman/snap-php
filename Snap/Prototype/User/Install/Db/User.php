@@ -2,59 +2,72 @@
 
 namespace Snap\Prototype\User\Install\Db;
 
-use \Snap\Lib\Db\Definition;
-
-class User {
-	public function __construct(){
-		$status = AUTH_STATUS_FIELD;
-		$init = AUTH_INIT_STATUS;
-
-		$options = array( 
-			'engine' => 'InnoDB', 
-			'PRIMARY KEY ( '.USER_ID.' )',
-			'UNIQUE( '.USER_LOGIN.' )'
+class User 
+	implements \Snap\Prototype\Installation\Lib\Definition {
+	
+	public function getTable(){
+		return USER_TABLE;
+	}
+	
+	public function getTableEngine(){
+		return 'InnoDB';
+	}
+	
+	public function getTableOptions(){
+		$options = array(
+				'engine' => 'InnoDB',
+				'PRIMARY KEY ( '.USER_ID.' )',
+				'UNIQUE( '.USER_LOGIN.' )'
 		);
 		
 		if ( USER_LOGIN != USER_DISPLAY ){
 			$options[] = 'UNIQUE( '.USER_DISPLAY.' )';
 		}
 		
-		Definition::addTable(USER_TABLE, $options);
+		return $options;
+	}
+	
+	public function getFields(){
+		$init = AUTH_INIT_STATUS;
 		
-		Definition::addTableField(USER_TABLE, USER_ID, 'int unsigned', false,
-							array('AUTO_INCREMENT'));
-		Definition::addTableField(USER_TABLE, USER_LOGIN, 'varchar(32)', false);
-		Definition::addTableField(USER_TABLE, USER_PASSWORD, 'varchar(64)', false);
+		$fields = array(
+			USER_ID            => array( 'type' => 'int unsigned', 'options' => array('AUTO_INCREMENT') ),
+			USER_LOGIN         => array( 'type' => 'varchar(32)' ),
+			USER_PASSWORD      => array( 'type' => 'varchar(64)' ),
+			AUTH_STATUS_FIELD  => array( 'type' => "ENUM('CREATED', 'ACTIVE', 'INACTIVE')", 'options' => array("DEFAULT '$init'") ),
+			'status_date'      => array( 'type' => 'datetime' ),
+			'creation_date'    => array( 'type' => 'timestamp', 'options' => array("DEFAULT CURRENT_TIMESTAMP") ),
+			'external_login'   => array( 'type' =>'bool', 'options' => array("default '0'") ),
+			USER_ADMIN         => array( 'type' =>'bool', 'options' => array("default '0'") )
+		);
 		
 		if ( USER_LOGIN != USER_DISPLAY ) {
-			Definition::addTableField(USER_TABLE, USER_DISPLAY, 'varchar(32)', false);
+			$fields[USER_DISPLAY] = array( 'type' =>'varchar(32)' );
 		}
-		
-		Definition::addTableField(USER_TABLE, AUTH_STATUS_FIELD, "ENUM('CREATED', 'ACTIVE', 'INACTIVE')",
-							false, array("DEFAULT '$init'"));
 		
 		if ( USER_FB_ID ){
-			Definition::addTableField(USER_TABLE, 'fb_id', 'int unsigned', false);
+			$fields['fb_id'] = array( 'type' =>'int unsigned' );
 		}
-							
-		Definition::addTableField(USER_TABLE, 'status_date', 'datetime', false);
-		Definition::addTableField(USER_TABLE, 'creation_date', 'timestamp', false,
-							array("DEFAULT CURRENT_TIMESTAMP"));
-							
-		Definition::addTableField(USER_TABLE, 'external_login',  'bool', false, array("default '0'"));
-		Definition::addTableField(USER_TABLE, USER_ADMIN, 'bool', false, array("default '0'"));
-
-		Definition::addTableTrigger(USER_TABLE, 'UPDATE', 'BEFORE', "
-			IF NEW.$status <> OLD.$status THEN
-				SET NEW.status_date = NOW();
-			END IF;
-			"
-		);
-
-		Definition::addTableTrigger(USER_TABLE, 'INSERT', 'BEFORE', "
-			SET NEW.status_date = NOW();
-			SET NEW.status = '$init';
-			"
-		);
+		
+		return $fields;
 	}
+	
+	public function getPrepop(){
+		return array();
+	}
+	// TODO : this should move to software layer
+	/*
+	Definition::addTableTrigger(USER_TABLE, 'UPDATE', 'BEFORE', "
+		IF NEW.$status <> OLD.$status THEN
+			SET NEW.status_date = NOW();
+		END IF;
+		"
+	);
+
+	Definition::addTableTrigger(USER_TABLE, 'INSERT', 'BEFORE', "
+		SET NEW.status_date = NOW();
+		SET NEW.status = '$init';
+		"
+	);
+	*/
 }

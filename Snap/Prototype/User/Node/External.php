@@ -154,8 +154,6 @@ class External extends \Snap\Node\Core\Form
     				$notes->write(Mysql::lastError(), 'error');
     				$notes->write('That just will not work', 'error');
     			}
-    		}else{
-    	    	$notes->debug(Mysql::lastError(), 'error');
     		}
     		
     		return null;

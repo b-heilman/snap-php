@@ -30,8 +30,6 @@ class Management extends \Snap\Node\Controller\Converter {
 				$errors = array();
 				$success = array();
 				
-				$handler->autocommit( false );
-				
 				foreach( $installs as $inst ){
 					$inst->getPrototype()->define();
 				}

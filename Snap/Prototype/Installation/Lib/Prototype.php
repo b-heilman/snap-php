@@ -2,7 +2,8 @@
 
 namespace Snap\Prototype\Installation\Lib;
 
-use \Snap\Lib\Core\Bootstrap;
+use 
+	\Snap\Lib\Db;
 
 class Prototype {
 
@@ -23,6 +24,7 @@ class Prototype {
 		}
 		
 		// $prototype is just the prototype name
+		
 		$this->name = $prototype;
 		$this->dir = substr( str_replace('\\','/',$this->name), 1 );
 		
@@ -66,10 +68,33 @@ class Prototype {
 			foreach( $dirs as $table ){
 				if ( $table{0} != '.' ){
 					if ( preg_match('/^[^.]*/', $table, $matches) ){
-						// TODO : obviously this breaks with nested prototypes
+						// Load the definition classes and add them to the global definition
 						$class = $this->name.'\Install\Db\\'.$matches[0];
 						
 						$db_def = new $class();
+						
+						if ( $db_def instanceof \Snap\Prototype\Installation\Lib\Definition ){
+							$table = $db_def->getTable();
+							
+							Db\Definition::addTable( $table, $db_def->getTableOptions(), $db_def->getTableEngine() );
+							
+							foreach( $db_def->getFields() as $field => $fieldInfo ){
+								Db\Definition::addTableField( 
+									$table, 
+									$field,
+									$fieldInfo['type'],
+									isset($fieldInfo['nullable']) ? $fieldInfo['nullable'] : false, 
+									isset($fieldInfo['options']) ? $fieldInfo['options'] : array()
+								);
+							}
+							
+							$prepop = $db_def->getPrepop();
+							
+							if ( count($prepop) > 0 ){
+								Db\Definition::addPrepop( $table, $prepop );
+							}
+							
+						}else throw new Exception('\Install\Db\* classes need to implement Installation\Lib\Definition');
 					}
 				}
 			}

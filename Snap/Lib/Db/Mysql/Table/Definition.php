@@ -3,23 +3,21 @@
 namespace Snap\Lib\Db\Mysql\Table;
 
 class Definition extends \Snap\Lib\Db\Table\Definition {
+	
 	protected function mysqlInstall(){
 		if ( $this->engine == null ){
 			$this->engine = 'MyISAM';
 		}
 
-		$relations = $this->getRelations();
-		$fields = $this->getFields();
+		$fields  = $this->getFields();
 		$options = $this->getOptions();
 
-		if ( $options != '' )
+		if ( $options != '' ){
 			$fields .= ",\n";
-
-		if ( $relations != '' )
-			$options .= ",\n";
-
+		}
+		
 		return "CREATE TABLE {$this->name}(
-			$fields $options $relations
+			$fields $options
 		) ENGINE = {$this->engine};";
 	}
 

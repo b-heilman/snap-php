@@ -87,17 +87,11 @@ class Facebook extends \Snap\Node\Core\Block
 							
 							header( 'Location: '.$this->rtn_url ) ;
 						}
-					}else{
-						$this->debug( 'error 3' );
-						// error, not sure what I want to do
 					}
 				}catch( Exception $ex ){
 					$this->debug( 'error 2' );
 					// error, not sure what I want to do
 				}
-			}else{
-				$this->debug( 'error 1' );
-				// error, not sure what I want to do
 			}
 		}
 		

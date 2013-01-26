@@ -32,8 +32,6 @@ class Url {
 	public function createLink( $value, $text = '', $class = '' ){
 		$e = new \Exception();
 		
-		error_log( $e->getTraceAsString() );
-		
 		return array(
 			'class' => $class, 
 			'text'  => $text,

@@ -13,18 +13,22 @@ class Forms extends Node\View\Navigation
 	
 	public function getStyles(){
 		return array(
-			new \Snap\Lib\Linking\Resource\Local( $this->page,$this)
+			new \Snap\Lib\Linking\Resource\Local( $this->page,$this )
 		);
 	}
 	
 	protected function getTemplateVariables(){
+		$info         = $this->getStreamData()->get(0);
 		$var          = parent::getTemplateVariables();
-		$prototype    = new \Snap\Prototype\Installation\Lib\Prototype( $this->getStreamData()->get(0) );
 		
-		if ( $prototype->forms ){
-			$var['forms'] = array_keys( $prototype->forms );
+		if ( $info ) {
+			$prototype    = new \Snap\Prototype\Installation\Lib\Prototype( $info );
+			
+			if ( $prototype->forms ){
+				$var['forms'] = array_keys( $prototype->forms );
+			}
 		}
-				
+		
 		return $var;
 	}
 }

@@ -4,8 +4,7 @@ use
 	\Snap\Node\Form\Element,
 	\Snap\Node\Form\Input\Text;
 
-$this->append( $r = new \Snap\Node\Form\Row() );
-$this->log( USER_LOGIN_LABEL );		
+$this->append( $r = new \Snap\Node\Form\Row() );	
 	$r->append( new Element(array(
 		'input' => new Text(array( 
 			'name'  => USER_LOGIN

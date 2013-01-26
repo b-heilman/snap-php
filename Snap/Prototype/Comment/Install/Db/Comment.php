@@ -4,18 +4,38 @@ namespace Snap\Prototype\Comment\Install\Db;
 
 use \Snap\Lib\Db\Definition;
 
-class Comment {
-	public function __construct(){
-		Definition::addTable( COMMENT_TABLE, array('PRIMARY KEY ('.COMMENT_ID.')'), 'InnoDB' );
-		
-		Definition::addTableField( COMMENT_TABLE, COMMENT_ID, 'int unsigned', false,array('AUTO_INCREMENT') );
-		Definition::addTableField( COMMENT_TABLE, COMMENT_THREAD_ID, 'int unsigned', false );
-		Definition::addTableField( COMMENT_TABLE, COMMENT_USER, 'int unsigned', false );
-		Definition::addTableField( COMMENT_TABLE, 'content', 'text', false );
-		Definition::addTableField( COMMENT_TABLE, 'creation_date', 'timestamp', false, array("DEFAULT CURRENT_TIMESTAMP") );
-		Definition::addTableField( COMMENT_TABLE, 'active', 'bool', false, array("default '1'") );
-		Definition::addTableField( COMMENT_TABLE, COMMENT_PARENT, 'int unsigned', true );
-		/* TODO : drop support, this info is maintained in the software level
+class Comment 
+	implements \Snap\Prototype\Installation\Lib\Definition {
+	
+	public function getTable(){
+		return COMMENT_TABLE;
+	}
+	
+	public function getTableEngine(){
+		return 'InnoDB';
+	}
+	
+	public function getTableOptions(){
+		return array('PRIMARY KEY ('.COMMENT_ID.')');
+	}
+	
+	public function getFields(){
+		return array(
+			COMMENT_ID        => array( 'type' => 'int unsigned', 'options' => array('AUTO_INCREMENT') ),
+			COMMENT_THREAD_ID => array( 'type' => 'int unsigned' ),
+			COMMENT_USER      => array( 'type' => 'int unsigned' ),
+			'content'         => array( 'type' => 'text' ),
+			'creation_date'   => array( 'type' => 'timestamp',    'options' => array("DEFAULT CURRENT_TIMESTAMP") ),
+			'active'          => array( 'type' => 'bool',         'options' => array("default '1'") ),
+			COMMENT_PARENT    => array( 'type' => 'int unsigned')
+		);
+	}
+	
+	public function getPrepop(){
+		return array();
+	}
+}	
+	/* TODO : drop support, this info is maintained in the software level
 		Definition::addTableRelation(COMMENT_TABLE, COMMENT_USER, 
 			USER_DB.'.'.USER_TABLE, USER_ID, 'CASCADE', 'RESTRICT');
 			
@@ -24,6 +44,4 @@ class Comment {
 			
 		Definition::addTableRelation(COMMENT_TABLE, COMMENT_PARENT, 
 			COMMENT_TABLE, COMMENT_ID, 'CASCADE', 'CASCADE');
-		*/
-	}
-}
+	*/

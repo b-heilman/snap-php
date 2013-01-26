@@ -14,7 +14,8 @@ class Stats {
 		Definition::addTableField( ANALYTICS_LOG_TABLE, ANALYTICS_URL, 'text', false );
 		Definition::addTableField( ANALYTICS_LOG_TABLE, ANALYTICS_NOTE, 'text', true );
 		Definition::addTableField( ANALYTICS_LOG_TABLE, 'creation_date', 'timestamp', false, array("DEFAULT CURRENT_TIMESTAMP") );
-		
+		/*
 		Definition::addTableRelation( ANALYTICS_LOG_TABLE, ANALYTICS_ID, ANALYTICS_TABLE, ANALYTICS_ID, 'CASCADE', 'RESTRICT');
+		*/
 	}
 }
