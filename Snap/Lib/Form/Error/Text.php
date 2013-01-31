@@ -2,7 +2,7 @@
 
 namespace Snap\Lib\Form\Error;
 
-class Simple implements \Snap\Lib\Form\Error {
+class Text implements \Snap\Lib\Form\Error {
 
 	protected
 		$error;

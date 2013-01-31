@@ -11,7 +11,7 @@ class Editor extends \Snap\Prototype\Topic\Node\Form\Create
 		);
 	}
 	
-	protected function processInput( \Snap\Lib\Form\Data\Result &$formData ){
+	protected function processInput( \Snap\Lib\Form\Result &$formData ){
 		$formData->alterValue('new_topic_content', 
 			"<!-- translator : template -->\n".$formData->getValue('new_topic_content')
 		);

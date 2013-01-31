@@ -27,7 +27,7 @@ class Row extends \Snap\Node\Core\ProducerForm {
 		);
 	}
 	
-	protected function processInput( \Snap\Lib\Form\Data\Result &$formData ){
+	protected function processInput( \Snap\Lib\Form\Result &$formData ){
 		$name = $this->prototype->name;
 		
 		if ( $formData->hasChanged($name) ){

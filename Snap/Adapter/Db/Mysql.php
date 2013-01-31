@@ -294,8 +294,6 @@ class Mysql implements \Snap\Adapter\Db { // 1Drinkth33ar
 			$this->error = self::$lastError = $this->link->connection->error;
 		}
 		
-		error_log( $query );
-		error_log( $this->error );
 		return ( self::$result !== false )
 			? (is_object(self::$result) ? new Db\Mysql\Result(self::$result):true)
 			: ( $this->link->connection->errno === 0 );
@@ -324,8 +322,6 @@ class Mysql implements \Snap\Adapter\Db { // 1Drinkth33ar
 			$this->error = self::$lastError = $this->link->connection->error;
 		}
 		
-		error_log( $sql );
-		error_log( $this->error );
 		return $res;
 	}
 

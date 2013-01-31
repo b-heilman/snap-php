@@ -66,7 +66,7 @@ abstract class Template extends Block {
  	protected function processTemplate(){
  		try {
  			$this->deferTemplate = null; // acts as a lock, saves on a boolean
- 			$this->processTemplateString( $this->getContent() );
+ 			$this->processTemplateString( $this->getTemplateContent() );
  		}catch( Exception $ex ){
  			throw new \Exception(
  				"==== ".get_class($this)." - processTemplate ====\n"
@@ -116,8 +116,7 @@ abstract class Template extends Block {
  		return parent::pend($in);
  	}
  	
- 	// __ is used to avoid collisions here, not sure if better way?
- 	protected function getContent(){
+ 	protected function getTemplateContent(){
  		if ( $this->path == '' ){
  			throw new \Exception( 'Path is blank for '.get_class($this) );
  		}
@@ -136,6 +135,7 @@ abstract class Template extends Block {
  		return $__content;
  	}
  	
+ 	// __ is used to avoid collisions here, not sure if better way?
  	protected function loadTemplate( $__template ){
  		// decode the variables for local use of the included function
  		$__vars = $this->getTemplateVariables();

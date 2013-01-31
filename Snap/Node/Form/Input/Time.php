@@ -54,7 +54,7 @@ class Time extends \Snap\Node\Core\Block
 			$hour = 12;
 		}
 		
-		$this->value = new \Snap\Lib\Form\Data\Errorable( $this->name, $this->buildTime($hour, $min, $toggle) );
+		$this->value = new \Snap\Lib\Form\Input( $this->name, $this->buildTime($hour, $min, $toggle) );
 		
 		$this->append( $this->hour = new \Snap\Node\Form\Input\Text(array(
 			'mode'  => 'numeric', 

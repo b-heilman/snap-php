@@ -33,11 +33,11 @@ class Element extends \Snap\Node\Core\Template
 
     protected function parseSettings( $settings = array() ){
     	$input = $settings['input'];
+    	$name = $input->getName();
     	
-    	if ( is_string($input) ){
-    		$input = new $input( array('name' => $settings['name']) );
-    		unset( $settings['name'] );
-    	}
+    	$settings['class'] = ( isset($settings['class']) ? $settings['class'].' ' : '' )
+    	. 'form-element '.( $name == '' ? '' : $name.'-wrapper' ).' '.$input->getType().'-wrapper';
+    	$settings['tag'] = 'div';
     	
     	if ( $input instanceof Input ){
 			$this->input = $input;
@@ -53,89 +53,16 @@ class Element extends \Snap\Node\Core\Template
 			);
 		}
 		
-		$name = $input->getName();
 		
-    	$settings['class'] = ( isset($settings['class']) ? $settings['class'].' ' : '' )
-    		. 'form-element '.( $name == '' ? '' : $name.'-wrapper' ).' '.$input->getType().'-wrapper';
-    	$settings['tag'] = 'div';
     	
 		if ( isset($settings['label']) ){
-			$label = $settings['label'];
-
-			if ( $label instanceof Text ){
-				$label->addClass( 'form-element-label' );
-				$this->labelText = $label->inner();
-				$this->label = $label;
-			}elseif( is_string($label) ){
-				$this->labelText = $label;
-				$this->label = new Text(array(
-					'tag'   => 'span',
-					'text'  => $label,
-					'class' => 'form-element-label'
-				));
-			}
+			$this->label = $settings['label'];
 		}
 
 		if ( isset($settings['note']) ){
-			$note = $settings['note'];
-
-			if ( $note instanceof \Snap\Node\Core\Simple ){
-				$note->addClass( 'form-element-note' );
-				$this->note = $note;
-			}elseif( is_string($note) ){
-				$this->note = new Text(array(
-					'tag'   => 'span',
-					'text'  => $note,
-					'class' => 'form-element-note'
-				));
-			}
+			$this->note = $settings['note'];
 		}
 		
-		parent::parseSettings($settings);
-	}
-
-	public function getType(){
-		return $this->input->getType();
-	}
-	
-	public function getInput( \Snap\Node\Core\Form $form ){
-		$res = $this->input->getInput( $form );
-		
-		// TODO : what to do with labels now?
-		/*
-		if ( $this->labelText != null ){
-			$res->setLabel( $this->labelText );
-		}
-		*/
-		
-		return $res;
-	}
-	
-	public function hasChanged(){
-		return $this->input->hasChanged();
-	}
-	
-	public function changeName($name){
-		$this->input->changeName($name);
-	}
-	
-	public function setDefaultValue( $value ){
-		$this->input->setDefaultValue($value);
-	}
-	
-	public function setValue( $value ){
-		$this->input->setValue($value);
-	}
-	
-	public function getValue(){
-		return $this->input->getValue();
-	}
-	
-	public function getName(){
-		return $this->input->getName();
-	}
-	
-	public function reset(){
-		$this->input->reset();
+		parent::parseSettings( $settings );
 	}
 }

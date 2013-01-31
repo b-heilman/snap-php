@@ -1,8 +1,8 @@
 <?php
 
-namespace Snap\Lib\Form\Test;
+namespace Snap\Lib\Form\Validation;
 
-class Required implements \Snap\Lib\Form\Test {
+class Required implements \Snap\Lib\Form\Validation {
 
 	protected 
 		$error;

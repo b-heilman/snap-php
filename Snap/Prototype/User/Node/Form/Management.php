@@ -5,7 +5,7 @@ namespace Snap\Prototype\User\Node\Form;
 class Management extends \Snap\Node\Core\Form 
 	implements \Snap\Node\Core\Styleable {
 	
-	protected function processInput( \Snap\Lib\Form\Data\Result &$formData ){
+	protected function processInput( \Snap\Lib\Form\Result &$formData ){
 	    $users = $formData->getChange('user_data');
 	     
         if ( $users ){

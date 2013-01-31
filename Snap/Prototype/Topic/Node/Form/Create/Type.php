@@ -7,7 +7,7 @@ class Type extends \Snap\Node\Core\Form{
 	protected 
 		$topics_new_form_proto = false;
 	
-	protected function processInput( \Snap\Lib\Form\Data\Result &$formData ){
+	protected function processInput( \Snap\Lib\Form\Result &$formData ){
 		if ( $formData->hasChanged('topics_type_new_name') ){
 			$info = array(
 				TOPIC_TYPE_NAME => $formData->getValue('topics_type_new_name'),

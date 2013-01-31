@@ -17,7 +17,7 @@ abstract class Listing extends \Snap\Node\Core\View {
 		parent::__construct( $settings );
 	}
 	
-	protected function getContent(){
+	protected function getTemplateContent(){
  		if ( $this->path == '' ){
  			throw new \Exception( 'Path is blank for '.get_class($this) );
  		}

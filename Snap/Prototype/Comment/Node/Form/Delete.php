@@ -31,7 +31,7 @@ class Delete extends \Snap\Node\Core\ProducerForm {
 		return 'remove_comment';
 	}
 	
-	protected function processInput( \Snap\Lib\Form\Data\Result &$formData ){
+	protected function processInput( \Snap\Lib\Form\Result &$formData ){
 		$res = null;
 		
 		if ( $formData->hasInput('remove_comment') ){

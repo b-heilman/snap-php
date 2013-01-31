@@ -37,13 +37,13 @@ class Create extends \Snap\Node\Core\ProducerForm {
 		$res = parent::getInput();
 		
 		if ( $this->admin ){
-			$res->addInput( new \Snap\Lib\Form\Data\Basic('admin', 1) );
+			$res->addInput( new \Snap\Lib\Form\Input('admin', 1) );
 		}
 
 		return $res;
 	}
 	
-	protected function processInput( \Snap\Lib\Form\Data\Result &$formData ){
+	protected function processInput( \Snap\Lib\Form\Result &$formData ){
 		$res = null;
 		
 		$login = $formData->getValue( USER_LOGIN );

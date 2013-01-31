@@ -17,7 +17,7 @@ class Login extends \Snap\Node\Core\ProducerForm {
 		return $validator;
 	}
 	
-	protected function processInput( \Snap\Lib\Form\Data\Result &$formData ){
+	protected function processInput( \Snap\Lib\Form\Result &$formData ){
 		$res = null;
 		
 		eval('$user = '.AUTH_CLASS.'::authenticate( $formData->getValue(\'_login\'), $formData->getValue(\'_passwrd\') );');

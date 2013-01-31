@@ -41,7 +41,7 @@ class Create extends \Snap\Node\Core\ProducerForm
 		return $content;
 	}
 	
-	protected function processInput( \Snap\Lib\Form\Data\Result &$formData ){
+	protected function processInput( \Snap\Lib\Form\Result &$formData ){
 		$res = null;
 		
 		$info = array(

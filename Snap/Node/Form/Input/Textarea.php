@@ -2,7 +2,7 @@
 
 namespace Snap\Node\Form\Input;
 
-class Textarea extends \Snap\Node\Form\Input\Base {
+class Textarea extends \Snap\Node\Form\Input {
 
 	protected 
 		$rows, 
@@ -37,6 +37,6 @@ class Textarea extends \Snap\Node\Form\Input\Base {
 	public function inner(){
 		parent::inner();
 		
-		return htmlentities( $this->value->getValue() );
+		return htmlentities( $this->input->getValue() );
 	}
 }

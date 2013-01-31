@@ -3,7 +3,7 @@
 // was form_input_node
 namespace Snap\Node\Form\Input;
 
-class Basic extends \Snap\Node\Form\Input\Base {
+class Basic extends \Snap\Node\Form\Input {
 	
 	protected 
 		$type;
@@ -14,7 +14,7 @@ class Basic extends \Snap\Node\Form\Input\Base {
 		}
 		
 		if ( isset($settings['type']) ){
-			$this->type = $settings['type'];
+			$this->type = strtolower( $settings['type'] );
 		}else{
 			throw new \Exception( get_class($this).' needs a type in settings: '.print_r($settings, true) );
 		}
@@ -41,12 +41,6 @@ class Basic extends \Snap\Node\Form\Input\Base {
 	}
 	
 	protected function getInputValue(){
-		$value = $this->value->getValue();
-		
-		if ( is_object($value) ){
-			$value = $value->__toString();
-		}
-		
-		 return htmlentities( $value );
+		return htmlentities( $this->input->getValue() );
 	}
 }

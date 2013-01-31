@@ -2,67 +2,67 @@
 
 namespace Snap\Node\Form\Input;
 
-abstract class Pickable extends \Snap\Node\Form\Input\Basic {
+class Pickable extends \Snap\Node\Form\Input\Basic {
 
-	protected 
-		$checked,
-		$trueValue;
+	public function __construct( $settings = array() ){
+		$settings['tag'] = 'fieldset';
+		$settings['type'] = 'junk';
+		
+		parent::__construct( $settings );
+	}
 	
 	protected function parseSettings( $settings = array() ){
-		$this->checked = isset($settings['checked']) ? $settings['checked'] : false;
-		
-		parent::parseSettings( $settings ); // we're gonna need to override a few things
-	} 
-	
-	public static function getSettings(){
-		return  parent::getSettings() + array(
-			'checked' => 'is this input checked'
-		);
-	}
-	
-	public function setDefaultValue( $value ){
-		$this->trueValue = $value;
-		
-		parent::setDefaultValue($value);
-	}
-	
-	public function getName(){
-    	return trim( $this->name, '[]' );
-    }
-    
-	public function getInput( \Snap\Node\Core\Form $form ){
-		$name = $this->getName();
-		
-		if ( $form->wasFormSubmitted() ){
-			if ( $form->wasSubmitted($name) ){
-				$fv = $form->getValue( $name );
-				
-	    		if ( is_array($fv) ){
-	    			$this->checked = ( array_search($this->trueValue, $fv) !== false );
-	    		}else{
-	    			$this->checked = ( $fv == $this->trueValue );
-	    		}
-	    	
-	    		
-			}else{
-				$this->checked = false;
-			}
+		if ( !isset($settings['input']) || !($settings['input'] instanceof \Snap\Lib\Form\Input\Optionable) ){
+			throw new \Exception( 'A '.get_class($this).' requires an instance of \Snap\Lib\Form\Input\Optionable,'
+					.' instead recieved '.get_class($settings['input']) );
 		}
 		
-		$this->value->setValue( $this->getFunctionalValue() );
-		
-    	return $this->value;
+		parent::parseSettings( $settings );
+	}
+	
+	protected function baseClass(){
+		return 'input-pickable';
+	}
+	
+	protected function getAttributes(){
+		// we need to step this back
+    	return \Snap\Node\Core\Block::getAttributes();
     }
     
-    protected function getFunctionalValue(){
-    	return $this->checked ? $this->trueValue : (is_bool($this->trueValue)?!$this->trueValue:null);
+    // TODO : I want to make this loading in views, but for now...
+    public function inner(){
+    	$render = '';
+    	$val = $this->input->getValue();
+    	$name = $this->input->getName();
+    	
+    	if ( is_array($val) ){
+    		$options = array();
+    		foreach( $val as $v ){
+    			$options[ $v ] = true;
+    		}
+    	}else{
+    		$options = array( $val => true );
+    	}
+   
+    	foreach( $this->input->getOptions() as $value => $label ){
+    		$render .= ( $this->input->allowsMultiple() 
+    			? $this->makeCheckbox( $name, $label, $value, isset($options[$value]) )
+    			: $this->makeRadio( $name, $label, $value, isset($options[$value]) )
+    		);
+    	}
+    		
+    	$this->rendered = $render;
+    
+    	return parent::inner();
     }
     
-    protected function getInputValue(){
-    	return htmlentities( $this->trueValue );
+    protected function makeCheckbox( $name, $label, $value, $checked ){
+    	return "<label>$label<input type=\"checkbox\" value=\"".htmlentities($value)
+    		.'" '.( $checked ? 'checked="checked"' : '' )." name=\"{$name}[]\" /></label>";
     }
     
-    protected function getAttributes(){
-    	return parent::getAttributes() . ( $this->checked ? " checked=\"true\"" : '' );
+    protected function makeRadio( $name, $label, $value, $checked ){
+    	return "<label>$label<input type=\"radio\" value=\"".htmlentities($value)
+    	.'" '.( $checked ? 'checked="checked"' : '' )." name=\"{$name}[]\" /></label>";
     }
 }

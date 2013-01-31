@@ -24,7 +24,7 @@ class Url {
 		
 		$this->base = trim($base);
 		
-		$input = new \Snap\Lib\Form\Input();
+		$input = new \Snap\Adapter\Form();
 		
 		$this->currentValue = $input->readGet( $this->navVar );
 	}

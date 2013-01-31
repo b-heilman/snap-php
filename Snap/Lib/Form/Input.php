@@ -2,70 +2,57 @@
 
 namespace Snap\Lib\Form;
 
-class Input {
-	static protected 
-		$post = null, 
-		$get = null;
+abstract class Input {
 	
-	static public function setPost( array $data ){
-		self::init();
-		
-		self::$post += $data;
+    protected 
+    	$name,
+    	$error, 
+    	$currValue, 
+    	$origValue;
+
+    public function __construct( $name, $value ){
+    	$this->name = $name;
+    	$this->error = null;
+		$this->currValue = $this->origValue = $value;
 	}
 	
-	static public function setGet( array $data ){
-		self::init();
-		
-		self::$get += $data;
+	public function getName(){
+		return $this->name;
 	}
 	
-	static protected function init(){
-		if ( is_null(self::$post) ){
-			self::$post = $_POST;
-			self::$get = $_GET;
-		}
+	public function changeValue( $value ){
+		$this->currValue = $value;
 	}
 	
-	static public function saveSession(){
-		$snap_session = new \Snap\Lib\Core\Session('_input');
-		
-		$snap_session->setVar( 'post', self::$post );
-		$snap_session->setVar( 'get', self::$get );
+	public function getDefault(){
+		return $this->origValue;
 	}
 	
-	// note, this overrides any input that might have come in
-	static public function loadSession(){
-		$snap_session = new snap_session('_input');
-		
-		self::$post = $snap_session->getVar( 'post' );
-		self::$get = $snap_session->getVar( 'get' );
+	public function getValue(){
+		return $this->currValue;
 	}
 	
-	public function __construct(){
-		self::init();
+	public function resetValue(){
+		$this->currValue = $this->origValue;
 	}
 	
-	public function issetGet( $var ){
-		return isset( self::$get[$var] );
+	public function hasChanged(){
+		return $this->currValue != $this->origValue; // so this way null can == ''
 	}
 	
-	public function readGet( $var ){
-		return $this->_read( self::$get , $var );
+	public function setError( \Snap\Lib\Form\Error $error ){
+		$this->error = $error;
 	}
 	
-	public function issetPost( $var ){
-		return isset( self::$post[$var] );
+	public function hasError(){
+		return $this->error != null;
 	}
 	
-	public function readPost( $var ){
-		return $this->_read( self::$post , $var );
-	}
-	
-	public function read( $var ){
-		return $this->issetPost($var) ? $this->readPost($var) : $this->readGet($var);
-	}
-	
-	protected function _read( $source, $var ){
-		return ( isset($source[$var]) ? $source[$var] : null );
+	/**
+	 * 
+	 * @return \Snap\Lib\Form\Error
+	 */
+	public function getError(){
+		return $this->error;
 	}
 }

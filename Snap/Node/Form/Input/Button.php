@@ -2,7 +2,7 @@
 
 namespace Snap\Node\Form\Input;
 
-class Button extends \Snap\Node\Form\Input\Pickable {
+class Button extends \Snap\Node\Form\Input\Basic {
 
 	protected 
 		$text;
@@ -14,25 +14,7 @@ class Button extends \Snap\Node\Form\Input\Pickable {
 			? 'reset' : 'submit';
 		
 		parent::parseSettings($settings);
-			
-		$this->changeText( isset($settings['text']) ? $settings['text'] : $settings['value'] );
-	}
-	
-	protected function baseClass(){
-		return $this->type;
-	}
-	
-	protected function getAttributes(){
-    	return \Snap\Node\Form\Input\Basic::getAttributes();
-    }
-    
-	public function changeText( $text ){
-		$this->clear();
 		
-		if ( is_object($text) && $text instanceof \Snap\Node\Core\Snapable ){
-			$this->append( $text );
-		}else{
-    		$this->write( $text );
-		}
-    }
+		$this->write( isset($settings['text']) ? $settings['text'] : $this->input->getDefault() );
+	}
 }

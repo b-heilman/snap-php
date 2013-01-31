@@ -2,11 +2,23 @@
 
 namespace Snap\Node\Form\Input;
 
-class Checkbox extends \Snap\Node\Form\Input\Pickable {
+class Checkbox extends \Snap\Node\Form\Input\Basic {
 
-	public function __construct( $settings = array() ){
+	protected function parseSettings( $settings = array() ){
+		if ( !isset($settings['input']) || !($settings['input'] instanceof \Snap\Lib\Form\Input\Checkbox) ){
+			throw new \Exception( 'A '.get_class($this).' requires an instance of \Snap\Lib\Form\Input\Checkbox,'
+				.' instead recieved '.get_class($settings['input']) );
+		}
 		$settings['type'] = 'checkbox';
 		
-		parent::__construct( $settings ); // we're gonna need to override a few things
+		parent::parseSettings( $settings );
 	}
+	
+	protected function getAttributes(){
+    	return parent::getAttributes() . ( $this->input->isSelected() ? " checked=\"true\"" : '' );
+    }
+    
+    protected function getInputValue(){
+    	return htmlentities( $this->input->getDefault() );
+    }
 }

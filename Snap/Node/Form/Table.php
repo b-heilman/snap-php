@@ -249,7 +249,7 @@ class Table extends \Snap\Node\Core\Block
 
 	    $c = count($inputs);
 
-	    $r = new \Snap\Lib\Form\Data\Complex( $this->name );
+	    $r = new \Snap\Lib\Form\Input\Complex( $this->name );
 
 	    for ( $i = 0; $i < $c; ++$i ) {
 	        $il = $inputs[$i];

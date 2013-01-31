@@ -49,13 +49,13 @@ abstract class Basic extends Node\Core\Template
 	}
 	
 	protected function takeControl( \Snap\Node\Core\Snapable $in ){
-		// Nothing should be above the page
+		// Nothing should be above the page, so no call to the parent::
 		$in->setPage( $this );
 	}
 	
 	// allow a page to just be an object, no template needed, but preferred
-	protected function getContent(){
-		return ( $this->path == '' ) ? '' : parent::getContent();
+	protected function getTemplateContent(){
+		return ( $this->path == '' ) ? '' : parent::getTemplateContent();
 	}
 	
 	public function build(){

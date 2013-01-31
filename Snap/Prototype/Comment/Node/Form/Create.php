@@ -53,7 +53,7 @@ class Create extends \Snap\Node\Core\ProducerForm {
 		return str_replace("\n", '<br>', htmlentities($comment) );
 	}
 	
-	protected function processInput( \Snap\Lib\Form\Data\Result &$formData ){
+	protected function processInput( \Snap\Lib\Form\Result &$formData ){
 		$res = null;
 		
 		if ( $formData->hasChanged('comment') && Current::loggedIn() ){

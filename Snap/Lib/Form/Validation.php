@@ -2,7 +2,7 @@
 
 namespace Snap\Lib\Form;
 
-interface Test {
+interface Validation {
 	/**
 	 * Returns true if valid input, false otherwise
 	 */

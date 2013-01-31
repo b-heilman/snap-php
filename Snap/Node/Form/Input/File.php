@@ -16,9 +16,9 @@ class File extends \Snap\Node\Core\Simple
 		parent::__construct( $settings );
 		
 		if ( isset($settings['name']) ){
-			$this->file = new \Snap\Lib\Form\Data\Errorable( $settings['name'], '' );
+			$this->file = new \Snap\Lib\Form\Input( $settings['name'], '' );
 		}else{
-			$this->file = new \Snap\Lib\Form\Data\Errorable( 'a_file', '' );
+			$this->file = new \Snap\Lib\Form\Input( 'a_file', '' );
 			throw new \Exception('Snap\Node\Form\Input\File requires a name');
 		}
 	}

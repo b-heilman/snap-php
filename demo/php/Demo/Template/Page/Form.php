@@ -1,7 +1,17 @@
 <h1>The form test</h1>
-<?php 
-	$this->append( $form = new \Demo\Node\Form\Test() );
-	$form->setValidator(new \Snap\Lib\Form\Validator(array(
-		'blank' => new \Snap\Lib\Form\Test\Required('You need to fill the text field')
+<?php
+	$content = new \Demo\Lib\Form\TestForm();
+	
+	$this->append( $form = new \Demo\Node\Controller\TestForm(array(
+		'outputStream' => 'form_data',
+		'content'      => $content
+	)) );
+	
+	$this->append( $form = new \Demo\Node\View\TestForm(array(
+		'content' => $content
+	)) );
+	
+	$this->append( new \Snap\Node\View\Dump(array(
+		'inputStream'  => 'form_data'
 	)) );
 ?>

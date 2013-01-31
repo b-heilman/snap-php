@@ -8,11 +8,11 @@ class Logout extends \Snap\Node\Core\ProducerForm {
 		return 'user_logout';
 	}
 	
-	protected function isInputReady( \Snap\Lib\Form\Data\Result $proc ){
+	protected function isInputReady( \Snap\Lib\Form\Result $proc ){
 		return true;
 	}
 	
-	protected function processInput( \Snap\Lib\Form\Data\Result &$formData ){
+	protected function processInput( \Snap\Lib\Form\Result &$formData ){
 		\Snap\Prototype\User\Lib\Current::logout();
 		
 		return true;

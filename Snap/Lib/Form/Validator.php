@@ -7,29 +7,34 @@ class Validator {
 	
 	public function __construct( $tests = array() ){
 		foreach( $tests as $field => $test ){
-			$this->setTest( $field, $test );
+			if ( is_array($test) ){
+				foreach( $test as $t ){
+					$this->setTest( $field, $test );
+				}
+			}else{
+				$this->setTest( $field, $test );
+			}
 		}
 	}
 	
-	public function setTest( $field, \Snap\Lib\Form\Test $test ){
-		$this->tests[$field] = $test;
+	protected function setTest( $field, Validation $test ){
+		if ( !isset($this->tests[$field]) ){
+			$this->tests[$field] = array();
+		}
+		
+		$this->tests[$field][] = $test;
 	}
 	
-	public function removeTest( $field ){
-		unset( $this->tests[$field] );
-	}
-	
-	public function validate( \Snap\Lib\Form\Data\Result $form_data ){
-		$tests = $this->tests;
+	public function validate( $inputs ){
+		foreach( $this->tests as $field => $tests ){
+			if ( isset($inputs[$field]) ){
+				/* @var $input \Snap\Node\Lib\Input */
+				$input = $inputs[$field];
 		
-		foreach( $tests as $field => $test ){
-			unset( $tests[$field] );
-			$input = $form_data->getInput( $field );
-		
-			if ( !$test->isValid(is_null($input) ? null : $input->getValue()) ){
-				$node = $form_data->getNode( $field );
-				if ( $node != null ){
-					$form_data->addError( new \Snap\Lib\Form\Error\Testable($test, $node) );
+				foreach( $tests as $test ){
+					if ( !$test->isValid($input->getValue()) ){
+						$input->setError( new \Snap\Lib\Form\Error\Validation($test) );
+					}
 				}
 			}
 		}

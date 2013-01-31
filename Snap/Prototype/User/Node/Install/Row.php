@@ -8,7 +8,7 @@ class Row extends \Snap\Prototype\Installation\Node\Install\Row {
 		$username,
 		$password;
 	
-	protected function processInput( \Snap\Lib\Form\Data\Result &$formData ){
+	protected function processInput( \Snap\Lib\Form\Result &$formData ){
 		$rtn = parent::processInput( $formData );
 		
 		if ( $rtn instanceof \Snap\Prototype\Installation\Lib\Installer ){

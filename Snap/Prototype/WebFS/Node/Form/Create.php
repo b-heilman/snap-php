@@ -8,7 +8,7 @@ class Create extends \Snap\Node\Core\ProducerForm {
 		return 'new_file';
 	}
 	
-	protected function processInput( \Snap\Lib\Form\Data\Result &$formData ){
+	protected function processInput( \Snap\Lib\Form\Result &$formData ){
 		$res = null;
 		$this->log('process input');
 		if ( $formData->hasChanged('file') && $formData->hasChanged('name') ){

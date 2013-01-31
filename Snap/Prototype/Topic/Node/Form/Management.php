@@ -66,7 +66,7 @@ class Management extends \Snap\Node\Core\Form
 		return true;
 	}
 
-	protected function processInput( \Snap\Lib\Form\Data\Result &$formData ){
+	protected function processInput( \Snap\Lib\Form\Result &$formData ){
 		$topic = $formData->getChange( 'topic_data' );
 	        
         if ( $topic ){
