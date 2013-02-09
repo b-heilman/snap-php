@@ -31,8 +31,8 @@ class Simple extends \Snap\Lib\Core\StdObject
 	
 	protected function parseSettings( $settings ) {
 		$this->id = isset($settings['id']) ? $settings['id'] : false;
-		$this->class = ( isset($settings['class']) ? $settings['class'].' ' : '' ) . $this->baseClass();
 		$this->tag = isset($settings['tag']) ? $settings['tag'] : 'span';
+		$this->class = ( isset($settings['class']) ? $settings['class'].' ' : '' ) . $this->baseClass();
 	}
 	
 	protected function baseClass(){
@@ -171,6 +171,7 @@ class Simple extends \Snap\Lib\Core\StdObject
 	public function setExtender( \Snap\Lib\Node\Extender $extender ){
 		$this->extender = $extender;
 	}
+	
 	public function hasExtender(){
 		return $this->extender != null;
 	}

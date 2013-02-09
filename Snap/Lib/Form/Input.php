@@ -40,8 +40,8 @@ abstract class Input {
 		return $this->currValue != $this->origValue; // so this way null can == ''
 	}
 	
-	public function setError( \Snap\Lib\Form\Error $error ){
-		$this->error = $error;
+	public function addError( \Snap\Lib\Form\Error $error ){
+		$this->errors[] = $error;
 	}
 	
 	public function hasError(){
@@ -52,7 +52,7 @@ abstract class Input {
 	 * 
 	 * @return \Snap\Lib\Form\Error
 	 */
-	public function getError(){
-		return $this->error;
+	public function getErrors(){
+		return $this->errors;
 	}
 }

@@ -15,7 +15,7 @@ abstract class Input extends \Snap\Node\Core\Block {
 			throw new Exception('A '.get_class($this).' needs an input');
 		}
 		$this->input = $settings['input'];
-		/* @var $this->content \Snap\Lib\Form\Content */
+		/* @var $this->content \Snap\Model\Form */
 		if ( !($this->input instanceof \Snap\Lib\Form\Input) ){
 			throw new Exception("A form's content needs to be instance of \Snap\Lib\Form\Input");
 		}

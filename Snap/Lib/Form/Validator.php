@@ -25,17 +25,27 @@ class Validator {
 		$this->tests[$field][] = $test;
 	}
 	
-	public function validate( $inputs ){
+	public function validate( \Snap\Lib\Form\Result $res ){
+		$inputs = $res->getInputs();
+		
 		foreach( $this->tests as $field => $tests ){
 			if ( isset($inputs[$field]) ){
 				/* @var $input \Snap\Node\Lib\Input */
 				$input = $inputs[$field];
-		
+				$errored = false;
+				
 				foreach( $tests as $test ){
 					if ( !$test->isValid($input->getValue()) ){
-						$input->setError( new \Snap\Lib\Form\Error\Validation($test) );
+						$input->addError( new \Snap\Lib\Form\Error\Validation($test) );
+						
+						if ( !$errored ){
+							$errored = true;
+							$res->addInputError( $input );
+						}
 					}
 				}
+			}else{
+				// TODO : need to do some sort of full validation...
 			}
 		}
 	}

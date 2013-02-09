@@ -11,17 +11,11 @@ class TestForm extends \Snap\Node\Controller\Form {
 			$data[ $input->getName() ] = $input->getValue();
 		}
 		
-		$changes = array();
-		foreach( $formRes->getChanges() as $change ){
-			/* @var $change \Snap\Lib\Form\Input */
-			$changes[ $change->getName() ] = $change->getValue();
-		}
-		
 		return array(
-			'inputs'  => $data,
-			'changes' => $changes,
-			'errors'  => $formRes->getErrors()
+			'inputs'      => $data,
+			'errors'      => $formRes->getErrors(),
+			'changes'     => $formRes->getChanges(),
+			'inputErrors' => $formRes->getInputErrors()
 		);
 	}
-	
 }

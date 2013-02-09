@@ -2,6 +2,18 @@
 
 namespace Snap\Lib\Form;
 
-interface Error {
-	public function getError();
+abstract class Error {
+	
+	protected
+		$reported = false;
+	
+	abstract public function getError();
+	
+	public function markReported(){
+		$this->reported = true;
+	}
+	
+	public function isReported(){
+		return $this->reported;
+	}
 }

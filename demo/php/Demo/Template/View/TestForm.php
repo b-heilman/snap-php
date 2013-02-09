@@ -1,5 +1,7 @@
 <?php
-$this->append( $__messages );
+if ( isset($__messages) ){
+	$this->append( $__messages );
+}
 
 $this->append( new \Snap\Node\Form\Input\Basic(array(
 	'type'  => 'text',
@@ -42,6 +44,10 @@ $this->append( new \Snap\Node\Form\Input\Pickable(array(
 
 $this->append( new \Snap\Node\Form\Input\Pickable(array(
 		'input' => $multipickable
+)) );
+
+$this->append( new \Snap\Node\Form\Input\File(array(
+		'input' => $file
 )) );
 
 $this->append( new \Snap\Node\Form\Control() );

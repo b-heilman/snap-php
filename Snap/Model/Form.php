@@ -1,8 +1,8 @@
 <?php
 
-namespace Snap\Lib\Form;
+namespace Snap\Model;
 
-abstract class Content {
+abstract class Form {
 	
 	protected static
 		$adapter = null;
@@ -13,6 +13,7 @@ abstract class Content {
 		$inputs = array(),
 		$values = array(),
 		$formName = null,
+		$encoding = null,
 		$validator = null,
 		$controlInput;
 	
@@ -35,7 +36,7 @@ abstract class Content {
 	}
 	
 	protected function setValidations( $validations ){
-		$this->validator = new Validator( $validations );
+		$this->validator = new \Snap\Lib\Form\Validator( $validations );
 	}
 	
 	protected function setInputs( $inputs ){
@@ -53,6 +54,10 @@ abstract class Content {
 				}
 			}
 				
+			if ( $input instanceof \Snap\Lib\Form\Input\Encoded ){
+				$this->encoding = $input->getEncoding();
+			}
+			
 			$this->inputs[ $name ] = $input;
 		}
 	}
@@ -77,7 +82,12 @@ abstract class Content {
 		$this->validator = $validator;
 	}
 	
+	public function getEncoding(){
+		return $this->encoding;
+	}
+	
 	public function wasFormSubmitted(){
+		error_log( $this->controlInput->getName() );
 		return $this->wasSubmitted( $this->controlInput->getName() );
 	}
 	
@@ -100,10 +110,11 @@ abstract class Content {
 	 */
 	public function getResults(){
 		if ( $this->proc == null ) {
-			if ( $this->validator && $this->wasFormSubmitted() ){
-				$this->validator->validate( $this->inputs );
-			}
 			$this->proc = new \Snap\Lib\Form\Result( $this->inputs );
+			
+			if ( $this->validator && $this->wasFormSubmitted() ){
+				$this->validator->validate( $this->proc );
+			}
 		}
 		 
 		return $this->proc;
@@ -116,6 +127,4 @@ abstract class Content {
 			$input->resetValue();
 		}
 	}
-	
-	
 }

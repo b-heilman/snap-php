@@ -1,6 +1,6 @@
 <h1>The form test</h1>
 <?php
-	$content = new \Demo\Lib\Form\TestForm();
+	$content = new \Demo\Model\Form\TestForm();
 	
 	$this->append( $form = new \Demo\Node\Controller\TestForm(array(
 		'outputStream' => 'form_data',

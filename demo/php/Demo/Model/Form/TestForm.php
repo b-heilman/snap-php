@@ -1,8 +1,8 @@
 <?php
 
-namespace Demo\Lib\Form;
+namespace Demo\Model\Form;
 
-class TestForm extends \Snap\Lib\Form\Content {
+class TestForm extends \Snap\Model\Form {
 	public function __construct(){
 		parent::__construct();
 		
@@ -36,7 +36,8 @@ class TestForm extends \Snap\Lib\Form\Content {
 					1  => 'Eins',
 					2  => 'Zwei',
 					'' => 'Pick One Here'
-			), true )
+			), true ),
+			new \Snap\Lib\Form\Input\File( 'file' )
 		));
 		
 		$this->setValidations(array(

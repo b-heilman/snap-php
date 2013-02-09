@@ -16,13 +16,25 @@ abstract class Form extends \Snap\Node\Core\Template {
     protected function parseSettings( $settings = array() ){
     	$settings['tag'] = 'form';
 
-    	if ( !isset($settings['content']) ){
-    		throw new Exception('A form needs content');
+    	if ( isset($settings['content']) ){
+	    	$this->content = $settings['content'];
+	    	/** @var $this->content \Snap\Model\Form **/
+    	}else{
+    		$className = str_replace( 'Node\View', 'Model\Form', get_class($this) );
+    		
+    		if ( class_exists($className) ){
+    			$this->content = $this->makeContent( $className );
+    		}else{ 
+    			$this->content = null;
+    		}
     	}
-    	$this->content = $settings['content'];
-    	/* @var $this->content \Snap\Lib\Form\Content */
-    	if ( !($this->content instanceof \Snap\Lib\Form\Content) ){
-    		throw new Exception("A form's content needs to be instance of \Snap\Lib\Form\Content");
+    	
+    	if ( $this->content == null ){
+    		$this->setEncoding( null );
+    	}elseif( $this->content instanceof \Snap\Model\Form ){
+    		$this->setEncoding( $this->content->getEncoding() );
+    	}else{
+    		throw new Exception("A form's content needs to be instance of \Snap\Model\Form");
     	}
     	
 		// turn of messaging for this form.  Messaging can actually be explicitly turned off
@@ -36,9 +48,12 @@ abstract class Form extends \Snap\Node\Core\Template {
 		
 		$this->target = isset($settings['target']) ? $settings['target'] : '_self';
 		$this->action = isset($settings['action']) ? $settings['action'] : '';
-		$this->setEncoding( isset($settings['encoding']) ? $settings['encoding']: '' );
 		
 		parent::parseSettings($settings);
+    }
+    
+    protected function makeContent( $className ){
+    	return new $className();
     }
     
     // allows for a form to be created that is a wrapper around other forms
@@ -47,15 +62,9 @@ abstract class Form extends \Snap\Node\Core\Template {
     }
     
     public function setEncoding( $encoding ){
-		$encoding = strtolower($encoding);
-		
-		if ( $this->parent && $this->tag == 'div' ){
-			if ( $encoding != 'application/x-www-form-urlencoded' ){
-				$this->parent->setEncoding( $encoding );
-			}
-		}else{
-			$this->encoding  = ( $encoding ) ? $encoding : 'application/x-www-form-urlencoded';
-		}
+		$this->encoding  = ( $encoding ) 
+			? strtolower($encoding) 
+			: 'application/x-www-form-urlencoded';
 	}
 	
 	public function baseClass(){
@@ -67,18 +76,19 @@ abstract class Form extends \Snap\Node\Core\Template {
 			'target'     => 'the target of the form',
 			'encoding'   => 'what type of form encoding to use',
 			'action'     => 'where the data is getting submitted',
-			'content'    => 'instance of \Snap\Lib\Form\Content to populate data with'
+			'content'    => 'instance of \Snap\Model\Form to populate data with'
 		);
 	}
 
 	protected function getAttributes(){
 		$atts = '';
+		$method = $this->content ? $this->content->getMethod() : 'POST';
 		
 		if ( $this->tag == 'form' ){
 			$atts = " target=\"{$this->target}\""
 				. " enctype=\"{$this->encoding}\""
 				. " action=\"{$this->action}\""
-				. " method=\"{$this->content->getMethod()}\"";
+				. " method=\"{$method}\"";
 		}
 		
 		return parent::getAttributes().$atts;
@@ -95,40 +105,54 @@ abstract class Form extends \Snap\Node\Core\Template {
 		}
 	}
 
-	public function reset(){
-		$eles = $this->getElementsByClass('\Snap\Node\Form\Input');
-    	$c = count( $eles );
-    	
-		for( $i = 0; $i < $c; $i++ ){
-			$eles[$i]->reset();
-		}
-	}
-	
 	protected function processTemplate(){
-		$this->append( new \Snap\Node\Form\Input\Hidden(array(
-			'input'  => $this->content->getControlInput()
-		)) );
+		if ( $this->content ){
+			$this->append( new \Snap\Node\Form\Input\Hidden(array(
+				'input'  => $this->content->getControlInput()
+			)) );
+		}
 		
 		parent::processTemplate();
 	}
 	
 	protected function getTemplateVariables(){
-		$proc = $this->content->getResults(); // just make sure the inputs have their values updated from the stream
-		
-		$output = $this->content->getInputs();
-		
-		if ( $this->messaging ){
-			$notes = $proc->getNotes();
-			foreach( $notes as $note ){
-				$this->messaging->write( $note, 'form-note-message' );
-			}
+		if ( $this->content && $this->content instanceof \Snap\Model\Form ){
+			/** @var \Snap\Lib\Form\Result **/
+			$proc = $this->content->getResults(); // just make sure the inputs have their values updated from the stream
+			$output = $this->content->getInputs();
 			
-			$errors = $proc->getErrors();
-			foreach( $errors as $error ){
-				/* @var $error \Snap\Lib\Form\Error */
-				$this->messaging->write( $error->getError(), 'form-error-message' );
+			if ( $this->messaging ){
+				$notes = $proc->getNotes();
+				foreach( $notes as $note ){
+					$this->messaging->write( $note, 'form-note-message' );
+				}
+				
+				// TODO : right now I am not rolling up input errors, might want to switch
+				$errors = $proc->getFormErrors();
+				foreach( $errors as $error ){
+					/** @var $error \Snap\Lib\Form\Error **/
+					$this->messaging->write( $error->getError(), 'form-error-message' );
+				}
+				
+				$errors = $proc->getInputErrors();
+				foreach( $errors as $field ){
+					$input = $output[ $field ];
+					/** @var $input \Snap\Lib\Form\Input **/
+					
+					$errs = $input->getErrors();
+					foreach( $errs as $error ){
+						/** @var $error \Snap\Lib\Form\Error **/
+						if ( !$error->isReported() ){
+							$this->messaging->write( $error->getError(), 'form-error-message' );
+							$error->markReported();
+						}
+					}
+				}
 			}
+		}else{
+			$output = array();
 		}
+		
 		
 		if ( $this->messaging && $this->messagingOwner ){
 			$output['__messages'] = $this->messaging;

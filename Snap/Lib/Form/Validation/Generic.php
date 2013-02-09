@@ -25,7 +25,6 @@ class Generic implements \Snap\Lib\Form\Validation {
 	
 	public function isValid( $value ){
 		$validation = $this->validation;
-		error_log( print_r($validation, true) );
 		return  $validation( $value );
 	}
 	

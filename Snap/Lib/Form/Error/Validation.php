@@ -2,11 +2,10 @@
 
 namespace Snap\Lib\Form\Error;
 
-class Validation implements \Snap\Lib\Form\Error {
+class Validation extends \Snap\Lib\Form\Error {
 
 	public 
-		$test, 
-		$node;
+		$test;
 	
 	public function __construct( \Snap\Lib\Form\Validation $test ){
 		$this->test = $test;

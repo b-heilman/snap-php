@@ -93,7 +93,7 @@ class Block extends \Snap\Node\Core\Simple
 	}
 	
 	// Register all the way up the tree a node has been added
-	// TODO : this name is retarded
+	// TODO : is a really poor name
 	protected function takeControl( Snapable $in ){
 		if ( $this->parent ){
 			$this->parent->takeControl( $in );
@@ -108,7 +108,6 @@ class Block extends \Snap\Node\Core\Simple
 						$this->takeControl( $t );
 					}
 				}
-				
 			}
 		}
 	}

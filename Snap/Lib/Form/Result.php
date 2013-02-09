@@ -11,7 +11,8 @@ class Result {
 	protected
 		$data,
 		$notes,
-		$errors,
+		$formErrors,
+		$inputErrors,
 		$changes,
 		$content;
 	
@@ -32,40 +33,21 @@ class Result {
 		if ( $in instanceof Input ){
 			$name = $in->getName();
 	
-			$this->insertion( $this->data, $name, $in );
+			$this->data[ $name ] = $in;
 	
 			if ( $in->hasChanged() ){
-				$this->insertion( $this->changes, $name, $in );
+				$this->changes[ $name ] = true;
 			}
-	
+			
 			if ( $in->hasError() ){
-				$this->addError( $in->getError() );
+				$this->addInputError( $in );
 			}
 		}
-		/*
-		if ( $in instanceof \Snap\Lib\Form\Input\Complex ) {
-			$name = $in->getName();
-			 
-			$this->data[$name] = $in;
-	
-			if ( $in->hasChanged() ){
-				$this->changes[$name] = $in;
-			}
-		}
-		 */
 	}
 	
-	protected function insertion( &$list, $name, Input $in ){
+	protected function insertion( &$list, Input $in ){
 		// had this null protected, shouldn't really need it, so removed it
-		if ( isset($list[$name]) ){
-			if ( is_array($list[$name]) ){
-				$list[$name][] = $in;
-			}else{
-				$list[$name] = array( $list[$name], $in );
-			}
-		}else{
-			$list[$name] = $in;
-		}
+		$list[ $in->getName() ] = $in;
 	}
 	
 	public function contains( $name ){
@@ -76,7 +58,6 @@ class Result {
 		return $this->data;
 	}
 	
-	
 	public function hasChanged( $name = null ){
 		if ( $name == null ){
 			return !empty( $this->changes );
@@ -86,31 +67,48 @@ class Result {
 	}
 	
 	public function getChanges(){
-		return $this->changes;
+		return array_keys( $this->changes );
 	}
 	
-	public function addError( $error ){
+	public function addInputError( Input $input ){
+		$this->inputErrors[ $input->getName() ] = true;
+	}
+	
+	public function hasInputErrors(){
+		return !empty( $this->inputErrors );
+	}
+	
+	public function getInputErrors(){
+		return array_keys( $this->inputErrors );
+	}
+	
+	public function addFormError( $error ){
 		if ( $error instanceof Error ){
-			$this->errors[] = $error;
+			$this->formErrors[] = $error;
 		}elseif( is_string($error )){
-			$this->errors[] = new Error\Simple( $error );
-		}else throw new \Exception( 'No idea how to handle error of type : '.get_class($error) );
+			$this->formErrors[] = new Error\Text( $error );
+		}else throw new \Exception( 'No idea how to handle form error of type : '.get_class($error) );
 	}
 	
-	public function clearErrors(){
-		$this->errors = array();
+	public function hasFormErrors(){
+		return !empty( $this->formErrors );
+	}
+	
+	public function getFormErrors(){
+		return $this->formErrors;
 	}
 	
 	public function hasErrors(){
-		return !empty( $this->errors );
+		return $this->hasInputErrors() || $this->hasFormErrors();
 	}
 	
-	public function getErrors(){
-		return $this->errors;
+	public function clearErrors(){
+		$this->formErrors = array();
+		$this->inputErrors = array();
 	}
 	
 	public function addNote( $note ){
-		$notes[] = $note;
+		$this->notes[] = $note;
 	}
 	
 	public function getNotes(){
