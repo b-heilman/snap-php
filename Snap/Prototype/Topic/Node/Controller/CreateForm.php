@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\Topic\Node\Controller;
 
-class Create extends \Snap\Node\Controller\Form {
+class CreateForm extends \Snap\Node\Controller\Form {
 	
 	protected function formatTitle( $title ){
 		return $title;

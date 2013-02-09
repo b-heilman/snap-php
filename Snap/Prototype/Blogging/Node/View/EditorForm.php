@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\Blogging\Node\View;
 
-class Editor extends \Snap\Prototype\Topic\Node\Form\Create 
+class EditorForm extends \Snap\Prototype\Topic\Node\View\CreateForm
 	implements \Snap\Node\Core\Actionable {
 		
 	public function getActions(){
