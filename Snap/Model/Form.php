@@ -87,7 +87,6 @@ abstract class Form {
 	}
 	
 	public function wasFormSubmitted(){
-		error_log( $this->controlInput->getName() );
 		return $this->wasSubmitted( $this->controlInput->getName() );
 	}
 	

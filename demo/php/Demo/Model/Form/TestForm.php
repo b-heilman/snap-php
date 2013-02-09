@@ -42,7 +42,7 @@ class TestForm extends \Snap\Model\Form {
 		
 		$this->setValidations(array(
 			'text'     => new \Snap\Lib\Form\Validation\Required( 'Text needs to be entered' ),
-			'pickable' => new \Snap\Lib\Form\Validation\Generic( function( $val ){ return $val === ''; }, 'Pickable is empty')
+			'pickable' => new \Snap\Lib\Form\Validation\Generic( function( $val ){ return $val !== ''; }, 'Pickable is empty')
 		));
 	}
 }

@@ -19,14 +19,8 @@ abstract class Form extends \Snap\Node\Core\Template {
     	if ( isset($settings['content']) ){
 	    	$this->content = $settings['content'];
 	    	/** @var $this->content \Snap\Model\Form **/
-    	}else{
-    		$className = str_replace( 'Node\View', 'Model\Form', get_class($this) );
-    		
-    		if ( class_exists($className) ){
-    			$this->content = $this->makeContent( $className );
-    		}else{ 
-    			$this->content = null;
-    		}
+    	}else{ 
+    		$this->content = null;
     	}
     	
     	if ( $this->content == null ){
@@ -50,10 +44,6 @@ abstract class Form extends \Snap\Node\Core\Template {
 		$this->action = isset($settings['action']) ? $settings['action'] : '';
 		
 		parent::parseSettings($settings);
-    }
-    
-    protected function makeContent( $className ){
-    	return new $className();
     }
     
     // allows for a form to be created that is a wrapper around other forms
@@ -115,40 +105,47 @@ abstract class Form extends \Snap\Node\Core\Template {
 		parent::processTemplate();
 	}
 	
-	protected function getTemplateVariables(){
-		if ( $this->content && $this->content instanceof \Snap\Model\Form ){
-			/** @var \Snap\Lib\Form\Result **/
+	protected function _finalize(){
+		parent::_finalize();
+		
+		if ( $this->messaging && $this->content && $this->content instanceof \Snap\Model\Form ){
 			$proc = $this->content->getResults(); // just make sure the inputs have their values updated from the stream
 			$output = $this->content->getInputs();
 			
-			if ( $this->messaging ){
-				$notes = $proc->getNotes();
-				foreach( $notes as $note ){
-					$this->messaging->write( $note, 'form-note-message' );
-				}
-				
-				// TODO : right now I am not rolling up input errors, might want to switch
-				$errors = $proc->getFormErrors();
-				foreach( $errors as $error ){
-					/** @var $error \Snap\Lib\Form\Error **/
-					$this->messaging->write( $error->getError(), 'form-error-message' );
-				}
-				
-				$errors = $proc->getInputErrors();
-				foreach( $errors as $field ){
-					$input = $output[ $field ];
-					/** @var $input \Snap\Lib\Form\Input **/
+			error_log( 'Form : messaging : '.get_class($this) );
+			$notes = $proc->getNotes();
+			foreach( $notes as $note ){
+				$this->messaging->write( $note, 'form-note-message' );
+			}
+		
+			// TODO : right now I am not rolling up input errors, might want to switch
+			$errors = $proc->getFormErrors();
+			foreach( $errors as $error ){
+				/** @var $error \Snap\Lib\Form\Error **/
+				$this->messaging->write( $error->getError(), 'form-error-message' );
+			}
+		
+			$errors = $proc->getInputErrors();
+			foreach( $errors as $field ){
+				$input = $output[ $field ];
+				/** @var $input \Snap\Lib\Form\Input **/
 					
-					$errs = $input->getErrors();
-					foreach( $errs as $error ){
-						/** @var $error \Snap\Lib\Form\Error **/
-						if ( !$error->isReported() ){
-							$this->messaging->write( $error->getError(), 'form-error-message' );
-							$error->markReported();
-						}
+				$errs = $input->getErrors();
+				foreach( $errs as $error ){
+					/** @var $error \Snap\Lib\Form\Error **/
+					if ( !$error->isReported() ){
+						$this->messaging->write( $error->getError(), 'form-error-message' );
+						$error->markReported();
 					}
 				}
 			}
+		}
+	}
+	
+	protected function getTemplateVariables(){
+		if ( $this->content && $this->content instanceof \Snap\Model\Form ){
+			/** @var \Snap\Lib\Form\Result **/
+			$output = $this->content->getInputs();
 		}else{
 			$output = array();
 		}
