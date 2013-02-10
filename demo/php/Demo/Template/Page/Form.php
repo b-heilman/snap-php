@@ -4,11 +4,11 @@
 	
 	$this->append( $form = new \Demo\Node\Controller\TestForm(array(
 		'outputStream' => 'form_data',
-		'content'      => $content
+		'model'        => $content
 	)) );
 	
 	$this->append( $form = new \Demo\Node\View\TestForm(array(
-		'content' => $content
+		'model' => $content
 	)) );
 	
 	$this->append( new \Snap\Node\View\Dump(array(

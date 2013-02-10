@@ -16,7 +16,7 @@ class Prototype extends Node\View\Navigation
 	
 	public function getStyles(){
 		return array(
-			new \Snap\Lib\Linking\Resource\Local( $this->page,$this)
+			new \Snap\Lib\Linking\Resource\Local($this->page,$this)
 		);
 	}
 }

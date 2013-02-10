@@ -25,8 +25,8 @@ class Prototype {
 		
 		// $prototype is just the prototype name
 		
-		$this->name = $prototype;
-		$this->dir = substr( str_replace('\\','/',$this->name), 1 );
+		$this->name = $prototype; // name has \
+		$this->dir = substr( str_replace('\\','/',$this->name), 1 ); // dir is all /
 		
 		$this->forms = stream_resolve_include_path( $this->dir.'/Install/forms.php' );
 		$this->installDir = stream_resolve_include_path( $this->dir.'/Install/Db' );

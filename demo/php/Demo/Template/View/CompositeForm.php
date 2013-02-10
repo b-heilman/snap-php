@@ -5,16 +5,12 @@
 		$this->append( $__messages );
 	}
 
-	$content = new \Demo\Model\Form\TestForm();
-	
-	$this->append( $form = new \Demo\Node\Controller\TestForm(array(
-		'outputStream' => 'form_data',
-		'content'      => $content
-	)) );
-	
-	$this->append( $form = new \Demo\Node\View\TestForm(array(
-		'content'      => $content
-	)) );
+	$this->append( new \Snap\Node\Form\Virtual(array(
+		'model'        => new \Demo\Model\Form\TestForm(),
+	//	'controller'   => '\Demo\Node\Controller\TestForm', // omitted, controller is implied to match view
+		'view'         => '\Demo\Node\View\TestForm',
+		'outputStream' => 'form_data'
+	)));
 	
 	$this->append( new \Snap\Node\View\Dump(array(
 		'inputStream'  => 'form_data'

@@ -7,7 +7,7 @@ abstract class Form extends \Snap\Node\Core\Template {
     protected 
     	$action, 
     	$target,
-    	$content,         
+    	$model,         
     	$encoding, 
     	$messaging,
     	$messagingOwner,
@@ -16,19 +16,19 @@ abstract class Form extends \Snap\Node\Core\Template {
     protected function parseSettings( $settings = array() ){
     	$settings['tag'] = 'form';
 
-    	if ( isset($settings['content']) ){
-	    	$this->content = $settings['content'];
-	    	/** @var $this->content \Snap\Model\Form **/
+    	if ( isset($settings['model']) ){
+	    	$this->model = $settings['model'];
+	    	/** @var $this->model \Snap\Model\Form **/
     	}else{ 
-    		$this->content = null;
+    		$this->model = null;
     	}
     	
-    	if ( $this->content == null ){
+    	if ( $this->model == null ){
     		$this->setEncoding( null );
-    	}elseif( $this->content instanceof \Snap\Model\Form ){
-    		$this->setEncoding( $this->content->getEncoding() );
+    	}elseif( $this->model instanceof \Snap\Model\Form ){
+    		$this->setEncoding( $this->model->getEncoding() );
     	}else{
-    		throw new Exception("A form's content needs to be instance of \Snap\Model\Form");
+    		throw new Exception("A form's model needs to be instance of \Snap\Model\Form");
     	}
     	
 		// turn of messaging for this form.  Messaging can actually be explicitly turned off
@@ -66,13 +66,13 @@ abstract class Form extends \Snap\Node\Core\Template {
 			'target'     => 'the target of the form',
 			'encoding'   => 'what type of form encoding to use',
 			'action'     => 'where the data is getting submitted',
-			'content'    => 'instance of \Snap\Model\Form to populate data with'
+			'model'    => 'instance of \Snap\Model\Form to populate data with'
 		);
 	}
 
 	protected function getAttributes(){
 		$atts = '';
-		$method = $this->content ? $this->content->getMethod() : 'POST';
+		$method = $this->model ? $this->model->getMethod() : 'POST';
 		
 		if ( $this->tag == 'form' ){
 			$atts = " target=\"{$this->target}\""
@@ -96,9 +96,9 @@ abstract class Form extends \Snap\Node\Core\Template {
 	}
 
 	protected function processTemplate(){
-		if ( $this->content ){
+		if ( $this->model ){
 			$this->append( new \Snap\Node\Form\Input\Hidden(array(
-				'input'  => $this->content->getControlInput()
+				'input'  => $this->model->getControlInput()
 			)) );
 		}
 		
@@ -108,9 +108,9 @@ abstract class Form extends \Snap\Node\Core\Template {
 	protected function _finalize(){
 		parent::_finalize();
 		
-		if ( $this->messaging && $this->content && $this->content instanceof \Snap\Model\Form ){
-			$proc = $this->content->getResults(); // just make sure the inputs have their values updated from the stream
-			$output = $this->content->getInputs();
+		if ( $this->messaging && $this->model && $this->model instanceof \Snap\Model\Form ){
+			$proc = $this->model->getResults(); // just make sure the inputs have their values updated from the stream
+			$output = $this->model->getInputs();
 			
 			error_log( 'Form : messaging : '.get_class($this) );
 			$notes = $proc->getNotes();
@@ -143,9 +143,9 @@ abstract class Form extends \Snap\Node\Core\Template {
 	}
 	
 	protected function getTemplateVariables(){
-		if ( $this->content && $this->content instanceof \Snap\Model\Form ){
+		if ( $this->model && $this->model instanceof \Snap\Model\Form ){
 			/** @var \Snap\Lib\Form\Result **/
-			$output = $this->content->getInputs();
+			$output = $this->model->getInputs();
 		}else{
 			$output = array();
 		}

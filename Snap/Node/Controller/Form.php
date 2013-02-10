@@ -5,24 +5,24 @@ namespace Snap\Node\Controller;
 abstract class Form extends \Snap\Node\Core\Controller {
 	
 	protected
-		$content;
+		$model;
 	
 	protected function parseSettings( $settings = array() ){
-		if ( isset($settings['content']) ){
-			$this->content = $settings['content'];
+		if ( isset($settings['model']) ){
+			$this->model = $settings['model'];
 		}
 		
-		/* @var $this->content \Snap\Model\Form */
-		if ( !($this->content instanceof \Snap\Model\Form) ){
-			throw new \Exception("A form's content needs to be instance of \Snap\Model\Form");
+		/* @var $this->model \Snap\Model\Form */
+		if ( !($this->model instanceof \Snap\Model\Form) ){
+			throw new \Exception("A form's model needs to be instance of \Snap\Model\Form");
 		}
 		
 		parent::parseSettings( $settings );
 	}
 	
 	protected function makeData(){
-		if ( $this->content->wasFormSubmitted() ){
-			$proc = $this->content->getResults();
+		if ( $this->model->wasFormSubmitted() ){
+			$proc = $this->model->getResults();
 		
 			if ( $proc->hasErrors() ){
 				return new \Snap\Lib\Mvc\Data( null ); // pre processing errors
@@ -36,7 +36,7 @@ abstract class Form extends \Snap\Node\Core\Controller {
 				}
 			}
 		}else{
-			return new \Snap\Lib\Mvc\Data( null ); // content wasn't even submitted
+			return new \Snap\Lib\Mvc\Data( null ); // model wasn't even submitted
 		}
 	}
 	
