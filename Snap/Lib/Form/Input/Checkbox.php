@@ -7,7 +7,7 @@ class Checkbox extends \Snap\Lib\Form\Input {
 	protected
 		$selected;
 	
-	public function __construct( $name, $value, $selected ){
+	public function __construct( $name, $value, $selected = false ){
 		parent::__construct( $name, $value );
 		
 		$this->selected = $this->currValue = $selected;

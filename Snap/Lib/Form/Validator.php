@@ -40,7 +40,7 @@ class Validator {
 						
 						if ( !$errored ){
 							$errored = true;
-							$res->addInputError( $input );
+							$res->markInputError( $field );
 						}
 					}
 				}

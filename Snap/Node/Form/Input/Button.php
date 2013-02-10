@@ -15,6 +15,10 @@ class Button extends \Snap\Node\Form\Input\Basic {
 		
 		parent::parseSettings($settings);
 		
-		$this->write( isset($settings['text']) ? $settings['text'] : $this->input->getDefault() );
+		$this->write( isset($settings['text']) ? $settings['text'] : 'Clicky' );
+	}
+	
+	protected function getInputValue(){
+		return htmlentities( $this->input->getDefault() );
 	}
 }

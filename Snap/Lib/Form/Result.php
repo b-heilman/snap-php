@@ -18,21 +18,19 @@ class Result {
 	
 	public function __construct( $inputs ){
 		$this->data = array();
-		$this->changes = array();
 		$this->notes = array();
+		$this->changes = array();
 		
 		$this->clearErrors(); // sets error = array()
 		
-		foreach( $inputs as $input ){
+		foreach( $inputs as $name => $input ){
 			/* @var $input \Snap\Lib\Form\Input */
-    		$this->addInput( $input );
+    		$this->addInput( $name, $input );
     	}	
 	}
 
-	protected function addInput( $in ){
+	protected function addInput( $name, $in ){
 		if ( $in instanceof Input ){
-			$name = $in->getName();
-	
 			$this->data[ $name ] = $in;
 	
 			if ( $in->hasChanged() ){
@@ -40,14 +38,9 @@ class Result {
 			}
 			
 			if ( $in->hasError() ){
-				$this->addInputError( $in );
+				$this->markInputError( $name );
 			}
 		}
-	}
-	
-	protected function insertion( &$list, Input $in ){
-		// had this null protected, shouldn't really need it, so removed it
-		$list[ $in->getName() ] = $in;
 	}
 	
 	public function contains( $name ){
@@ -70,8 +63,8 @@ class Result {
 		return array_keys( $this->changes );
 	}
 	
-	public function addInputError( Input $input ){
-		$this->inputErrors[ $input->getName() ] = true;
+	public function markInputError( $name ){
+		$this->inputErrors[ $name ] = true;
 	}
 	
 	public function hasInputErrors(){

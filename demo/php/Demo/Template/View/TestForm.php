@@ -50,4 +50,9 @@ $this->append( new \Snap\Node\Form\Input\File(array(
 		'input' => $file
 )) );
 
+$this->append( new \Snap\Node\Form\Input\Button(array(
+		'input' => $button,
+		'text' => 'Button Thing'
+)) );
+
 $this->append( new \Snap\Node\Form\Control() );

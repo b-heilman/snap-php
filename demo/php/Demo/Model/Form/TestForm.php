@@ -4,6 +4,8 @@ namespace Demo\Model\Form;
 
 class TestForm extends \Snap\Model\Form {
 	public function __construct(){
+		$this->setUniqueTag('a');
+		
 		parent::__construct();
 		
 		$this->setInputs(array(
@@ -13,6 +15,7 @@ class TestForm extends \Snap\Model\Form {
 			new \Snap\Lib\Form\Input\Basic( 'textarea', 'This is a text area or something like that' ),
 			new \Snap\Lib\Form\Input\Checkbox( 'uncheckbox', 'uncheckbox', false ),
 			new \Snap\Lib\Form\Input\Checkbox( 'checkbox', 'checkbox', true ),
+			new \Snap\Lib\Form\Input\Checkbox( 'button', 'Button' ),
 			new \Snap\Lib\Form\Input\Optionable( 'select', 0, array(
 				0  => 'Hello',
 				1  => 'haha',

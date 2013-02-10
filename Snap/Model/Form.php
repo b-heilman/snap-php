@@ -15,6 +15,7 @@ abstract class Form {
 		$formName = null,
 		$encoding = null,
 		$validator = null,
+		$uniqueness = null,
 		$controlInput;
 	
 	public function __construct(){
@@ -35,6 +36,10 @@ abstract class Form {
 		$this->controlInput = new \Snap\Lib\Form\Input\Basic( $this->formName, 1 );
 	}
 	
+	protected function setUniqueTag( $tag ){
+		$this->uniqueness = '_'.$tag;
+	}
+	
 	protected function setValidations( $validations ){
 		$this->validator = new \Snap\Lib\Form\Validator( $validations );
 	}
@@ -44,11 +49,21 @@ abstract class Form {
 		
 		foreach( $inputs as $input ){
 			/* @var $input \Snap\Lib\Form\Input */
-			$name = $input->getName();
-	
+			if ( $this->uniqueness ){
+				error_log( 'unique' );
+				$name = $input->getName();
+			
+				$input->addTag( $this->uniqueness );
+			
+				$tagName = $input->getName();
+			}else{
+				error_log( 'not unique' );
+				$name = $tagName = $input->getName();
+			}
+			
 			if ( $submitted ){
-				if ( $this->wasSubmitted($name) ){
-					$input->changeValue( $this->getValue($name) );
+				if ( $this->wasSubmitted($tagName) ){
+					$input->changeValue( $this->getValue($tagName) );
 				}else{
 					$input->changeValue( null );
 				}

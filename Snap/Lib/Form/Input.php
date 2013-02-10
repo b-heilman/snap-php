@@ -16,6 +16,10 @@ abstract class Input {
 		$this->currValue = $this->origValue = $value;
 	}
 	
+	public function addTag( $tag ){
+		$this->name = $this->name.$tag;
+	}
+	
 	public function getName(){
 		return $this->name;
 	}

@@ -6,13 +6,12 @@ class TestForm extends \Snap\Node\Controller\Form {
 	
 	protected function processInput( \Snap\Lib\Form\Result $formRes ){
 		$data = array();
-		foreach( $formRes->getInputs() as $input ){
+		foreach( $formRes->getInputs() as $name => $input ){
 			/* @var $input \Snap\Lib\Form\Input */
-			$data[ $input->getName() ] = $input->getValue();
+			$data[ $name ] = $input->getValue();
 		}
 		
-		error_log( 'TestForm' );
-		$formRes->addFormError( 'Woot woot' );
+		//$formRes->addFormError( '== error ==' );
 		$formRes->addNote( '== note ==' );
 		
 		return array(
