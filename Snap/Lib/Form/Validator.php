@@ -6,46 +6,42 @@ class Validator {
 	protected $tests = array();
 	
 	public function __construct( $tests = array() ){
-		foreach( $tests as $field => $test ){
-			if ( is_array($test) ){
-				foreach( $test as $t ){
-					$this->setTest( $field, $test );
-				}
-			}else{
-				$this->setTest( $field, $test );
-			}
-		}
+		$this->add( $tests );
 	}
 	
-	protected function setTest( $field, Validation $test ){
-		if ( !isset($this->tests[$field]) ){
-			$this->tests[$field] = array();
+	public function add( $tests = array() ){
+		if ( is_array($tests) ){
+			$this->tests = array_merge($this->tests, $tests);
+		}elseif( $tests instanceof Validation ) {
+			$this->tests[] = $tests;
 		}
-		
-		$this->tests[$field][] = $test;
 	}
 	
 	public function validate( \Snap\Lib\Form\Result $res ){
 		$inputs = $res->getInputs();
 		
-		foreach( $this->tests as $field => $tests ){
-			if ( isset($inputs[$field]) ){
-				/* @var $input \Snap\Node\Lib\Input */
-				$input = $inputs[$field];
-				$errored = false;
-				
-				foreach( $tests as $test ){
-					if ( !$test->isValid($input->getValue()) ){
-						$input->addError( new \Snap\Lib\Form\Error\Validation($test) );
+		foreach( $this->tests as $test ){
+			/** @var $test \Snap\Lib\Form\Validation **/ 
+			error_log( get_class($test) );
+			$errors = $test->checkForErrors( $inputs );
+			
+			if ( !is_null($errors) ){
+				if ( empty($errors) ){
+					$res->addFormError( new \Snap\Lib\Form\Error\Validation($test) );
+				}else{
+					for( $i = 0, $c = count($errors); $i < $c; $i++ ){
+						$field = $errors[$i];
+						error_log( '->'.$field );
+						if ( isset($inputs[$field]) ){
+							error_log( '=>'.$field );
+							$input = $inputs[$field];
+							
+							$input->addError( new \Snap\Lib\Form\Error\Validation($test) );
 						
-						if ( !$errored ){
-							$errored = true;
 							$res->markInputError( $field );
 						}
 					}
 				}
-			}else{
-				// TODO : need to do some sort of full validation...
 			}
 		}
 	}

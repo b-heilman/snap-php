@@ -2,25 +2,26 @@
 
 use \Snap\Node\Form\Element;
 
-$this->append( $this->messaging );
-	
+if ( $_messaging ){
+	$this->append( $_messaging );
+}
+
 $this->append( $r = new \Snap\Node\Form\Row() );
 	$r->append( new Element(array(
 		'input' => new \Snap\Node\Form\Input\Text(array(
-			'name'  => '_login', 
-			'label' => USER_LOGIN_LABEL
-		))
+			'input' => $name
+		)), 
+		'label' => USER_LOGIN_LABEL
 	)) );
     $r->append( new Element(array(
 		'input' => new \Snap\Node\Form\Input\Password(array(
-			'name'  => '_passwrd', 
-			'label' => 'Password'
-		))
+			'input' => $password
+		)),
+    	'label' => 'Password'
     )) );
     $r->append( new Element(array(
 		'input' => new \Snap\Node\Form\Input\Button(array(
-	    	'type'  => 'submit', 
-	    	'name'  => 'log_in',
-	    	'value' => 'Login'
+	    	'input' => new \Snap\Lib\Form\Input\Checkbox( 'button', 'submit' ),
+	    	'text' => 'Login'
 	    ))
     )) );

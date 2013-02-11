@@ -7,15 +7,15 @@ use
 $this->append( $r = new \Snap\Node\Form\Row() );	
 	$r->append( new Element(array(
 		'input' => new Text(array( 
-			'name'  => USER_LOGIN
+			'input'  => $name
 		)), 
 		'label' => USER_LOGIN_LABEL
 	)) );
 	
-	if ( USER_LOGIN != USER_DISPLAY ){
+	if ( isset($display) ){
 		$r->append( new Element(array(
 			'input' => new Text(array( 
-				'name'  => USER_DISPLAY
+				'input'  => $display
 			)), 
 			'label' => USER_DISPLAY_LABEL
 		)) );
@@ -23,9 +23,16 @@ $this->append( $r = new \Snap\Node\Form\Row() );
 	
 	$r->append( new Element(array(
 		'input' => new Text(array(  
-			'name'  => USER_PASSWORD
+			'input'  => $password
 		)), 
 		'label' => 'Password'
+	)) );
+	
+	$r->append( new Element(array(
+		'input' => new Text(array(
+			'input'  => $password2
+		)),
+		'label' => 'Password Again'
 	)) );
 	
 $this->append( $this->messaging );

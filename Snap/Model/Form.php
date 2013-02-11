@@ -2,6 +2,7 @@
 
 namespace Snap\Model;
 
+// TODO : make this a singleton ?
 abstract class Form {
 	
 	protected static
@@ -40,24 +41,18 @@ abstract class Form {
 		$this->uniqueness = '_'.$tag;
 	}
 	
-	protected function setValidations( $validations ){
-		$this->validator = new \Snap\Lib\Form\Validator( $validations );
-	}
-	
 	protected function setInputs( $inputs ){
 		$submitted = $this->wasFormSubmitted();
 		
 		foreach( $inputs as $input ){
 			/* @var $input \Snap\Lib\Form\Input */
 			if ( $this->uniqueness ){
-				error_log( 'unique' );
 				$name = $input->getName();
 			
 				$input->addTag( $this->uniqueness );
 			
 				$tagName = $input->getName();
 			}else{
-				error_log( 'not unique' );
 				$name = $tagName = $input->getName();
 			}
 			
@@ -93,8 +88,12 @@ abstract class Form {
 		$this->formName = $formName;
 	}
 	
-	protected function setValidator( \Snap\Lib\Form\Validator $validator ){
-		$this->validator = $validator;
+	protected function setValidations( $validations ){
+		if ( $this->validator ){
+			$this->validator->add( $validations );
+		}else{
+			$this->validator = new \Snap\Lib\Form\Validator( $validations );
+		}
 	}
 	
 	public function getEncoding(){

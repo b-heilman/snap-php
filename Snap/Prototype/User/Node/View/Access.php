@@ -1,8 +1,10 @@
 <?php
 
-namespace Snap\Prototype\User\Node\Form;
+namespace Snap\Prototype\User\Node\View;
 
-class Access extends \Snap\Node\Core\ProducerForm {
+// TODO : this should become a virtual
+
+class AccessForm extends \Snap\Node\View\Form {
 	
 	protected function _finalize(){
 		parent::_finalize();

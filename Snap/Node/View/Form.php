@@ -129,12 +129,14 @@ abstract class Form extends \Snap\Node\Core\Template {
 			foreach( $errors as $field ){
 				$input = $output[ $field ];
 				/** @var $input \Snap\Lib\Form\Input **/
-					
+				error_log( '=>'.$field );
 				$errs = $input->getErrors();
 				foreach( $errs as $error ){
+					error_log( '... '.$field.' : '.get_class($error).' : '.$error->getError() );
 					/** @var $error \Snap\Lib\Form\Error **/
 					if ( !$error->isReported() ){
-						$this->messaging->write( $error->getError(), 'form-error-message' );
+						error_log( '--- '.$field.' : '.$error->getError() );
+						$this->messaging->write( $error->getError(), 'form-input-error' );
 						$error->markReported();
 					}
 				}
