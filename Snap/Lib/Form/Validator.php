@@ -22,7 +22,6 @@ class Validator {
 		
 		foreach( $this->tests as $test ){
 			/** @var $test \Snap\Lib\Form\Validation **/ 
-			error_log( get_class($test) );
 			$errors = $test->checkForErrors( $inputs );
 			
 			if ( !is_null($errors) ){
@@ -31,9 +30,8 @@ class Validator {
 				}else{
 					for( $i = 0, $c = count($errors); $i < $c; $i++ ){
 						$field = $errors[$i];
-						error_log( '->'.$field );
+						
 						if ( isset($inputs[$field]) ){
-							error_log( '=>'.$field );
 							$input = $inputs[$field];
 							
 							$input->addError( new \Snap\Lib\Form\Error\Validation($test) );

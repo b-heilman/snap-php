@@ -270,15 +270,23 @@ HTML;
  	
  	// TODO : these need to be removed
  	public function makeResourceLink( $resource ){
- 		$manager = new \Snap\Lib\File\Manager( new \Snap\Lib\File\Accessor\Resource($resource) );
- 		
- 		return $manager->makeLink();
+ 		if ( strlen($resource) ){
+	 		$manager = new \Snap\Lib\File\Manager( new \Snap\Lib\File\Accessor\Resource($resource) );
+	 		
+	 		return $manager->makeLink();
+ 		}else{
+ 			return null;
+ 		}
  	}
  	
  	public function makeLibraryLink( $library ){
- 		$manager = new \Snap\Lib\File\Manager( new \Snap\Lib\File\Accessor\Document($library) );
- 		
- 		return $manager->makeLink();
+ 		if ( strlen($library) ){
+	 		$manager = new \Snap\Lib\File\Manager( new \Snap\Lib\File\Accessor\Document($library) );
+	 		
+	 		return $manager->makeLink();
+	 	}else{
+	 		return null;
+	 	}
  	}
  	
  	public function makeAjaxLink( $class, $data ){

@@ -34,9 +34,13 @@ class Css extends Base
 				$a = $actions[$i];
 				
 				if ( $a instanceof Resource\Local ){
-					$this->links[] = $a->getLink( 'Css', '.css' );
+					$link = $a->getLink( 'Css', '.css' );
 				}elseif ( $a instanceof Resource\Remote ){
-					$this->links[] = $a->getLink();
+					$link = $a->getLink();
+				}
+				
+				if ( $link ){
+					$this->links[] = $link;
 				}
 			}	
 		}

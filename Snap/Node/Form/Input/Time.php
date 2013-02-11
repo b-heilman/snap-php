@@ -2,6 +2,7 @@
 
 namespace Snap\Node\Form\Input;
 
+/** TODO : need to redo this class **/
 class Time extends \Snap\Node\Core\Block 
 	implements \Snap\Node\Form\WrappableInput {
 	

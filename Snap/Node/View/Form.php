@@ -112,7 +112,6 @@ abstract class Form extends \Snap\Node\Core\Template {
 			$proc = $this->model->getResults(); // just make sure the inputs have their values updated from the stream
 			$output = $this->model->getInputs();
 			
-			error_log( 'Form : messaging : '.get_class($this) );
 			$notes = $proc->getNotes();
 			foreach( $notes as $note ){
 				$this->messaging->write( $note, 'form-note-message' );
@@ -129,13 +128,10 @@ abstract class Form extends \Snap\Node\Core\Template {
 			foreach( $errors as $field ){
 				$input = $output[ $field ];
 				/** @var $input \Snap\Lib\Form\Input **/
-				error_log( '=>'.$field );
 				$errs = $input->getErrors();
 				foreach( $errs as $error ){
-					error_log( '... '.$field.' : '.get_class($error).' : '.$error->getError() );
 					/** @var $error \Snap\Lib\Form\Error **/
 					if ( !$error->isReported() ){
-						error_log( '--- '.$field.' : '.$error->getError() );
 						$this->messaging->write( $error->getError(), 'form-input-error' );
 						$error->markReported();
 					}

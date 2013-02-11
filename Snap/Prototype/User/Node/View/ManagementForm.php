@@ -1,8 +1,9 @@
 <?php
 
-namespace Snap\Prototype\User\Node\Form;
+namespace Snap\Prototype\User\Node\View;
 
-class Management extends \Snap\Node\Core\Form 
+// TODO : this is going to be refactored
+class Management extends \Snap\Node\View\Form 
 	implements \Snap\Node\Core\Styleable {
 	
 	protected function processInput( \Snap\Lib\Form\Result &$formData ){
