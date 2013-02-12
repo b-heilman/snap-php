@@ -41,9 +41,9 @@ class CreateForm extends \Snap\Node\Controller\Form {
 		$inputs = $formData->getInputs();
 	
 		$login = $inputs['name']->getValue();
-		$password = $inputs['password']->getValue();
+		$password = $inputs['password1']->getValue();
 		
-		$data = array( admin => $this->admin );
+		$data = array( 'admin' => $this->admin );
 	
 		if ( USER_LOGIN != USER_DISPLAY ){
 			$data[USER_DISPLAY] = $inputs['display']->getValue();

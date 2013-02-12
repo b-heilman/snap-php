@@ -34,11 +34,19 @@ abstract class Form {
 			$this->setMethod( 'POST' );
 		}
 		
-		$this->controlInput = new \Snap\Lib\Form\Input\Basic( $this->formName, 1 );
+		if ( $this->uniqueness ){
+			$this->controlInput = new \Snap\Lib\Form\Input\Basic( $this->formName.$this->uniqueness, 1 );
+		}else{
+			$this->controlInput = new \Snap\Lib\Form\Input\Basic( $this->formName, 1 );
+		}
 	}
 	
 	protected function setUniqueTag( $tag ){
 		$this->uniqueness = '_'.$tag;
+		
+		if ( $this->controlInput ){
+			$this->controlInput->addTag( $this->uniqueness );
+		}
 	}
 	
 	protected function setInputs( $inputs ){

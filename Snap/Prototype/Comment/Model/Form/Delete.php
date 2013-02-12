@@ -14,7 +14,7 @@ class Delete extends \Snap\Model\Form {
 		parent::__construct();
 		
 		$this->setInputs(array(
-			new \Snap\Lib\Form\Input\Checkbox( 'remove', 1, false )
+			new \Snap\Lib\Form\Input\Checkbox( 'remove', 1 )
 		));
 	}
 }

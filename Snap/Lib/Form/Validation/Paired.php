@@ -24,7 +24,7 @@ class Paired implements \Snap\Lib\Form\Validation {
 			return null;
 		}
 		
-		return array( $this->field1, $this->field2 );
+		return array( $this->field2 );
 	}
 	
 	public function getError(){

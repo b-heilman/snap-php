@@ -15,22 +15,19 @@ class Base extends \Snap\Node\Core\View {
 	protected function _finalize(){
 		parent::_finalize();
 		
-		if ( $this->deletion ){
-			$t = $this->deletion->getProcessResult();
-			
-			if ( !empty($t) ){
-				$this->kill();
-			}
+		error_log( 'kill comment' );
+		if ( !$this->comment->initialized() ){
+			$this->kill();
 		}
 	}
 	
 	protected function getTemplateVariables(){
-		$comment = new \Snap\Prototype\Comment\Lib\Element( $this->getStreamData()->get(0) );
+		$this->comment = new \Snap\Prototype\Comment\Lib\Element( $this->getStreamData()->get(0) );
 		
 		return array(
-			'comment' => $comment,	
-			'user'    => new \Snap\Prototype\User\Lib\Element( $comment->info(COMMENT_USER) ),
-			'time'    => new \Snap\Lib\Core\Time( $comment->info('creation_date') )
+			'comment' => $this->comment,	
+			'user'    => new \Snap\Prototype\User\Lib\Element( $this->comment->info(COMMENT_USER) ),
+			'time'    => new \Snap\Lib\Core\Time( $this->comment->info('creation_date') )
 		);
 	}
 }

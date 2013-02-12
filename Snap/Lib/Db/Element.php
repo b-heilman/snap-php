@@ -101,7 +101,12 @@ abstract class Element extends Definition
 		if ( $this->plural ){
 			throw new \Exception('Need to write this part.');
 		}else{
-			return $db->delete( $table, array($id => $this->id() ) );
+			if ( $db->delete($table, array($id => $this->id())) ){
+				$this->init = null;
+				return true;
+			}else{
+				return false;
+			}
 		}
 	}
 

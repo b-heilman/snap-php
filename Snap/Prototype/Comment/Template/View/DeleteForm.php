@@ -1,5 +1,6 @@
 <?php
 
 $this->append( new \Snap\Node\Form\Input\Button(array(
-	'input' => $remove
+	'input' => $remove,
+	'text'  => 'Remove'
 )) );

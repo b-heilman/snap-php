@@ -18,7 +18,7 @@ class Checkbox extends \Snap\Lib\Form\Input {
 	}
 	
 	public function changeValue( $value ){
-		if ( is_null($value) || $value !== $this->origValue){
+		if ( is_null($value) || $value != $this->origValue){
 			$this->currValue = false;
 		}else{
 			$this->currValue = true;
