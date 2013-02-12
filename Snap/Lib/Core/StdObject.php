@@ -3,6 +3,7 @@
 namespace Snap\Lib\Core;
 
 class StdObject {
+	
 	static protected 
 		$pageUrl = null,
 		$pageRename,

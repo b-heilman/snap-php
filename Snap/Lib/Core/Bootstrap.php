@@ -25,8 +25,19 @@ class Bootstrap extends StdObject {
 			
 			$changes = false;
 			self::$init = true;
-				
-			set_include_path( implode(PATH_SEPARATOR, static::$phpLibraries) );
+			
+			if ( defined('EXTRA_INCLUDES') ){
+				$extra = EXTRA_INCLUDES;
+				foreach( $extra as $key => $include ){
+					if ( $include{0} == '.' ){
+						$extra[$key] = static::$projectRoot.'/'.$include;
+					}
+				}
+			}else{
+				$extra = array();
+			}
+
+			set_include_path( implode(PATH_SEPARATOR, array_merge(static::$phpLibraries,$extra)) );
 			
 			$dirs = static::$phpLibraries;
 			
@@ -148,15 +159,7 @@ class Bootstrap extends StdObject {
 	static public function getLibraries(){
 		return self::$fileLibraries;
 	}
-	/*
-	static public function getStyleFile( $obj, $file = null ){
-		return static::getFile( $obj, $file, 'Node', 'Css', '.css');
-	}
 	
-	static public function getActionFile( $obj, $file = null ){
-		return static::getFile( $obj, $file, 'Node', 'Javascript', '.js' );
-	}
-	*/
 	static public function includeClass( $className ){
 		$className = str_replace('\\', '/', $className);
 		
