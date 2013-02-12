@@ -1,14 +1,18 @@
+<div class="blog-content">
 <?php 
-	$this->append( $this->login );
+	$this->append( $loginControl );
+	
+	$this->append( $logoutControl );
+	$this->append( $logoutView );
 
-	$this->append( new \Snap\Prototype\Blogging\Node\Form\Editor(array(
-		'class'    => 'blog-content',
-		'type'     => $this->blogType,
-		'controls' => true
-	)) );
+	
+	$this->append( $editorControl );
+	$this->append( $editorView );
 ?>
+</div>
 <div class='right-nav'>
 <?php 
+	/*
 	$this->append( new \Snap\Prototype\WebFS\Node\Controller\Extensions(array(
 		'extensions'   => array('jpg', 'gif', 'png'),
 		'prevMax'      => -1,
@@ -26,5 +30,6 @@
 	$this->append( new \Snap\Prototype\WebFS\Node\Form\AjaxCreate(array(
 		'messaging'=>true
 	)) );
+	*/
 ?>
 </div>

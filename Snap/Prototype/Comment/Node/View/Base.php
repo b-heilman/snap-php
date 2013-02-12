@@ -15,7 +15,6 @@ class Base extends \Snap\Node\Core\View {
 	protected function _finalize(){
 		parent::_finalize();
 		
-		error_log( 'kill comment' );
 		if ( !$this->comment->initialized() ){
 			$this->kill();
 		}

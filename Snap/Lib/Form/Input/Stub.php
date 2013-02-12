@@ -2,7 +2,7 @@
 
 namespace Snap\Lib\Form\Input;
 
-class Stub extends Snap\Lib\Form\Input {
+class Stub extends \Snap\Lib\Form\Input {
 	
 	public function hasChanged(){
 		return true;

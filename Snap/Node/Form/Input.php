@@ -23,6 +23,8 @@ abstract class Input extends \Snap\Node\Core\Block {
 		parent::parseSettings( $settings );
 	}
 	
+	abstract function getType();
+	
 	protected function baseClass(){
 		return 'form-input';
 	}

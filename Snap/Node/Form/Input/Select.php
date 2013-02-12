@@ -18,6 +18,10 @@ class Select extends \Snap\Node\Form\Input {
 		parent::__construct( $settings );
 	}
 
+	public function getType(){
+		return 'select';
+	}
+	
 	public function inner(){
 		$render = '';
 		$val = $this->input->getValue();
@@ -49,7 +53,7 @@ class Select extends \Snap\Node\Form\Input {
 		return parent::inner();
 	}
 	
-	protected function getName(){
+	public function getName(){
 		if ( $this->input->allowsMultiple() ){
 			return parent::getName().'[]';
 		}else return parent::getName();

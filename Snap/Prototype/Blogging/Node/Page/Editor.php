@@ -11,12 +11,6 @@ class Editor extends Node\Page\Basic {
 		$login,
 		$blogType;
 	
-	public function __construct( $settings = array() ){
-		$this->login = new \Snap\Prototype\User\Node\Form\Access();
-		
-		parent::__construct( $settings );
-	}
-	
 	protected function parseSettings( $settings = array() ){
 		$this->blogType = isset($settings['blogType']) ? $settings['blogType'] : 'Blog';
 		
@@ -36,6 +30,22 @@ class Editor extends Node\Page\Basic {
 	
 	protected function getMeta(){
 		return '';
+	}
+	
+	protected function getTemplateVariables(){
+		$login = new \Snap\Prototype\User\Model\Form\Login();
+		$logout = new \Snap\Prototype\User\Model\Form\Logout();
+		$editor = new \Snap\Prototype\Topic\Model\Form\Create( $this->blogType );
+		
+		$this->login = new \Snap\Prototype\User\Node\View\LoginForm(array('model' => $this->login));
+		
+		return array(
+			'logoutControl' => new \Snap\Prototype\User\Node\Controller\LogoutForm(array('model' => $logout)),
+			'logoutView'    => new \Snap\Prototype\User\Node\View\LogoutForm(array('model' => $logout)),
+			'loginControl'  => new \Snap\Prototype\User\Node\Controller\LoginForm(array('model' => $login)),
+			'editorView'    => new \Snap\Prototype\Blogging\Node\View\EditorForm(array('model' => $editor)),
+			'editorControl' => new \Snap\Prototype\Topic\Node\Controller\CreateForm(array('model' => $editor))
+		);
 	}
 	
 	protected function _finalize(){

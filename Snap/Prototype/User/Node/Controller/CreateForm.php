@@ -66,12 +66,12 @@ class CreateForm extends \Snap\Node\Controller\Form {
 				}elseif ( strpos(Mysql::lastError(), USER_DISPLAY) ){
 					$formData->addFormError( 'That '.strtolower(USER_DISPLAY_LABEL).' exists already!' );
 				}else{
-					error_log( Mysql::lastError() );
 					$formData->addFormError( 'That just will not work' );
+					$formRes->addDebug( Mysql::lastError() );
 				}
 			}else{
 				$formData->addFormError( 'Failure to create user' );
-				error_log( Mysql::lastError() );
+				$formRes->addDebug( Mysql::lastError() );
 			}
 		}
 		 

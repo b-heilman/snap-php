@@ -107,4 +107,9 @@ class Result {
 	public function getNotes(){
 		return $this->notes;
 	}
+	
+	public function addDebug( $debug ){
+		// for now, I just dump the info out to the error_log
+		error_log( $debug );
+	}
 }

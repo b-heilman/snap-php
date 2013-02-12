@@ -15,10 +15,12 @@ class CreateForm extends \Snap\Node\Controller\Form {
 	protected function processInput( \Snap\Lib\Form\Result $formRes ){
 		$res = null;
 		
+		$inputs = $formRes->getInputs();
+		
 		$info = array(
-			TOPIC_TYPE_ID => $formData->getValue('new_topic_type'),
-			TOPIC_TITLE   => $this->formatTitle( $formData->getValue('new_topic_title') ),
-			'content'     => $this->formatContent( $formData->getValue('new_topic_content') )
+			TOPIC_TYPE_ID => isset($inputs['type']) ? $inputs['type']->getValue() : $this->model->type,
+			TOPIC_TITLE   => $this->formatTitle( $inputs['title']->getValue() ),
+			'content'     => $this->formatContent( $inputs['content']->getValue() )
 		);
 		
 		try {
@@ -27,17 +29,17 @@ class CreateForm extends \Snap\Node\Controller\Form {
 				
 				$formRes->addNote( 'Topic created' );
 				
-				$this->content->reset();
+				$this->model->reset();
 			}else{
 				$formRes->addFormError( 'Error creating topic' );
 				
-				error_log( \Snap\Adapter\Db\Mysql::lastQuery() );
-				error_log( \Snap\Adapter\Db\Mysql::lastError() );
+				$formRes->addDebug( \Snap\Adapter\Db\Mysql::lastQuery() );
+				$formRes->addDebug( \Snap\Adapter\Db\Mysql::lastError() );
 			}
 		}catch( \Exception $ex ){
 			$formRes->addError( 'Exception creating topic' );
 			
-			error_log( $ex->getMessage() );
+			$formRes->addDebug( $ex->getMessage() );
 		}
 		
 		return $res;
