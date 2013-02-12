@@ -13,8 +13,9 @@ class Element extends \Snap\Lib\Db\Element {
 	public function __construct($data){
 		if( is_string($data) ){
 			$rtn = self::searchByLogin($data);
-			if ( $rtn )
+			if ( $rtn ){
 				$user = $rtn;
+			}
 		}
 		
 		parent::__construct( $data );

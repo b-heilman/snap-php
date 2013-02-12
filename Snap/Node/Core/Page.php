@@ -218,7 +218,7 @@ abstract class Page extends Node\Core\Template {
 		$junk = trim( ob_get_contents() );
 		ob_end_clean();
 		
-		return $this->makePage( $title, $meta, $jsLinks, $jsContent, $cssContent, $htm, $debug, $junk );
+		return $this->makePage( $title, $meta, $jsLinks, $jsContent, $cssContent, $html, $this->debugContent, $junk );
 	}
 	
 	protected function makePage( $title, $meta, $jsLinks, $jsContent, $css, $html, $debug, $junk ){
@@ -233,10 +233,10 @@ abstract class Page extends Node\Core\Template {
 		<!-- js links -->
 		{$jsLinks}
 		<!-- css links -->
-		{$cssContent}
+		{$css}
 	</head>
 	<body>
-		<pre>{$this->debugContent}</pre>
+		<pre>{$debug}</pre>
 		{$junk}
 		{$html}
 		{$jsContent}

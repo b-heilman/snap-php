@@ -1,5 +1,7 @@
 <?php
 
+namespace Snap\Prototype\User\Model\Form;
+
 class Login extends \Snap\Model\Form {
 	
 	public function __construct(){

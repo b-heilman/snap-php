@@ -1,6 +1,6 @@
 <?php
 
-namespace Snap\Prototype\User\Mode\Form;
+namespace Snap\Prototype\User\Model\Form;
 
 class Logout extends \Snap\Model\Form {
 	
@@ -12,8 +12,8 @@ class Logout extends \Snap\Model\Form {
 		
 		parent::__construct();
 		
-		$this->addInputs(array(
-			new \Snap\Lib\Form\Input\Checkbox( 'logout', $this->user->id() ) 
+		$this->setInputs(array(
+			new \Snap\Lib\Form\Input\Checkbox( 'logout', $this->user ? $this->user->id() : '' ) 
 		));
 	}
 }

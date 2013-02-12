@@ -1,18 +1,22 @@
 <?php
 use \Snap\Node\Form\Input;
 
-if ( $__messaging ){
-	$this->append( $__messaging );
+if ( $__messages ){
+	$this->append( $__messages );
 }
 
 $this->append( new Input\Hidden(array(
 	'input' => $thread
 )) );
 
-$this->append( new Input\Hidden(array(
-	'input' => $parentComment
-)) );
+if ( isset($parentComment) ){
+	$this->append( new Input\Hidden(array(
+		'input' => $parentComment
+	)) );
+}
 
 $this->append( new Input\Textarea(array(
-	'name'  => $comment
+	'input'  => $comment
 )) );
+
+$this->append( new \Snap\Node\Form\Control() );

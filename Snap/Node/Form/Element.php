@@ -13,8 +13,7 @@ use Snap\Node\Core\Text;
 // TODO start using options to toggle between attributes for inputs
 // TODO $name needs to be switched to $id to make more sense
 
-class Element extends \Snap\Node\Core\Template 
-	implements \Snap\Node\Form\Input {
+class Element extends \Snap\Node\Core\Template {
 		
 	public    
 		$input;
@@ -36,17 +35,19 @@ class Element extends \Snap\Node\Core\Template
     	$name = $input->getName();
     	
     	$settings['class'] = ( isset($settings['class']) ? $settings['class'].' ' : '' )
-    	. 'form-element '.( $name == '' ? '' : $name.'-wrapper' ).' '.$input->getType().'-wrapper';
+    		. 'form-element '.$input->getType().'-wrapper';
     	$settings['tag'] = 'div';
     	
     	if ( $input instanceof Input ){
 			$this->input = $input;
-			
+			/*
+			TODO
 	    	if ( $input instanceof WrappableInput ){
 				$this->input->setWrapper( $this );
 			}else{
 				throw new \Exception( 'the "input" setting needs to be type of input_node, '.get_class($input).' passed instead' );
 			}
+			*/
 		}else{
 			throw new \Exception( 'the "input" setting needs to be type of input_node, '.get_class($input)
 				.' passed instead. Settings: '.print_r($settings, true)

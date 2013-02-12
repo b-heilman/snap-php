@@ -1,6 +1,6 @@
 <?php
 
-namespace \Snap\Prototype\Comment\Node\Controller;
+namespace Snap\Prototype\Comment\Node\Controller;
 
 class CreateForm extends \Snap\Node\Controller\Form {
 	
@@ -24,7 +24,7 @@ class CreateForm extends \Snap\Node\Controller\Form {
 					'content' => $this->sanitizeComment( $inputs['comment']->getValue() )
 			);
 				
-			if ( $formData->hasChanged('parent') ){
+			if ( isset($inputs['parent']) ){
 				$info[COMMENT_PARENT] = $inputs['parent']->getValue();
 			}
 				
@@ -32,7 +32,7 @@ class CreateForm extends \Snap\Node\Controller\Form {
 				$res = new \Snap\Prototype\Comment\Lib\Element( $id );
 	
 				$formData->addNote( 'Comment Created' );
-				$formData->reset();
+				$this->model->reset();
 			}else{
 				$formData->addError( 'Error creating comment' );
 			}

@@ -173,7 +173,7 @@ class Bootstrap extends StdObject {
 			if ( $lead == 'Adapter' ){
 				$include = static::getExtensionFile( $className, 'Adapter', 'Config', '.php' );
 			}elseif ( $lead == 'Prototype' ){
-				$include = static::getRelatedFile( $className, array('Node','Lib','Install'), 'Install/config.php' );
+				$include = static::getRelatedFile( $className, array('Node','Lib','Install','Model'), 'Install/config.php' );
 			}
 			
 			if ( $include ){

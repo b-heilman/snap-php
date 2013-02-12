@@ -2,6 +2,8 @@
 
 namespace Snap\Node\Core;
 
+// TODO : consumer probably needs to become a trait
+// TODO : template probably needs to become a trait
 abstract class View extends \Snap\Node\Core\Template
 	implements \Snap\Node\Core\Consumer {
 	

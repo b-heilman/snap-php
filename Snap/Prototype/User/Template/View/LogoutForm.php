@@ -1,6 +1,6 @@
 <?php
 
 $this->append( new \Snap\Node\Form\Input\Button(array(
-	'value' => $logout,
+	'input' => $logout,
 	'text'  => $logoutText
 )), 'button' );

@@ -12,7 +12,7 @@ abstract class Input extends \Snap\Node\Core\Block {
 		$this->readonly = isset($settings['readonly']) ? $settings['readonly'] : false;
 		
 		if ( !isset($settings['input']) ){
-			throw new Exception('A '.get_class($this).' needs an input');
+			throw new \Exception('A '.get_class($this).' needs an input');
 		}
 		$this->input = $settings['input'];
 		/* @var $this->content \Snap\Model\Form */
@@ -41,7 +41,7 @@ abstract class Input extends \Snap\Node\Core\Block {
     		.( $this->readonly ? ' readonly="true"' : '' );
 	}
 	
-	protected function getName(){
+	public function getName(){
 		return $this->input->getName();
 	}
 }

@@ -2,8 +2,8 @@
 
 use \Snap\Node\Form\Element;
 
-if ( $_messaging ){
-	$this->append( $_messaging );
+if ( isset($__messages) ){
+	$this->append( $__messages );
 }
 
 $this->append( $r = new \Snap\Node\Form\Row() );

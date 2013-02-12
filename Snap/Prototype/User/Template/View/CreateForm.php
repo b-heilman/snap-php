@@ -2,37 +2,42 @@
 
 use 
 	\Snap\Node\Form\Element,
-	\Snap\Node\Form\Input\Text;
+	\Snap\Node\Form\Input;
 
-$this->append( $r = new \Snap\Node\Form\Row() );	
-	$r->append( new Element(array(
-		'input' => new Text(array( 
-			'input'  => $name
+if ( isset($__messages) ){
+	$this->append( $__messages );
+}
+
+$this->append( new Element(array(
+	'input' => new Input\Text(array( 
+		'input'  => $name
+	)), 
+	'label' => USER_LOGIN_LABEL
+)) );
+	
+if ( isset($display) ){
+	$this->append( new Element(array(
+		'input' => new Input\Text(array( 
+			'input'  => $display
 		)), 
-		'label' => USER_LOGIN_LABEL
+		'label' => USER_DISPLAY_LABEL
 	)) );
+}
 	
-	if ( isset($display) ){
-		$r->append( new Element(array(
-			'input' => new Text(array( 
-				'input'  => $display
-			)), 
-			'label' => USER_DISPLAY_LABEL
-		)) );
-	}
-	
-	$r->append( new Element(array(
-		'input' => new Text(array(  
-			'input'  => $password
-		)), 
-		'label' => 'Password'
-	)) );
-	
-	$r->append( new Element(array(
-		'input' => new Text(array(
-			'input'  => $password2
-		)),
-		'label' => 'Password Again'
-	)) );
-	
-$this->append( $this->messaging );
+$this->append( new Element(array(
+	'input' => new Input\Password(array(
+		'input'  => $password1
+	)), 
+	'label' => 'Password'
+)) );
+
+$this->append( new Element(array(
+	'input' => new Input\Password(array(
+		'input'  => $password2
+	)),
+	'label' => 'Password Again'
+)) );
+
+$this->append( new \Snap\Node\Form\Control(array(
+	'buttons' => array( 'Create User' => 'submit', 'Reset' => 'reset')
+)) );

@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\User\Node\Controller;
 
-class Login extends \Snap\Node\Controller\Form {
+class LoginForm extends \Snap\Node\Controller\Form {
 
 	public function getOuputStream(){
 		return 'user_login'; // TODO : really?
@@ -10,8 +10,13 @@ class Login extends \Snap\Node\Controller\Form {
 
 	protected function processInput( \Snap\Lib\Form\Result $formData ){
 		$res = null;
-
-		eval('$user = '.AUTH_CLASS.'::authenticate( $formData->getValue(\'_login\'), $formData->getValue(\'_passwrd\') );');
+		
+		$inputs = $formData->getInputs();
+		
+		$login = $inputs['name']->getValue();
+		$pwd   = $inputs['password']->getValue();
+		
+		eval('$user = '.AUTH_CLASS.'::authenticate( $login, $pwd );');
 
 		if ( !$user )
 			$formData->addFormError( $this->onLoginFailure() );

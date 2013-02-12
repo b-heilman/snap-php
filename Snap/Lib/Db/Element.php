@@ -18,14 +18,20 @@ abstract class Element extends Definition
 			throw new \Exception('You Need To Define A Static DB variable');
 		}
 		
-		if( $data instanceof Element){
-			 $this->info = $data->info;
-			 $this->init = $data->init;
-			 $this->plural = $data->plural;
+		$this->duplicate( $data );
+	}
+
+	public function duplicate( $data ){
+		if ( $data == null ){
+			
+		}elseif( $data instanceof Element){
+			$this->info = $data->info;
+			$this->init = $data->init;
+			$this->plural = $data->plural;
 		}else{
 			$name_field = self::pullStatic('name_field');
 			$id_field   = self::pullStatic('id_field');
-			
+				
 			if ( $data instanceof snap_arrayable ){
 				$data = $data->toArray();
 			}
@@ -49,7 +55,11 @@ abstract class Element extends Definition
 			}
 		}
 	}
-
+	
+	public function initialized(){
+		return !is_null( $this->init );
+	}
+	
 	public function info( $var = '' ) {
 		$this->load();
 		

@@ -2,4 +2,4 @@
 
 namespace Snap\Prototype\User\Node\View;
 
-class Create extends \Snap\Node\View\Form {}
+class CreateForm extends \Snap\Node\View\Form {}

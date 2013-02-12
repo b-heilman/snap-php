@@ -58,14 +58,14 @@ abstract class Form extends \Snap\Node\Core\Template {
 	}
 	
 	public function baseClass(){
-		return 'snap-form';
+		return 'snap-form '.get_class($this);
 	}
 	
 	public static function getSettings(){
 		return parent::getSettings() + array(
-			'target'     => 'the target of the form',
-			'encoding'   => 'what type of form encoding to use',
-			'action'     => 'where the data is getting submitted',
+			'target'   => 'the target of the form',
+			'encoding' => 'what type of form encoding to use',
+			'action'   => 'where the data is getting submitted',
 			'model'    => 'instance of \Snap\Model\Form to populate data with'
 		);
 	}

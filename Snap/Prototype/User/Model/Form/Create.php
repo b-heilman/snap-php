@@ -1,6 +1,6 @@
 <?php
 
-namespace Snap\Protoype\User\Model\Form;
+namespace Snap\Prototype\User\Model\Form;
 
 class Create extends \Snap\Model\Form {
 	
@@ -9,8 +9,8 @@ class Create extends \Snap\Model\Form {
 		
 		$this->setInputs(array(
 			new \Snap\Lib\Form\Input\Basic( 'name',      '' ),
-			new \Snap\Lib\Form\Input\Basic( 'password1', 'text' ),
-			new \Snap\Lib\Form\Input\Basic( 'password2', 'text' ),
+			new \Snap\Lib\Form\Input\Basic( 'password1', '' ),
+			new \Snap\Lib\Form\Input\Basic( 'password2', '' ),
 		));
 		
 		$this->setValidations(array(

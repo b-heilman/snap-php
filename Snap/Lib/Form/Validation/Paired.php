@@ -18,7 +18,7 @@ class Paired implements \Snap\Lib\Form\Validation {
 	/*
 	 * Returns true if valid input, false otherwise
 	 */
-	public function isValid( $inputs ){
+	public function checkForErrors( $inputs ){
 		if ( isset($inputs[$this->field1]) && isset($inputs[$this->field2]) 
 			&& strcmp( $inputs[$this->field1]->getValue(), $inputs[$this->field2]->getValue() ) === 0 ){
 			return null;

@@ -2,42 +2,21 @@
 
 namespace Snap\Prototype\Comment\Node\View;
 
+// TODO : abstaract this kind of logic out to be a callback function?
+//      : how to make this more flexible?
+
 class Creator extends \Snap\Node\Core\View {
-	
-	protected 
-		$form, 
-		$threadVar;
-	
-	public function __construct( $settings = array() ){
-		parent::__construct($settings);
-		
-		if ( !isset($settings['inputForm']) ){
-			throw new \Exception('need a input form');
-		}else{
-			$this->form = $settings['inputForm'];
-		}
-		
-		if ( !isset($settings['threadVar']) ){
-			throw new \Exception('need a thread variable');
-		}else{
-			$this->threadVar = $settings['threadVar'];
-		}
-	}
-	
-	public static function getSettings(){
-		return parent::getSettings() + array(
-			'threadVar' => 'the variable to use for the thread',
-			'inputForm' => 'the form to use for input'
-		);
-	}
 	
 	protected function getTemplateVariables(){
 		$info = $this->getStreamData()->getPrimary();
 		
-		$form = new $this->form( array('messaging'=>true,'thread'=>$info[$this->threadVar]) );
+		$model = new \Snap\Prototype\Comment\Model\Form\Create( $info[TOPIC_COMMENT_THREAD] );
+		$view = new \Snap\Prototype\Comment\Node\View\CreateForm( array('model' => $model) );
+		$control = new \Snap\Prototype\Comment\Node\Controller\CreateForm( array('model' => $model) );
 		
 		return array(
-			'form' => $form
+			'view'    => $view, 
+			'control' => $control
 		);
 	}
 }
