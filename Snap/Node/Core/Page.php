@@ -5,11 +5,13 @@ namespace Snap\Node\Core;
 use Snap\Node;
 
 abstract class Page extends Node\Core\Template {
-		
+
+	public 
+		$manager;
+	
 	protected 
 		$mode,
 		$title,
-		$manager,
 		$basePath = '/',
 		$debugContent = '';
 	
@@ -23,7 +25,6 @@ abstract class Page extends Node\Core\Template {
 				."\n".$ex->getTraceAsString();
 		}
 		
-		$this->manager = new \Snap\Lib\File\Manager();
 		$this->debugContent .= ob_get_contents();
 		
 		ob_end_clean();
@@ -84,6 +85,9 @@ abstract class Page extends Node\Core\Template {
 		$this->title = $title;
 	}
 	
+	public function setPathData( $data ){
+	}
+	
 	public function setPageData( $data ){
 		ob_start();
 		
@@ -115,22 +119,24 @@ abstract class Page extends Node\Core\Template {
 		}
 	}
 	
-	public function serve(){
+	public function serve( $rootUrl = null, $path = null ){
 		$tmp = null;
-		$path = static::$pagePath;
 		
-		if ( strlen($path) > 0 ){
-			$pos = strpos( $path, '/', 1 );
+		if ( $path == null ){
+			$path = static::$pagePath;
+		}
+		
+		if ( $rootUrl == null ){
+			$rootUrl = static::$pageUrl;
+		}
+		
+		$this->manager = new \Snap\Lib\File\Manager( $rootUrl );
+		error_log( 'manager defined' );
+		if ( count($path) > 0 ){
+			$mode = $path[0];
+			$info = implode( '/', array_slice($path, 1) );
 			
-			if ( $pos !== false ){
-				$info = substr( $path, $pos+1 );
-				$mode = substr( $path, 1, $pos-1 );
-			}else{
-				$mode = substr( $path, 1 );
-				$info = '';
-			}
-			
-			$manager = new \Snap\Lib\File\Manager( $mode, $info ); // populate from $_GET
+			$manager = new \Snap\Lib\File\Manager( $rootUrl, $mode, $info ); // populate from $_GET
 			
 			if ( $manager->getMode() ){
 				$this->loadHeaders( $manager->getAccessor()->getContentType() );
@@ -260,9 +266,7 @@ HTML;
  	// TODO : these need to be removed
  	public function makeResourceLink( $resource ){
  		if ( strlen($resource) ){
-	 		$manager = new \Snap\Lib\File\Manager( new \Snap\Lib\File\Accessor\Resource($resource) );
-	 		
-	 		return $manager->makeLink();
+	 		return $this->manager->makeLink( new \Snap\Lib\File\Accessor\Resource($resource) );
  		}else{
  			return null;
  		}
@@ -270,17 +274,13 @@ HTML;
  	
  	public function makeLibraryLink( $library ){
  		if ( strlen($library) ){
-	 		$manager = new \Snap\Lib\File\Manager( new \Snap\Lib\File\Accessor\Document($library) );
-	 		
-	 		return $manager->makeLink();
+	 		return $this->manager->makeLink( new \Snap\Lib\File\Accessor\Document($library) );
 	 	}else{
 	 		return null;
 	 	}
  	}
  	
  	public function makeAjaxLink( $class, $data ){
- 		$manager = new \Snap\Lib\File\Manager( new \Snap\Lib\File\Accessor\Ajax($class,$data) );
- 		
- 		return $manager->makeLink();
+ 		return $this->manager->makeLink( new \Snap\Lib\File\Accessor\Ajax($class,$data) );
  	}
 }

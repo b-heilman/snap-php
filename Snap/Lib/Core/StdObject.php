@@ -6,7 +6,6 @@ class StdObject {
 	
 	static protected 
 		$pageUrl = null,
-		$pageRename,
 		$pagePath,
 		$projectRoot,
 		$phpRoot,
@@ -16,45 +15,36 @@ class StdObject {
 	
 	public function __construct(){
 		if ( self::$pageUrl == null ){
-			static::loadAll();
+			self::loadAll();
 		}
 	}
 	
 	static protected function loadAll(){
-		static::loadVariables();
+		self::loadVariables();
 	}
 	
 	static protected function loadVariables(){
-		if ( isset($_SERVER['PATH_INFO']) ){
-			// direct access to script
-			
-			static::$pagePath = $_SERVER['PATH_INFO'];
-			static::$pageRename = null;
-		}elseif( isset($_SERVER['REDIRECT_URL']) ){
-			// rename access to script
-			
-			$url = $_SERVER['REDIRECT_URL'];
-			$pos = strpos( $url, '/', 1 );
-			
-			static::$pagePath = substr( $url, $pos );
-			static::$pageRename = substr( $url, 1, $pos-1 );
-		}else{
-			static::$pagePath = '';
-			static::$pageRename = null;
-		}
+		$path = explode( '/', $_SERVER['REQUEST_URI'] );
+		$url = explode( '/', $_SERVER['SCRIPT_NAME'] );
 		
+		while( !empty($url) ){
+			if ( strcmp($path[0], array_shift($url)) === 0 ){
+				array_shift($path);
+			}
+		}
 		// this is supposed to be the reflexive url to the page, sans any GET data
 		self::$pageUrl = $_SERVER['SCRIPT_NAME'];
+		self::$pagePath = $path;
 		
 		// figure out internal roots
 		$cwd = getcwd();
 		
-		static::$projectRoot = substr( $cwd, 0, strripos($cwd, DIRECTORY_SEPARATOR.'www')+1 );
-		static::$webRoot = static::$projectRoot.'/www';
-		static::$phpRoot = static::$projectRoot.'/php';
+		self::$projectRoot = substr( $cwd, 0, strripos($cwd, DIRECTORY_SEPARATOR.'www')+1 );
+		self::$webRoot = self::$projectRoot.'/www';
+		self::$phpRoot = self::$projectRoot.'/php';
 		
 		$dirs = explode( PATH_SEPARATOR, get_include_path() );
-		array_unshift( $dirs, static::$phpRoot );
+		array_unshift( $dirs, self::$phpRoot );
 			
 		// scan the include path
 		for( $i = 0, $c = count($dirs); $i < $c; $i++ ){
@@ -65,12 +55,12 @@ class StdObject {
 				$dir = $cwd.DIRECTORY_SEPARATOR.$dir;
 			}
 		
-			static::$phpLibraries[] = $dir;
+			self::$phpLibraries[] = $dir;
 			
 			$dir = rtrim($dir,'/');
 		
 			if ( substr($dir, -3) === 'php' && file_exists($dir.'/../doc') ){
-				static::$fileDocuments[] = $dir.'/../doc';
+				self::$fileDocuments[] = $dir.'/../doc';
 			}
 		}
 	}

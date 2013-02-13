@@ -5,6 +5,7 @@ namespace Snap\Lib\File;
 class Manager extends \Snap\Lib\Core\StdObject {
 	
 	protected 
+		$rootUrl = null,
 		$mode = null,
 		$accessor = null;
 	
@@ -17,8 +18,10 @@ class Manager extends \Snap\Lib\Core\StdObject {
 		),
 		$lookUp = null;
 	
-	public function __construct( $accessor = null, $info = null ){
+	public function __construct( $rootUrl, $accessor = null, $info = null ){
 		parent::__construct();
+		
+		$this->rootUrl = $rootUrl; 
 		
 		if ( self::$lookUp == null ){
 			self::$lookUp = array_flip( self::$accessors );
@@ -81,14 +84,22 @@ class Manager extends \Snap\Lib\Core\StdObject {
 		return null;
 	}
 	
+	public function getSitePath( $path ){
+		return self::$pageUrl.'/'.$path;
+	}
+	
 	// generate a link to a file in the current directory
 	public function makeLink( \Snap\Lib\File\Accessor $accessor = null ){
 		if ( $accessor ){
-			$this->setAccessor( $accessor );
+			$this->setAccessor( $accessor ); // changes the mode
+		}
+		
+		if ( !$this->accessor ){
+			throw new \Exception();
 		}
 		
 		if ( $this->accessor->isValid() ){
-			return $this->accessor->getLink( static::$pageUrl.'/'.$this->mode.'/' );
+			return $this->accessor->getLink( $this->rootUrl.'/'.$this->mode.'/' );
 		}else return null;
 	}
 }
