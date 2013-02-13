@@ -1,16 +1,27 @@
 <?php
 
 $forms = array(
-	'New Admin' => array(
-		'form' => '\Snap\Prototype\User\Node\Form\Create',
-		'settings' => array(
-			'admin' => true
-		)
-	),
-	'New User' => '\Snap\Prototype\User\Node\Form\Create',
-	'Manage' => '\Snap\Prototype\User\Node\Form\Management',
+	'New Admin' => function(){
+		return new \Snap\Node\Form\Virtual(array(
+			'model' => new \Snap\Prototype\User\Model\Form\Create(),
+			'view'  => '\Snap\Prototype\User\Node\View\CreateForm',
+			'viewSettings' => array( 'admin' => true )
+		));
+	},
+	'New User' => function(){
+		return new \Snap\Node\Form\Virtual(array(
+			'model' => new \Snap\Prototype\User\Model\Form\Create(),
+			'view'  => '\Snap\Prototype\User\Node\View\CreateForm'
+		));
+	},
+	'Manage' => '\Snap\Prototype\User\Node\View\ManagementForm',
 	'Unified' => array(
-		'\Snap\Prototype\User\Node\Form\Create',
+		function(){
+			return new \Snap\Node\Form\Virtual(array(
+				'model' => new \Snap\Prototype\User\Model\Form\Create(),
+				'view'  => '\Snap\Prototype\User\Node\View\CreateForm'
+			));
+		},
 		'\Snap\Prototype\User\Node\Form\Management'
 	)
 );

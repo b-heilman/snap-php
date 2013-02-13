@@ -5,6 +5,7 @@ namespace Snap\Prototype\Installation\Node\View;
 class Editor extends \Snap\Node\Core\View {
 	
 	protected 
+		$form,
 		$prototypeStream;
 		
 	protected function baseClass(){
@@ -58,6 +59,14 @@ class Editor extends \Snap\Node\Core\View {
 			);
 		}else{
 			return array( 'form' => null );
+		}
+	}
+	
+	public function finalize(){
+		parent::finalize();
+		
+		if ( $this->form && count($this->form->getElementsByClass('\Snap\Node\Form\Input\Button')) == 0 ){
+			$this->form->append( new \Snap\Node\Form\Control() );
 		}
 	}
 }

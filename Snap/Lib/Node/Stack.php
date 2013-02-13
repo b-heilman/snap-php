@@ -70,6 +70,10 @@ class Stack extends Core\Stack {
 	public function getElementsByClass( $class, $blockOn = null ){
 		$found = array();
 		
+		if ( $class{0} == '\\' ){
+			$class = substr( $class, 1 );
+		}
+		
 		foreach( $this->content as $el ){
 			if ( is_object($el) ){
 				if ( $blockOn != null && $el instanceof $blockOn ){

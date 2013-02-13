@@ -1,9 +1,15 @@
 <?php
 $forms = array(
-	'New Topic Type' => '\Snap\Prototype\Topic\Node\Form\Create\Type',
-	'New Topic'      => '\Snap\Prototype\Topic\Node\Form\Create',
-	'Manage Topics'  => array(
-		'\Snap\Prototype\Topic\Node\Form\Create\Type',
-		'\Snap\Prototype\Topic\Node\Form\Create'
-	)
+	'New Topic Type' => function(){
+		return new \Snap\Node\Form\Virtual(array(
+			'model' => new \Snap\Prototype\Topic\Model\Form\Type(),
+			'view'  => '\Snap\Prototype\Topic\Node\View\TypeForm'
+		));
+	},
+	'New Topic' => function(){
+		return new \Snap\Node\Form\Virtual(array(
+			'model' => new \Snap\Prototype\Topic\Model\Form\Create(),
+			'view'  => '\Snap\Prototype\Topic\Node\View\CreateForm'
+		));
+	}
 );

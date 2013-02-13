@@ -1,34 +1,31 @@
 <?php
-$el = null;
+use Snap\Node\Core\Actionable;
+
+$this->form = null;
 
 if ( $form instanceof \Snap\Node\Core\Snapable ){
 	$this->addClass('active');
-	$this->append( $el = $form );
+	$this->append( $this->form = $form );
 }elseif ( is_string($form) ){
 	$this->addClass('active');
-	$this->append( $el = new $form() );
+	$this->append( $this->form = new $form() );
+}elseif ( is_callable($form) ){
+	$this->addClass('active');
+	$this->append( $this->form = $form() );
 }elseif( is_array($form) ){
 	$this->addClass('active');
-	$this->append( $el = new \Snap\Node\Core\Form() );
+	$this->append( $this->form = new \Snap\Node\View\Form() );
 	
-	if ( isset($form['form']) ){
-		if ( is_array($form['form']) ){
-			$forms    = $form['form'];
-			$settings = $form['settings'];
-		}else{
-			$forms    = array( $form['form'] );
-			$settings = array( $form['settings'] );
-		}
-	}else{
-		$forms = $form;
-		$settings = array();
-	}
+	$forms = $form;
 	
 	foreach ( $forms as $key => $form ){
-		$el->append( new $form(isset($settings[$key])?$settings[$key]:array()) );
+		$f = $form instanceof \Snap\Node\Core\Snapable
+			? $form 
+			: ( is_callable( $form )
+				? $form()
+				: new $form()
+			);
+			
+		$this->form->append( $f );
 	}
-}
-
-if ( $el && count($el->getElementsByClass('\Snap\Node\Form\Input\Button')) == 0 ){
-	$el->append( new \Snap\Node\Form\Control() );
 }

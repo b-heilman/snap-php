@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\Installation\Node\View;
 
-class Row extends \Snap\Node\View\Form {
+class RowForm extends \Snap\Node\View\Form {
 	
 	public function baseClass(){
 		return 'prototype-row';
@@ -11,7 +11,7 @@ class Row extends \Snap\Node\View\Form {
 	protected function getTemplateVariables(){
 		$t = parent::getTemplateVariables();
 		
-		$t['prototype'] = $this->content->prototype;
+		$t['prototype'] = $this->model->prototype;
 		
 		return $t;
 	}

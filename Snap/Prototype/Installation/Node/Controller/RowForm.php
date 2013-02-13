@@ -12,10 +12,10 @@ class RowForm extends \Snap\Node\Controller\Form {
 			
 			if ( $inputs[$name]->getValue() ){
 				// install it
-				return new \Snap\Prototype\Installation\Lib\Installer( $this->prototype );
+				return new \Snap\Prototype\Installation\Lib\Installer( $this->model->prototype );
 			}else{
 				// uninstall it
-				return new \Snap\Prototype\Installation\Lib\Uninstaller( $this->prototype );
+				return new \Snap\Prototype\Installation\Lib\Uninstaller( $this->model->prototype );
 			}
 		}
 	

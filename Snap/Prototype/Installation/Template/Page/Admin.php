@@ -1,10 +1,11 @@
-<?php
-
-if ( $accessible ){
-	$this->append( 
-		$this->login = new \Snap\Prototype\User\Node\Form\Access()
-	);
+<div class="admin-head"><?php
+	$this->append( $loginControl );
 	
+	$this->append( $logoutControl );
+	$this->append( $logoutView );
+?></div>
+<div class="admin-content"><?php
+if ( $accessible ){
 	$this->append( new \Snap\Node\Controller\Navigation(array(
 		'navVar'       => 'form',
 		'outputStream' => 'form_nav'
@@ -22,7 +23,7 @@ if ( $accessible ){
 		'formStream'      => 'form_nav'
 	)) );
 	
-	$this->append( new \Snap\Prototype\Installation\Node\Form\Management(array(
+	$this->append( new \Snap\Prototype\Installation\Node\View\ManagementForm(array(
 		'deferTemplate' => $security
 	)) );
 	
@@ -37,3 +38,4 @@ if ( $accessible ){
 		'inputStream' => 'install_messages'
 	)) );
 }else{?> <h5>You need to set up the database</h5> <?php }
+?></div>

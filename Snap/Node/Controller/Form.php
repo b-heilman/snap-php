@@ -7,6 +7,14 @@ abstract class Form extends \Snap\Node\Core\Controller {
 	protected
 		$model;
 	
+	public function __construct( $settings = array() ){
+		if ( !is_array($settings) ){
+			$settings = array( 'model' => $settings );
+		}
+		
+		parent::__construct( $settings );
+	}
+	
 	protected function parseSettings( $settings = array() ){
 		if ( isset($settings['model']) ){
 			$this->model = $settings['model'];

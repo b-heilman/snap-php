@@ -2,7 +2,7 @@
 
 namespace Snap\Node\View;
 
-abstract class Form extends \Snap\Node\Core\Template {
+class Form extends \Snap\Node\Core\Template {
 	    	
     protected 
     	$action, 
@@ -13,6 +13,14 @@ abstract class Form extends \Snap\Node\Core\Template {
     	$messagingOwner,
     	$messagingRollup;
 
+    public function __construct( $settings = array() ){
+    	if ( !is_array($settings) ){
+    		$settings = array( 'model' => $settings );
+    	}
+    
+    	parent::__construct( $settings );
+    }
+    
     protected function parseSettings( $settings = array() ){
     	$settings['tag'] = 'form';
 
