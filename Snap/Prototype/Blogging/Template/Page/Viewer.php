@@ -1,6 +1,6 @@
 <?php
 
-$this->append( new \Snap\Prototype\Topic\Node\Controller\Limiting(array(
+$this->append( new \Snap\Prototype\Topic\Control\Feed\Limiting(array(
 	'class'        => 'main-view',
 	'type'         => $this->blogType,
 	'outputStream' => $blogContent,

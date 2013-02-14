@@ -6,7 +6,7 @@ namespace Snap\Lib\Linking\Control;
 use \Snap\Node;
 
 //TODO : this should be removed?
-class Basic extends \Snap\Node\Controller\Nav 
+class Basic extends \Snap\Control\Feed\Nav 
 	implements \Snap\Lib\Linking\Control {
 
 	protected 

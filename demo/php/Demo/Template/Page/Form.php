@@ -2,7 +2,7 @@
 <?php
 	$content = new \Demo\Model\Form\TestForm();
 	
-	$this->append( $form = new \Demo\Node\Controller\TestForm(array(
+	$this->append( $form = new \Demo\Control\Feed\TestForm(array(
 		'outputStream' => 'form_data',
 		'model'        => $content
 	)) );

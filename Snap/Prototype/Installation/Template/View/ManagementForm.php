@@ -1,11 +1,11 @@
 <?php
 
-$this->append( new \Snap\Node\Controller\Navigation(array(
+$this->append( new \Snap\Control\Feed\Navigation(array(
 	'navVar'       => 'prototype',
 	'outputStream' => 'prototype_nav'
 )));
 
-$this->append( new \Snap\Prototype\Installation\Node\Controller\Prototype(array(
+$this->append( new \Snap\Prototype\Installation\Control\Feed\Prototype(array(
 	'outputStream' => 'prototypes'
 )) );
 

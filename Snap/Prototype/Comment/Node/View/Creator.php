@@ -12,7 +12,7 @@ class Creator extends \Snap\Node\Core\View {
 		
 		$model = new \Snap\Prototype\Comment\Model\Form\Create( $info[TOPIC_COMMENT_THREAD] );
 		$view = new \Snap\Prototype\Comment\Node\View\CreateForm( array('model' => $model) );
-		$control = new \Snap\Prototype\Comment\Node\Controller\CreateForm( array('model' => $model) );
+		$control = new \Snap\Prototype\Comment\Control\Feed\CreateForm( array('model' => $model) );
 		
 		return array(
 			'view'    => $view, 

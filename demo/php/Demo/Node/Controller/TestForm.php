@@ -1,8 +1,8 @@
 <?php
 
-namespace Demo\Node\Controller;
+namespace Demo\Control\Feed;
 
-class TestForm extends \Snap\Node\Controller\Form {
+class TestForm extends \Snap\Control\Feed\Form {
 	
 	protected function processInput( \Snap\Lib\Form\Result $formRes ){
 		$data = array();

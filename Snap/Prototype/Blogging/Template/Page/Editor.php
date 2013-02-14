@@ -13,7 +13,7 @@
 <div class='right-nav'>
 <?php 
 	/*
-	$this->append( new \Snap\Prototype\WebFS\Node\Controller\Extensions(array(
+	$this->append( new \Snap\Prototype\WebFS\Control\Feed\Extensions(array(
 		'extensions'   => array('jpg', 'gif', 'png'),
 		'prevMax'      => -1,
 		'nextMax'      => -1,

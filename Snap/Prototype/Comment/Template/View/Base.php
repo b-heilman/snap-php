@@ -10,7 +10,7 @@
 if ( \Snap\Prototype\User\Lib\Current::isAdmin() ){
 	$model = new \Snap\Prototype\Comment\Model\Form\Delete( $comment );
 	$this->append( new \Snap\Prototype\Comment\Node\View\DeleteForm(array('model' => $model)) );
-	$this->append( new \Snap\Prototype\Comment\Node\Controller\DeleteForm(array('model' => $model)) );
+	$this->append( new \Snap\Prototype\Comment\Control\Feed\DeleteForm(array('model' => $model)) );
 }
 ?>
 </div>

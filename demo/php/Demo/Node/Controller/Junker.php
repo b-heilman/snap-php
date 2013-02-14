@@ -1,8 +1,8 @@
 <?php
 
-namespace Demo\Node\Controller;
+namespace Demo\Control\Feed;
 
-class Junker extends \Snap\Node\Core\Controller {
+class Junker extends \Snap\Control\Feed {
 	protected function makeData(){
 		$data = new \Snap\Lib\Mvc\Data();
 		

@@ -6,7 +6,7 @@
 ?></div>
 <div class="admin-content"><?php
 if ( $accessible ){
-	$this->append( new \Snap\Node\Controller\Navigation(array(
+	$this->append( new \Snap\Control\Feed\Navigation(array(
 		'navVar'       => 'form',
 		'outputStream' => 'form_nav'
 	)));
@@ -27,7 +27,7 @@ if ( $accessible ){
 		'deferTemplate' => $security
 	)) );
 	
-	$this->append( new \Snap\Prototype\Installation\Node\Controller\Management(array(
+	$this->append( new \Snap\Prototype\Installation\Control\Feed\Management(array(
 		'deferTemplate' => $security,
 		'inputStream'   => 'prototype_action',
 		'outputStream'  => 'install_messages'

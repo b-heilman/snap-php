@@ -34,9 +34,9 @@ class Admin extends Node\Page\Basic
 		$this->login = new \Snap\Prototype\User\Node\View\LoginForm( array('model' => $login) );
 		
 		return array(
-			'logoutControl' => new \Snap\Prototype\User\Node\Controller\LogoutForm(array('model' => $logout)),
+			'logoutControl' => new \Snap\Prototype\User\Control\Feed\LogoutForm(array('model' => $logout)),
 			'logoutView'    => new \Snap\Prototype\User\Node\View\LogoutForm(array('model' => $logout)),
-			'loginControl'  => new \Snap\Prototype\User\Node\Controller\LoginForm(array('model' => $login)),
+			'loginControl'  => new \Snap\Prototype\User\Control\Feed\LoginForm(array('model' => $login)),
 			'accessible' => $valid,
 			'security'   => function() use ( $proto ) {
 				static $tableExists = null;
