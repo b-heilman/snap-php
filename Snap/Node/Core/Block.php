@@ -181,18 +181,22 @@ class Block extends \Snap\Node\Core\Simple
 	}
 	
 	// when writing to an element, and inline element is created and appended
-	public function write( $str, $settings = array() ){
-		if ( is_string($settings) ){
-			$settings = array('class' => $settings);
+	public function write( $in, $settings = array() ){
+		if ( $in instanceof \Snap\Node\Core\Snapable ){
+			return $this->append( $in );
+		}else{
+			if ( is_string($settings) ){
+				$settings = array('class' => $settings);
+			}
+			
+			if ( !isset($settings['tag']) ){
+				$settings['tag']  = 'span';
+			}
+			
+			$settings['text'] = $in;
+			
+			return $this->append( new Text( $settings ) );
 		}
-		
-		if ( !isset($settings['tag']) ){
-			$settings['tag']  = 'span';
-		}
-		
-		$settings['text'] = $str;
-		
-		return $this->append( new Text( $settings ) );
 	}
 	
 	// when you want to print_r something

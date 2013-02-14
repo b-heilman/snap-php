@@ -8,9 +8,9 @@ abstract class View extends \Snap\Node\Core\Template
 	implements \Snap\Node\Core\Consumer {
 	
 	protected 
+		$data = array(),
 		$consumed = false,
 		$inputStream,
-		$data = array(),
 		$waitingQueue = null;
 	
 	/**

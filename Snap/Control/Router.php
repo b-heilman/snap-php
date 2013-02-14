@@ -144,7 +144,6 @@ class Router extends \Snap\Lib\Core\StdObject {
 		}
 		
 		if ( $content instanceof \Snap\Node\Core\Page ){
-			$content->setPathData( $info );
 			$page = $content;
 		}else{
 			$page = null;
@@ -179,7 +178,7 @@ class Router extends \Snap\Lib\Core\StdObject {
 					));
 				}
 			}elseif( is_array($content) ){
-				$page->setTemplateData( $content );
+				$page->setViewData( $content );
 			}elseif( !empty($back) ){
 				return $this->translateRoute( $this->findRoute( $back ) );
 			}else{
