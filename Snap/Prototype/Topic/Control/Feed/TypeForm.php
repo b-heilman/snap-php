@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\Topic\Control\Feed;
 
-class TypeForm extends \Snap\Control\Feed\Form {
+class TypeForm extends \Snap\Control\Form {
 	
 	protected function processInput( \Snap\Lib\Form\Result $formData ){
 		$res = null;

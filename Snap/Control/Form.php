@@ -1,6 +1,6 @@
 <?php
 
-namespace Snap\Control\Feed;
+namespace Snap\Control;
 
 abstract class Form extends \Snap\Control\Feed {
 	

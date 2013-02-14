@@ -112,7 +112,7 @@ abstract class Page extends Node\Core\Template {
 		return static::$pageRequest.$url;
 	}
 	
-	public function serve( $data = null, \Snap\Lib\Core\Router $router = null ){
+	public function serve( $data = null, \Snap\Control\Router $router = null ){
 		$tmp = null;
 		
 		if ( $data == null ){

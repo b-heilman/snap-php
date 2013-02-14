@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\Comment\Control\Feed;
 
-class CreateForm extends \Snap\Control\Feed\Form {
+class CreateForm extends \Snap\Control\Form {
 	
 	public function getOuputStream(){
 		return 'new_comment'; // TODO : really?

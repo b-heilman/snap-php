@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\User\Control\Feed;
 
-class LoginForm extends \Snap\Control\Feed\Form {
+class LoginForm extends \Snap\Control\Form {
 
 	public function getOuputStream(){
 		return 'user_login'; // TODO : really?

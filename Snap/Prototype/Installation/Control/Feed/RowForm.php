@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\Installation\Control\Feed;
 
-class RowForm extends \Snap\Control\Feed\Form {
+class RowForm extends \Snap\Control\Form {
 	
 	protected function processInput( \Snap\Lib\Form\Result $formData ){
 		$name = $this->model->prototype->name;

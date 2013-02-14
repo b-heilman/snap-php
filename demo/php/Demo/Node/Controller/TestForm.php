@@ -2,7 +2,7 @@
 
 namespace Demo\Control\Feed;
 
-class TestForm extends \Snap\Control\Feed\Form {
+class TestForm extends \Snap\Control\Form {
 	
 	protected function processInput( \Snap\Lib\Form\Result $formRes ){
 		$data = array();

@@ -5,7 +5,7 @@ namespace Snap\Prototype\User\Control\Feed;
 use 
 	\Snap\Adapter\Db\Mysql;
 
-class CreateForm extends \Snap\Control\Feed\Form {
+class CreateForm extends \Snap\Control\Form {
 	
 	protected
 		$login = false,

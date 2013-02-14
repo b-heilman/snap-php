@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\Topic\Control\Feed;
 
-class CreateForm extends \Snap\Control\Feed\Form {
+class CreateForm extends \Snap\Control\Form {
 	
 	protected function formatTitle( $title ){
 		return $title;

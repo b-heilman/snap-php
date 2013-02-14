@@ -1,8 +1,8 @@
 <?php
 
-namespace Snap\Lib\Core;
+namespace Snap\Control;
 
-class Router extends StdObject {
+class Router extends \Snap\Lib\Core\StdObject {
 	
 	static protected
 		$instance = null;

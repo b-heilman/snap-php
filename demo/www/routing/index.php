@@ -2,7 +2,7 @@
 
 include_once('/Snap/Lib/Core/Bootstrap.php');
 
-$router = new \Snap\Lib\Core\Router();
+$router = new \Snap\Control\Router();
 
 $router->addRoutes(array(
 	'/' => new \Demo\Node\Page\Index(),

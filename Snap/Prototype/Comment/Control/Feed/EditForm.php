@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\Comment\Control\Feed;
 
-class EditForm extends \Snap\Control\Feed\Form {
+class EditForm extends \Snap\Control\Form {
 	
 	protected function processInput( \Snap\Lib\Form\Result $formData  ){
 		if ( $formData = parent::_process($data) ){

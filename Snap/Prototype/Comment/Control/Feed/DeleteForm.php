@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\Comment\Control\Feed;
 
-class DeleteForm extends \Snap\Control\Feed\Form {
+class DeleteForm extends \Snap\Control\Form {
 
 	public function getOuputStream(){
 		return 'remove_comment';  // TODO : really?
