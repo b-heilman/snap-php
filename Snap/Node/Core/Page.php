@@ -7,11 +7,12 @@ use Snap\Node;
 abstract class Page extends Node\Core\Template {
 
 	public 
-		$manager;
+		$fileManager;
 	
 	protected 
 		$mode,
 		$title,
+		$router,
 		$basePath = '/',
 		$debugContent = '';
 	
@@ -85,18 +86,6 @@ abstract class Page extends Node\Core\Template {
 		$this->title = $title;
 	}
 	
-	public function setPathData( $data ){
-	}
-	
-	public function setPageData( $data ){
-		ob_start();
-		
-		$this->setTranslationData( $data );
-		$this->debugContent .= ob_get_contents();
-
-		ob_end_clean();
-	}
-	
 	protected function loadHeaders( $ctype ){
 		switch ( $ctype ){
 			case 'js' :
@@ -119,28 +108,31 @@ abstract class Page extends Node\Core\Template {
 		}
 	}
 	
-	public function serve( $rootUrl = null, $path = null ){
+	public function getSiteUrl( $url ){
+		return static::$pageRequest.$url;
+	}
+	
+	public function serve( $data = null, \Snap\Lib\Core\Router $router = null ){
 		$tmp = null;
 		
-		if ( $path == null ){
-			$path = static::$pagePath;
+		if ( $data == null ){
+			$data = static::$pageData;
 		}
 		
-		if ( $rootUrl == null ){
-			$rootUrl = static::$pageUrl;
-		}
+		$rootUrl = static::$pageScript;
 		
-		$this->manager = new \Snap\Lib\File\Manager( $rootUrl );
-		error_log( 'manager defined' );
-		if ( count($path) > 0 ){
-			$mode = $path[0];
-			$info = implode( '/', array_slice($path, 1) );
+		$this->router = $router;
+		$this->fileManager = new \Snap\Lib\File\Manager( $rootUrl );
+		
+		if ( count($data) > 0 ){
+			$mode = $data[0];
+			$info = implode( '/', array_slice($data, 1) );
 			
-			$manager = new \Snap\Lib\File\Manager( $rootUrl, $mode, $info ); // populate from $_GET
+			$fileManager = new \Snap\Lib\File\Manager( $rootUrl, $mode, $info ); // populate from $_GET
 			
-			if ( $manager->getMode() ){
-				$this->loadHeaders( $manager->getAccessor()->getContentType() );
-				$tmp = $manager->getContent( $this );
+			if ( $fileManager->getMode() ){
+				$this->loadHeaders( $fileManager->getAccessor()->getContentType() );
+				$tmp = $fileManager->getContent( $this );
 			}
 		}
 		
@@ -259,14 +251,10 @@ HTML;
  		return $this->basePath;
  	}
  	
- 	public function getManager(){
- 		return $this->manager;
- 	}
- 	
  	// TODO : these need to be removed
  	public function makeResourceLink( $resource ){
  		if ( strlen($resource) ){
-	 		return $this->manager->makeLink( new \Snap\Lib\File\Accessor\Resource($resource) );
+	 		return $this->fileManager->makeLink( new \Snap\Lib\File\Accessor\Resource($resource) );
  		}else{
  			return null;
  		}
@@ -274,13 +262,13 @@ HTML;
  	
  	public function makeLibraryLink( $library ){
  		if ( strlen($library) ){
-	 		return $this->manager->makeLink( new \Snap\Lib\File\Accessor\Document($library) );
+	 		return $this->fileManager->makeLink( new \Snap\Lib\File\Accessor\Document($library) );
 	 	}else{
 	 		return null;
 	 	}
  	}
  	
  	public function makeAjaxLink( $class, $data ){
- 		return $this->manager->makeLink( new \Snap\Lib\File\Accessor\Ajax($class,$data) );
+ 		return $this->fileManager->makeLink( new \Snap\Lib\File\Accessor\Ajax($class,$data) );
  	}
 }

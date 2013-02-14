@@ -9,12 +9,13 @@ use
 abstract class Template extends Block {
 	
  	protected 
+ 		$path, 
  		$unwrapped, 
  		$translation,
- 		$translating = false,
- 		$path, 
  		$delayed = false,
- 		$deferTemplate = null;
+ 		$translating = false,
+ 		$deferTemplate = null,
+ 		$templateVariables = array();
  	
  	protected function parseSettings( $settings = array() ){
  		$this->path = isset($settings['template']) 
@@ -148,19 +149,17 @@ abstract class Template extends Block {
  	}
  	
  	protected function getTemplateVariables(){
- 		return array();
+ 		return $this->templateVariables;
  	}
  	
-	protected function setData( $data ){
- 		if ( $this->translation ) {
+	public function setTemplateData( $data ){
+ 		$this->templateVariables = $data + $this->templateVariables;
+ 	}
+ 	
+	public function setTranslationeData( $data ){
+		if ( $this->translation ) {
  			$this->translation->addData( $data );
 		}
- 	}
-	
-	public function setTranslationData( $data ){
-		$this->setData( $data );
-		
-		$this->processTemplate();
 	}
 	
 	public function build(){

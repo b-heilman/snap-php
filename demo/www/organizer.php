@@ -6,7 +6,7 @@ use
 require_once('Snap/Lib/Core/Bootstrap.php');
 
 Organizer::addMapping( array(
-		'_target' => new \Demo\Node\Page\Wrapper(array(
+		'_target' => new \Demo\Node\Page\Organize(array(
 				'data' => false
 		)),
 		'_title'  => 'Overriden Title',

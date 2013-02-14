@@ -84,10 +84,6 @@ class Manager extends \Snap\Lib\Core\StdObject {
 		return null;
 	}
 	
-	public function getSitePath( $path ){
-		return self::$pageUrl.'/'.$path;
-	}
-	
 	// generate a link to a file in the current directory
 	public function makeLink( \Snap\Lib\File\Accessor $accessor = null ){
 		if ( $accessor ){

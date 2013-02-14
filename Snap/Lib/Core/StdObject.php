@@ -5,16 +5,17 @@ namespace Snap\Lib\Core;
 class StdObject {
 	
 	static protected 
-		$pageUrl = null,
-		$pagePath,
 		$projectRoot,
+		$pageRequest,
+		$pageScript = null,
+		$pageData,
 		$phpRoot,
 		$webRoot,
 		$fileDocuments = array(),
 		$phpLibraries = array();
 	
 	public function __construct(){
-		if ( self::$pageUrl == null ){
+		if ( self::$pageScript == null ){
 			self::loadAll();
 		}
 	}
@@ -26,15 +27,18 @@ class StdObject {
 	static protected function loadVariables(){
 		$path = explode( '/', $_SERVER['REQUEST_URI'] );
 		$url = explode( '/', $_SERVER['SCRIPT_NAME'] );
+		$request = array();
 		
 		while( !empty($url) ){
 			if ( strcmp($path[0], array_shift($url)) === 0 ){
-				array_shift($path);
+				$request[] = array_shift($path);
 			}
 		}
+		
 		// this is supposed to be the reflexive url to the page, sans any GET data
-		self::$pageUrl = $_SERVER['SCRIPT_NAME'];
-		self::$pagePath = $path;
+		self::$pageRequest = implode( '/', $request );
+		self::$pageScript = $_SERVER['SCRIPT_NAME'];
+		self::$pageData = $path;
 		
 		// figure out internal roots
 		$cwd = getcwd();
