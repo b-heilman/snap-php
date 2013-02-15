@@ -29,6 +29,15 @@ class StdObject {
 		$url = explode( '/', $_SERVER['SCRIPT_NAME'] );
 		$request = array();
 		
+		// clean up the very last element of the path, as it might have GET data
+		$check = count($path) - 1;
+		$p = $path[$check];
+		$pos = strpos( $p, '?' );
+		if ( $pos !== false ){
+			$path[$check] = substr($p, 0, $pos);
+		}
+		
+		// build the actual request path
 		while( !empty($url) ){
 			if ( strcmp($path[0], array_shift($url)) === 0 ){
 				$request[] = array_shift($path);
@@ -43,6 +52,7 @@ class StdObject {
 		// figure out internal roots
 		$cwd = getcwd();
 		
+		// calculate the different roots for the site
 		self::$projectRoot = substr( $cwd, 0, strripos($cwd, DIRECTORY_SEPARATOR.'www')+1 );
 		self::$webRoot = self::$projectRoot.'/www';
 		self::$phpRoot = self::$projectRoot.'/php';

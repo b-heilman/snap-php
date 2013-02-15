@@ -12,6 +12,6 @@ class Web extends Crawler {
 
 	// TODO : this isn't entirely right
 	public function getLink( $root ){
-		return '/' . $this->path;
+		return $this->path ? '/'.$this->path : null;
 	}
 }

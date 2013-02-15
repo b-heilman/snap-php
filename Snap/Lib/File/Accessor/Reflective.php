@@ -16,7 +16,7 @@ class Reflective
 			$class = $node;
 		}
 		
-		if ( $data == null ){
+		if ( is_null($data) ){
 			$this->class = str_replace( '/','\\', $class );
 			$this->data = json_decode( $_GET['__reflectiveInit'], true );
 		}else{
@@ -32,9 +32,11 @@ class Reflective
 	public function getContent( \Snap\Node\Core\Page $page ){
 		$class = $this->class;
 		
-		$page->append( new $class($this->data) );
+		$page->append( $el = new $class($this->data) );
 		
-		return $page->inner();
+		$page->inner();
+	
+		return $el->inner();
 	}
 	
 	public function getLink( $root ){

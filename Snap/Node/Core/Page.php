@@ -14,10 +14,16 @@ abstract class Page extends Node\Core\Template {
 		$title,
 		$router,
 		$basePath = '/',
-		$debugContent = '';
+		$debugContent = '',
+		$contentOnly;
 	
 	public function __construct( $settings = array() ){
 		ob_start();
+		
+		if ( isset($_GET['__contentOnly']) ){
+			$this->contentOnly = true;
+			$settings['unwrapped'] = true;
+		}
 		
 		try{
 			parent::__construct( $settings );
@@ -27,6 +33,11 @@ abstract class Page extends Node\Core\Template {
 		}
 		
 		$this->debugContent .= ob_get_contents();
+		
+		if ( !$this->contentOnly ){
+			// Need to do this, as page will be top level and not in the extensions
+			$this->inside->getExtender()->addNode( $this );
+		}
 		
 		ob_end_clean();
 	}
@@ -167,12 +178,9 @@ abstract class Page extends Node\Core\Template {
 		try{
 			$extender = $this->inside->getExtender();
 			
-			if ( isset($_GET['__contentOnly']) ){
+			if ( $this->contentOnly ){
 				// run the build only, do not add to extensions
 				$this->build(); 
-			}else{
-				// Need to do this, as page will be top level and not in the extensions 
-				$extender->addNode( $this );
 			}
 			
 			$html = parent::html();
@@ -231,20 +239,24 @@ abstract class Page extends Node\Core\Template {
 	}
 	
 	protected function makeHtml( $title, $meta, $jsLinks, $jsContent, $cssLinks, $html, $debug, $junk ){
-		if ( isset($_GET['__contentOnly']) ){
+		if ( $this->contentOnly ){
 			return $html;
 		}else{
 			
 			$js = '';
 			foreach( $jsLinks as $name => $link ){
 				$l = $this->fileManager->makeLink( new \Snap\Lib\File\Accessor\Resource($link) );
-				$js .= "\n<script type='text/javascript' src='$l'></script>";
+				if ( $l != '' ){ /* TODO : where is this coming from ? */
+					$js .= "\n<script type='text/javascript' src='$l'></script>";
+				}
 			}
 				
 			$css = '';
 			foreach( $cssLinks as $link ){
 				$l = $this->fileManager->makeLink( new \Snap\Lib\File\Accessor\Resource($link) );
-				$css .= "\n<link type='text/css' rel='stylesheet' href='$l'/>";
+				if ( $l != '' ){
+					$css .= "\n<link type='text/css' rel='stylesheet' href='$l'/>";
+				}
 			}
 			
 			return <<<HTML
@@ -279,7 +291,7 @@ HTML;
 		
 			
 		$css = array();
-		foreach( $this->links as $link ){
+		foreach( $cssLinks as $link ){
 			$css[] = $this->fileManager->makeLink( new \Snap\Lib\File\Accessor\Resource($link) );
 		}
 		
@@ -299,5 +311,17 @@ HTML;
  	
  	public function getBasePath(){
  		return $this->basePath;
+ 	}
+ 	
+ 	public function __toString(){
+ 		ob_start();
+ 		
+ 		$this->serve();
+ 		
+ 		$t = ob_get_contents();
+ 		
+ 		ob_clean();
+ 	
+ 		return $t;
  	}
 }

@@ -2,9 +2,9 @@
 
 namespace Snap\Node\Form;
 
-// TODO : maybe not really virtual ?
+// TODO : for this to work, the element can't be broken down, since the reflection needs $el->inner, so watch when cacheing
 abstract class Reflective extends \Snap\Node\Core\Block 
-	implements \Snap\Node\Accessor\Reflective {
+	implements \Snap\Node\Core\Actionable, \Snap\Node\Accessor\Reflective {
 	
 	protected
 		$inSettings;
@@ -12,8 +12,9 @@ abstract class Reflective extends \Snap\Node\Core\Block
 	protected function parseSettings( $settings = array() ){
 		parent::parseSettings( $settings );
 		
-		$settings = $this->buildPairing() + $settings; // pairing overrides here
-		
+		$this->inSettings = $settings;
+		$settings = $this->cleanSettings( $this->buildPairing($settings) + $settings ); // pairing overrides here
+	
 		$this->parseComponents( $settings );
 	}
 	
@@ -22,49 +23,33 @@ abstract class Reflective extends \Snap\Node\Core\Block
 	 */
 	abstract function buildPairing();
 	
+	abstract function cleanSettings( $settings );
+	
 	protected function parseComponents( $settings ){
-		if ( isset($settings['model']) ){
-			$model = $settings['model'];
-		
-			if ( is_string($model) ){
-				$model = $model();
-			}
-		}else{
-			throw \Exception( get_class($this).' requires a model' );
-		}
-		
-		// TODO : can I assume the view off the model if it is not suplied?
-		if ( isset($settings['view']) ){
-			$view = $settings['view'];
-		}else{
+		if ( !isset($settings['view']) ){
 			throw \Exception( get_class($this).' requires a view' );
 		}
 		
-		$controller = isset($settings['controller']) ? $settings['controller'] : str_replace('View', 'Controller', $view);
+		if ( !isset($settings['control']) ){
+			throw \Exception( get_class($this).' requires a control' );
+		}
 		
-		$controllerSettings = isset($settings['controllerSettings']) ? $settings['controllerSettings'] : array();
-		$viewSettings = isset($settings['viewSettings']) ? $settings['viewSettings'] : array();
-		
-		$inputStream = isset($settings['inputStream']) ? $settings['inputStream'] : null;
-		$outputStream = isset($settings['outputStream']) ? $settings['outputStream'] : $controller;
-		
-		$this->append(new $controller( $controllerSettings + array(
-			'model'        => $model,
-			'outputStream' => $outputStream
-		)));
-		
-		$this->append(new $view( $viewSettings + array(
-			'model'       => $model,
-			'inputStream' => $inputStream
-		)));
+		$this->append( $settings['control'] );
+		$this->append( $settings['view']);
 	}
 	
 	protected function baseClass(){
 		return 'form-reflective-wrapper';
 	}
-	/*
-	public function makeAjaxLink( $class, $data ){
- 		return $this->fileManager->makeLink( new \Snap\Lib\File\Accessor\Ajax($class,$data) );
- 	}
-	*/
+	
+	protected function getAttributes(){
+		$link = htmlentities( $this->page->fileManager->makeLink(new \Snap\Lib\File\Accessor\Reflective($this,$this->inSettings)) );
+		return parent::getAttributes()." data-reflection=\"$link\"";
+	}
+	
+	public function getActions(){
+		return array(
+				new \Snap\Lib\Linking\Resource\Local( $this )
+		);
+	}
 }

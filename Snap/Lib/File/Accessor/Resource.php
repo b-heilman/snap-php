@@ -11,6 +11,6 @@ class Resource extends Crawler {
 	}
 
 	public function getLink( $root ){
-		return $root . $this->path;
+		return $this->path ? $root.$this->path : null;
 	}
 }
