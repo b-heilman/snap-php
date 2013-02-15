@@ -54,7 +54,7 @@ class Base extends \Snap\Node\Core\Block
 	
 	public function getStyles(){
 		return array(
-			new \Snap\Lib\Linking\Resource\Relative($this)
+			new \Snap\Lib\Linking\Resource\Relative( $this )
 		);
 	}
 }

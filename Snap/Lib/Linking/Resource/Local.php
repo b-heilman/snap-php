@@ -4,15 +4,18 @@ namespace Snap\Lib\Linking\Resource;
 
 class Local {
 	
-	public 
-		$page,
-		$resouce,
-		$file;
+	protected 
+		$result = false,
+		$resource,
+		$file,
+		$type = null,
+		$ext = null;
 	
-	public function __construct( \Snap\Node\Core\Page $page, $resource, $file = null ){
-		$this->page = $page;
-		
-		if ( $file == null ){
+	public function __construct( $resource, $file = null ){
+		if ( $resource instanceof \Snap\Lib\Linking\Resource\Local ){
+			$this->resource = $resource->resource;
+			$this->file = $resource->file;
+		}elseif ( $file == null ){
 			if ( is_string($resource) ){
 				$this->resource = null;
 				$this->file = $resource;
@@ -26,34 +29,42 @@ class Local {
 		}
 	}
 	
-	public function getResource( $type, $ext ){
-		if ( $this->resource && $this->file ){
-			$class = get_class($this->resource);
-			do {
-				$file = \Snap\Lib\Core\Bootstrap::getRelatedFile( $class, 'Node', $type.'\\'.$this->file );
+	public function getResource(){
+		if ( $this->result === false ){
+			if ( !$this->type ){
+				throw new \Exception('Need to set a type');
+			}	
+		
+			if ( $this->resource && $this->file ){
+				$class = get_class($this->resource);
+				do {
+					$file = \Snap\Lib\Core\Bootstrap::getRelatedFile( $class, 'Node', $this->type.'\\'.$this->file );
+					$path = \Snap\Lib\Core\Bootstrap::testFile( $file );
+					$class = get_parent_class( $class );
+				}while( $class && !$path );
+					
+				$this->result = $path ? $file : null;
+			}elseif( $this->resource ){
+				$class = get_class($this->resource);
+				do {
+					$file = \Snap\Lib\Core\Bootstrap::getExtensionFile( $class, 'Node', $this->type, $this->ext );
+					
+					$path = \Snap\Lib\Core\Bootstrap::testFile( $file );
+					$class = get_parent_class( $class );
+					
+				}while( $class && !$path );
 				
-				$path = \Snap\Lib\Core\Bootstrap::testFile( $file );
-				$class = get_parent_class( $class );
-			}while( $class && !$path );
-				
-			return $path ? $file : null;
-		}elseif( $this->resource ){
-			$class = get_class($this->resource);
-			do {
-				$file = \Snap\Lib\Core\Bootstrap::getExtensionFile( $class, 'Node', $type, $ext );
-				
-				$path = \Snap\Lib\Core\Bootstrap::testFile( $file );
-				$class = get_parent_class( $class );
-				
-			}while( $class && !$path );
-			
-			return $path ? $file : null;
-		}else{
-			return \Snap\Lib\Core\Bootstrap::getExactFile( $type, $this->file );
+				$this->result = $path ? $file : null;
+			}else{
+				$this->result = \Snap\Lib\Core\Bootstrap::getExactFile( $this->type, $this->file );
+			}
 		}
+		
+		return $this->result;
 	}
 	
-	public function getLink( $type, $ext ){
-		return $this->page->makeResourceLink( $this->getResource($type,$ext) );
+	public function __toString(){
+		$file = $this->getResource();
+		return $file ? $file : '';
 	}
 }

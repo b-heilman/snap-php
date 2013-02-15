@@ -165,9 +165,15 @@ abstract class Page extends Node\Core\Template {
 		
 		ob_start();
 		try{
-			// Need to do this, as page will be top level and not in the extensions
 			$extender = $this->inside->getExtender();
-			$extender->addNode( $this );
+			
+			if ( isset($_GET['__contentOnly']) ){
+				// run the build only, do not add to extensions
+				$this->build(); 
+			}else{
+				// Need to do this, as page will be top level and not in the extensions 
+				$extender->addNode( $this );
+			}
 			
 			$html = parent::html();
 			
@@ -183,8 +189,7 @@ abstract class Page extends Node\Core\Template {
 			$css = $extender->findExtension('\Snap\Lib\Node\Extension\Css');
 			$css = $css[0];
 			
-			$cssContent = $css->getLinks();
-			$cssContent .= $css->getContent();
+			$cssLinks = $css->getLinks();
 			
 			if ( !empty(static::$logs) ){
 				$jsContent .= '<script id="framework_debug">';
@@ -216,11 +221,33 @@ abstract class Page extends Node\Core\Template {
 		$junk = trim( ob_get_contents() );
 		ob_end_clean();
 		
-		return $this->makePage( $title, $meta, $jsLinks, $jsContent, $cssContent, $html, $this->debugContent, $junk );
+		if ( isset($_GET['__asJson']) ){
+			return $this->makeJson( $title, $meta, $jsLinks, $jsContent, 
+						$cssLinks, $html, $this->debugContent, $junk );
+		}else{
+			return $this->makeHtml( $title, $meta, $jsLinks, $jsContent, 
+						$cssLinks, $html, $this->debugContent, $junk );
+		}
 	}
 	
-	protected function makePage( $title, $meta, $jsLinks, $jsContent, $css, $html, $debug, $junk ){
-		return <<<HTML
+	protected function makeHtml( $title, $meta, $jsLinks, $jsContent, $cssLinks, $html, $debug, $junk ){
+		if ( isset($_GET['__contentOnly']) ){
+			return $html;
+		}else{
+			
+			$js = '';
+			foreach( $jsLinks as $name => $link ){
+				$l = $this->fileManager->makeLink( new \Snap\Lib\File\Accessor\Resource($link) );
+				$js .= "\n<script type='text/javascript' src='$l'></script>";
+			}
+				
+			$css = '';
+			foreach( $cssLinks as $link ){
+				$l = $this->fileManager->makeLink( new \Snap\Lib\File\Accessor\Resource($link) );
+				$css .= "\n<link type='text/css' rel='stylesheet' href='$l'/>";
+			}
+			
+			return <<<HTML
 <!DOCTYPE HTML>
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en'>
 	<head>
@@ -229,7 +256,7 @@ abstract class Page extends Node\Core\Template {
 		<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'>
 		{$meta}
 		<!-- js links -->
-		{$jsLinks}
+		{$js}
 		<!-- css links -->
 		{$css}
 	</head>
@@ -241,6 +268,29 @@ abstract class Page extends Node\Core\Template {
 	</body>
 </html>
 HTML;
+		}
+	}
+	
+	protected function makeJson( $title, $meta, $jsLinks, $jsContent, $cssLinks, $html, $debug, $junk ){
+		$js = array();
+		foreach( $jsLinks as $name => $link ){
+			$js[] .= $this->fileManager->makeLink( new \Snap\Lib\File\Accessor\Resource($link) );
+		}
+		
+			
+		$css = array();
+		foreach( $this->links as $link ){
+			$css[] = $this->fileManager->makeLink( new \Snap\Lib\File\Accessor\Resource($link) );
+		}
+		
+		return json_encode(array(
+			'title'  => $title,
+			'onload' => $jsContent,
+			'css'    => $css,
+			'js'     => $jsLinks,
+			'html'   => $html,
+			'debug'  => $debug
+		));
 	}
 	
 	protected function getTitle(){
@@ -249,26 +299,5 @@ HTML;
  	
  	public function getBasePath(){
  		return $this->basePath;
- 	}
- 	
- 	// TODO : these need to be removed
- 	public function makeResourceLink( $resource ){
- 		if ( strlen($resource) ){
-	 		return $this->fileManager->makeLink( new \Snap\Lib\File\Accessor\Resource($resource) );
- 		}else{
- 			return null;
- 		}
- 	}
- 	
- 	public function makeLibraryLink( $library ){
- 		if ( strlen($library) ){
-	 		return $this->fileManager->makeLink( new \Snap\Lib\File\Accessor\Document($library) );
-	 	}else{
-	 		return null;
-	 	}
- 	}
- 	
- 	public function makeAjaxLink( $class, $data ){
- 		return $this->fileManager->makeLink( new \Snap\Lib\File\Accessor\Ajax($class,$data) );
  	}
 }

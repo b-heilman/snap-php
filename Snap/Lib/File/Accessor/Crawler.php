@@ -17,6 +17,8 @@ abstract class Crawler extends \Snap\Lib\Core\StdObject
 		$this->path = null;
 		$this->directory = null;
 		
+		$path = $path.''; // caste it
+		
 		foreach( $this->roots as $root ){
 			if ( file_exists($root.'/'.$path) ){
 				$this->path = $path;

@@ -7,14 +7,14 @@ class GroupThumbnail extends \Snap\Node\Core\View
 
 	public function getStyles(){
 		return array(
-				new \Snap\Lib\Linking\Resource\Local( $this->page, $this )
+				new \Snap\Lib\Linking\Resource\Local( $this )
 		);
 	}
 	
 	public function getActions(){
 		return array(
-				new \Snap\Lib\Linking\Resource\Local( $this->page, $this ),
-				new \Snap\Lib\Linking\Resource\Local( $this->page, $this, 'jquery.carousel.js' )
+				new \Snap\Lib\Linking\Resource\Local( $this ),
+				new \Snap\Lib\Linking\Resource\Local( $this, 'jquery.carousel.js' )
 		);
 	}
 	

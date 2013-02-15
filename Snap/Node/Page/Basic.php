@@ -17,15 +17,15 @@ class Basic extends Node\Core\Page
 	
 	public function getActions(){
  		return array(
- 			new \Snap\Lib\Linking\Resource\Local( $this,'/jquery.min.js'),
- 			new \Snap\Lib\Linking\Resource\Local( $this,'/jquery-ui.min.js')
+ 			new \Snap\Lib\Linking\Resource\Local( '/jquery.min.js'),
+ 			new \Snap\Lib\Linking\Resource\Local( '/jquery-ui.min.js')
  		);
  	}
  	
  	public function getStyles(){
  		return array(
- 			new \Snap\Lib\Linking\Resource\Local( $this,'/reset.css'),
- 			new \Snap\Lib\Linking\Resource\Local( $this, $this )
+ 			new \Snap\Lib\Linking\Resource\Local( '/reset.css'),
+ 			new \Snap\Lib\Linking\Resource\Local( $this )
  		);
  	}
 }

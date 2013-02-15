@@ -143,7 +143,6 @@ abstract class Template extends Block {
 			if ( $pos === false ){
 				$path = null;
 			}else{
-				error_log( substr($class,0,$pos).$template.'.php' );
 				$path = Bootstrap::testFile( substr($class,0,$pos).'Template/'.$template );
 			}
  		}

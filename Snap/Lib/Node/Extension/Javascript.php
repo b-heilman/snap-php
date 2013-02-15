@@ -38,10 +38,11 @@ class Javascript extends Base
 			for( $i = 0; $i < $c; $i++ ){
 				$a = $actions[$i];
 				
+				// turn links to strings
 				if ( $a instanceof Resource\Local ){
-					$this->links[] = $a->getLink( 'Javascript', '.js' );
+					$this->links[] = new \Snap\Lib\Linking\Resource\Local\Javascript( $a );
 				}elseif ( $a instanceof Resource\Remote ){
-					$this->links[] = $a->getLink();
+					$this->links[] = $a;
 				}
 			}	
 		}
@@ -51,6 +52,7 @@ class Javascript extends Base
 		}
 	}
 	
+	// TODO : this needs to be toggled, or something like that
 	public function getContent(){
 		$files = array_unique( $this->local );
 		$js = '';
@@ -66,14 +68,6 @@ class Javascript extends Base
 	}
 	
 	public function getLinks(){
-		$links = array_unique( $this->links );
-		$js = '';
-		
-		
-		foreach( $links as $link ){
-			$js .= "\n<script type='text/javascript' src='$link'></script>";
-		}
-			
-		return $js;
+		return array_unique( $this->links );
 	}
 }

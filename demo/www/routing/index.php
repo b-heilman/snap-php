@@ -6,6 +6,7 @@ $router = new \Snap\Control\Router();
 
 $router->addRoutes(array(
 	'/' => new \Demo\Node\Page\Index(),
+	'overlay' => new \Demo\Node\Page\Overlay(),
 	'demo' => array(
 		'/'      => new \Demo\Node\View\Routing\Home(),
 		'/page'  => new \Demo\Node\Page\Routing(),

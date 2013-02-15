@@ -7,7 +7,7 @@ class Main extends \Snap\Node\Core\Template
 	
 	public function getStyles(){
 		return array(
-			new \Snap\Lib\Linking\Resource\Local( $this->page,$this)
+			new \Snap\Lib\Linking\Resource\Local( $this )
 		);
 	}
 }

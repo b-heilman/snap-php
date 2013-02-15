@@ -7,7 +7,7 @@ class EditorForm extends \Snap\Prototype\Topic\Node\View\CreateForm
 		
 	public function getActions(){
 		return array(
-			new \Snap\Lib\Linking\Resource\Local($this->page,$this)
+			new \Snap\Lib\Linking\Resource\Local($this)
 		);
 	}
 }

@@ -34,13 +34,9 @@ class Css extends Base
 				$a = $actions[$i];
 				
 				if ( $a instanceof Resource\Local ){
-					$link = $a->getLink( 'Css', '.css' );
+					$this->links[] = new \Snap\Lib\Linking\Resource\Local\Css( $a );
 				}elseif ( $a instanceof Resource\Remote ){
-					$link = $a->getLink();
-				}
-				
-				if ( $link ){
-					$this->links[] = $link;
+					$this->links[] = $a->getLink();
 				}
 			}	
 		}
@@ -65,11 +61,6 @@ class Css extends Base
 	}
 
 	public function getLinks(){
-		$css = '';
-		foreach( $this->links as $link ){
-			$css .= "\n<link type='text/css' rel='stylesheet' href='$link'/>";
-		}
-		
-		return $css."\n";
+		return array_unique( $this->links );
 	}
 }
