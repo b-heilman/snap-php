@@ -9,7 +9,13 @@ class Reflective
 		$class,
 		$data;
 	
-	public function __construct( $class, $data = null ){
+	public function __construct( $node, $data = null ){
+		if ( $node instanceof \Snap\Node\Core\Snapable ){
+			$class = get_class( $node );
+		}else{
+			$class = $node;
+		}
+		
 		if ( $data == null ){
 			$this->class = str_replace( '/','\\', $class );
 			$this->data = json_decode( $_GET['__reflectiveInit'], true );

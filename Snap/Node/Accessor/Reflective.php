@@ -2,4 +2,4 @@
 
 namespace Snap\Node\Accessor;
 
-interface Reflective {}
+interface Reflective {} // just here to protect from other classes getting reflected
