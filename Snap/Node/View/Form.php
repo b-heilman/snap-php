@@ -36,7 +36,7 @@ class Form extends \Snap\Node\Core\Template {
     	}elseif( $this->model instanceof \Snap\Model\Form ){
     		$this->setEncoding( $this->model->getEncoding() );
     	}else{
-    		throw new Exception("A form's model needs to be instance of \Snap\Model\Form");
+    		throw new \Exception("A form's model needs to be instance of \Snap\Model\Form");
     	}
     	
 		// turn of messaging for this form.  Messaging can actually be explicitly turned off

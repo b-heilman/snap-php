@@ -299,7 +299,7 @@ HTML;
 			'title'  => $title,
 			'onload' => $jsContent,
 			'css'    => $css,
-			'js'     => $jsLinks,
+			'js'     => $js,
 			'html'   => $html,
 			'debug'  => $debug
 		));

@@ -7,10 +7,6 @@ class Text extends \Snap\Node\Form\Input\Basic {
 	protected 
 		$size = null;
 	
-	public function __construct($settings = array() ){
-		parent::__construct($settings);
-	} 
-	
 	public function getType(){
 		return $this->type;
 	}

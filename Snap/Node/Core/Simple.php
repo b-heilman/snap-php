@@ -8,15 +8,17 @@ class Simple extends \Snap\Lib\Core\StdObject
 	protected static
 		$logs = array();
 	
+		public
+			$id,
+			$tag,
+			$class,
+			$parent = null,
+			$page = null;
+		
     protected
-		$id, 
-		$class, 
-		$tag, 
-		$page = null,
-		$parent = null, 
-		$clones = null, 
-		$flags = array(),
-		$dead = false,
+			$clones = null, 
+			$flags = array(),
+			$dead = false,
     	$extender = null;
     
     static protected 

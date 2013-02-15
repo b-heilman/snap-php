@@ -7,6 +7,14 @@ abstract class Input extends \Snap\Node\Core\Block {
 	protected 
 		$input;
 	
+	public function __construct( $settings = array() ){
+		if ( $settings instanceof \Snap\Lib\Form\Input ){
+			$settings = array( 'input' => $settings );
+		}
+		
+		parent::__construct( $settings );
+	}
+	
 	protected function parseSettings( $settings = array() ){
 		$this->disabled = isset($settings['disabled']) ? $settings['disabled'] : false;
 		$this->readonly = isset($settings['readonly']) ? $settings['readonly'] : false;
