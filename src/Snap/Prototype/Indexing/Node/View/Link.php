@@ -3,7 +3,7 @@
 namespace Snap\Prototype\Indexing\Node\View;
 
 class Link extends \Snap\Node\View\Listing {
-	protected function getTemplateVariables( $info = array() ){
+	protected function parseListData( $info ){
 		return array(
 			'text'  => $info->getDisplay(),
 			'link'  => $info->getFullPath(),

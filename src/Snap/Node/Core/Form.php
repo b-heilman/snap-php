@@ -1,6 +1,6 @@
 <?php
 
-namespace Snap\Node\View;
+namespace Snap\Node\Core;
 
 class Form extends \Snap\Node\Core\Template {
 	    	
@@ -25,8 +25,8 @@ class Form extends \Snap\Node\Core\Template {
     	$settings['tag'] = 'form';
 
     	if ( isset($settings['model']) ){
+    		/** @var $this->model \Snap\Model\Form **/
 	    	$this->model = $settings['model'];
-	    	/** @var $this->model \Snap\Model\Form **/
     	}else{ 
     		$this->model = null;
     	}
@@ -55,8 +55,8 @@ class Form extends \Snap\Node\Core\Template {
     }
     
     // allows for a form to be created that is a wrapper around other forms
-    protected function getTemplateContent(){
-    	return ( $this->path == '' ) ? '' : parent::getTemplateContent();
+    protected function getTemplateHTML(){
+    	return ( $this->path == '' ) ? '' : parent::getTemplateHTML();
     }
     
     public function setEncoding( $encoding ){
@@ -148,7 +148,7 @@ class Form extends \Snap\Node\Core\Template {
 		}
 	}
 	
-	protected function getTemplateVariables(){
+	protected function makeProcessContent(){
 		if ( $this->model && $this->model instanceof \Snap\Model\Form ){
 			/** @var \Snap\Lib\Form\Result **/
 			$output = $this->model->getInputs();

@@ -82,7 +82,7 @@ class Stacked extends \Snap\Node\Core\View {
 		return new \Snap\Lib\Streams\Request( $request, $this );
 	}
 	
-	protected function getTemplateVariables(){
+	protected function makeProcessContent(){
 		return array(
 			'content' => $this->getStreamData()
 		);

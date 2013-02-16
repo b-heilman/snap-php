@@ -8,7 +8,7 @@ class File extends \Snap\Node\Core\View {
 		return 'file-view';
 	}
 	
-	protected function getTemplateVariables(){
+	protected function makeProcessContent(){
 		$file = new \Snap\Prototype\WebFs\Lib\File( $this->getStreamData()->get(0) );
 		
 		return array(

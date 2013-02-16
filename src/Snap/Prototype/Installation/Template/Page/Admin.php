@@ -1,7 +1,4 @@
 <div class="admin-head"><?php
-	$this->append( $loginControl );
-	
-	$this->append( $logoutControl );
 	$this->append( $logoutView );
 ?></div>
 <div class="admin-content"><?php

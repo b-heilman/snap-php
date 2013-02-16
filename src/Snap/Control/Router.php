@@ -4,23 +4,8 @@ namespace Snap\Control;
 
 class Router extends \Snap\Lib\Core\StdObject {
 	
-	static protected
-		$instance = null;
-	
 	protected
 		$routingTable = array();
-	
-	public function __construct(){
-		if ( self::$instance ){
-			$this->duplicate( self::$instance );
-		}else{
-			$this->init();
-		}
-	}
-	
-	protected function init(){
-		// add any predefined pages
-	}
 	
 	protected function duplicate( Router $in ){
 		$this->routingTable = &$in->routingTable;
@@ -202,14 +187,5 @@ class Router extends \Snap\Lib\Core\StdObject {
 		}else{
 			echo '<!-- Page Not Found -->';
 		}
-	}
-	
-	static public function getInstance(){
-		if ( is_null(self::$instance) ){
-			$class = get_called_class();
-			self::$instance = new $class();
-		}
-		
-		return new $class( self::$instance );
 	}
 }

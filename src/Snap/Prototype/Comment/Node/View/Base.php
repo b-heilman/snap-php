@@ -20,7 +20,7 @@ class Base extends \Snap\Node\Core\View {
 		}
 	}
 	
-	protected function getTemplateVariables(){
+	protected function makeProcessContent(){
 		$this->comment = new \Snap\Prototype\Comment\Lib\Element( $this->getStreamData()->get(0) );
 		
 		return array(

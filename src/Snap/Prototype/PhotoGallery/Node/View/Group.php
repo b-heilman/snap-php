@@ -27,7 +27,7 @@ class Group extends \Snap\Node\Core\View
 		return 'gallery-group';
 	}
 
-	protected function getTemplateVariables(){
+	protected function makeProcessContent(){
 		if ( $this->accessor ){
 			$group = new \Snap\Prototype\PhotoGallery\Lib\Group( $this->accessor );
 		}else{

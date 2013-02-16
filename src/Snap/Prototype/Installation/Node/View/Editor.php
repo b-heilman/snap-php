@@ -48,7 +48,7 @@ class Editor extends \Snap\Node\Core\View {
 		parent::_consume($data);
 	}
 	
-	protected function getTemplateVariables(){
+	protected function makeProcessContent(){
 		$form      = $this->getStreamData()->get(0);
 
 		if ( $form ){

@@ -22,7 +22,7 @@ class GroupThumbnail extends \Snap\Node\Core\View
 		return 'group-thumbnail';
 	}
 
-	protected function getTemplateVariables(){
+	protected function makeProcessContent(){
 		$group = $this->getStreamData()->get(0);
 		$manager = $this->page->getManager();
 		$accessor = $group->getAccessor();

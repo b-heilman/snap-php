@@ -7,7 +7,7 @@ namespace Snap\Prototype\Comment\Node\View;
 
 class Creator extends \Snap\Node\Core\View {
 	
-	protected function getTemplateVariables(){
+	protected function makeProcessContent(){
 		$info = $this->getStreamData()->getPrimary();
 		
 		$model = new \Snap\Prototype\Comment\Model\Form\Create( $info[TOPIC_COMMENT_THREAD] );

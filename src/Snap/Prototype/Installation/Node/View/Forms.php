@@ -17,9 +17,9 @@ class Forms extends Node\View\Navigation
 		);
 	}
 	
-	protected function getTemplateVariables(){
-		$info         = $this->getStreamData()->get(0);
-		$var          = parent::getTemplateVariables();
+	protected function makeProcessContent(){
+		$var  = parent::makeProcessContent();
+		$info = $this->getStreamData()->get(0);
 		
 		if ( $info ) {
 			$prototype    = new \Snap\Prototype\Installation\Lib\Prototype( $info );

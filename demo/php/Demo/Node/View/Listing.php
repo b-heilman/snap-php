@@ -1,12 +1,25 @@
 <?php
 
 namespace Demo\Node\View;
-
-class Listing extends \Snap\Node\Core\View\Listing {
-	protected function getTemplateVariables( $info = null ){
-		// I know $info will be a string, so convert it
-		return array(
-			'content' => $info
-		);
+// TODO : what?
+class Listing extends \Snap\Node\View\Listing {
+	
+	protected function getTemplateHTML(){
+		if ( $this->path == '' ){
+			throw new \Exception( 'Path is blank for '.get_class($this) );
+		}
+			
+		// TODO : how to avoid the collisions???
+		$content = '';
+		$data = $this->getStreamData();
+		$c = $data->count();
+			
+		for( $i = 0; $i < $c; $i++ ){
+			$this->setTemplateData( array('content' => $data->get($i)) );
+			$t = parent::getTemplateHTML();
+			$content .= "<{$this->childTag}>$t</{$this->childTag}>";
+		}
+			
+		return $content;
 	}
 }

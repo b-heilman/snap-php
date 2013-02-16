@@ -1,12 +1,6 @@
 <div class="blog-content">
 <?php 
-	$this->append( $loginControl );
-	
-	$this->append( $logoutControl );
 	$this->append( $logoutView );
-
-	
-	$this->append( $editorControl );
 	$this->append( $editorView );
 ?>
 </div>

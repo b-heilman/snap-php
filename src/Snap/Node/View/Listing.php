@@ -17,42 +17,26 @@ abstract class Listing extends \Snap\Node\Core\View {
 		parent::__construct( $settings );
 	}
 	
-	protected function getTemplateContent(){
+	protected function parseListData( $in ){
+		return $in;
+	}
+	
+	protected function getTemplateHTML(){
  		if ( $this->path == '' ){
  			throw new \Exception( 'Path is blank for '.get_class($this) );
  		}
  		
  		// TODO : how to avoid the collisions???
- 		$__content = '';
- 		$__data = $this->getStreamData();
- 		$__c = $__data->count();
+ 		$content = '';
+ 		$data = $this->getStreamData();
+ 		$c = $data->count();
  		
- 		for( $__i = 0; $__i < $__c; $__i++ ){
-	 		$this->translating = true;
-	 		
-	 		ob_start();
-	 		
-	 		// decode the variables for local use of the included function
-	 		$__vars = $this->getTemplateVariables( $__data->get($__i) );
-	 		foreach( $__vars as $__var => $__val ){
-	 			${$__var} = $__val;
-	 		}
-	 		
-	 		// call the template
-	 		include $this->path;
-	 		
-	 		$__innerContent = ob_get_contents();
-	 		ob_end_clean();
-	 		
-	 		$this->translating = false;
-	 		
-	 		$__content .= "<{$this->childTag}>$__innerContent</{$this->childTag}>";
+ 		for( $i = 0; $i < $c; $i++ ){
+ 			$this->setTemplateData( $this->parseListData($data->get($i)) );
+ 			$t = parent::getTemplateHTML();
+ 			$content .= "<{$this->childTag}>$t</{$this->childTag}>";
  		}
  		
- 		return $__content;
- 	}
- 	
- 	protected function getTemplateVariables( $info = null ){
- 		return $info;
+ 		return $content;
  	}
 }

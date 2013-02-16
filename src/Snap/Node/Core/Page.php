@@ -66,8 +66,8 @@ abstract class Page extends Node\Core\Template {
 	}
 	
 	// allow a page to just be an object, no template needed, but preferred
-	protected function getTemplateContent(){
-		return ( $this->path == '' ) ? '' : parent::getTemplateContent();
+	protected function getTemplateHTML(){
+		return ( $this->path == '' ) ? '' : parent::getTemplateHTML();
 	}
 	
 	public function build(){

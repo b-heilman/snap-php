@@ -1,8 +1,8 @@
 <?php
 
-namespace Snap\Prototype\Installation\Control\Feed;
+namespace Snap\Prototype\Installation\Control\Form;
 
-class RowForm extends \Snap\Control\Form {
+class Row extends \Snap\Control\Form {
 	
 	protected function processInput( \Snap\Lib\Form\Result $formData ){
 		$name = $this->model->prototype->name;

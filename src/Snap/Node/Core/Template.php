@@ -62,7 +62,7 @@ abstract class Template extends Block {
  	}
  	
 	private function addTemplateContent( $content ){
- 		foreach( $content as $name => $component ){
+		foreach( $content as $name => $component ){
  			if ( $component instanceof \Snap\Control\Feed ){
  				$this->addTemplateFeed( $component, $name );
  			}elseif( $component instanceof \Snap\Node\Core\Snapable ){
@@ -85,7 +85,14 @@ abstract class Template extends Block {
  		$this->templateVariables[$name] = $in;
  	}
  	
- 	protected function getTemplateVariables(){
+ 	private function getTemplateVariables(){
+ 		// clean up the template variables, allows late defining
+ 		foreach( $this->templateVariables as $key => $var ){
+ 			if ( is_callable($var) ){
+ 				$this->templateVariables[$key] = $var();
+ 			}
+ 		}
+ 		
  		return $this->templateVariables;
  	}
  	
@@ -111,13 +118,17 @@ abstract class Template extends Block {
  		$this->translation->clear();
  	}
  	
+ 	protected function makeProcessContent(){
+ 		return array();
+ 	}
  	/**
  	 * Begins the translating of a template located at $this->path. 
  	 */
  	protected function processTemplate(){
  		try {
  			$this->deferTemplate = null; // acts as a lock, saves on a boolean
- 			$this->processTemplateString( $this->getTemplateContent() );
+ 			$this->addTemplateContent( $this->makeProcessContent() );
+ 			$this->processTemplateString( $this->getTemplateHTML() );
  		}catch( Exception $ex ){
  			throw new \Exception(
  				"==== ".get_class($this)." - processTemplate ====\n"
@@ -190,7 +201,7 @@ abstract class Template extends Block {
  		return parent::pend($in);
  	}
  	
- 	protected function getTemplateContent(){
+ 	protected function getTemplateHTML(){
  		if ( $this->path == '' ){
  			throw new \Exception( 'Path is blank for '.get_class($this) );
  		}

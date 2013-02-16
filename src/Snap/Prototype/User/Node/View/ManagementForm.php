@@ -3,7 +3,7 @@
 namespace Snap\Prototype\User\Node\View;
 
 // TODO : this is going to be refactored
-class Management extends \Snap\Node\View\Form 
+class Management extends \Snap\Node\Core\Form 
 	implements \Snap\Node\Core\Styleable {
 	
 	protected function processInput( \Snap\Lib\Form\Result &$formData ){
@@ -37,7 +37,7 @@ class Management extends \Snap\Node\View\Form
 		);
 	}
 	
-	protected function getTemplateVariables(){
+	protected function makeTemplateContent(){
 		$fields = array(
 				USER_LOGIN 				=> USER_LOGIN_LABEL,
 				USER_DISPLAY 			=> USER_DISPLAY_LABEL,

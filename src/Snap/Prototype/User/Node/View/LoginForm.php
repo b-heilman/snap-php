@@ -2,5 +2,5 @@
 
 namespace Snap\Prototype\User\Node\View;
 
-class LoginForm extends \Snap\Node\View\Form {
+class LoginForm extends \Snap\Node\Core\Form {
 }

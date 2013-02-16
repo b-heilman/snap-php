@@ -21,7 +21,8 @@ class Viewer extends \Snap\Node\Page\Basic {
 		return '';
 	}
 	
-	protected function getTemplateVariables(){
+	// TODO : eh?
+	protected function makeTemplateContent(){
 		return array(
 			'blogNavVar'  => 'topic',
 			'blogContent' => 'topics_view'

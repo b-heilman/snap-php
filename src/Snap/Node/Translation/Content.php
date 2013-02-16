@@ -20,7 +20,7 @@ class Content extends \Snap\Node\Core\Template {
 		parent::parseSettings();
 	}
 	
-	protected function getTemplateContent(){
+	protected function getTemplateHTML(){
 		return $this->content;
 	}
 }

@@ -5,6 +5,14 @@ namespace Snap\Node\Form;
 // TODO : extend this virtual idea to the core level, so you can create logical groups without DOM elements
 class Virtual extends \Snap\Node\Core\Block {
 	
+	public function __construct( $settings = array() ){
+		if ( !is_array($settings) ){
+			$settings = array( 'model' => $settings );
+		}
+		
+		parent::__construct( $settings );
+	}
+	
 	protected function parseSettings( $settings = array() ){
 		$settings['tag'] = 'junk';
 		
@@ -20,22 +28,16 @@ class Virtual extends \Snap\Node\Core\Block {
 			throw \Exception( get_class($this).' requires a model' );
 		}
 		
-		// TODO : can I assume the view off the model if it is not suplied?
-		if ( isset($settings['view']) ){
-			$view = $settings['view'];
-		}else{
-			throw \Exception( get_class($this).' requires a view' );
-		}
+		$view = isset($settings['view']) ? $settings['view'] : str_replace('Model', 'Node', get_class($model));
+		$control = isset($settings['control']) ? $settings['control'] : str_replace('Node', 'Control', $view);
 		
-		$controller = isset($settings['controller']) ? $settings['controller'] : str_replace('View', 'Controller', $view);
-		
-		$controllerSettings = isset($settings['controllerSettings']) ? $settings['controllerSettings'] : array();
+		$controlSettings = isset($settings['controlSettings']) ? $settings['controlSettings'] : array();
 		$viewSettings = isset($settings['viewSettings']) ? $settings['viewSettings'] : array();
 		
 		$inputStream = isset($settings['inputStream']) ? $settings['inputStream'] : null;
-		$outputStream = isset($settings['outputStream']) ? $settings['outputStream'] : $controller;
+		$outputStream = isset($settings['outputStream']) ? $settings['outputStream'] : get_class($control);
 		
-		$this->append(new $controller( $controllerSettings + array(
+		$this->append(new $control( $controlSettings + array(
 			'model'        => $model,
 			'outputStream' => $outputStream
 		)));

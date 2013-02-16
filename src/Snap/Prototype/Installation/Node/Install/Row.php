@@ -4,16 +4,19 @@ namespace Snap\Prototype\Installation\Node\Install;
 
 class Row extends \Snap\Node\Form\Virtual {
 	
-	protected function parseSettings( $settings = array() ){
+	public function __construct( $settings = array() ){
+		if ( !is_array($settings) ){
+			$settings = array( 'prototype' => $settings );
+		}
+		
 		if ( isset($settings['prototype']) && $settings['prototype'] instanceof \Snap\Prototype\Installation\Lib\Prototype ){
-			$prototype = $settings['prototype'];	
+			$prototype = $settings['prototype'];
 		}else{
-			throw new \Exception('An installation row needs to feed of an instance of installation_prototype_proto');
+			throw new \Exception('An installation row needs to feed of a prototype');
 		}
 		
 		$settings['model'] = new \Snap\Prototype\Installation\Model\Form\Row( $prototype );
-		$settings['view'] = '\Snap\Prototype\Installation\Node\View\RowForm';
 		
-		parent:: parseSettings($settings);
-	} 
+		parent::__construct( $settings );
+	}
 }

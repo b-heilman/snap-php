@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\Topic\Node\View;
 
-class CreateForm extends \Snap\Node\View\Form 
+class CreateForm extends \Snap\Node\Core\Form 
 	implements \Snap\Node\Core\Styleable {
 		
 	public function getStyles(){

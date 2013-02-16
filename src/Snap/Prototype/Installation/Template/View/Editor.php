@@ -14,7 +14,7 @@ if ( $form instanceof \Snap\Node\Core\Snapable ){
 	$this->append( $this->form = $form() );
 }elseif( is_array($form) ){
 	$this->addClass('active');
-	$this->append( $this->form = new \Snap\Node\View\Form() );
+	$this->append( $this->form = new \Snap\Node\Core\Form() );
 	
 	$forms = $form;
 	

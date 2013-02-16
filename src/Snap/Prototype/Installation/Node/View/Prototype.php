@@ -7,8 +7,8 @@ use \Snap\Node;
 class Prototype extends Node\View\Navigation 
 	implements Node\Core\Styleable {
 	
-	protected function getTemplateVariables(){
-		$var = parent::getTemplateVariables();
+	protected function makeProcessContent(){
+		$var = parent::makeProcessContent();
 		$var['prototype'] = $this->getStreamData()->get( 0 );
 		
 		return $var;

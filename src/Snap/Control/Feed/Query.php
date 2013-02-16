@@ -11,7 +11,7 @@ abstract class Query extends \Snap\Control\Feed {
 		if ( isset($settings['query']) ){
 			$this->setExecutable( $settings['query'] );
 		}else{
-			throw new \Exception('Controller\Query needs a query');
+			throw new \Exception( get_class($this).' needs a query' );
 		}
 		
 		parent::parseSettings($settings);

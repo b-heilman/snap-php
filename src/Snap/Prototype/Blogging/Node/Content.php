@@ -9,8 +9,8 @@ class Content extends \Snap\Prototype\Topic\Node\View\Simple {
 		return $mvc->get( $mvc->getVar('active') );
 	}
 	
-	protected function getTemplateVariables(){
-		$res = parent::getTemplateVariables();
+	protected function makeProcessContent(){
+		$res = parent::makeProcessContent();
  		
  		$content = $res['content'];
  		$translator = null;

@@ -8,7 +8,7 @@ class Simple extends \Snap\Node\Core\View {
 		return $this->getStreamData()->get(0);
 	}
 	
-	protected function getTemplateVariables(){
+	protected function makeProcessContent(){
 		$topic = new \Snap\Prototype\Topic\Lib\Element( $this->getTopic()  );
 		$timestamp = $topic->info('creation_date');
 		

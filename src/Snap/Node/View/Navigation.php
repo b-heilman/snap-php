@@ -37,7 +37,7 @@ class Navigation extends \Snap\Node\Core\View {
 		parent::_consume($data);
 	}
 	
-	protected function getTemplateVariables(){
+	protected function makeProcessContent(){
 		if ( is_null($this->getStreamData($this->navStream)) ){
 			throw new \Exception('yay');
 		}
