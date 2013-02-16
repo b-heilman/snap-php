@@ -53,7 +53,9 @@ class Admin extends Node\Page\Basic
 	}
 	
 	protected function _finalize(){
-		if ( !$this->security() ){
+		$security = $this->security;
+		
+		if ( !$security() ){
 			$this->clear();
 	
 			$this->append( $this->login );

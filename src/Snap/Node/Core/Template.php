@@ -244,7 +244,7 @@ abstract class Template extends Block {
 	
 	protected function canRunTemplate(){
 		$t = $this->deferTemplate;
-		return is_null($t) || $t($this);
+		return is_null($t) || ( is_callable($t) ? $t($this) : $t );
 	}
 	
 	protected function _finalize(){
