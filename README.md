@@ -11,7 +11,7 @@ Database Support
 This currently uses mysqli.  If you are using Ubuntu with the apt-get installed version, you will need to run "apt-get install php5-mysql"
 However, I am currently in the process of porting in Doctrine to be the ORM / db connector, so that limitation will be going away.
 
-Configuring for use
+Demos
 --------------------------------------
 While lacking documentation, a few demos exist to show the functionality of the framework.  For the most part, the demos are good to go as is.
 However, you may need to edit demo\php\Snap\Config\Db\Mysql.php and add your local database settings, or create a user like in 'sql examples'.
