@@ -5,16 +5,16 @@ namespace Snap\Lib\Form\Input;
 class Checkbox extends \Snap\Lib\Form\Input {
 	
 	protected
-		$selected;
+		$selectedInit;
 	
 	public function __construct( $name, $value, $selected = false ){
 		parent::__construct( $name, $value );
 		
-		$this->selected = $this->currValue = $selected;
+		$this->selectedInit = $this->currValue = $selected;
 	}
 	
 	public function isSelected(){
-		return $this->selected;
+		return $this->currValue;
 	}
 	
 	public function changeValue( $value ){
@@ -26,6 +26,6 @@ class Checkbox extends \Snap\Lib\Form\Input {
 	}
 	
 	public function hasChanged(){
-		return $this->selected !== $this->currValue;
+		return $this->selectedInit !== $this->currValue;
 	}
 }
