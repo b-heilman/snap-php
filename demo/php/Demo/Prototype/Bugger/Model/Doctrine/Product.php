@@ -1,7 +1,7 @@
 <?php
 // Product.php
 
-namespace Demo\Prototype\Bugger\Model;
+namespace Demo\Prototype\Bugger\Model\Doctrine;
 
 /**
  * @Entity @Table(name="products")

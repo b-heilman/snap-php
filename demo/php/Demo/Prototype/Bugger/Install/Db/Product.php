@@ -6,7 +6,7 @@ class Product
 	implements \Snap\Prototype\Installation\Lib\Definition {
 	
 	public function getTable(){
-		return 'product';
+		return 'products';
 	}
 	
 	public function getTableEngine(){

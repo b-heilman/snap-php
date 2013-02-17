@@ -1,6 +1,6 @@
 <?php
 
-namespace Demo\Prototype\Bugger\Model;
+namespace Demo\Prototype\Bugger\Model\Doctrine;
 
 use Doctrine\Common\Collections\ArrayCollection;
 

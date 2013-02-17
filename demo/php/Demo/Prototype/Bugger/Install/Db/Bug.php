@@ -6,7 +6,7 @@ class Bug
 	implements \Snap\Prototype\Installation\Lib\Definition {
 	
 	public function getTable(){
-		return 'bug';
+		return 'bugs';
 	}
 	
 	public function getTableEngine(){
