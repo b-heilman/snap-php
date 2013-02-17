@@ -2,7 +2,7 @@
 
 namespace Demo\Prototype\Bugger\Install\Db;
 
-class User 
+class Bug 
 	implements \Snap\Prototype\Installation\Lib\Definition {
 	
 	public function getTable(){
