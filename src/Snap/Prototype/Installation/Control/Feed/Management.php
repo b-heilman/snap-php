@@ -4,11 +4,15 @@ namespace Snap\Prototype\Installation\Control\Feed;
 
 class Management extends \Snap\Control\Feed\Converter {
 	
+	public function hasConsumed(){
+		return false;
+	}
+	
 	protected function makeData(){
 		$ctrl = $this->input;
 		$installs = array();
-		$uninstalls = array();
 		$messages = array();
+		$uninstalls = array();
 		
 		if ( $ctrl ){
 			for( $i = 0; $i < $ctrl->count(); $i++ ){

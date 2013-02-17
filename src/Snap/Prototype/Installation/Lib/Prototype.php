@@ -37,11 +37,16 @@ class Prototype {
 			
 			$row = stream_resolve_include_path( $this->dir.'/Node/Install/Row.php' );
 			$class = $row ? $this->name.'\Node\Install\Row' : '\Snap\Prototype\Installation\Node\Install\Row';
+			$p = $this;
 			
-			$this->installRow = new $class(array(
-				'prototype'    => $this,
-				'outputStream' => 'prototype_action'
-			));
+			// TODO : this is a bit hacky, need to figure out something better
+			// was for a bug, where the user row is getting defined early and thus only prototype feed consumed
+			$this->installRow = function () use ($class, $p)  {
+					return new $class(array(
+					'prototype'    => $p,
+					'outputStream' => 'prototype_action'
+				));
+			};
 		}else{
 			$this->installed = true;
 			$this->installRow = null;

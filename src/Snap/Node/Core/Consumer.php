@@ -3,6 +3,7 @@
 namespace Snap\Node\Core;
 
 interface Consumer {
+	
 	/**
 	 * Query if the consumer actually needs data, allows a consumer node to renege, and say it no longer needs data 
 	 * ----
@@ -18,9 +19,9 @@ interface Consumer {
 	public function getStreamRequest();
 	
 	/**
-	 * Pull the stream request for the consumer
+	 * Pull the stream request for the consumer, return true if the request should be removed after
 	 * ----
-	 *
+	 * @return boolean
 	 */
 	public function consumeRequest( \Snap\Lib\Streams\Request $request );
 	

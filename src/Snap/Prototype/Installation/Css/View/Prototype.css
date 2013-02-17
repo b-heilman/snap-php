@@ -1,5 +1,11 @@
 @CHARSET "ISO-8859-1";
 
+.installation-prototype {
+	margin: 5px 10px 0px;
+	padding: 0px 2px 2px;
+	border-bottom: 1px solid black;
+}
+
 .install-forms {
 	display : block;
 }

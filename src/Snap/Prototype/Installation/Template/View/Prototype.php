@@ -1,7 +1,8 @@
 <div class='install-name'>
 <?php
 if ( $prototype->installable ){
-	$this->append( $prototype->installRow );
+	$row = $prototype->installRow;
+	$this->append( $row() );
 }else{
 ?><span><?php echo $prototype->name; ?></span><?php
 }

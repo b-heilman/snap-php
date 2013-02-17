@@ -26,15 +26,11 @@ class Streamer {
 			$node->setStreamer($this);
 			$this->waiting->addAvailable( $stream );
 			
-			if ( isset($this->streams[$stream]) ){
-				$this->produceNode( $node );
-			}else{
-				if ( !isset($this->producers[$stream]) ){
-					$this->producers[$stream] = array();
-				}
-				
-				$this->producers[$stream][] = $node;
+			if ( !isset($this->producers[$stream]) ){
+				$this->producers[$stream] = array();
 			}
+			
+			$this->producers[$stream][] = $node;
 		}
 	}
 	
@@ -92,7 +88,6 @@ class Streamer {
 				$this->setStreamData( $stream, $node->produceStream() );
 			}
 		}
-		
 		
 		return true;
 	}

@@ -14,10 +14,12 @@ class Row extends \Snap\Model\Form {
 			throw new \Exception( get_class($this).' needs a prototype, instance of \Snap\Prototype\Installation\Lib\Prototype' );
 		}
 		
+		$this->setUniqueTag( $prototype->name );
+		
 		parent::__construct();
 
 		$this->setInputs(array(
-			new \Snap\Lib\Form\Input\Checkbox( $prototype->name, 1, $prototype->installed )
+			new \Snap\Lib\Form\Input\Checkbox( 'proto', 1, $prototype->installed )
 		));
 	}
 }	

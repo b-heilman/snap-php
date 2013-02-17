@@ -5,12 +5,10 @@ namespace Snap\Prototype\Installation\Control\Form;
 class Row extends \Snap\Control\Form {
 	
 	protected function processInput( \Snap\Lib\Form\Result $formData ){
-		$name = $this->model->prototype->name;
-	
-		if ( $formData->hasChanged($name) ){
+		if ( $formData->hasChanged('proto') ){
 			$inputs = $formData->getInputs();
 			
-			if ( $inputs[$name]->getValue() ){
+			if ( $inputs['proto']->getValue() ){
 				// install it
 				return new \Snap\Prototype\Installation\Lib\Installer( $this->model->prototype );
 			}else{
