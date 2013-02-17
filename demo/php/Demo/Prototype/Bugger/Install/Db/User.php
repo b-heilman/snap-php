@@ -6,7 +6,7 @@ class User
 	implements \Snap\Prototype\Installation\Lib\Definition {
 	
 	public function getTable(){
-		return 'd_user';
+		return 'd_users';
 	}
 	
 	public function getTableEngine(){
