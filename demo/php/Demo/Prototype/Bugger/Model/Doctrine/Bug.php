@@ -7,12 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @Entity @Table(name="bugs")
  **/
-class Bug
-{
-    /**
-     * @Id @Column(type="integer") @GeneratedValue
-     **/
-    protected $id;
+class Bug extends \Snap\Model\Doctrine {
     /**
      * @Column(type="string")
      **/
@@ -41,9 +36,26 @@ class Bug
      **/
     protected $products;
 	
-	public function __construct()
-	{
+	public function __construct( $doctrineInfo = null ){
+		parent::__construct( $doctrineInfo );
+		
 		$this->products = new ArrayCollection();
+	}
+	
+	public function setCreated( $time ){
+		$this->created = $time;
+	}
+	
+	public function setStatus( $status ){
+		$this->status = $status;
+	}
+	
+	public function setDescription( $description ){
+		$this->description = $description;
+	}
+	
+	public function getDescription(){
+		return $this->description;
 	}
 	
 	public function setEngineer($engineer)
@@ -76,5 +88,13 @@ class Bug
 	public function getProducts()
 	{
 		return $this->products;
+	}
+	
+	protected function copy( \Snap\Model\Doctrine $in ){
+		$this->id = $in->id;
+		$this->name = $in->name;
+		$this->engineer = $in->engineer;
+		$this->reporter = $in->reporter;
+		$this->products = &$this->products;
 	}
 }

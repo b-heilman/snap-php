@@ -28,46 +28,27 @@ class Mysql implements \Snap\Adapter\Db { // 1Drinkth33ar
 		$mem,
 		$error;
 
-    public function __construct( $schema, $independent = false, $host = '', $user = '', $pass = '' ){
-		global 
-			$mysql_db_connections;
+    public function __construct( $schema = '', $independent = false, $host = '', $user = '', $pass = '' ){
+    	//if ( $schema == '' && defined('DB_NAME') ){
+    		$schema = DB_NAME;
+    	//}
+    	error_log( $schema );
+    	$this->schema = $schema;
 
-		$this->schema = $schema;
-
-		if ( isset($mysql_db_connections[$schema]) ){
-
-			$t = $mysql_db_connections[$schema];
-
-			if ( $host == '' )
-				$host = $t['host'];
-
-			if ( $user == '' )
-				$user = $t['user'];
-
-			if ( $pass == '' )
-				$pass = $t['pwd'];
-
-			if ( isset($t['schema']) )
-				$this->schema = $t['schema'];
-		}else{
-			$t = $mysql_db_connections[SITE_DB];
-
-			if ( $host == '' )
-				$host = $t['host'];
-
-			if ( $user == '' )
-				$user = $t['user'];
-
-			if ( $pass == '' )
-				$pass = $t['pwd'];
-
-			if ( isset($t['schema']) )
-				$this->schema = $t['schema'];
+		if ( $host == '' && defined('DB_HOST') ){
+			$host = DB_HOST;
 		}
-
+		
+		if ( $user == '' && defined('DB_USER') ){
+			$user = DB_USER;
+		}
+		
+		if ( $pass == '' && defined('DB_PASSWORD') ){
+			$pass = DB_PASSWORD;
+		}
+		
 	    if ( $independent ){
-	    	$this->link = self::$connections[] = 
-	    		new Db\Mysql\Link( $host, $user, $pass );
+	    	$this->link = self::$connections[] = new Db\Mysql\Link( $host, $user, $pass );
 	    }elseif ( !isset(self::$links[$host.'-'.$user]) ){
 	    	$this->link = self::$connections[] = self::$links[$host.'-'.$user] =
 	    		new Db\Mysql\Link( $host, $user, $pass );
@@ -87,7 +68,7 @@ class Mysql implements \Snap\Adapter\Db { // 1Drinkth33ar
 	}
 
 	public function generate(){
-		return $this->link->process("CREATE DATABASE {$this->schema}");
+		return $this->link->processQuery("CREATE DATABASE {$this->schema}");
 	}
 
 	public function __wakeup(){

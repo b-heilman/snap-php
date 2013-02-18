@@ -26,7 +26,9 @@ class Bug
 			'id'          => array( 'type' => 'int unsigned', 'options' => array('AUTO_INCREMENT') ),
 			'description' => array( 'type' => 'text' ),
 			'created'     => array( 'type' => 'datetime' ),
-			'status'      => array( 'type' => 'varchar(32)' )
+			'status'      => array( 'type' => 'varchar(32)' ),
+			'reporter_id' => array( 'type' => 'int unsigned', 'nullable' => true ),
+			'engineer_id' => array( 'type' => 'int unsigned', 'nullable' => true )
 		);
 	}
 	

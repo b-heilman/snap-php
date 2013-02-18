@@ -6,10 +6,8 @@ namespace Demo\Prototype\Bugger\Model\Doctrine;
 /**
  * @Entity @Table(name="products")
  **/
-class Product {
+class Product extends \Snap\Model\Doctrine {
 	
-    /** @Id @Column(type="integer") @GeneratedValue **/
-    protected $id;
     /** @Column(type="string") **/
     protected $name;
 
@@ -23,5 +21,10 @@ class Product {
 
     public function setName($name) {
         $this->name = $name;
+    }
+    
+    protected function copy( \Snap\Model\Doctrine $in ){
+    	$this->id = $in->id;
+    	$this->name = $in->name;
     }
 }

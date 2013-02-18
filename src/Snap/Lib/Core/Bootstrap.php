@@ -20,9 +20,9 @@ class Bootstrap extends StdObject {
 	 * 
 	 */
 	static public function init(){
+		parent::init();
+		
 		if ( !self::$init ){
-			static::loadAll();
-			
 			$changes = false;
 			self::$init = true;
 			

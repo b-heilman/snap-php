@@ -154,6 +154,11 @@ abstract class Page extends Node\Core\Template {
 		\Snap\Lib\Core\Session::save();
 		
 		echo $tmp;
+		
+		$em = \Snap\Model\Doctrine::getEntityManager();
+		if ( $em ){
+			$em->flush();
+		}
 	}
 	
 	public function inner(){

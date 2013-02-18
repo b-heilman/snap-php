@@ -9,34 +9,31 @@ use
 // bootstrap_doctrine.php
 
 // Create a simple "default" Doctrine ORM configuration for XML Mapping
-$isDevMode = true;
-$config = Setup::createAnnotationMetadataConfiguration(array(""), $isDevMode);
+
 // or if you prefer yaml or annotations
 //$config = Setup::createAnnotationMetadataConfiguration(array(__DIR__."/entities"), $isDevMode);
 //$config = Setup::createYAMLMetadataConfiguration(array(__DIR__."/config/yaml"), $isDevMode);
 
 // database configuration parameters
-$conn = array(
-    'driver'   => 'pdo_mysql',
-    'user'     => 'user',
-    'password' => 'password',
-    'dbname'   => 'yourschema',
-);
-
-// obtaining the entity manager
-$entityManager = \Doctrine\ORM\EntityManager::create($conn, $config);
 
 $user = new Model\User();
-$user->setName('Yay, some guy');
+$user->setName( 'Umble' );
 
-$entityManager->persist($user);
+$user->persist();
 
-$prod = new Model\Junk\CodedProduct();
-$prod->setName('Product'.time());
-$prod->setCode('woot woot');
+$user = new Model\User();
+$user->setName( 'Brian' );
 
-$entityManager->persist($prod);
+$user->persist();
 
-$entityManager->flush();
+$bug = new Model\Bug();
+$bug->setDescription("Something does not work!");
+$bug->setCreated(new DateTime("now"));
+$bug->setStatus("OPEN");
 
-echo "Created User with ID " . $user->getId() . "\n";
+$bug->setReporter( $user );
+
+$bug->persist();
+
+echo "user : " . $user->getId() . "<br/>";
+echo "bug  : " . $bug->getId() . "<br/>";
