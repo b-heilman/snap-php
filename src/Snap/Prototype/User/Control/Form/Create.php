@@ -9,12 +9,6 @@ class Create extends \Snap\Control\Form {
 	
 	public function __construct( $settings = array() ){
 		parent::__construct( $settings );
-	
-		if ( isset($settings['loginAfterCreation']) ){
-			$this->loginAfterCreation( $settings['loginAfterCreation'] );
-		}
-	
-		$this->admin = isset($settings['admin']) && $settings['admin'] ? 1 : 0;
 	}
 	
 	public static function getSettings(){
@@ -33,43 +27,46 @@ class Create extends \Snap\Control\Form {
 	
 	protected function processInput( \Snap\Lib\Form\Result $formData ){
 		$inputs = $formData->getInputs();
-	
+		$model = $this->model;
 		$user = new \Snap\Prototype\User\Model\Doctrine\User();
 		
 		$user->setLogin( $inputs['login']->getValue() );
 		$user->setDisplay( $inputs['display']->getValue() );
-		$user->setPassword( $inputs['password1']->getValue() );
-		
-		if ( $this->model->admin ) {
-			$user->setAdmin( true );
+		$user->setPassword( $inputs['password1']->getValue(), new \Snap\Prototype\User\Lib\Auth() );
+				
+		if ( $model->admin ) {
+				$user->setAdmin( true );
 		}
 		
 		try {
-			$user->install();
+			$user->persist();
+			$user->flush();
 			
 			$formData->addNote( 'The Account Has Been Created' );
-			 
-			if ( $this->model->postLogin ){
+			
+			if ( $model->postLogin ){
 				$formData->addNote( 'Logging In Automatically' );
 				\Snap\Prototype\User\Lib\Current::login( $user );
 			}
 		}catch( \Exception $ex ){
+			$error = $ex->getMessage();
+						
+			$formData->addDebug( $error.' : '.$ex->getFile().$ex->getLine() );
+			
 			// TODO : this is hard coded for Mysql, need to change that
-			if ( strpos(Mysql::lastError(), 'Duplicate entry') !== false ){
-				if ( strpos(Mysql::lastError(), 'login') ){
+			if ( strpos($error, 'Duplicate entry') !== false ){
+				if ( strpos($error, "for key 'login'") ){
 					$formData->addFormError( 'That login exists already!' );
-				}elseif ( strpos(Mysql::lastError(), 'display') ){
+				}elseif ( strpos($error, 'display') ){
 					$formData->addFormError( 'That display name exists already!' );
 				}else{
 					$formData->addFormError( 'That just will not work' );
-					$formRes->addDebug( Mysql::lastError() );
 				}
 			}else{
 				$formData->addFormError( 'Failure to create user' );
-				$formRes->addDebug( Mysql::lastError() );
 			}
 		}
 		 
-		return $user->valid() ? $user : null;
+		return $user->initialized() ? $user : null;
 	}
 }

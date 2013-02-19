@@ -21,7 +21,6 @@ class Login extends \Snap\Control\Form {
 			
 			if ( $auth->authenticate($user, $pwd) ){
 				\Snap\Prototype\User\Lib\Current::login( $user );
-				error_log('logging in');
 				return $user;
 			}else{
 				$formData->addFormError( 'Login and password did not match' );

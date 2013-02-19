@@ -157,7 +157,14 @@ abstract class Page extends Node\Core\Template {
 		
 		$em = \Snap\Model\Doctrine::getEntityManager();
 		if ( $em ){
-			$em->flush();
+			try {
+				$em->flush();
+			}catch( \Exception $ex ){
+				// TODO : make a global way to handle exceptions and logging
+				// TODO : there has to be a better way to do this than... this
+				error_log( $ex->getMessage(). ' : '.$ex->getFile().' => '.$ex->getLine() );
+				error_log( $ex->getTraceAsString() );
+			}
 		}
 	}
 	

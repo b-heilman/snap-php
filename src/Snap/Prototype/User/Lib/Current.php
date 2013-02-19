@@ -12,14 +12,16 @@ class Current {
 		$logoutHooks = array();
 
 	static public function init(){
-		self::$user = new User();
-		self::$vars = new \Snap\Lib\Core\Session('current_user_info');
-		
-		if ( !self::$user->initialized() ){
-			$id = self::$vars->getVar('id');
+		if ( self::$user == null ){
+			self::$user = new User();
+			self::$vars = new \Snap\Lib\Core\Session('current_user_info');
 			
-			if ( $id != null ){
-				self::$user->duplicate( User::find((int)$id) );
+			if ( !self::$user->initialized() ){
+				$id = self::$vars->getVar('id');
+				
+				if ( $id != null ){
+					self::$user->duplicate( User::find((int)$id) );
+				}
 			}
 		}
 	}
@@ -73,7 +75,6 @@ class Current {
 	 ***********/
 	static public function getUser(){
 		self::init();
-		
 		return self::$user;
 	}
 }
