@@ -4,7 +4,8 @@ namespace Snap\Node\Core;
 
 use Snap\Node;
 
-abstract class Page extends Node\Core\Template {
+abstract class Page extends Node\Core\Template 
+	implements Node\Core\Actionable {
 
 	public 
 		$fileManager;
@@ -28,19 +29,25 @@ abstract class Page extends Node\Core\Template {
 		try{
 			parent::__construct( $settings );
 		}catch( Exception $ex ){
-			echo "\n===== __construct\n".$ex->getMessage().' : '.$ex->getFile().'('.$ex->getLine().')'
+			echo $ex->getMessage().' : '.$ex->getFile().' => '.$ex->getLine()
 				."\n".$ex->getTraceAsString();
 		}
 		
 		$this->debugContent .= ob_get_contents();
 		
-		if ( !$this->contentOnly ){
-			// Need to do this, as page will be top level and not in the extensions
-			$this->inside->getExtender()->addNode( $this );
-		}
-		
 		ob_end_clean();
 	}
+	
+	protected function pend( \Snap\Node\Core\Snapable $in ){
+ 		if ( $this->inside->count() == 0 ){
+ 			if ( !$this->contentOnly ){
+ 				// Need to do this, as page will be top level and not in the extensions
+ 				$this->inside->getExtender()->addNode( $this );
+ 			}
+ 		}
+ 		
+ 		return parent::pend($in);
+ 	}
 	
 	protected function parseSettings( $settings = array() ){
 		$settings['tag'] = 'div';
@@ -323,6 +330,13 @@ HTML;
  	
  	public function getBasePath(){
  		return $this->basePath;
+ 	}
+ 	
+ 	public function getActions(){
+ 		return array(
+ 				new \Snap\Lib\Linking\Resource\Local( '/jquery.min.js'),
+ 				new \Snap\Lib\Linking\Resource\Local( '/core.js')
+ 		);
  	}
  	
  	public function __toString(){
