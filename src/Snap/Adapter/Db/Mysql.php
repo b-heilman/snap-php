@@ -29,10 +29,7 @@ class Mysql implements \Snap\Adapter\Db { // 1Drinkth33ar
 		$error;
 
     public function __construct( $schema = '', $independent = false, $host = '', $user = '', $pass = '' ){
-    	//if ( $schema == '' && defined('DB_NAME') ){
-    		$schema = DB_NAME;
-    	//}
-    	error_log( $schema );
+    	$schema = DB_NAME;
     	$this->schema = $schema;
 
 		if ( $host == '' && defined('DB_HOST') ){

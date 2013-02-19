@@ -2,6 +2,8 @@
 
 namespace Snap\Model;
 
+use Doctrine\Common\Annotations\DocLexer;
+
 use
 	\Doctrine\ORM\Tools\Setup,
 	\Doctrine\ORM\EntityManager;
@@ -14,19 +16,21 @@ abstract class Doctrine extends \Snap\Lib\Core\StdObject {
 	protected
 		/**
 		 * @Id @GeneratedValue @Column(type="integer")
-		 * @var int
 		 **/
-		$id;
+		$id = null;
 	
 	public function __construct( $doctrineInfo = null ){
 		static::init();
+	}
+	
+	public function duplicate( Doctrine $in ){
+		$class = get_class($in);
 		
-		if ( !is_null($doctrineInfo) ){
-			$this->copy( static::$entityManager->find(
-				get_class($this),
-				$this->decodeFind( $doctrineInfo )
-			) );
-		}
+		if ( $this instanceof $class ){
+			foreach( get_object_vars($in) as $var => $val ){
+				$this->{$var} = $val;
+			}
+		}else throw new \Exception('Can not duplicate a class you are not an instance of');
 	}
 	
 	public function getId(){
@@ -37,8 +41,8 @@ abstract class Doctrine extends \Snap\Lib\Core\StdObject {
 		$this->id = $id;
 	}
 	
-	public function valid(){
-		return $this->getId() == null;
+	public function initialized(){
+		return !is_null($this->id);
 	}
 	
 	public function flush(){
@@ -49,11 +53,38 @@ abstract class Doctrine extends \Snap\Lib\Core\StdObject {
 		static::$entityManager->persist( $this );
 	}
 	
-	protected function decodeFind( $doctrineInfo ){
-		return $doctrineInfo;
+	/**
+	 * 
+	 * @return \Snap\Model\Doctrine
+	 */
+	static public function find( $doctrineInfo ){
+		$class = get_called_class();
+		
+		if ( is_array($doctrineInfo) ){
+			return static::$entityManager->getRepository( $class )->findOneBy( $doctrineInfo );
+		}else{
+			return static::$entityManager->find( $class,	$doctrineInfo );
+		}
 	}
 	
-	abstract protected function copy( Doctrine $in );
+	/**
+	 *
+	 * @return \Snap\Model\Doctrine[]
+	 */
+	static public function findMany( $doctrineInfo ){
+		$class = get_called_class();
+	
+		if ( is_array($doctrineInfo) ){
+			return static::$entityManager->getRepository( $class )->findBy( $doctrineInfo );
+		}else{
+			$res = static::$entityManager->find( $class, $doctrineInfo );
+			if ( is_array($res) ){
+				return $res;
+			}else{
+				return array( $res );
+			}
+		}
+	}
 	
 	static public function getEntityManager(){
 		return static::$entityManager;

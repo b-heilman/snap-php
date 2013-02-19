@@ -8,12 +8,12 @@ class Login extends \Snap\Model\Form {
 		parent::__construct();
 		
 		$this->setInputs(array(
-			new \Snap\Lib\Form\Input\Basic( 'name', '' ),
+			new \Snap\Lib\Form\Input\Basic( 'login', '' ),
 			new \Snap\Lib\Form\Input\Basic( 'password', '' )
 		));
 		
 		$this->setValidations(array(
-			new \Snap\Lib\Form\Validation\Required( 'name', 'needs to be entered' ),
+			new \Snap\Lib\Form\Validation\Required( 'login', 'needs to be entered' ),
 			new \Snap\Lib\Form\Validation\Required( 'password', 'needs to be entered' )
 		));
 	}

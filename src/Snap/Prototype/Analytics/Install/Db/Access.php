@@ -13,9 +13,5 @@ class Access {
 		Definition::addTableField( ANALYTICS_TABLE, ANALYTICS_IP, 'varchar(25)', false );
 		Definition::addTableField( ANALYTICS_TABLE, ANALYTICS_BROWSER, 'text', false );
 		Definition::addTableField( ANALYTICS_TABLE, 'creation_date', 'timestamp', false, array("DEFAULT CURRENT_TIMESTAMP") );
-		/*					
-		Definition::addTableRelation(ANALYTICS_TABLE, ANALYTICS_USER, 
-			USER_DB.'.'.USER_TABLE, USER_ID, 'CASCADE', 'RESTRICT');
-		*/
 	}
 }

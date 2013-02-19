@@ -34,14 +34,4 @@ class Comment
 	public function getPrepop(){
 		return array();
 	}
-}	
-	/* TODO : drop support, this info is maintained in the software level
-		Definition::addTableRelation(COMMENT_TABLE, COMMENT_USER, 
-			USER_DB.'.'.USER_TABLE, USER_ID, 'CASCADE', 'RESTRICT');
-			
-		Definition::addTableRelation(COMMENT_TABLE, COMMENT_THREAD_ID, 
-			COMMENT_THREAD_TABLE, COMMENT_THREAD_ID, 'CASCADE', 'RESTRICT');
-			
-		Definition::addTableRelation(COMMENT_TABLE, COMMENT_PARENT, 
-			COMMENT_TABLE, COMMENT_ID, 'CASCADE', 'CASCADE');
-	*/
+}

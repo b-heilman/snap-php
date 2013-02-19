@@ -12,23 +12,49 @@ class Row extends \Snap\Prototype\Installation\Control\Form\Row {
 		$rtn = parent::processInput( $formData );
 	
 		if ( $rtn instanceof \Snap\Prototype\Installation\Lib\Installer ){
-			$rtn->addPostInstallHook( function( $db ) use ( $rtn, $formData ){
+			$model = $this->model;
+			
+			$rtn->addPostInstallHook( function( $db ) use ( $rtn, $formData, $model ){
+				// Code from Form/Create
 				$inputs = $formData->getInputs();
 				
-				$info = array(
-					USER_ADMIN => 1
-				);
-	
-				if ( USER_LOGIN != USER_DISPLAY ){
-					$info[USER_DISPLAY] = $inputs['name']->getValue();
+				$user = new \Snap\Prototype\User\Model\Doctrine\User();
+				
+				$user->setLogin( $inputs['login']->getValue() );
+				$user->setDisplay( $inputs['display']->getValue() );
+				$user->setPassword( $inputs['password1']->getValue(), new \Snap\Prototype\User\Lib\Auth() );
+				
+				if ( $model->admin ) {
+					$user->setAdmin( true );
 				}
-		   
-				if ( $id = \Snap\Prototype\User\Lib\Element::create($inputs['name']->getValue(), $inputs['password']->getValue(), $info) ){
-					\Snap\Prototype\User\Lib\Current::login( new \Snap\Prototype\User\Lib\Element($id) );
-	
-					$formData->addNote( 'Admin user installed' );
-				}else{
-					$formData->addNote( 'Failed to install admin user' );
+				
+				try {
+					$user->persist();
+					$user->flush();
+					
+					$formData->addNote( 'The Account Has Been Created' );
+				
+					if ( $model->postLogin ){
+						$formData->addNote( 'Logging In Automatically' );
+						\Snap\Prototype\User\Lib\Current::login( $user );
+					}
+				}catch( \Exception $ex ){
+					$error = $ex->getMessage();
+					
+					$formData->addDebug( $error.' : '.$ex->getFile().$ex->getLine() );
+					
+					// TODO : this is hard coded for Mysql, need to change that
+					if ( strpos($error, 'Duplicate entry') !== false ){
+						if ( strpos($error, 'login') ){
+							$formData->addFormError( 'That login exists already!' );
+						}elseif ( strpos($error, 'display') ){
+							$formData->addFormError( 'That display name exists already!' );
+						}else{
+							$formData->addFormError( 'That just will not work' );
+						}
+					}else{
+						$formData->addFormError( 'Failure to create user' );
+					}
 				}
 			});
 		}

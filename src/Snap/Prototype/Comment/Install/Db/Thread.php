@@ -30,7 +30,3 @@ class Thread
 		return array();
 	}
 }
-
-/* TODO : drop support, this info is maintained in the software level
-	Definition::addTableRelation( COMMENT_THREAD_TABLE, COMMENT_THREAD_USER, USER_DB.'.'.USER_TABLE, USER_ID, 'CASCADE', 'RESTRICT' );
-*/

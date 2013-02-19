@@ -5,9 +5,9 @@ namespace Snap\Prototype\User\Lib;
 class Element extends \Snap\Lib\Db\Element {
 
 	static protected 
-		$id_field = USER_ID,
-		$name_field = USER_DISPLAY,
-		$table = USER_TABLE,
+		$id_field = 'id',
+		$name_field = 'display',
+		$table = 'users',
 		$db = null;
 
 	public function __construct($data){
@@ -22,12 +22,12 @@ class Element extends \Snap\Lib\Db\Element {
 	}
 	
 	public function updatePassword($password){
-		return $this->update( array(USER_PASSWORD => users_auth_proto::encodePassword($password)) );
+		return $this->update( array('password' => Auth::encodePassword($password)) );
 	}
 
 	static protected function loadDB(){
 		if ( self::$db == null ){
-			self::$db = new \Snap\Adapter\Db\Mysql( USER_DB );
+			self::$db = new \Snap\Adapter\Db\Mysql( 'users' );
 		}
 	}
 	
@@ -35,7 +35,7 @@ class Element extends \Snap\Lib\Db\Element {
 		$rtn = self::searchByLogin($search);
 		
 		if( $rtn ){
-			return $rtn[USER_ID];
+			return $rtn['id'];
 		}else{
 			return false;
 		}
@@ -52,7 +52,7 @@ class Element extends \Snap\Lib\Db\Element {
 			self::callStatic('loadDB');
 			$db = self::pullStatic('db');
 	
-			$res = $db->select(USER_TABLE, array(USER_LOGIN => $search));
+			$res = $db->select('users', array('login' => $search));
 	
 			if( $res && $res->hasNext() ){
 				return $lastResult = $res->next();
@@ -69,6 +69,6 @@ class Element extends \Snap\Lib\Db\Element {
 		
 		eval('$pwd = '.AUTH_CLASS.'::encodePassword($password);');
 
-		return parent::create( array(USER_LOGIN => $user, USER_PASSWORD => $pwd) + $additional );
+		return parent::create( array('login' => $user, 'password' => $pwd) + $additional );
 	}
 }

@@ -1,15 +1,11 @@
 <?php
 
-namespace Snap\Prototype\User\Control\Feed;
+namespace Snap\Prototype\User\Control\Form;
 
 use 
 	\Snap\Adapter\Db\Mysql;
 
-class CreateForm extends \Snap\Control\Form {
-	
-	protected
-		$login = false,
-		$admin = false;
+class Create extends \Snap\Control\Form {
 	
 	public function __construct( $settings = array() ){
 		parent::__construct( $settings );
@@ -36,35 +32,34 @@ class CreateForm extends \Snap\Control\Form {
 	}
 	
 	protected function processInput( \Snap\Lib\Form\Result $formData ){
-		$res = null;
-	
 		$inputs = $formData->getInputs();
 	
-		$login = $inputs['name']->getValue();
-		$password = $inputs['password1']->getValue();
+		$user = new \Snap\Prototype\User\Model\Doctrine\User();
 		
-		$data = array( 'admin' => $this->admin );
-	
-		if ( USER_LOGIN != USER_DISPLAY ){
-			$data[USER_DISPLAY] = $inputs['display']->getValue();
+		$user->setLogin( $inputs['login']->getValue() );
+		$user->setDisplay( $inputs['display']->getValue() );
+		$user->setPassword( $inputs['password1']->getValue() );
+		
+		if ( $this->model->admin ) {
+			$user->setAdmin( true );
 		}
-	
-		if ( $id = \Snap\Prototype\User\Lib\Element::create($login, $password, $data) ){
-			$res = new \Snap\Prototype\User\Lib\Element($id);
-			 
+		
+		try {
+			$user->install();
+			
 			$formData->addNote( 'The Account Has Been Created' );
 			 
-			if ( $this->login ){
+			if ( $this->model->postLogin ){
 				$formData->addNote( 'Logging In Automatically' );
-				\Snap\Prototype\User\Lib\Current::login( $res );
+				\Snap\Prototype\User\Lib\Current::login( $user );
 			}
-		}else{
+		}catch( \Exception $ex ){
 			// TODO : this is hard coded for Mysql, need to change that
 			if ( strpos(Mysql::lastError(), 'Duplicate entry') !== false ){
-				if ( strpos(Mysql::lastError(), USER_LOGIN) ){
-					$formData->addFormError( 'That '.strtolower(USER_LOGIN_LABEL).' exists already!' );
-				}elseif ( strpos(Mysql::lastError(), USER_DISPLAY) ){
-					$formData->addFormError( 'That '.strtolower(USER_DISPLAY_LABEL).' exists already!' );
+				if ( strpos(Mysql::lastError(), 'login') ){
+					$formData->addFormError( 'That login exists already!' );
+				}elseif ( strpos(Mysql::lastError(), 'display') ){
+					$formData->addFormError( 'That display name exists already!' );
 				}else{
 					$formData->addFormError( 'That just will not work' );
 					$formRes->addDebug( Mysql::lastError() );
@@ -75,6 +70,6 @@ class CreateForm extends \Snap\Control\Form {
 			}
 		}
 		 
-		return $res;
+		return $user->valid() ? $user : null;
 	}
 }
