@@ -133,7 +133,7 @@ class Router extends \Snap\Lib\Core\StdObject {
 		}else{
 			$page = null;
 			
-			if ( $settings['page'] ){
+			if ( isset($settings['page']) ){
 				$page = $settings['page'];
 			}
 			
@@ -166,9 +166,7 @@ class Router extends \Snap\Lib\Core\StdObject {
 				$page->setViewData( $content );
 			}elseif( !empty($back) ){
 				return $this->translateRoute( $this->findRoute( $back ) );
-			}else{
-				$page = null;
-			}
+			}else return null;
 		}
 		
 		return array( 

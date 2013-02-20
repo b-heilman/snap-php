@@ -36,8 +36,8 @@ class Bug extends \Snap\Model\Doctrine {
      **/
     protected $products;
 	
-	public function __construct( $doctrineInfo = null ){
-		parent::__construct( $doctrineInfo );
+	public function __construct(){
+		parent::__construct();
 		
 		$this->products = new ArrayCollection();
 	}

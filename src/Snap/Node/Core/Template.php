@@ -17,7 +17,8 @@ abstract class Template extends Block {
  		$translation,
  		$delayed = false,
  		$translating = false,
- 		$deferTemplate = null;
+ 		$deferTemplate = null,
+ 		$hasRun = false;
  	
  	public function __construct( $settings = array() ){
  		parent::__construct( $settings );
@@ -125,16 +126,19 @@ abstract class Template extends Block {
  	 * Begins the translating of a template located at $this->path. 
  	 */
  	protected function processTemplate(){
- 		try {
- 			$this->deferTemplate = null; // acts as a lock, saves on a boolean
- 			$this->addTemplateContent( $this->makeProcessContent() );
- 			$this->processTemplateString( $this->getTemplateHTML() );
- 		}catch( Exception $ex ){
- 			throw new \Exception(
- 				"==== ".get_class($this)." - processTemplate ====\n"
- 				. "\n{$ex->getFile()}: {$ex->getLine()}\n----"
- 				. "\n{$ex->getMessage()}\n++++\n".$ex->getTraceAsString()
- 			);
+ 		if ( !$this->hasRun ){
+ 			$this->hasRun = true; // TODO : this is a temporary hack for while between methods, will need to change
+	 		try {
+	 			$this->deferTemplate = null; // acts as a lock, saves on a boolean
+	 			$this->addTemplateContent( $this->makeProcessContent() );
+	 			$this->processTemplateString( $this->getTemplateHTML() );
+	 		}catch( Exception $ex ){
+	 			throw new \Exception(
+	 				"==== ".get_class($this)." - processTemplate ====\n"
+	 				. "\n{$ex->getFile()}: {$ex->getLine()}\n----"
+	 				. "\n{$ex->getMessage()}\n++++\n".$ex->getTraceAsString()
+	 			);
+	 		}
  		}
  	}
 	

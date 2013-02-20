@@ -13,15 +13,15 @@ class Management extends \Snap\Node\Core\Form
 	        foreach ( $users->getChangeList() as $key ){
 	            $in = $users->getValues( $key );
 				
-	            $u = new \Snap\Prototype\User\Lib\Element($in[USER_ID]);
+	            $u = new \Snap\Prototype\User\Lib\Element($in['id']);
 
 	            $dat = array();
 
 	            $changes = $users->getChangeValues( $key );
 	            
-	            if ( isset($changes[USER_PASSWORD]) ){
-	            	$u->updatePassword( $changes[USER_PASSWORD] );
-	            	unset( $changes[USER_PASSWORD] );
+	            if ( isset($changes['password']) ){
+	            	$u->updatePassword( $changes['password'] );
+	            	unset( $changes['password'] );
 	            }
 	             
 	            if ( !empty($changes) ){
@@ -39,29 +39,25 @@ class Management extends \Snap\Node\Core\Form
 	
 	protected function makeTemplateContent(){
 		$fields = array(
-				USER_LOGIN 				=> USER_LOGIN_LABEL,
-				USER_DISPLAY 			=> USER_DISPLAY_LABEL,
-				AUTH_STATUS_FIELD		=> 'Status',
-				USER_PASSWORD			=> 'Password',
-				USER_ADMIN				=> 'Admin?'
+				'login'     => 'Login',
+				'display' 	=> 'Display',
+				'status'		=> 'Status',
+				'password'	=> 'Password',
+				'admin'			=> 'Admin?'
 		);
 		
-		if ( USER_LOGIN == USER_DISPLAY ){
-			array_splice( $fields, 1, 1 );
-		}
-		
 		return array(
-			'hidden' => array( USER_ID, 'status_date', 'creation_date' ),
+			'hidden' => array( 'id', 'status_date', 'creation_date' ),
 			'fields' => $fields,
 			'types'  => array(
-				USER_ADMIN 			=> array('type' => 'checkbox'),
-				AUTH_STATUS_FIELD	=> array(
-						'type' => 'select',
-						'selections' => array(
-								'CREATED' 	=> 'CREATED',
-								'ACTIVE' 	=> 'ACTIVE',
-								'INACTIVE'	=> 'INACTIVE'
-						)
+			'admin' => array('type' => 'checkbox'),
+			'status'	=> array(
+					'type' => 'select',
+					'selections' => array(
+							'CREATED' 	=> 'CREATED',
+							'ACTIVE' 	=> 'ACTIVE',
+							'INACTIVE'	=> 'INACTIVE'
+					)
 				)
 			)
 		);

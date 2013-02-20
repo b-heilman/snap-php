@@ -51,6 +51,8 @@ class Management extends \Snap\Control\Feed\Converter {
 						}
 					}
 				}else{
+					error_log( $handler->lastQuery() );
+					error_log( $handler->lastError() );
 					$errors[] = 'Installation failed';
 				}
 				

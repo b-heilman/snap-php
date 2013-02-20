@@ -37,12 +37,12 @@ class Editor extends Node\Page\Basic {
 		$logout = new \Snap\Prototype\User\Model\Form\Logout();
 		$editor = new \Snap\Prototype\Topic\Model\Form\Create( $this->blogType );
 		
-		$this->login = new \Snap\Prototype\User\Node\View\LoginForm( array('model' => $login) );
+		$this->login = new \Snap\Prototype\User\Node\Form\Login( array('model' => $login) );
 		
 		return array(
-			'logoutControl' => new \Snap\Prototype\User\Control\Feed\LogoutForm(array('model' => $logout)),
-			'logoutView'    => new \Snap\Prototype\User\Node\View\LogoutForm(array('model' => $logout)),
-			'loginControl'  => new \Snap\Prototype\User\Control\Feed\LoginForm(array('model' => $login)),
+			'logoutControl' => new \Snap\Prototype\User\Control\Form\Logout(array('model' => $logout)),
+			'logoutView'    => new \Snap\Prototype\User\Node\Form\Logout(array('model' => $logout)),
+			'loginControl'  => new \Snap\Prototype\User\Control\Form\Login(array('model' => $login)),
 			'editorView'    => new \Snap\Prototype\Blogging\Node\View\EditorForm(array('model' => $editor)),
 			'editorControl' => new \Snap\Prototype\Topic\Control\Feed\CreateForm(array('model' => $editor))
 		);

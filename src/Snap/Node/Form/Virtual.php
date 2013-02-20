@@ -35,7 +35,7 @@ class Virtual extends \Snap\Node\Core\Block {
 		$viewSettings = isset($settings['viewSettings']) ? $settings['viewSettings'] : array();
 		
 		$inputStream = isset($settings['inputStream']) ? $settings['inputStream'] : null;
-		$outputStream = isset($settings['outputStream']) ? $settings['outputStream'] : get_class($control);
+		$outputStream = isset($settings['outputStream']) ? $settings['outputStream'] : $control;
 		
 		$this->append(new $control( $controlSettings + array(
 			'model'        => $model,

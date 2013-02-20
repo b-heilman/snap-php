@@ -10,9 +10,9 @@ if ( isset($__messages) ){
 
 $this->append( new Element(array(
 	'input' => new Input\Text(array( 
-		'input'  => $name
+		'input'  => $login
 	)), 
-	'label' => USER_LOGIN_LABEL
+	'label' => 'Login'
 )) );
 	
 if ( isset($display) ){
@@ -20,7 +20,7 @@ if ( isset($display) ){
 		'input' => new Input\Text(array( 
 			'input'  => $display
 		)), 
-		'label' => USER_DISPLAY_LABEL
+		'label' => 'Display'
 	)) );
 }
 	
@@ -38,6 +38,4 @@ $this->append( new Element(array(
 	'label' => 'Password Again'
 )) );
 
-$this->append( new \Snap\Node\Form\Control(array(
-	'buttons' => array( 'Create User' => 'submit', 'Reset' => 'reset')
-)) );
+$this->append( new \Snap\Node\Form\Control() );

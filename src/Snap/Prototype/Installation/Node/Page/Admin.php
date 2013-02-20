@@ -32,7 +32,7 @@ class Admin extends Node\Page\Basic
 		$login = new \Snap\Prototype\User\Model\Form\Login();
 		$logout = new \Snap\Prototype\User\Model\Form\Logout();
 		
-		$this->login = new \Snap\Prototype\User\Node\View\LoginForm( array('model' => $login) );
+		$this->login = new \Snap\Prototype\User\Node\Form\Login( array('model' => $login) );
 		$this->security = function() use ( $proto ) {
 			static $tableExists = null;
 				
@@ -44,9 +44,9 @@ class Admin extends Node\Page\Basic
 		};
 		
 		return array(
-			'logoutControl' => new \Snap\Prototype\User\Control\Feed\LogoutForm(array('model' => $logout)),
-			'logoutView'    => new \Snap\Prototype\User\Node\View\LogoutForm(array('model' => $logout)),
-			'loginControl'  => new \Snap\Prototype\User\Control\Feed\LoginForm(array('model' => $login)),
+			'logoutControl' => new \Snap\Prototype\User\Control\Form\Logout(array('model' => $logout)),
+			'logoutView'    => new \Snap\Prototype\User\Node\Form\Logout(array('model' => $logout)),
+			'loginControl'  => new \Snap\Prototype\User\Control\Form\Login(array('model' => $login)),
 			'accessible' => $valid,
 			'security'   => $this->security
 		);

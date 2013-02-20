@@ -13,7 +13,7 @@ class Logout extends \Snap\Model\Form {
 		parent::__construct();
 		
 		$this->setInputs(array(
-			new \Snap\Lib\Form\Input\Checkbox( 'logout', $this->user ? $this->user->id() : '' ) 
+			new \Snap\Lib\Form\Input\Checkbox( 'logout', $this->user ? $this->user->getId() : '' ) 
 		));
 	}
 }

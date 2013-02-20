@@ -1,8 +1,8 @@
 <?php
 
-namespace Snap\Prototype\User\Control\Feed;
+namespace Snap\Prototype\User\Control\Form;
 
-class LogoutForm extends \Snap\Control\Form {
+class Logout extends \Snap\Control\Form {
 	
 	public function getOuputStream(){
 		return 'user_logout'; // TODO : really?

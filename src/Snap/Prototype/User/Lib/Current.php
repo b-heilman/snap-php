@@ -2,6 +2,8 @@
 
 namespace Snap\Prototype\User\Lib;
 
+use \Snap\Prototype\User\Model\Doctrine\User;
+
 class Current {
 
 	private static
@@ -10,14 +12,16 @@ class Current {
 		$logoutHooks = array();
 
 	static public function init(){
-		self::$user = new \Snap\Prototype\User\Lib\Element( null );
-		self::$vars = new \Snap\Lib\Core\Session('current_user_info');
-		
-		if ( !self::$user->initialized() ){
-			$id = self::$vars->getVar('id');
+		if ( self::$user == null ){
+			self::$user = new User();
+			self::$vars = new \Snap\Lib\Core\Session('current_user_info');
 			
-			if ( $id != null ){
-				self::$user->duplicate( new \Snap\Prototype\User\Lib\Element($id) );
+			if ( !self::$user->initialized() ){
+				$id = self::$vars->getVar('id');
+				
+				if ( $id != null ){
+					self::$user->duplicate( User::find((int)$id) );
+				}
 			}
 		}
 	}
@@ -26,18 +30,17 @@ class Current {
 		self::init();
 		
 		if ( self::$user != null ){
-			return ( self::$user->info(USER_ADMIN) == 1 );
+			return ( self::$user->isAdmin() );
 		}
 		
 		return false;
 	}
 	
-	static public function login($user){
+	static public function login( User $user ){
 		self::init();
 			    	
-		self::$user->duplicate( $user = new \Snap\Prototype\User\Lib\Element($user) );
-		
-		self::$vars->setVar( 'id', $user->id() );
+		self::$user->duplicate( $user );
+		self::$vars->setVar( 'id', $user->getId() );
 	}
 
 	static public function addLogoutHook( $hook ){
@@ -72,7 +75,6 @@ class Current {
 	 ***********/
 	static public function getUser(){
 		self::init();
-		
 		return self::$user;
 	}
 }

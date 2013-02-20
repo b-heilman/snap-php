@@ -4,28 +4,27 @@ namespace Snap\Prototype\User\Model\Form;
 
 class Create extends \Snap\Model\Form {
 	
-	public function __construct(){
+	public 
+		$admin,
+		$postLogin;
+	
+	public function __construct( $admin = false, $login = false ){
 		parent::__construct();
 		
+		$this->admin = $admin;
+		$this->postLogin = $login;
+		
 		$this->setInputs(array(
-			new \Snap\Lib\Form\Input\Basic( 'name',      '' ),
+			new \Snap\Lib\Form\Input\Basic( 'display', '' ),
+			new \Snap\Lib\Form\Input\Basic( 'login', '' ),
 			new \Snap\Lib\Form\Input\Basic( 'password1', '' ),
 			new \Snap\Lib\Form\Input\Basic( 'password2', '' ),
 		));
 		
 		$this->setValidations(array(
 			new \Snap\Lib\Form\Validation\Paired( 'password1', 'password2', 'Passwords need to match' ),
-			new \Snap\Lib\Form\Validation\Required( 'name', USER_LOGIN_LABEL.' needs to be filled in' )
+			new \Snap\Lib\Form\Validation\Required( 'login', 'Login needs to be filled in' ),
+			new \Snap\Lib\Form\Validation\Required( 'display', 'Display needs to be filled in' )
 		));
-		
-		if ( USER_LOGIN != USER_DISPLAY ){
-			$this->setInputs(array(
-				new \Snap\Lib\Form\Input\Basic( 'display', '' )
-			));
-			
-			$this->setValidations(array(
-					new \Snap\Lib\Form\Validation\Required( 'display', USER_DISPLAY_LABEL.' needs to be filled in' )
-			));
-		}
 	}
 }

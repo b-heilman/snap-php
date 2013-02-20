@@ -28,7 +28,7 @@ class Base extends \Snap\Node\Core\Block
 		
 		$from = new \Snap\Lib\Db\Query\From( 'analytics' );
 		$from->join( 'a_id', 'analytic_logs', 'a_id' );
-		$from->join( 'u_id', 'users', 'user_id', \Snap\Lib\Db\Query\From::$LEFT_JOIN );
+		$from->join( 'u_id', 'users', 'id', \Snap\Lib\Db\Query\From::$LEFT_JOIN );
 		
 		$query = new \Snap\Lib\Db\Query(array(
 			'select'   => array( 
