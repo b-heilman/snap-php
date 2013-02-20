@@ -6,13 +6,13 @@ if ( !defined('COMMENT_DB') ){
 
 if ( !defined('COMMENT_THREAD_TABLE') ){
 	define('COMMENT_THREAD_TABLE', 'comment_threads');
-	define('COMMENT_THREAD_ID', 'ct_id');
-	define('COMMENT_THREAD_USER', 'u_id');
+	define('COMMENT_THREAD_ID',    'id');
+	define('COMMENT_THREAD_USER',  'user');
 }
 
 if ( !defined('COMMENT_TABLE') ){
-	define('COMMENT_TABLE', 'comments');
-	define('COMMENT_ID', 'c_id');
-	define('COMMENT_USER', 'u_id');
-	define('COMMENT_PARENT', 'parent_c_id');
+	define('COMMENT_TABLE',  'comments');
+	define('COMMENT_ID',     'id');
+	define('COMMENT_USER',   'user');
+	define('COMMENT_PARENT', 'parentComment');
 }

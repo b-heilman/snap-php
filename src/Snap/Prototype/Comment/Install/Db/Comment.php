@@ -8,7 +8,7 @@ class Comment
 	implements \Snap\Prototype\Installation\Lib\Definition {
 	
 	public function getTable(){
-		return COMMENT_TABLE;
+		return 'comments';
 	}
 	
 	public function getTableEngine(){
@@ -16,18 +16,18 @@ class Comment
 	}
 	
 	public function getTableOptions(){
-		return array('PRIMARY KEY ('.COMMENT_ID.')');
+		return array('PRIMARY KEY (id)');
 	}
 	
 	public function getFields(){
 		return array(
-			COMMENT_ID        => array( 'type' => 'int unsigned', 'options' => array('AUTO_INCREMENT') ),
-			COMMENT_THREAD_ID => array( 'type' => 'int unsigned' ),
-			COMMENT_USER      => array( 'type' => 'int unsigned' ),
-			'content'         => array( 'type' => 'text' ),
-			'creation_date'   => array( 'type' => 'timestamp',    'options' => array("DEFAULT CURRENT_TIMESTAMP") ),
-			'active'          => array( 'type' => 'bool',         'options' => array("default '1'") ),
-			COMMENT_PARENT    => array( 'type' => 'int unsigned')
+			'id'           => array( 'type' => 'int unsigned', 'options' => array('AUTO_INCREMENT') ),
+			'user'         => array( 'type' => 'int unsigned' ),
+			'content'      => array( 'type' => 'text' ),
+			'thread_id'    => array( 'type' => 'int unsigned' ),
+			'parent_id'    => array( 'type' => 'int unsigned' ),
+			'active'       => array( 'type' => 'bool' ),
+			'creationDate' => array( 'type' => 'timestamp' )
 		);
 	}
 	

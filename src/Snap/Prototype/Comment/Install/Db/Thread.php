@@ -6,7 +6,7 @@ class Thread
 	implements \Snap\Prototype\Installation\Lib\Definition {
 	
 	public function getTable(){
-		return COMMENT_THREAD_TABLE;
+		return 'comment_threads';
 	}
 	
 	public function getTableEngine(){
@@ -14,15 +14,15 @@ class Thread
 	}
 	
 	public function getTableOptions(){
-		return array('PRIMARY KEY ('.COMMENT_THREAD_ID.')');
+		return array('PRIMARY KEY (id)');
 	}
 	
 	public function getFields(){
 		return array(
-			COMMENT_THREAD_ID   => array( 'type' => 'int unsigned', 'options' => array('AUTO_INCREMENT') ),
-			COMMENT_THREAD_USER => array( 'type' => 'int unsigned' ),
-			'creation_date'     => array( 'type' => 'timestamp',    'options' => array("DEFAULT CURRENT_TIMESTAMP") ),
-			'active'            => array( 'type' => 'bool',         'options' => array("default '1'") )
+			'id'           => array( 'type' => 'int unsigned', 'options' => array('AUTO_INCREMENT') ),
+			'user_id'      => array( 'type' => 'int unsigned' ),
+			'creationDate' => array( 'type' => 'timestamp',    'options' => array("DEFAULT CURRENT_TIMESTAMP") ),
+			'active'       => array( 'type' => 'bool',         'options' => array("default '1'") )
 		);
 	}
 	
