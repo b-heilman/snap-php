@@ -53,6 +53,13 @@ abstract class Doctrine extends \Snap\Lib\Core\StdObject {
 		static::$entityManager->persist( $this );
 	}
 	
+	static public function all(){
+		static::init();
+		
+		$class = get_called_class();
+		
+		return static::$entityManager->getRepository( $class )->findAll();
+	}
 	/**
 	 * 
 	 * @return \Snap\Model\Doctrine
