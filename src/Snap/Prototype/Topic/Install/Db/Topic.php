@@ -2,13 +2,11 @@
 
 namespace Snap\Prototype\Topic\Install\Db;
 
-\Snap\Lib\Core\Bootstrap::includeConfig( 'Snap/Prototype/Comment/Install/config.php' );
-
 class Topic  
 	implements \Snap\Prototype\Installation\Lib\Definition {
 	
 	public function getTable(){
-		return TOPIC_TABLE;
+		return 'topics';
 	}
 	
 	public function getTableEngine(){
@@ -16,18 +14,17 @@ class Topic
 	}
 	
 	public function getTableOptions(){
-		return array('PRIMARY KEY ('.TOPIC_ID.')','UNIQUE ('.TOPIC_TITLE.', '.TOPIC_TYPE_ID.')');
+		return array('PRIMARY KEY (id)','UNIQUE (name, type_id)');
 	}
 	
 	public function getFields(){
 		return array(
-			TOPIC_ID             => array( 'type' => 'int unsigned',   'options' => array('AUTO_INCREMENT') ),
-			TOPIC_TITLE          => array( 'type' => 'varchar(64)' ),
-			'content'            => array( 'type' => "text" ),
-			TOPIC_TYPE_ID        => array( 'type' => 'int unsigned' ),
-			TOPIC_COMMENT_THREAD => array( 'type' => 'int unsigned' ),
-			'creation_date'      => array( 'type' =>'timestamp',       'options' => array("DEFAULT CURRENT_TIMESTAMP") ),
-			'active'             => array( 'type' =>'bool',            'options' => array("default '1'") )
+			'id'               => array( 'type' => 'int unsigned',   'options' => array('AUTO_INCREMENT') ),
+			'name'             => array( 'type' => 'varchar(64)' ),
+			'type_id'          => array( 'type' => 'int unsigned' ),
+			'commentThread_id' => array( 'type' => 'int unsigned' ),
+			'creationDate'     => array( 'type' =>'timestamp' ),
+			'active'           => array( 'type' =>'bool' )
 		);
 	}
 	
