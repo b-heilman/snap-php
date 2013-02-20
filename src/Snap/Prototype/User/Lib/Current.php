@@ -16,11 +16,13 @@ class Current {
 			self::$user = new User();
 			self::$vars = new \Snap\Lib\Core\Session('current_user_info');
 			
-			if ( !self::$user->initialized() ){
-				$id = self::$vars->getVar('id');
+			$id = self::$vars->getVar('id');
 				
-				if ( $id != null ){
+			if ( $id != null ){
+				try{
 					self::$user->duplicate( User::find((int)$id) );
+				}catch( \Exception $ex ){
+					// TODO : how can I tell if users is installed?
 				}
 			}
 		}

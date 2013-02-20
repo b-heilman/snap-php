@@ -22,7 +22,7 @@ class User extends \Snap\Model\Doctrine {
 	/**
 	 * @Column(type="string")
 	 **/
-		$password,
+		$password = '***',
 	/**
 	 * @Column(type="string")
 	 **/

@@ -22,12 +22,12 @@ class Comment
 	public function getFields(){
 		return array(
 			'id'           => array( 'type' => 'int unsigned', 'options' => array('AUTO_INCREMENT') ),
-			'user'         => array( 'type' => 'int unsigned' ),
+			'user_id'      => array( 'type' => 'int unsigned' ),
 			'content'      => array( 'type' => 'text' ),
 			'thread_id'    => array( 'type' => 'int unsigned' ),
-			'parent_id'    => array( 'type' => 'int unsigned' ),
-			'active'       => array( 'type' => 'bool' ),
-			'creationDate' => array( 'type' => 'timestamp' )
+			'parent_id'    => array( 'type' => 'int unsigned', 'nullable' => true ),
+			'creationDate' => array( 'type' => 'timestamp' ),
+			'active'       => array( 'type' => 'bool' )
 		);
 	}
 	
