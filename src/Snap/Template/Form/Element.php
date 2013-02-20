@@ -2,7 +2,7 @@
 <?php 
 if ( $this->label != null ){
 	if ( is_string($this->label) ){
-		$this->write( $this->label );
+		$this->write( $this->label, 'form-label' );
 	}else{
 		$this->append( $this->label );
 	}
