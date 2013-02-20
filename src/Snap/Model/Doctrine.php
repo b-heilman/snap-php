@@ -58,6 +58,8 @@ abstract class Doctrine extends \Snap\Lib\Core\StdObject {
 	 * @return \Snap\Model\Doctrine
 	 */
 	static public function find( $doctrineInfo ){
+		static::init();
+		
 		$class = get_called_class();
 		
 		if ( is_array($doctrineInfo) ){
@@ -72,6 +74,8 @@ abstract class Doctrine extends \Snap\Lib\Core\StdObject {
 	 * @return \Snap\Model\Doctrine[]
 	 */
 	static public function findMany( $doctrineInfo ){
+		static::init();
+		
 		$class = get_called_class();
 	
 		if ( is_array($doctrineInfo) ){
