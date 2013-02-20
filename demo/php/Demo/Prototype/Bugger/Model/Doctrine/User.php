@@ -58,11 +58,4 @@ class User extends \Snap\Model\Doctrine {
     {
         $this->name = $name;
     }
-    
-    protected function copy( \Snap\Model\Doctrine $in ){
-    	$this->id = $in->id;
-    	$this->name = $in->name;
-    	$this->reportedBugs = &$in->reportedBugs;
-    	$this->assignedBugs = &$in->assignedBugs;
-    }
 }

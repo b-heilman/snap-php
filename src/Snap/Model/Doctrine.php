@@ -19,7 +19,7 @@ abstract class Doctrine extends \Snap\Lib\Core\StdObject {
 		 **/
 		$id = null;
 	
-	public function __construct( $doctrineInfo = null ){
+	public function __construct(){
 		static::init();
 	}
 	

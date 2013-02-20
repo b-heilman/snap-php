@@ -38,32 +38,35 @@ class Bootstrap extends StdObject {
 			}
 
 			set_include_path( implode(PATH_SEPARATOR, array_merge(static::$phpLibraries,$extra)) );
-			
-			$dirs = static::$phpLibraries;
-			
-			// scan the include path
-			for( $i = 0, $c = count($dirs); $i < $c; $i++ ){
-				$dir = $dirs[$i];
-			
-				$subdirs = scandir( $dir );
-				foreach( $subdirs as $instance ){
-					if ( $instance{0} != '.' ){
-						$name = $instance.'\\'.'Prototype';
-						$loc = $dir.'/'.$instance.'/Prototype';
-			
-						if ( file_exists($loc) ){
-							self::$prototypeRoots[ $loc ] = $name;
-						}
-					}
-				}
-			}
 		}
 	}
 
 	static public function getAvailablePrototypes(){
 		$prototypes = array();
 
-		foreach( self::$prototypeRoots as $loc => $name ){
+		$dirs = static::$phpLibraries;
+			
+		// scan the include path
+		for( $i = 0, $c = count($dirs); $i < $c; $i++ ){
+			$dir = $dirs[$i];
+				
+			$subdirs = scandir( $dir );
+			foreach( $subdirs as $instance ){
+				if ( $instance{0} != '.' ){
+					$loc = $dir.'/'.$instance.'/Install';
+					if ( file_exists($loc) ){
+						$prototypes[] = '\\'.$instance;
+					}
+					
+					$loc = $dir.'/'.$instance.'/Prototype';
+					if ( file_exists($loc) ){
+						$prototypeRoots[ $loc ] = $instance.'\\'.'Prototype';
+					}
+				}
+			}
+		}
+		
+		foreach( $prototypeRoots as $loc => $name ){
 			$dirs = scandir( $loc );
 			
 			foreach( $dirs as $prototype ){

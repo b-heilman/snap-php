@@ -12,6 +12,7 @@ abstract class Page extends Node\Core\Template
 	
 	protected 
 		$mode,
+		$needsAdded = true,
 		$title,
 		$router,
 		$basePath = '/',
@@ -40,7 +41,8 @@ abstract class Page extends Node\Core\Template
 	
 	protected function pend( \Snap\Node\Core\Snapable $in ){
  		if ( $this->inside->count() == 0 ){
- 			if ( !$this->contentOnly ){
+ 			if ( !$this->contentOnly && $this->needsAdded ){
+ 				$this->needsAdded = false; // TODO : proof this is goofed up
  				// Need to do this, as page will be top level and not in the extensions
  				$this->inside->getExtender()->addNode( $this );
  			}
@@ -141,6 +143,12 @@ abstract class Page extends Node\Core\Template
 		
 		$this->router = $router;
 		$this->fileManager = new \Snap\Lib\File\Manager( $rootUrl );
+		
+		if ( !$this->contentOnly && $this->needsAdded ){
+			$this->needsAdded = false; // TODO : proof this is goofed up
+			// Need to do this, as page will be top level and not in the extensions
+			$this->inside->getExtender()->addNode( $this );
+		}
 		
 		if ( count($data) > 0 ){
 			$mode = $data[0];

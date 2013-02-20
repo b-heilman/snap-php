@@ -166,7 +166,7 @@ class Router extends \Snap\Lib\Core\StdObject {
 				$page->setViewData( $content );
 			}elseif( !empty($back) ){
 				return $this->translateRoute( $this->findRoute( $back ) );
-			}
+			}else return null;
 		}
 		
 		return array( 
