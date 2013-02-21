@@ -13,17 +13,14 @@ abstract class Reflective extends \Snap\Node\Core\Block
 		parent::parseSettings( $settings );
 		
 		$this->inSettings = $settings;
-		$settings = $this->cleanSettings( $this->buildPairing($settings) + $settings ); // pairing overrides here
-	
-		$this->parseComponents( $settings );
+		
+		$this->parseComponents( $this->buildPairing($settings) );
 	}
 	
 	/**
 	 * @return array
 	 */
-	abstract function buildPairing();
-	
-	abstract function cleanSettings( $settings );
+	abstract function buildPairing( $settings );
 	
 	protected function parseComponents( $settings ){
 		if ( !isset($settings['view']) ){

@@ -50,7 +50,6 @@ class Extender {
 				$ext = $this->extensions[$i];
 				
 				$co = count($nodes);
-				
 				for( $j = 0; $j < $co; ++$j ){
 					// Interate the nodes
 					$ext->addNode( $nodes[$j] );
@@ -83,10 +82,14 @@ class Extender {
 		return $ext;
 	}
 	
-	public function addNode( Snapable $node ){
+	public function addNode( Snapable $node, $front = false ){
 		if ( !$node->hasExtender() ){
 			$node->setExtender( $this );
-			$this->queuedNodes[] = $node;
+			if ( $front ){
+				array_unshift( $this->queuedNodes, $node );
+			}else{
+				$this->queuedNodes[] = $node;
+			}
 		}
 	}
 	

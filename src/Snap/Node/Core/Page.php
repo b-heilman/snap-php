@@ -44,7 +44,7 @@ abstract class Page extends Node\Core\Template
  			if ( !$this->contentOnly && $this->needsAdded ){
  				$this->needsAdded = false; // TODO : proof this is goofed up
  				// Need to do this, as page will be top level and not in the extensions
- 				$this->inside->getExtender()->addNode( $this );
+ 				$this->inside->getExtender()->addNode( $this, true );
  			}
  		}
  		
@@ -147,7 +147,7 @@ abstract class Page extends Node\Core\Template
 		if ( !$this->contentOnly && $this->needsAdded ){
 			$this->needsAdded = false; // TODO : proof this is goofed up
 			// Need to do this, as page will be top level and not in the extensions
-			$this->inside->getExtender()->addNode( $this );
+			$this->inside->getExtender()->addNode( $this, true );
 		}
 		
 		if ( count($data) > 0 ){

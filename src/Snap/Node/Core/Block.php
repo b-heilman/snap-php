@@ -89,6 +89,18 @@ class Block extends \Snap\Node\Core\Simple
 		if ( $parent == null || $parent != $this ){
 			$in->setParent( $this );
 			$this->takeControl($in);
+			
+			// if you are a block object, send your children up
+			if ( $in instanceof Block ){
+				$c = $in->inside->count();
+				for( $i = 0; $i < $c; $i++ ){
+					$t = $in->inside->get($i);
+						
+					if ( $t instanceof Snapable ){
+						$this->takeControl( $t );
+					}
+				}
+			}
 		}
 	}
 	
@@ -97,18 +109,6 @@ class Block extends \Snap\Node\Core\Simple
 	protected function takeControl( Snapable $in ){
 		if ( $this->parent ){
 			$this->parent->takeControl( $in );
-			// TODO : this can not be performance friendly...
-			if ( $in instanceof Block ){
-				$c = $in->inside->count();
-				
-				for( $i = 0; $i < $c; $i++ ){
-					$t = $in->inside->get($i);
-					
-					if ( $t instanceof Snapable ){
-						$this->takeControl( $t );
-					}
-				}
-			}
 		}
 	}
 	

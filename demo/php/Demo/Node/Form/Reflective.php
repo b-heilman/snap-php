@@ -8,7 +8,7 @@ class Reflective extends \Snap\Node\Form\Reflective {
 		return $settings;
 	}
 	
-	public function buildPairing(){
+	public function buildPairing( $settings ){
 		$model = new \Demo\Model\Form\TestForm();
 		$control = new \Demo\Control\Feed\TestForm( $model );
 		$view = new \Demo\Node\View\TestForm( $model );
