@@ -4,12 +4,8 @@ namespace Snap\Prototype\Topic\Node\View;
 
 class Simple extends \Snap\Node\Core\View {
 
-	protected function getTopic(){
-		return $this->getStreamData()->get(0);
-	}
-	
 	protected function makeProcessContent(){
-		$topic = new \Snap\Prototype\Topic\Lib\Element( $this->getTopic()  );
+		$topic = new \Snap\Prototype\Topic\Lib\Element( $this->getStreamData()->get(0)  );
 		$timestamp = $topic->info('creation_date');
 		
 		if( $timestamp ){
