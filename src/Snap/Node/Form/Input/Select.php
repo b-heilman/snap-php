@@ -7,7 +7,7 @@ class Select extends \Snap\Node\Form\Input {
 	protected 
 		$options;
 	
-	public function __construct( $settings = array() ){
+	protected function parseSettings( $settings = array() ){
 		$settings['tag'] = 'select';
 		
 		if ( !isset($settings['input']) || !($settings['input'] instanceof \Snap\Lib\Form\Input\Optionable) ){
@@ -15,7 +15,7 @@ class Select extends \Snap\Node\Form\Input {
 					.' instead recieved '.get_class($settings['input']) );
 		}
 		
-		parent::__construct( $settings );
+		parent::parseSettings( $settings );
 	}
 
 	public function getType(){
