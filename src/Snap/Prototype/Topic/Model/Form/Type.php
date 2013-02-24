@@ -8,7 +8,11 @@ class Type extends \Snap\Model\Form {
 		parent::__construct();
 	
 		$this->setInputs(array(
-			new \Snap\Lib\Form\Input\Basic( 'topics_type_new_name', '' )
+			new \Snap\Lib\Form\Input\Basic( 'name', '' )
+		));
+		
+		$this->setValidations(array(
+			new \Snap\Lib\Form\Validation\Required( 'name', 'You need to name the type' )
 		));
 	}
 }

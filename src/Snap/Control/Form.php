@@ -5,6 +5,9 @@ namespace Snap\Control;
 abstract class Form extends \Snap\Control\Feed {
 	
 	protected
+	/** 
+	 * @var \Snap\Model\Form 
+	 **/
 		$model;
 	
 	public function __construct( $settings = array() ){
@@ -20,7 +23,6 @@ abstract class Form extends \Snap\Control\Feed {
 			$this->model = $settings['model'];
 		}
 		
-		/* @var $this->model \Snap\Model\Form */
 		if ( !($this->model instanceof \Snap\Model\Form) ){
 			throw new \Exception("A form's model needs to be instance of \Snap\Model\Form");
 		}
@@ -35,7 +37,12 @@ abstract class Form extends \Snap\Control\Feed {
 			if ( $proc->hasErrors() ){
 				return new \Snap\Lib\Mvc\Data( null ); // pre processing errors
 			}else{
-				$rtn = $this->processInput( $proc );
+				try {
+					$rtn = $this->processInput( $proc );
+				}catch( \Exception $ex ){
+					$proc->addFormError( 'Form unable to be processed' );
+					$proc->addDebug( $ex->getMessage() );
+				}
 				
 				if ( $proc->hasErrors() ){
 					return new \Snap\Lib\Mvc\Data( null ); // post processing errors
