@@ -17,6 +17,7 @@ abstract class Form {
 		$encoding = null,
 		$validator = null,
 		$uniqueness = null,
+		$resultStream = null,
 		$controlInput;
 	
 	public function __construct(){
@@ -39,6 +40,14 @@ abstract class Form {
 		}else{
 			$this->controlInput = new \Snap\Lib\Form\Input\Basic( $this->formName, 1 );
 		}
+	}
+	
+	public function setResultStream( $stream ){
+		$this->resultStream = $stream;
+	}
+	
+	public function getResultStream(){
+		return $this->resultStream;
 	}
 	
 	protected function setUniqueTag( $tag ){

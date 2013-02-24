@@ -31,10 +31,14 @@ abstract class Listing extends \Snap\Node\Core\View {
  		$data = $this->getStreamData();
  		$c = $data->count();
  		
- 		for( $i = 0; $i < $c; $i++ ){
- 			$this->setTemplateData( $this->parseListData($data->get($i)) );
- 			$t = parent::getTemplateHTML();
- 			$content .= "<{$this->childTag}>$t</{$this->childTag}>";
+ 		if ( $c == 0 ){
+ 			$this->addClass('empty');
+ 		}else{
+	 		for( $i = 0; $i < $c; $i++ ){
+	 			$this->setTemplateData( $this->parseListData($data->get($i)) );
+	 			$t = parent::getTemplateHTML();
+	 			$content .= "<{$this->childTag}>$t</{$this->childTag}>";
+	 		}
  		}
  		
  		return $content;

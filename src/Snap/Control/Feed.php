@@ -5,6 +5,9 @@ namespace Snap\Control;
 abstract class Feed extends \Snap\Node\Core\Comment 
 	implements \Snap\Node\Core\Producer {
 		
+	static private
+		$instanceC = 0;
+	
 	protected 
 		$outputStream, 
 		$produced = false,
@@ -18,7 +21,7 @@ abstract class Feed extends \Snap\Node\Core\Comment
 				? $settings['stream'] 
 				: $this->defaultStreamName() 
 			);
-			
+		
 		$this->factory = isset($settings['factory']) ? $settings['factory'] : $this->defaultFactory();
 		
 		parent::parseSettings( $settings );
@@ -87,10 +90,6 @@ abstract class Feed extends \Snap\Node\Core\Comment
 	}
 	
 	protected function defaultStreamName(){
-		$class = get_called_class();
-		
-		$pos = strrpos( $class,  '_' );
-		
-		return substr( $class, 0, $pos );
+		return get_class( $this ).'_'.(++self::$instanceC);
 	}
 }
