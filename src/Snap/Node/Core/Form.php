@@ -3,12 +3,15 @@
 namespace Snap\Node\Core;
 
 class Form extends \Snap\Node\Core\Template {
-	    	
+
+	private 
+		$hasSubmit = false;
+	
     protected 
     	$action, 
     	$target,
     	$model,         
-    	$encoding, 
+    	$encoding,
     	$messaging,
     	$messagingOwner,
     	$messagingRollup;
@@ -113,8 +116,22 @@ class Form extends \Snap\Node\Core\Template {
 		parent::processTemplate();
 	}
 	
+	public function takeControl( \Snap\Node\Core\Snapable $in ){
+		if ( $in instanceof Form && $this->tag != 'div' ){
+			$this->alterSubForm( $in );
+		}elseif( $in instanceof \Snap\Node\Form\Input\Button  && $in->getType() == 'submit' ){
+			$this->hasSubmit = true;
+		}
+	
+		parent::takeControl($in);
+	}
+	
 	protected function _finalize(){
 		parent::_finalize();
+		
+		if ( !$this->hasSubmit && $this->tag == 'form' ){
+			$this->append( new \Snap\Node\Form\Control() );
+		}
 		
 		if ( $this->messaging && $this->model && $this->model instanceof \Snap\Model\Form ){
 			$proc = $this->model->getResults(); // just make sure the inputs have their values updated from the stream
@@ -145,6 +162,10 @@ class Form extends \Snap\Node\Core\Template {
 					}
 				}
 			}
+		}
+		
+		if ( $this->messagingOwner && $this->messaging && !$this->messaging->hasParent() ){
+			$this->prepend( $this->messaging );
 		}
 	}
 	
@@ -181,14 +202,6 @@ class Form extends \Snap\Node\Core\Template {
     		
     		$this->messaging = $block;
     	}
-    }
-    
-    public function takeControl( \Snap\Node\Core\Snapable $in ){
-    	if ( $in instanceof Form && $this->tag != 'div' ){
-    		$this->alterSubForm( $in );
-    	}
-    
-    	parent::takeControl($in);
     }
     
     protected function alterSubForm( Form $form ){

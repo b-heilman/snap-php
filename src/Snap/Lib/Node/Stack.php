@@ -25,7 +25,7 @@ class Stack extends Core\Stack {
 			$this->references[$ref] = $in;
 		}
 		
-		return parent::add($in);
+		return parent::add($in, $back);
 	}
 	
 	public function addAt( $in, $where, $ref = null ){
