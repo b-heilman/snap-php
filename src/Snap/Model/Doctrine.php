@@ -101,7 +101,7 @@ abstract class Doctrine extends \Snap\Lib\Core\StdObject {
 	 * @return \Doctrine\ORM\EntityManager
 	 */
 	static public function getEntityManager(){
-		parent::init();
+		static::init();
 		
 		return static::$entityManager;
 	}

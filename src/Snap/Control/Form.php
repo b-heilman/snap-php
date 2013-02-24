@@ -28,6 +28,8 @@ abstract class Form extends \Snap\Control\Feed {
 		}
 		
 		parent::parseSettings( $settings );
+		
+		$this->model->setResultStream( $this->outputStream );
 	}
 	
 	protected function makeData(){
