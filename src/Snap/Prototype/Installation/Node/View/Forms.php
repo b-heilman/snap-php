@@ -23,7 +23,6 @@ class Forms extends Node\View\Navigation
 		
 		if ( $info ) {
 			$prototype = new \Snap\Prototype\Installation\Lib\Prototype( $info );
-			$var['activeForm'] = $prototype->name;
 			
 			if ( $prototype->forms ){
 				$var['forms'] = array_keys( $prototype->forms );
