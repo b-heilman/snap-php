@@ -34,7 +34,11 @@ class Comment extends \Snap\Model\Doctrine {
     	$parent;
 	
 	public function setContent( $content ){
-		$this->content = $content;
+		$this->content = $this->sanitizeComment( $content );
+	}
+	
+	protected function sanitizeComment( $comment ){
+		return str_replace("\n", '<br>', htmlentities($comment) );
 	}
 	
 	public function getContent(){
@@ -71,6 +75,13 @@ class Comment extends \Snap\Model\Doctrine {
 	
 	public function getParent(){
 		return $this->parent;
+	}
+	
+	/**
+	 * @return \DateTime
+	 */
+	public function getCreationDate(){
+		return $this->creationDate;
 	}
 	
 	public function persist(){

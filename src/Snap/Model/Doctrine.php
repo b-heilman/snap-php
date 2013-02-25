@@ -29,13 +29,12 @@ abstract class Doctrine extends \Snap\Lib\Core\StdObject {
 	public function duplicate( Doctrine $in ){
 		$class = get_class($in);
 		$ex = new \Exception();
-		error_log( $ex->getTraceAsString() );
+		
 		if ( $this instanceof $class ){
 			foreach( get_object_vars($in) as $var => $val ){
 				$this->{$var} = $val;
 			}
 			
-			error_log( 'merging...' );
 			self::$entityManager->merge( $this );
 		}else throw new \Exception('Can not duplicate a class you are not an instance of');
 	}
@@ -58,6 +57,10 @@ abstract class Doctrine extends \Snap\Lib\Core\StdObject {
 	
 	public function persist(){
 		static::$entityManager->persist( $this );
+	}
+	
+	public function remove(){
+		static::$entityManager->remove( $this );
 	}
 	
 	static public function all(){

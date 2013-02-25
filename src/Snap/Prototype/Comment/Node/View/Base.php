@@ -21,12 +21,13 @@ class Base extends \Snap\Node\Core\View {
 	}
 	
 	protected function makeProcessContent(){
-		$this->comment = new \Snap\Prototype\Comment\Lib\Element( $this->getStreamData()->get(0) );
+		/** @var \Snap\Prototype\Comment\Model\Doctrine\Comment */
+		$comment = $this->getStreamData()->get(0);
 		
 		return array(
-			'comment' => $this->comment,	
-			'user'    => new \Snap\Prototype\User\Lib\Element( $this->comment->info(COMMENT_USER) ),
-			'time'    => new \Snap\Lib\Core\Time( $this->comment->info('creation_date') )
+			'comment' => $comment,	
+			'user'    => $comment->getUser()->getDisplay(),
+			'time'    => $comment->getCreationTime()->format('m-d-Y H:i:s')
 		);
 	}
 }

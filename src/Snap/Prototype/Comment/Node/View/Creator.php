@@ -8,11 +8,11 @@ namespace Snap\Prototype\Comment\Node\View;
 class Creator extends \Snap\Node\Core\View {
 	
 	protected function makeProcessContent(){
-		$info = $this->getStreamData()->getPrimary();
-		
-		$model = new \Snap\Prototype\Comment\Model\Form\Create( $info[TOPIC_COMMENT_THREAD] );
-		$view = new \Snap\Prototype\Comment\Node\View\CreateForm( array('model' => $model) );
-		$control = new \Snap\Prototype\Comment\Control\Feed\CreateForm( array('model' => $model) );
+		$model = new \Snap\Prototype\Comment\Model\Form\Create(
+			$this->getStreamData()->getPrimary()
+		);
+		$view = new \Snap\Prototype\Comment\Node\Form\Create( array('model' => $model) );
+		$control = new \Snap\Prototype\Comment\Control\Form\Create( array('model' => $model) );
 		
 		return array(
 			'view'    => $view, 

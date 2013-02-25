@@ -1,23 +1,19 @@
 <?php
 
-namespace Snap\Prototype\Comment\Control\Feed;
+namespace Snap\Prototype\Comment\Control\Form;
 
-class DeleteForm extends \Snap\Control\Form {
+class Delete extends \Snap\Control\Form {
 
 	public function getOuputStream(){
 		return 'remove_comment';  // TODO : really?
 	}
 
 	protected function processInput( \Snap\Lib\Form\Result $formData ){
-		$res = null;
-
 		if ( $formData->hasChanged('remove') ){
-			$res = $this->model->comment;
-			if ( !$res->delete() ){
-				$res = null;
-			}
+			$this->model->remove();
+			$this->model->flush();
 		}
 
-		return $res;
+		return $this->model;
 	}
 }
