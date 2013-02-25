@@ -2,7 +2,7 @@
 
 namespace Snap\Prototype\Comment\Control\Feed;
 
-class ThreadConverter extends \Snap\Control\Feed\Converter {
+class TopicToThread extends \Snap\Control\Feed\Converter {
 	
 	protected function makeData(){
 		$ctrl = $this->input;

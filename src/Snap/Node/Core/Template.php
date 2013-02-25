@@ -28,7 +28,8 @@ abstract class Template extends Block {
  	
  	protected function parseSettings( $settings = array() ){
  		$this->path = isset($settings['template']) 
-			? $settings['template'] : $this->getClassTemplate( get_class($this) );
+			? $settings['template'] 
+ 			: $this->getDefaultPath();
  		
  		if ( isset($settings['data']) && !$settings['data'] ){
 			$this->delayed = true;
@@ -58,6 +59,10 @@ abstract class Template extends Block {
  		parent::parseSettings( $settings );
  	}
 	
+ 	protected function getDefaultPath(){
+ 		return $this->getClassTemplate( get_class($this) );
+ 	}
+ 	
  	protected function makeTemplateContent(){
  		return array();
  	}

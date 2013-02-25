@@ -5,8 +5,7 @@ namespace Snap\Prototype\Comment\Node\View;
 class Base extends \Snap\Node\Core\View {
 	
 	protected 
-		$comment, 
-		$deletion = null;
+		$comment;
 	
 	protected function baseClass(){
 		return 'comment-display';
@@ -22,12 +21,12 @@ class Base extends \Snap\Node\Core\View {
 	
 	protected function makeProcessContent(){
 		/** @var \Snap\Prototype\Comment\Model\Doctrine\Comment */
-		$comment = $this->getStreamData()->get(0);
+		$this->comment = $comment = $this->getStreamData()->get(0);
 		
 		return array(
 			'comment' => $comment,	
 			'user'    => $comment->getUser()->getDisplay(),
-			'time'    => $comment->getCreationTime()->format('m-d-Y H:i:s')
+			'time'    => $comment->getCreationTime()->format( 'm-d-Y H:i:s' )
 		);
 	}
 }

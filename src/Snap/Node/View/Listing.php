@@ -21,6 +21,10 @@ abstract class Listing extends \Snap\Node\Core\View {
 		return $in;
 	}
 	
+	protected function parseStreamData( \Snap\Lib\Mvc\Data $data ){
+		return $data;
+	}
+	
 	protected function getTemplateHTML(){
  		if ( $this->path == '' ){
  			throw new \Exception( 'Path is blank for '.get_class($this) );
@@ -28,7 +32,7 @@ abstract class Listing extends \Snap\Node\Core\View {
  		
  		// TODO : how to avoid the collisions???
  		$content = '';
- 		$data = $this->getStreamData();
+ 		$data = $this->parseStreamData( $this->getStreamData() );
  		$c = $data->count();
  		
  		if ( $c == 0 ){

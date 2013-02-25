@@ -43,8 +43,8 @@ class Editor extends Node\Page\Basic {
 			'logoutControl' => new \Snap\Prototype\User\Control\Form\Logout(array('model' => $logout)),
 			'logoutView'    => new \Snap\Prototype\User\Node\Form\Logout(array('model' => $logout)),
 			'loginControl'  => new \Snap\Prototype\User\Control\Form\Login(array('model' => $login)),
-			'editorView'    => new \Snap\Prototype\Blogging\Node\View\EditorForm(array('model' => $editor)),
-			'editorControl' => new \Snap\Prototype\Topic\Control\Feed\CreateForm(array('model' => $editor))
+			'editorView'    => new \Snap\Prototype\Blogging\Node\Form\Create(array('model' => $editor)),
+			'editorControl' => new \Snap\Prototype\Blogging\Control\Form\Create(array('model' => $editor))
 		);
 	}
 	

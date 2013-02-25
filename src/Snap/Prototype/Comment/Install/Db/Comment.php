@@ -2,8 +2,6 @@
 
 namespace Snap\Prototype\Comment\Install\Db;
 
-use \Snap\Lib\Db\Definition;
-
 class Comment 
 	implements \Snap\Prototype\Installation\Lib\Definition {
 	
