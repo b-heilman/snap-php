@@ -10,7 +10,7 @@ if ( !empty($forms) ){ ?>
 		$link = $factory->createLink( $form );
 		
 		?><a href='<?php echo $link['href']; ?>' class='<?php echo $link['class']
-			.( $prototype->name == $active ? 'active' : '' )?>'><?php echo $form; ?></a></li>
+			.( $form == $active ? 'active' : '' )?>'><?php echo $form; ?></a></li>
 	<?php 
 	} 
 	?></ul><?php 

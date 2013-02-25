@@ -19,12 +19,12 @@ class Topic
 	
 	public function getFields(){
 		return array(
-			'id'               => array( 'type' => 'int unsigned',   'options' => array('AUTO_INCREMENT') ),
-			'name'             => array( 'type' => 'varchar(64)' ),
-			'type_id'          => array( 'type' => 'int unsigned' ),
-			'commentThread_id' => array( 'type' => 'int unsigned' ),
-			'creationDate'     => array( 'type' =>'timestamp' ),
-			'active'           => array( 'type' =>'bool' )
+			'id'           => array( 'type' => 'int unsigned', 'options' => array('AUTO_INCREMENT') ),
+			'name'         => array( 'type' => 'varchar(64)' ),
+			'type_id'      => array( 'type' => 'int unsigned' ),
+			'thread_id'    => array( 'type' => 'int unsigned' ),
+			'creationDate' => array( 'type' => 'timestamp' ),
+			'active'       => array( 'type' => 'bool' )
 		);
 	}
 	

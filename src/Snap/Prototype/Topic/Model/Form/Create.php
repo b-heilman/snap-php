@@ -23,7 +23,11 @@ class Create extends \Snap\Model\Form {
 		$this->type = $type;
 		
 		$this->setInputs(array(
-			new \Snap\Lib\Form\Input\Basic( 'title', '' )
+			new \Snap\Lib\Form\Input\Basic( 'name', '' )
+		));
+		
+		$this->setValidations(array(
+			new \Snap\Lib\Form\Validation\Required( 'name', 'You need to supply a title' )
 		));
 		
 		if ( !$type ){
@@ -34,8 +38,8 @@ class Create extends \Snap\Model\Form {
 			$hash = array('' => 'Pick A Type');
 			
 			$qb->select( 't' )
-				->from('\Snap\Prototype\Topic\Model\Doctrine\Type t')
-				->orderBy('t.name ASC');
+				->from('\Snap\Prototype\Topic\Model\Doctrine\Type', 't')
+				->orderBy('t.name',  'ASC');
 			$result = $qb->getQuery()->getResult();
 			
 			for( $i = 0, $c = count($result); $i < $c; $i++ ){

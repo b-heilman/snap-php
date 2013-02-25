@@ -62,7 +62,7 @@ abstract class Template extends Block {
  		return array();
  	}
  	
-	private function addTemplateContent( $content ){
+	protected function addTemplateContent( $content ){
 		foreach( $content as $name => $component ){
  			if ( $component instanceof \Snap\Control\Feed ){
  				$this->addTemplateFeed( $component, $name );

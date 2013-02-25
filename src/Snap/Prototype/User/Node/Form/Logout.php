@@ -6,7 +6,7 @@ class Logout extends \Snap\Node\Core\Form {
 	
 	protected function makeProcessContent(){
 		$args = parent::makeProcessContent();
-		$args['logoutText'] = 'Logout, '.$this->model->user->getDisplay();
+		$args['logoutText'] = 'Logout, '.\Snap\Prototype\User\Lib\Current::getUser()->getDisplay();
 	
 		return $args;
 	}

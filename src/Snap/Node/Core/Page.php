@@ -28,7 +28,7 @@ abstract class Page extends Node\Core\Template
 		}
 		
 		try{
-			parent::__construct( $settings );
+			Block::__construct( $settings );
 		}catch( Exception $ex ){
 			echo $ex->getMessage().' : '.$ex->getFile().' => '.$ex->getLine()
 				."\n".$ex->getTraceAsString();
@@ -132,6 +132,7 @@ abstract class Page extends Node\Core\Template
 		return static::$pageRequest.$url;
 	}
 	
+	// TODO : some of this logic should be moved to the construct
 	public function serve( $data = null, \Snap\Control\Router $router = null ){
 		$tmp = null;
 		
@@ -163,6 +164,7 @@ abstract class Page extends Node\Core\Template
 		}
 		
 		if ( is_null($tmp) ){
+			$this->addTemplateContent( $this->makeTemplateContent() ); // moved to here to keep from extra processing resources
 			$tmp = $this->html();
 		}
 		

@@ -11,23 +11,23 @@ class Topic extends \Snap\Model\Doctrine {
 	/**
 	 * @Column(type="string")
 	**/
-	$name,
+		$name,
 	/**
 	 * @Column(type="datetime")
 	**/
-	$creationDate,
+		$creationDate,
 	/**
 	 * @Column(type="boolean")
 	**/
-	$active = false,
+		$active = false,
 	/**
 	 * @ManyToOne(targetEntity="\Snap\Prototype\Topic\Model\Doctrine\Type")
 	**/
-	$type,
+		$type,
 	/**
      * @OneToOne(targetEntity="\Snap\Prototype\Comment\Model\Doctrine\Thread")
      */
-	$commentThread;
+		$thread;
 
 	public function setName( $name ){
 		$this->name = $name;
@@ -45,10 +45,14 @@ class Topic extends \Snap\Model\Doctrine {
 		$this->active = true;
 	}
 
-	public function setCommentThread( \Snap\Prototype\Comment\Model\Doctrine\Thread $thread ){
-		$this->commentThread = $thread;
+	public function setThread( \Snap\Prototype\Comment\Model\Doctrine\Thread $thread ){
+		$this->thread = $thread;
 	}
 
+	public function getThread(){
+		return $this->thread;
+	}
+	
 	public function setType( \Snap\Prototype\Topic\Model\Doctrine\Type $type ){
 		$this->type = $type;
 	}

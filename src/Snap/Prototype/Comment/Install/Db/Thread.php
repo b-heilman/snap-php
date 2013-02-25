@@ -20,7 +20,6 @@ class Thread
 	public function getFields(){
 		return array(
 			'id'           => array( 'type' => 'int unsigned', 'options' => array('AUTO_INCREMENT') ),
-			'name'         => array( 'type' => 'text', 'nullable' => true ),
 			'user_id'      => array( 'type' => 'int unsigned' ),
 			'creationDate' => array( 'type' => 'timestamp' ),
 			'active'       => array( 'type' => 'bool' )

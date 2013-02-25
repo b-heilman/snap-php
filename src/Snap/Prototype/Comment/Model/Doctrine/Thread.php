@@ -9,10 +9,6 @@ class Thread extends \Snap\Model\Doctrine {
 	
 	protected 
 	/**
-	 * @Column(type="string", nullable=true)
-	 **/
-		$name,
-	/**
 	 * @Column(type="datetime")
 	 **/
 		$creationDate,
@@ -30,18 +26,6 @@ class Thread extends \Snap\Model\Doctrine {
      **/
 		$comments;
 	
-	public function setName( $name ){
-		$this->name = $name;
-	}
-	
-	public function hasName(){
-		return !is_null($this->name);
-	}
-	
-	public function getName(){
-		return $this->name;
-	}
-	
 	public function deactivate(){
 		$this->active = false;
 	}
@@ -53,6 +37,10 @@ class Thread extends \Snap\Model\Doctrine {
 	public function addComment( \Snap\Prototype\Comment\Model\Doctrine\Comment $comment ){
 		$comment->addThread( $this );
 		$this->comments[] = $comment;
+	}
+	
+	public function getComments(){
+		return $this->comments;
 	}
 	
 	public function setUser( \Snap\Prototype\User\Model\Doctrine\User $user ){
