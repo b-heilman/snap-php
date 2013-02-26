@@ -8,14 +8,14 @@ class Prototype extends \Snap\Control\Feed {
 	}
 	
 	protected function makeData(){
-		$rtn = new \Snap\Lib\Mvc\Data();
+		$rtn = new \Snap\Lib\Mvc\Data\Collection();
 		
 		$prototypes = \Snap\Lib\Core\Bootstrap::getAvailablePrototypes();
 		
 		foreach( $prototypes as $prototype ){
 			$rtn->add( new \Snap\Prototype\Installation\Lib\Prototype($prototype) );
 		}
-
+		
 		return $rtn;
 	}
 }

@@ -29,7 +29,7 @@ class Gallery extends \Snap\Control\Feed {
 	
 	protected function makeData(){
 		return $this->breakdown 
-			? new \Snap\Lib\Mvc\Data( $this->gallery->getGroups() )
+			? new \Snap\Lib\Mvc\Data\Collection( $this->gallery->getGroups() )
 			: new \Snap\Lib\Mvc\Data\Instance( $this->gallery );
 	}
 }

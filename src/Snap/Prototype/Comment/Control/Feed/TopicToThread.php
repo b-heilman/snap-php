@@ -18,9 +18,9 @@ class TopicToThread extends \Snap\Control\Feed\Converter {
 		}
 		
 		if ( $info ){
-			$ctrl = new \Snap\Lib\Mvc\Control( $this->factory, new \Snap\Lib\Mvc\Data($info->getThread()) );
+			$ctrl = new \Snap\Lib\Mvc\Control( $this->factory, new \Snap\Lib\Mvc\Data\Collection($info->getThread()) );
 		}else{
-			$ctrl = new \Snap\Lib\Mvc\Control( $this->factory, new \Snap\Lib\Mvc\Data(array()) );
+			$ctrl = new \Snap\Lib\Mvc\Control( $this->factory, new \Snap\Lib\Mvc\Data\Collection(array()) );
 		}
 		
 		return $ctrl;

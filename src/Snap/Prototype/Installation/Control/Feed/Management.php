@@ -100,6 +100,6 @@ class Management extends \Snap\Control\Feed\Converter {
 			}
 		}
 		
-		return new \Snap\Lib\Mvc\Data( $messages );
+		return new \Snap\Lib\Mvc\Data\Collection( $messages );
 	}
 }

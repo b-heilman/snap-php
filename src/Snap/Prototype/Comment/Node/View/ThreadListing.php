@@ -25,7 +25,7 @@ class ThreadListing extends \Snap\Node\View\Listing {
 			$el = $data->get(0);
 			
 			if ( $el instanceof \Snap\Prototype\Comment\Model\Doctrine\Thread ){
-				return new \Snap\Lib\Mvc\Data( $el->getComments() );
+				return new \Snap\Lib\Mvc\Data\Collection( $el->getComments() );
 			}
 		}
 		

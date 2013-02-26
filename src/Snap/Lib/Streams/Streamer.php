@@ -98,7 +98,6 @@ class Streamer {
 		}
 		
 		$this->streams[$stream]->merge( $data );
-		
 		// send content to the waiting queue, get back and element that are now ready
 		// passed in the current content for the stream
 		$ready = $this->waiting->streamReady( $stream, $this->getContent($stream) );

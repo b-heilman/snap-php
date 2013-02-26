@@ -39,7 +39,7 @@ abstract class Query extends \Snap\Control\Feed {
 		if ( !($res = $query->exec()) ){
 			throw new \Exception("query error: ".$query->getMsg());
 		}else{
-			return new \Snap\Lib\Mvc\Data( $res->hasNext() ? $res->asArray() : array() );
+			return new \Snap\Lib\Mvc\Data\Collection( $res->hasNext() ? $res->asArray() : array() );
 		}
 	}
 }

@@ -37,7 +37,7 @@ abstract class Form extends \Snap\Control\Feed {
 			$proc = $this->model->getResults();
 		
 			if ( $proc->hasErrors() ){
-				return new \Snap\Lib\Mvc\Data( null ); // pre processing errors
+				return new \Snap\Lib\Mvc\Data\Collection( null ); // pre processing errors
 			}else{
 				try {
 					$rtn = $this->processInput( $proc );
@@ -47,13 +47,13 @@ abstract class Form extends \Snap\Control\Feed {
 				}
 				
 				if ( $proc->hasErrors() ){
-					return new \Snap\Lib\Mvc\Data( null ); // post processing errors
+					return new \Snap\Lib\Mvc\Data\Collection( null ); // post processing errors
 				}else{
-					return new \Snap\Lib\Mvc\Data( $rtn );
+					return new \Snap\Lib\Mvc\Data\Collection( $rtn );
 				}
 			}
 		}else{
-			return new \Snap\Lib\Mvc\Data( null ); // model wasn't even submitted
+			return new \Snap\Lib\Mvc\Data\Collection( null ); // model wasn't even submitted
 		}
 	}
 	

@@ -2,8 +2,58 @@
 
 namespace Snap\Lib\Mvc;
 
-class Stack {
-	protected $stack = array();
+class Stack
+	implements \Countable, \ArrayAccess {
+	
+	protected 
+		$stack = array();
+	
+	/**
+	 * @param mixed $offset
+	 * @return bool
+	 */
+	public function offsetExists( $offset ) {
+		return $this->has( $offset );
+	}
+	
+	/**
+	 * @param mixed $offset
+	 * @return mixed
+	 */
+	public function offsetGet( $offset ){
+		return $this->get( $offset );
+	}
+	
+	/**
+	 * @param mixed $offset
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function offsetSet( $offset, $value ){
+		if ( ! isset($offset)) {
+			return $this->push( $value );
+		}
+		return $this->stack[$offset] = $value;
+	}
+	
+	/**
+	 * @param mixed $offset
+	 * @return mixed
+	 */
+	public function offsetUnset( $offset ){
+		if ( isset($this->stack[$offset]) ){
+			$t = $this->stack[$offset];
+			unset( $this->stack[$offset] );
+		}else return null;
+	}
+	
+	/**
+	 * @param mixed $key The key to check for.
+	 * @return boolean TRUE if the given key/index exists, FALSE otherwise.
+	 */
+	public function containsKey( $key ){
+		return isset($this->stack[$key]);
+	}
 	
 	public function count(){
 		return count($this->stack);
@@ -58,19 +108,5 @@ class Stack {
 		}
 		
 		return $this;
-	}
-	
-	// the function hasValueFunction will return back a hash value for that row
-	public function makeUnique( $hashValueFunction ){
-		$tmp = array();
-		
-		for( $i = 0, $c = count($this->stack); $i < $c; ++$i ){
-			$key = $hashValueFunction($this->stack[$i]);
-			if ( !isset($tmp[$key]) ){
-				$tmp[$key] = $this->stack[$i];
-			}
-		}
-		
-		$this->stack = array_values($tmp);
 	}
 }

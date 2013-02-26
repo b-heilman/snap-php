@@ -123,7 +123,7 @@ abstract class View extends \Snap\Node\Core\Template
 		}elseif( $data instanceof \Snap\Lib\Mvc\Data ){
 			$this->data[$stream] = $data;
 		}else{
-			$this->data[$stream] = new \Snap\Lib\Mvc\Data( $data );
+			$this->data[$stream] = new \Snap\Lib\Mvc\Data\Collection( $data );
 		}
 		
 		return $this;
@@ -140,7 +140,7 @@ abstract class View extends \Snap\Node\Core\Template
 		
 		if ( is_null($stream) ){
 			if ( is_array($this->inputStream) ){
-				$content = new \Snap\Lib\Mvc\Data();
+				$content = new \Snap\Lib\Mvc\Data\Collection();
 				
 				foreach( $this->inputStream as $stream ) {
 					if ( isset($this->data[$stream]) ){

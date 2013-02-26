@@ -2,9 +2,8 @@
 
 namespace Snap\Model;
 
-use Doctrine\Common\Annotations\DocLexer;
-
 use
+	\Doctrine\Common\Annotations\DocLexer,
 	\Doctrine\ORM\Tools\Setup,
 	\Doctrine\ORM\EntityManager;
 

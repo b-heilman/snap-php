@@ -109,7 +109,7 @@ class Limiting extends NavigationQuery {
 	}
 	
 	protected function makeData( $input = array() ){
-		$data = new \Snap\Lib\Mvc\Data();
+		$data = new \Snap\Lib\Mvc\Data\Collection();
 		
 		$query = $this->getExecutable();
 		
