@@ -6,67 +6,67 @@ use \Snap\Prototype\User\Model\Doctrine\User;
 
 class Current {
 
-	private static
+	protected static
 		$vars,
 		$user = null,
 		$logoutHooks = array();
 
 	static public function init(){
-		if ( is_null(self::$user) ){
-			self::$vars = new \Snap\Lib\Core\Session('current_user_info');
+		if ( is_null(static::$user) ){
+			static::$vars = new \Snap\Lib\Core\Session('current_user_info');
 			
-			$id = self::$vars->getVar('id');
+			$id = static::$vars->getVar('id');
 				
 			if ( $id != null ){
 				try{
-					self::$user = User::find((int)$id);
+					static::$user = User::find((int)$id);
 				}catch( \Exception $ex ){
 					// TODO : how can I tell if users is installed?
 				}
 			}
 			
-			if ( self::$user == null ){
-				self::$user = new User();
+			if ( static::$user == null ){
+				static::$user = new User();
 			}
 		}
 	}
 
 	static public function isAdmin(){
-		self::init();
+		static::init();
 		
-		return ( self::$user->isAdmin() );
+		return ( static::$user->isAdmin() );
 	}
 	
 	static public function login( User $user ){
-		self::init();
+		static::init();
 			    	
-		self::$user = $user;
-		self::$vars->setVar( 'id', $user->getId() );
+		static::$user = $user;
+		static::$vars->setVar( 'id', $user->getId() );
 	}
 
 	static public function addLogoutHook( $hook ){
-		self::$logoutHooks[] = $hook;
+		static::$logoutHooks[] = $hook;
 	}
 
 	static public function logout(){
-		self::init();
+		static::init();
 
-		self::$vars->unsetVar( 'id' );
-		self::$user = new User();
+		static::$vars->unsetVar( 'id' );
+		static::$user = new User();
 
-		foreach( self::$logoutHooks as $hook ){
+		foreach( static::$logoutHooks as $hook ){
 			$hook();
 		}
 	}
 
 	static public function loggedIn(){
-		self::init();
+		static::init();
 
-		return !is_null( self::$vars->getVar('id') );
+		return !is_null( static::$vars->getVar('id') );
 	}
 
 	static public function secureCode(){
-		self::init();
+		static::init();
 
 		return \Snap\Node\Core\Krypter::hashCode( self::$vars->getVar('id') );
 	}
@@ -75,7 +75,7 @@ class Current {
 	 * @return users_element_proto
 	 ***********/
 	static public function getUser(){
-		self::init();
-		return self::$user;
+		static::init();
+		return static::$user;
 	}
 }

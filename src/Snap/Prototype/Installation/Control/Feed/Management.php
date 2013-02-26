@@ -37,42 +37,6 @@ class Management extends \Snap\Control\Feed\Converter {
 			$handler = new $class(SITE_DB);
 			
 			// run the installs
-			if ( !empty($installs) ){
-				$errors = array();
-				$success = array();
-				
-				foreach( $installs as $inst ){
-					$inst->getPrototype()->define( $inst->getTables() );
-				}
-				
-				if ( \Snap\Lib\Db\Definition::install( $handler ) ){
-					foreach( $installs as $inst ){
-						$proto = $inst->getPrototype();
-						
-						if ( $proto->install($handler) ){
-							$success[] = $proto->name.' was installed.';
-							
-							$success = array_merge( $success, $inst->runHooks($handler) );
-						}else{
-							$errors[] = $proto->name.' could not be installed';
-						}
-					}
-				}else{
-					error_log( $handler->lastQuery() );
-					error_log( $handler->lastError() );
-					$errors[] = 'Installation failed';
-				}
-				
-				if ( empty($errors) ){
-					$handler->commit();
-					$messages += $success;
-				}else{
-					$handler->rollback();
-					$messages += $errors;
-				}
-			}
-			
-			// run the installs
 			if ( !empty($uninstalls) ){
 				$errors = array();
 				$success = array();
@@ -97,6 +61,42 @@ class Management extends \Snap\Control\Feed\Converter {
 					$errors[] = 'Uninstallation failed';
 				}
 				
+				if ( empty($errors) ){
+					$handler->commit();
+					$messages += $success;
+				}else{
+					$handler->rollback();
+					$messages += $errors;
+				}
+			}
+			
+			// run the installs
+			if ( !empty($installs) ){
+				$errors = array();
+				$success = array();
+			
+				foreach( $installs as $inst ){
+					$inst->getPrototype()->define( $inst->getTables() );
+				}
+			
+				if ( \Snap\Lib\Db\Definition::install( $handler ) ){
+					foreach( $installs as $inst ){
+						$proto = $inst->getPrototype();
+			
+						if ( $proto->install($handler) ){
+							$success[] = $proto->name.' was installed.';
+								
+							$success = array_merge( $success, $inst->runHooks($handler) );
+						}else{
+							$errors[] = $proto->name.' could not be installed';
+						}
+					}
+				}else{
+					error_log( $handler->lastQuery() );
+					error_log( $handler->lastError() );
+					$errors[] = 'Installation failed';
+				}
+			
 				if ( empty($errors) ){
 					$handler->commit();
 					$messages += $success;
