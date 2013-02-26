@@ -65,7 +65,7 @@ class Definition {
 		if ( !empty(self::$tables) ){
 			foreach( self::$tables as $table => $def ){
 				$def->setMode( \Snap\Lib\Db\Support::$UNINSTALL_MODE );
-				\Snap\Lib\Db\Installer::registerAction( $handler, $table, $def );
+				\Snap\Lib\Db\Uninstaller::registerAction( $handler, $table, $def );
 			}
 			
 			return \Snap\Lib\Db\Uninstaller::run( $handler );

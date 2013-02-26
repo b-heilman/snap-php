@@ -5,10 +5,16 @@ namespace Snap\Prototype\Installation\Lib;
 class Uninstaller {
 	
 	public
-		$prototype;
+		$prototype,
+		$tables;
 	
-	public function __construct( \Snap\Prototype\Installation\Lib\Prototype $prototype ){
+	public function __construct( \Snap\Prototype\Installation\Lib\Prototype $prototype, array $tables ){
 		$this->prototype = $prototype;
+		$this->tables = $tables;
+	}
+	
+	public function getTables(){
+		return $this->tables;
 	}
 	
 	public function getPrototype(){

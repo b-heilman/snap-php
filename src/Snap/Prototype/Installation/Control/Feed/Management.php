@@ -16,12 +16,19 @@ class Management extends \Snap\Control\Feed\Converter {
 		
 		if ( $ctrl ){
 			for( $i = 0; $i < $ctrl->count(); $i++ ){
+				/** 
+				 * @var \Snap\Prototype\Installation\Lib\Management 
+				 */
 				$el = $ctrl->get( $i );
 				
-				if ( $el instanceof \Snap\Prototype\Installation\Lib\Installer ){
-					$installs[] = $el;
-				}elseif( $el instanceof \Snap\Prototype\Installation\Lib\Uninstaller ){
-					$uninstalls[] = $el;
+				if ( $el->hasInstalls() ){
+					error_log( 'getting installer' );
+					$installs[] = $el->getInstaller();
+				}
+				
+				if( $el->hasUninstalls() ){
+					error_log( 'getting uninstaller' );
+					$uninstalls[] = $el->getUninstaller();
 				}
 			}
 			
@@ -35,7 +42,7 @@ class Management extends \Snap\Control\Feed\Converter {
 				$success = array();
 				
 				foreach( $installs as $inst ){
-					$inst->getPrototype()->define();
+					$inst->getPrototype()->define( $inst->getTables() );
 				}
 				
 				if ( \Snap\Lib\Db\Definition::install( $handler ) ){
@@ -73,7 +80,7 @@ class Management extends \Snap\Control\Feed\Converter {
 				$handler->autocommit( false );
 				
 				foreach( $uninstalls as $inst ){
-					$inst->getPrototype()->define();
+					$inst->getPrototype()->define( $inst->getTables() );
 				}
 				
 				if ( \Snap\Lib\Db\Definition::uninstall( $handler ) ){

@@ -5,16 +5,22 @@ namespace Snap\Prototype\Installation\Control\Form;
 class Row extends \Snap\Control\Form {
 	
 	protected function processInput( \Snap\Lib\Form\Result $formData ){
-		if ( $formData->hasChanged('proto') ){
+		$changes = $formData->getChanges();
+		
+		if ( !empty($changes) ){
 			$inputs = $formData->getInputs();
+			$installs = array();
+			$uninstalls = array();
 			
-			if ( $inputs['proto']->getValue() ){
-				// install it
-				return new \Snap\Prototype\Installation\Lib\Installer( $this->model->prototype );
-			}else{
-				// uninstall it
-				return new \Snap\Prototype\Installation\Lib\Uninstaller( $this->model->prototype );
+			foreach( $changes as $field ){
+				if ( $inputs[$field]->getValue() ){
+					$installs[] = $field;
+				}else{
+					$uninstalls[] = $field;
+				}
 			}
+			
+			return new \Snap\Prototype\Installation\Lib\Management( $installs, $uninstalls, $this->model->prototype );
 		}
 	
 		return null;

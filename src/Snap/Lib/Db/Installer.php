@@ -48,15 +48,6 @@ class Installer {
 				if ( !$handler->multi( $def->__toString() ) ){
 					return false;
 				}
-				/*
-				$trigger = $def->getTriggersSQL();
-				if ( trim($trigger) != '' ){
-					if ( !$handler->multi( $trigger ) ){
-						return false;
-					}
-				}
-				*/
-				
 			}
 
 			$handler->autocommit( true );
@@ -86,20 +77,6 @@ class Installer {
 			self::$instance = new Installer($db);
 		}
 
-		/*
-		$tables = $table->getParentTables();
-		$c = count($tables);
-
-		for( $i = 0; $i < $c; ++$i ){
-			if ( isset($tables[$i]) && $db->tableExists( $tables[$i] ) ){
-				array_splice( $tables, $i );
-				$i--;
-				$c--;
-			}
-		}
-
-		self::$connections[$tableName] = $tables;
-		*/
 		self::$tables[$tableName] = $table;
 	}
 }

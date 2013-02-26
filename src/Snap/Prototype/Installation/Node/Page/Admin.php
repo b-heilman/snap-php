@@ -37,7 +37,7 @@ class Admin extends Node\Page\Basic
 			static $tableExists = null;
 				
 			if ( $proto && is_null($tableExists) ){
-				$tableExists = $proto->installed;
+				$tableExists = !empty($proto->installs);
 			}
 				
 			return \Snap\Prototype\User\Lib\Current::isAdmin() || !$tableExists;

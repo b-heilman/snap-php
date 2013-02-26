@@ -34,10 +34,10 @@ class Uninstaller{
 			$handler = self::$db;
 
 		$handler->disableValidation();
-
+		error_log( 'running uninstaller : '.count(self::$builds) );
 		while( count(self::$builds) > 0 ){
 			$matched = false;
-
+			
 			foreach( self::$builds as $table => $sql ){
 				if ( empty(self::$connections[$table]) ){
 					$matched = true;
@@ -95,7 +95,7 @@ class Uninstaller{
 
 	static public function registerAction($db, $table, $sql, $triggers ='', $connections = array()){
 		if ( self::$instance == null ){
-			self::$instance = new db_uninstaller($db);
+			self::$instance = new Uninstaller($db);
 		}
 
 		// I need to flip the connections...
