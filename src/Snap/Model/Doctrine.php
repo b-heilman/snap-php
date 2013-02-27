@@ -81,7 +81,7 @@ abstract class Doctrine extends \Snap\Lib\Core\StdObject {
 		if ( is_array($doctrineInfo) ){
 			return static::$entityManager->getRepository( $class )->findOneBy( $doctrineInfo );
 		}else{
-			return static::$entityManager->find( $class,	$doctrineInfo );
+			return static::$entityManager->find( $class, (int)$doctrineInfo );
 		}
 	}
 	

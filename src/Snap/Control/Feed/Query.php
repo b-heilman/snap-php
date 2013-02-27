@@ -5,11 +5,11 @@ namespace Snap\Control\Feed;
 abstract class Query extends \Snap\Control\Feed {
 	
 	private 
-		$executable;
+		$query;
 	
 	protected function parseSettings( $settings = array() ){
 		if ( isset($settings['query']) ){
-			$this->setExecutable( $settings['query'] );
+			$this->setQuery( $settings['query'] );
 		}else{
 			throw new \Exception( get_class($this).' needs a query' );
 		}
@@ -19,27 +19,30 @@ abstract class Query extends \Snap\Control\Feed {
 	
 	public static function getSettings(){
 		return parent::getSettings() + array(
-			'query'   => 'either an instance of db_feed or db_executable'
+			'query'   => 'instance of \Doctrine\ORM\QueryBuilder'
 		);
 	}
 	
-	private function setExecutable( \Snap\Lib\Db\Query\Info $executable ){
-		$this->executable = \Snap\Lib\Db\Executable::create( $executable );
+	private function setQuery( \Doctrine\ORM\QueryBuilder $query ){
+		$this->query = $query;
 	}
 	
-	protected function getExecutable(){
-		return $this->executable;
+	/**
+	 * @return \Doctrine\ORM\QueryBuilder
+	 */
+	protected function getQueryBuilder(){
+		return $this->query;
 	}
 	
 	protected function makeData( $input = array() ){
-		$query = $this->getExecutable();
-		
-		$query->reset();
-		
-		if ( !($res = $query->exec()) ){
-			throw new \Exception("query error: ".$query->getMsg());
-		}else{
-			return new \Snap\Lib\Mvc\Data\Collection( $res->hasNext() ? $res->asArray() : array() );
+		try{
+			$res = $this->query->getResult();
+		}catch( \Exception $ex ){
+			$res = array();
+			error_log( $ex->getMessage().' - '.$ex->getFile().' : '.$ex->getLine() );
+			error_log( $ex->getTraceAsString() );
 		}
+		
+		return new \Snap\Lib\Mvc\Data\Collection( $res );
 	}
 }

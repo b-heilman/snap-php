@@ -26,7 +26,7 @@ class Session {
 		$db = new \Snap\Adapter\Db\Mysql( ANALYTICS_DB );
 			
 		$user = Current::loggedIn()?
-			Current::getUser()->id():null;
+			Current::getUser()->getId():null;
 	
 		$db->insert(ANALYTICS_TABLE, array(
 			ANALYTICS_USER => $user,

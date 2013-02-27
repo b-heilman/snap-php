@@ -30,112 +30,82 @@ class Limiting extends NavigationQuery {
 		);
 	}
 	
-	protected function getPrimaryRow( \Snap\Lib\Db\Executable $query ){
+	protected function getPrimaryRow( \Doctrine\ORM\QueryBuilder $qb, $value ){
 		$res = false;
-		$choice = $this->getUrlValue();
-		$primaryField = $query->getPrimaryField();
 			
-		$query->reset();
+		$qb = clone($qb);
 		
-		if ( $choice != null ){
-			$query->modify( array('where' => array($primaryField => $choice)) );
-			$res = $query->exec();
-		}
-		
-		if ( !$res || !$res->hasNext() ){
-			$query->reset();
+		$qb->add( 'where', 'target.id = :id' )
+			->setParameter( 'id', $value )
+			->setMaxResults( 1 );
 			
-			$query->override(
-				array(
-				'order by' => array($primaryField => false),
-				'limit'    => 1
-				) 
-			);
-			
-			$res = $query->exec();
-		}
-		
-		if ( !$res ){
-			throw new \Exception("query error: ".$query->getMsg());
-		}
-		
-		return ( $res->hasNext() ) ? $res->next() : null;
+		return $qb->getQuery()->getSingleResult();
 	}
 	
-	protected function getPrevRows( Executable $query, $primaryRow ){
+	protected function getPrevRows( \Doctrine\ORM\Query $qb, $rowId ){
 		return $this->getRows( $query, $primaryRow, self::$lt, $this->prevMax );
 	}
 	
-	protected function getNextRows( Executable $query, $primaryRow ){
+	protected function getNextRows( \Doctrine\ORM\Query $qb, $rowId ){
 		return $this->getRows( $query, $primaryRow, self::$gt, $this->nextMax );
 	}
 	
-	protected function getRows( Executable $query, $primaryRow, $op, $limit ){
-		$primaryField = $query->getPrimaryField();
+	protected function getRows( \Doctrine\ORM\Query $qb, $rowId, $op, $limit ){
+		$qb = clone($qb);
 		
-		$query->reset();
-		$query->setOrder(false);
-		
-		if ( $this->prevMax != -1 ){
-			$query->override( array('limit' => $limit) );
+		if ( $limit != -1 ){
+			$qb->setMaxResults( $limit );
 		}
 		
-		$query->modify( array(
-			'where' => new \Snap\Lib\Db\Query\Where(
-				array( new \Snap\Lib\Db\Query\Where\Expression($primaryField, $op ? '>' : '<', $primaryRow[$primaryField]) )
-			)
-		) );
+		$qb->add('orderBy', 'target.id DESC')
+			->add( 'where', 'target.id '.($op ? '>' : '<').' :id')
+			->setParameter( 'id', $rowId );
 		
-		if ( !($res = $query->exec()) ){
-			throw new \Exception("query error: ".$query->getMsg());
-		}
-		
-		return $res->hasNext() ? $res->asArray() : array();
+		return $qb->getQuery()->getResult();
 	}
 	
-	protected function getAllRows( Executable $query ){
-		$query->reset();
-		$query->setOrder(false);
-		
+	protected function getAllRows( \Doctrine\ORM\QueryBuilder $qb ){
 		if ( $this->prevMax != -1 ){
-			$query->override( array('limit' => $this->prevMax) );
+			$qb->setMaxResults( $this->prevMax );
 		}
 		
-		if ( !($res = $query->exec()) ){
-			throw new \Exception("query error: ".$query->getMsg());
-		}
-		
-		return $res->hasNext() ? $res->asArray() : array();
+		return $qb->getQuery()->getResult();
 	}
 	
 	protected function makeData( $input = array() ){
 		$data = new \Snap\Lib\Mvc\Data\Collection();
 		
-		$query = $this->getExecutable();
-		
-		if ( is_null($this->getUrlValue()) ){
-			$tmp = $this->getAllRows( $query );
-			if ( count($tmp) > 0 ){
-				$data->add( $tmp );
-				$data->setVar( 'active', 0 );
-			}
-		}else{
-			$primaryRow = $this->getPrimaryRow( $query );
+		try{
+			$qb = $this->getQueryBuilder();
+			$value = $this->getUrlValue();
 			
-			if ( $primaryRow != null ) {
-				$tmp = $this->getNextRows( $query,$primaryRow );
+			if ( is_null($value) ){
+				$tmp = $this->getAllRows( $qb );
 				if ( count($tmp) > 0 ){
 					$data->add( $tmp );
+					$data->setVar( 'active', 0 );
 				}
+			}else{
+				$primaryRow = $this->getPrimaryRow( $qb, $value );
 				
-				$data->setVar( 'active', $data->count() );
-				$data->push( $primaryRow );
-				
-				$tmp = $this->getPrevRows( $query,$primaryRow );
-				if ( count($tmp) > 0 ){
-					$data->add( $tmp );
+				if ( $primaryRow != null ) {
+					$tmp = $this->getNextRows( $qb, $primaryRow->getId() );
+					if ( count($tmp) > 0 ){
+						$data->add( $tmp );
+					}
+					
+					$data->setVar( 'active', $data->count() );
+					$data->push( $primaryRow );
+					
+					$tmp = $this->getPrevRows( $qb, $primaryRow->getId() );
+					if ( count($tmp) > 0 ){
+						$data->add( $tmp );
+					}
 				}
 			}
+		}catch( \Exception $ex ){
+			error_log( $ex->getMessage().' - '.$ex->getFile().' : '.$ex->getLine() );
+			error_log( $ex->getTraceAsString() );
 		}
 		
 		return $data;

@@ -12,16 +12,15 @@ class Limiting extends \Snap\Control\Feed\Limiting {
 			throw new \Exception('type is required for '.get_class($this) );
 		}
 		
-		$this->type = \Snap\Prototype\Topic\Lib\Type::getId( $settings['type'] );
+		$qb = \Snap\Model\Doctrine::getEntityManager()->createQueryBuilder();
+		//TODO : not needing to use target would be nice... very hacky
+		$qb->add('select', 'target')
+			->add('from', 'Snap\Prototype\Topic\Model\Doctrine\Topic target')
+			->innerJoin('target.type', 'tt')
+			->add('where', 'tt.id = :type')
+			->setParameter('type', $settings['type']);
 		
-		$settings['query'] = new \Snap\Lib\Db\Executable(
-			new \Snap\Lib\Db\Query(array(
-				'from'     => TOPIC_TABLE,
-				'where'    => array( TOPIC_TYPE_ID => $this->type ),
-			)),
-			\Snap\Prototype\Topic\Lib\Element::getAdapter(),
-			TOPIC_ID
-		);
+		$settings['query'] = $qb;
 			
 		parent::__construct( $settings );
 	}

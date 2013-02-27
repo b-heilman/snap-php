@@ -22,7 +22,7 @@ class Create extends \Snap\Model\Form {
 		));
 		
 		$this->setValidations(array(
-			new \Snap\Lib\Form\Validation( 'comment', 'You need something for a comment' )
+			new \Snap\Lib\Form\Validation\Required( 'comment', 'You need something for a comment' )
 		));
 	}
 }

@@ -56,7 +56,7 @@ class Base extends \Snap\Node\Core\Comment
 				ANALYTICS_TABLE,
 				array( ANALYTICS_ID => \Snap\Prototype\Analytics\Lib\Session::getId() ),
 				array( ANALYTICS_USER => \Snap\Prototype\User\Lib\Current::loggedIn() ?
-					\Snap\Prototype\User\Lib\Current::getUser()->id() : null
+					\Snap\Prototype\User\Lib\Current::getUser()->getId() : null
 				)
 			);
 		}
