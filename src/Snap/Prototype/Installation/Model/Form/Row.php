@@ -18,8 +18,10 @@ class Row extends \Snap\Model\Form {
 		
 		parent::__construct();
 
-		$this->setInputs(array(
-			new \Snap\Lib\Form\Input\Checkbox( 'proto', 1, $prototype->installed )
-		));
+		$inputs = array();
+		foreach( $prototype->installs as $table => $installed ){
+			$inputs[] = new \Snap\Lib\Form\Input\Checkbox( $table, 1, $installed );
+		}
+		$this->setInputs( $inputs );
 	}
 }	

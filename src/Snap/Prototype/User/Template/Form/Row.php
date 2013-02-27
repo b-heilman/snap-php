@@ -4,6 +4,6 @@ use \Snap\Node\Form\Element;
 
 $this->includeParentTemplate();
 
-if ( !$prototype->installed ){
+if ( empty($prototype->installs) ){
 	$this->loadTemplate( $this->getTemplate('Form/Create.php') );
 }

@@ -1,6 +1,9 @@
+<b><?php echo $prototype->name; ?></b>
 <?php
 
-$this->append( new \Snap\Node\Form\Element(array(
-	'input' => new \Snap\Node\Form\Input\Checkbox($proto),
-	'label' => $prototype->name
-)), 'checkbox' );
+foreach( $prototype->installs as $table => $installed ){
+	$this->append( new \Snap\Node\Form\Element(array(
+		'input' => new \Snap\Node\Form\Input\Checkbox(${$table}),
+		'label' => $table
+	)), 'checkbox' );
+}
