@@ -39,7 +39,6 @@ class Prototype {
 			$row = stream_resolve_include_path( $this->dir.'/Node/Install/Row.php' );
 			$class = $row ? $this->name.'\Node\Install\Row' : '\Snap\Prototype\Installation\Node\Install\Row';
 			$p = $this;
-			
 			// TODO : this is a bit hacky, need to figure out something better
 			// was for a bug, where the user row is getting defined early and thus only prototype feed consumed
 			$this->installRow = function () use ($class, $p)  {
@@ -118,13 +117,5 @@ class Prototype {
 				$this->defineTable( $this->tables[$table] );
 			}
 		}
-	}
-	
-	public function install( \Snap\Adapter\Db $db ){
-		return $db->insert( PROTOTYPE_TABLE, array('name' => $this->name) );
-	}
-	
-	public function uninstall( \Snap\Adapter\Db $db ){
-		return $db->delete( PROTOTYPE_TABLE, array('name' => $this->name) );
 	}
 }

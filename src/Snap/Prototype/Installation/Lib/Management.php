@@ -5,31 +5,35 @@ namespace Snap\Prototype\Installation\Lib;
 class Management {
 	
 	protected 
-		$installs,
-		$uninstalls,
+		$installer,
+		$uninstaller,
 		$prototype;
 	
 	public function __construct( array $installs, array $uninstalls, Prototype $prototype ){
-		error_log( print_r($installs,true) );
-		error_log( print_r($uninstalls,true) );
-		$this->installs = $installs;
-		$this->uninstalls = $uninstalls;
+		$this->installer = empty($installs)
+			? null
+			: new \Snap\Prototype\Installation\Lib\Installer( $prototype, $installs );
+		
+		$this->uninstaller = empty($uninstalls)
+			? null
+			: new \Snap\Prototype\Installation\Lib\Uninstaller( $prototype, $uninstalls );
+		
 		$this->prototype = $prototype;
 	}
 	
-	public function hasInstalls(){
-		return !empty($this->installs);
+	public function hasInstaller(){
+		return !is_null($this->installer);
 	}
 	
-	public function hasUninstalls(){
-		return !empty($this->uninstalls);
+	public function hasUninstaller(){
+		return !is_null($this->uninstaller);
 	}
 	
 	public function getInstaller(){
-		return new \Snap\Prototype\Installation\Lib\Installer( $this->prototype, $this->installs );
+		return $this->installer;
 	}
 	
 	public function getUninstaller(){
-		return new \Snap\Prototype\Installation\Lib\Uninstaller( $this->prototype, $this->uninstalls );
+		return $this->uninstaller;
 	}
 }

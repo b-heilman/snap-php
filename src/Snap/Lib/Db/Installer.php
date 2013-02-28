@@ -30,7 +30,6 @@ class Installer {
 		self::$db = $db;
 	}
 
-	
 	static public function run( \Snap\Adapter\Db $handler ){
 		$handler->disableValidation();
 
@@ -39,14 +38,12 @@ class Installer {
 			
 			foreach( self::$tables as $table => $def ){
 				/* @var $def \Snap\Lib\Db\Support */
-				
-				if ( $handler->tableExists( $table ) ){
-					//TODO instead of dropping the table, can we upgrade the table?
-					$handler->tableDrop( $table );
-				}
-
-				if ( !$handler->multi( $def->__toString() ) ){
-					return false;
+				// TODO instead of dropping the table, can we upgrade the table?
+				// $handler->tableDrop( $table );
+				if ( !$handler->tableExists( $table ) ){
+					if ( !$handler->multi( $def->__toString() ) ){
+						return false;
+					}
 				}
 			}
 

@@ -10,11 +10,11 @@ class Row extends \Snap\Prototype\Installation\Control\Form\Row {
 	
 	protected function processInput( \Snap\Lib\Form\Result $formData ){
 		$rtn = parent::processInput( $formData );
-	
-		if ( $rtn instanceof \Snap\Prototype\Installation\Lib\Installer ){
+		
+		if ( $rtn instanceof \Snap\Prototype\Installation\Lib\Management && $rtn->hasInstaller() ){
 			$model = $this->model;
 			
-			$rtn->addPostInstallHook( function( $db ) use ( $rtn, $formData, $model ){
+			$rtn->getInstaller()->addPostInstallHook( function( $db ) use ( $rtn, $formData, $model ){
 				// Code from Form/Create
 				$inputs = $formData->getInputs();
 				

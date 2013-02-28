@@ -34,7 +34,7 @@ class Uninstaller{
 			$handler = self::$db;
 
 		$handler->disableValidation();
-		error_log( 'running uninstaller : '.count(self::$builds) );
+		
 		while( count(self::$builds) > 0 ){
 			$matched = false;
 			

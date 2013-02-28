@@ -4,7 +4,7 @@ namespace Snap\Prototype\Installation\Node\Form;
 
 class Row extends \Snap\Node\Core\Form {
 	
-	public function baseClass(){
+	protected function baseClass(){
 		return 'prototype-row';
 	}
 	

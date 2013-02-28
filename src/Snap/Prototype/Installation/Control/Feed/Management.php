@@ -21,13 +21,11 @@ class Management extends \Snap\Control\Feed\Converter {
 				 */
 				$el = $ctrl->get( $i );
 				
-				if ( $el->hasInstalls() ){
-					error_log( 'getting installer' );
+				if ( $el->hasInstaller() ){
 					$installs[] = $el->getInstaller();
 				}
 				
-				if( $el->hasUninstalls() ){
-					error_log( 'getting uninstaller' );
+				if( $el->hasUninstaller() ){
 					$uninstalls[] = $el->getUninstaller();
 				}
 			}
@@ -51,11 +49,7 @@ class Management extends \Snap\Control\Feed\Converter {
 					foreach( $uninstalls as $inst ){
 						$proto = $inst->getPrototype();
 						
-						if ( $proto->uninstall($handler) ){
-							$success[] = $proto->name.' was uninstalled.';
-						}else{
-							$errors[] = $proto->name.' could not be uninstalled';
-						}
+						$success[] = $proto->name.' was uninstalled.';
 					}
 				}else{
 					$errors[] = 'Uninstallation failed';
@@ -83,13 +77,8 @@ class Management extends \Snap\Control\Feed\Converter {
 					foreach( $installs as $inst ){
 						$proto = $inst->getPrototype();
 			
-						if ( $proto->install($handler) ){
-							$success[] = $proto->name.' was installed.';
-								
-							$success = array_merge( $success, $inst->runHooks($handler) );
-						}else{
-							$errors[] = $proto->name.' could not be installed';
-						}
+						$success[] = $proto->name.' was installed.';
+						$success = array_merge( $success, $inst->runHooks($handler) );
 					}
 				}else{
 					error_log( $handler->lastQuery() );

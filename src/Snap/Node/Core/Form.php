@@ -52,7 +52,7 @@ class Form extends \Snap\Node\Core\Template {
 		$this->messagingRollup = isset($settings['messagingRollup']) ? $settings['messagingRollup'] : true;
 		
 		$this->target = isset($settings['target']) ? $settings['target'] : '_self';
-		$this->action = isset($settings['action']) ? $settings['action'] : '';
+		$this->action = isset($settings['action']) ? $settings['action'] : static::$pageURI;
 		
 		parent::parseSettings($settings);
     }
@@ -68,7 +68,7 @@ class Form extends \Snap\Node\Core\Template {
 			: 'application/x-www-form-urlencoded';
 	}
 	
-	public function baseClass(){
+	protected function baseClass(){
 		return 'snap-form '.get_class($this);
 	}
 	

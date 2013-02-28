@@ -6,6 +6,7 @@ class StdObject {
 	
 	static protected 
 		$projectRoot,
+		$pageURI,
 		$pageRequest,
 		$pageScript = null,
 		$pageData,
@@ -32,6 +33,7 @@ class StdObject {
 				$path[$check] = substr($p, 0, $pos);
 			}
 			
+			error_log( print_r($_SERVER,true) );
 			// build the actual request path
 			while( !empty($url) ){
 				if ( strcmp($path[0], array_shift($url)) === 0 ){
@@ -40,6 +42,7 @@ class StdObject {
 			}
 			
 			// this is supposed to be the reflexive url to the page, sans any GET data
+			self::$pageURI = $_SERVER['REQUEST_URI'];
 			self::$pageRequest = implode( '/', $request );
 			self::$pageScript = $_SERVER['SCRIPT_NAME'];
 			self::$pageData = $path;

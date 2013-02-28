@@ -140,7 +140,7 @@ abstract class Page extends Node\Core\Template
 			$data = static::$pageData;
 		}
 		
-		$rootUrl = static::$pageScript;
+		$rootUrl = static::$pageRequest;
 		
 		$this->router = $router;
 		$this->fileManager = new \Snap\Lib\File\Manager( $rootUrl );
