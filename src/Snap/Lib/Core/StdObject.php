@@ -33,7 +33,6 @@ class StdObject {
 				$path[$check] = substr($p, 0, $pos);
 			}
 			
-			error_log( print_r($_SERVER,true) );
 			// build the actual request path
 			while( !empty($url) ){
 				if ( strcmp($path[0], array_shift($url)) === 0 ){
