@@ -15,5 +15,3 @@ if ( isset($type) ){
 		'label' => 'Type'
 	)) );
 }
-
-$this->append( new \Snap\Node\Form\Control() );

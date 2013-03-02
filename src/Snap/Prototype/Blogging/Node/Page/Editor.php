@@ -35,7 +35,7 @@ class Editor extends Node\Page\Basic {
 	protected function makeTemplateContent(){
 		$login = new \Snap\Prototype\User\Model\Form\Login();
 		$logout = new \Snap\Prototype\User\Model\Form\Logout();
-		$editor = new \Snap\Prototype\Topic\Model\Form\Create( $this->blogType );
+		$editor = new \Snap\Prototype\Blogging\Model\Form\Create( $this->blogType );
 		
 		$this->login = new \Snap\Prototype\User\Node\Form\Login( array('model' => $login) );
 		

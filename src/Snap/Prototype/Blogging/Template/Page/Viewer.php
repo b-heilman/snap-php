@@ -7,7 +7,7 @@ $this->append( new \Snap\Prototype\Topic\Control\Feed\Limiting(array(
 	'navVar'       => $blogNavVar, //'topic'
 )) );
 
-$this->append( new \KPflueger\Node\View\Content(array(
+$this->append( new \Snap\Prototype\Blogging\Node\Content(array(
 		'inputStream' => $blogContent,
 		'class'       => 'content-view'
 )) );

@@ -8,15 +8,11 @@ class Create extends \Snap\Prototype\Topic\Model\Form\Create {
 		parent::__construct( $type );
 		
 		$this->setInputs(array(
-			new \Snap\Lib\Form\Input\Formatted( 'content', '', function( $value ){
-				return "<!-- translator : template -->\n".$value;
-			})
+			new \Snap\Lib\Form\Input\Basic( 'content', '' )
 		));
 			
 		$this->setValidations(array(
-			new \Snap\Lib\Form\Validation\Generic('content', function( $value ){
-				return $value == '';
-			}, 'You need to submit some content')
+			new \Snap\Lib\Form\Validation\Required( 'content', 'You need to submit some content' )
 		));
 	}
 }

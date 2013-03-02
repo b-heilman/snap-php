@@ -2,6 +2,9 @@
 
 namespace Snap\Prototype\Blogging\Model\Doctrine;
 
+/**
+ * @Entity @Table(name="blogs")
+ **/
 class Blog extends \Snap\Prototype\Topic\Model\Doctrine\Topic {
 	
 	protected

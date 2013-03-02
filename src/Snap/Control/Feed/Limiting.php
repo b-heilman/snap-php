@@ -38,8 +38,10 @@ class Limiting extends NavigationQuery {
 		$qb->add( 'where', 'target.id = :id' )
 			->setParameter( 'id', $value )
 			->setMaxResults( 1 );
-			
-		return $qb->getQuery()->getSingleResult();
+
+		$q = $qb->getQuery();
+		error_log( $q->getSQL() );
+		return $q->getSingleResult();
 	}
 	
 	protected function getPrevRows( \Doctrine\ORM\Query $qb, $rowId ){
@@ -61,15 +63,25 @@ class Limiting extends NavigationQuery {
 			->add( 'where', 'target.id '.($op ? '>' : '<').' :id')
 			->setParameter( 'id', $rowId );
 		
-		return $qb->getQuery()->getResult();
+		$q = $qb->getQuery();
+		error_log( $q->getSQL() );
+		
+		return $q->getResult();
 	}
 	
 	protected function getAllRows( \Doctrine\ORM\QueryBuilder $qb ){
+		//$qb = clone($qb);
+		
 		if ( $this->prevMax != -1 ){
 			$qb->setMaxResults( $this->prevMax );
 		}
 		
-		return $qb->getQuery()->getResult();
+		$q = $qb->getQuery();
+		error_log( 'All Rows' );
+		error_log( $q->getSQL() );
+		$res = $q->getResult();
+		error_log( count($res) );
+		return $res;
 	}
 	
 	protected function makeData( $input = array() ){

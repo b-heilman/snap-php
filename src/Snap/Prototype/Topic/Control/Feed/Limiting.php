@@ -17,7 +17,7 @@ class Limiting extends \Snap\Control\Feed\Limiting {
 		$qb->add('select', 'target')
 			->add('from', 'Snap\Prototype\Topic\Model\Doctrine\Topic target')
 			->innerJoin('target.type', 'tt')
-			->add('where', 'tt.id = :type')
+			->add('where', 'tt.name = :type')
 			->setParameter('type', $settings['type']);
 		
 		$settings['query'] = $qb;

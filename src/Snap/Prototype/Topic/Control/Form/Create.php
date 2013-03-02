@@ -4,10 +4,6 @@ namespace Snap\Prototype\Topic\Control\Form;
 
 class Create extends \Snap\Control\Form {
 	
-	protected function formatContent( $content){
-		return $content;
-	}
-	
 	protected function formatTitle( $title ){
 		return $title;
 	}

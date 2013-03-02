@@ -7,6 +7,7 @@ use
 
 /**
  * @Entity @Table(name="users")
+ * @InheritanceType("TABLE_PER_CLASS")
  **/
 class User extends \Snap\Model\Doctrine {
 	

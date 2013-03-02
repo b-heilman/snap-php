@@ -4,6 +4,7 @@ namespace Snap\Prototype\Topic\Model\Doctrine;
 
 /**
  * @Entity @Table(name="topics")
+ * @InheritanceType("TABLE_PER_CLASS")
  **/
 class Topic extends \Snap\Model\Doctrine {
 
