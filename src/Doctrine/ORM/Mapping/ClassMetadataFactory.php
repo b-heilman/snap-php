@@ -89,12 +89,12 @@ class ClassMetadataFactory extends AbstractClassMetadataFactory
     {
         /* @var $class ClassMetadata */
         /* @var $parent ClassMetadata */
-        if ($parent) {
-            $class->setInheritanceType($parent->inheritanceType);
+    	if ($parent) {
+        	$class->setInheritanceType($parent->inheritanceType);
             $class->setDiscriminatorColumn($parent->discriminatorColumn);
             $class->setIdGeneratorType($parent->generatorType);
-            $this->addInheritedFields($class, $parent);
-            $this->addInheritedRelations($class, $parent);
+            $this->addInheritedFields($class, $parent, $parent->isInheritanceTypeTablePerClass() );
+            $this->addInheritedRelations($class, $parent, $parent->isInheritanceTypeTablePerClass() );
             $class->setIdentifier($parent->identifier);
             $class->setVersioned($parent->isVersioned);
             $class->setVersionField($parent->versionField);
@@ -157,7 +157,8 @@ class ClassMetadataFactory extends AbstractClassMetadataFactory
 
         $class->setParentClasses($nonSuperclassParents);
 
-        if ( $class->isRootEntity() && ! $class->isInheritanceTypeNone() && ! $class->discriminatorMap) {
+        if ( $class->isRootEntity() && ! $class->isInheritanceTypeNone() && ! $class->discriminatorMap
+        	&& !$class->isInheritanceTypeTablePerClass() ) {
             $this->addDefaultDiscriminatorMap($class);
         }
 
@@ -189,7 +190,9 @@ class ClassMetadataFactory extends AbstractClassMetadataFactory
         $class->validateLifecycleCallbacks($this->getReflectionService());
 
         // verify inheritance
-        if ( ! $class->isMappedSuperclass && !$class->isInheritanceTypeNone()) {
+        if ( $class->isInheritanceTypeTablePerClass() ){
+        	// TODO : upgrade - nothing right now
+        }else if ( ! $class->isMappedSuperclass && !$class->isInheritanceTypeNone() ) {
             if ( ! $parent) {
                 if (count($class->discriminatorMap) == 0) {
                     throw MappingException::missingDiscriminatorMap($class->name);
@@ -276,17 +279,29 @@ class ClassMetadataFactory extends AbstractClassMetadataFactory
      * @param \Doctrine\ORM\Mapping\ClassMetadata $subClass
      * @param \Doctrine\ORM\Mapping\ClassMetadata $parentClass
      */
-    private function addInheritedFields(ClassMetadata $subClass, ClassMetadata $parentClass)
+    private function addInheritedFields(ClassMetadata $subClass, ClassMetadata $parentClass, $seperateTables = false)
     {
-        foreach ($parentClass->fieldMappings as $mapping) {
-            if ( ! isset($mapping['inherited']) && ! $parentClass->isMappedSuperclass) {
-                $mapping['inherited'] = $parentClass->name;
-            }
-            if ( ! isset($mapping['declared'])) {
-                $mapping['declared'] = $parentClass->name;
-            }
-            $subClass->addInheritedFieldMapping($mapping);
+        if ( $seperateTables ){
+        	foreach ($parentClass->fieldMappings as $mapping) {
+        		//if ( ! isset($mapping['inherited']) && ! $parentClass->isMappedSuperclass) {
+        		$mapping['inherited'] = $subClass->name;
+        		//}
+        		$mapping['declared'] = $subClass->name;
+        		
+        		$subClass->addInheritedFieldMapping($mapping);
+        	}
+        }else{
+        	foreach ($parentClass->fieldMappings as $mapping) {
+        		if ( ! isset($mapping['inherited']) && ! $parentClass->isMappedSuperclass) {
+        			$mapping['inherited'] = $parentClass->name;
+        		}
+        		if ( ! isset($mapping['declared'])) {
+        			$mapping['declared'] = $parentClass->name;
+        		}
+        		$subClass->addInheritedFieldMapping($mapping);
+        	}
         }
+    	
         foreach ($parentClass->reflFields as $name => $field) {
             $subClass->reflFields[$name] = $field;
         }
@@ -299,24 +314,33 @@ class ClassMetadataFactory extends AbstractClassMetadataFactory
      * @param \Doctrine\ORM\Mapping\ClassMetadata $parentClass
      * @throws MappingException
      */
-    private function addInheritedRelations(ClassMetadata $subClass, ClassMetadata $parentClass)
+    private function addInheritedRelations(ClassMetadata $subClass, ClassMetadata $parentClass, $seperateTables = false)
     {
-        foreach ($parentClass->associationMappings as $field => $mapping) {
-            if ($parentClass->isMappedSuperclass) {
-                if ($mapping['type'] & ClassMetadata::TO_MANY && !$mapping['isOwningSide']) {
-                    throw MappingException::illegalToManyAssocationOnMappedSuperclass($parentClass->name, $field);
-                }
-                $mapping['sourceEntity'] = $subClass->name;
-            }
-
-            //$subclassMapping = $mapping;
-            if ( ! isset($mapping['inherited']) && ! $parentClass->isMappedSuperclass) {
-                $mapping['inherited'] = $parentClass->name;
-            }
-            if ( ! isset($mapping['declared'])) {
-                $mapping['declared'] = $parentClass->name;
-            }
-            $subClass->addInheritedAssociationMapping($mapping);
+        if ( $seperateTables ){
+        	foreach ($parentClass->associationMappings as $field => $mapping) {
+        		$mapping['inherited'] = $subClass->name;
+	        	$mapping['declared'] = $subClass->name;
+	        	$mapping['sourceEntity'] = $subClass->name;
+	        	
+	        	$subClass->addInheritedAssociationMapping($mapping);
+        	}
+        }else{
+        	foreach ($parentClass->associationMappings as $field => $mapping) {
+	        	if ($parentClass->isMappedSuperclass) {
+	                if ($mapping['type'] & ClassMetadata::TO_MANY && !$mapping['isOwningSide']) {
+	                    throw MappingException::illegalToManyAssocationOnMappedSuperclass($parentClass->name, $field);
+	                }
+	                $mapping['sourceEntity'] = $subClass->name;
+	            }
+            
+	            if ( ! isset($mapping['inherited']) && ! $parentClass->isMappedSuperclass) {
+	                $mapping['inherited'] = $parentClass->name;
+	            }
+	            if ( ! isset($mapping['declared'])) {
+	                $mapping['declared'] = $parentClass->name;
+	            }
+	            $subClass->addInheritedAssociationMapping($mapping);
+        	}
         }
     }
 

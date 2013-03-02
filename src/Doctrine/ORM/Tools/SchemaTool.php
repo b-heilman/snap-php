@@ -149,7 +149,7 @@ class SchemaTool
             $columns    = array(); // table columns
 
             if ($class->isInheritanceTypeSingleTable()) {
-                $columns = $this->_gatherColumns($class, $table);
+            	$columns = $this->_gatherColumns($class, $table);
                 $this->_gatherRelationsSql($class, $table, $schema);
 
                 // Add the discriminator column
@@ -168,7 +168,7 @@ class SchemaTool
                     $processedClasses[$subClassName] = true;
                 }
             } else if ($class->isInheritanceTypeJoined()) {
-                // Add all non-inherited fields as columns
+            	// Add all non-inherited fields as columns
                 $pkColumns = array();
                 foreach ($class->fieldMappings as $fieldName => $mapping) {
                     if ( ! isset($mapping['inherited'])) {
@@ -207,9 +207,10 @@ class SchemaTool
                 $table->setPrimaryKey($pkColumns);
 
             } else if ($class->isInheritanceTypeTablePerClass()) {
+            	// TODO - upgrade : I don't need this feature, so didn't do it
                 throw ORMException::notSupported();
             } else {
-                $this->_gatherColumns($class, $table);
+            	$this->_gatherColumns($class, $table);
                 $this->_gatherRelationsSql($class, $table, $schema);
             }
 
