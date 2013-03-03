@@ -282,10 +282,9 @@ class ClassMetadataFactory extends AbstractClassMetadataFactory
     private function addInheritedFields(ClassMetadata $subClass, ClassMetadata $parentClass, $seperateTables = false)
     {
         if ( $seperateTables ){
+        	error_log( 'seperateTables' );
         	foreach ($parentClass->fieldMappings as $mapping) {
-        		//if ( ! isset($mapping['inherited']) && ! $parentClass->isMappedSuperclass) {
         		$mapping['inherited'] = $subClass->name;
-        		//}
         		$mapping['declared'] = $subClass->name;
         		
         		$subClass->addInheritedFieldMapping($mapping);
@@ -317,6 +316,7 @@ class ClassMetadataFactory extends AbstractClassMetadataFactory
     private function addInheritedRelations(ClassMetadata $subClass, ClassMetadata $parentClass, $seperateTables = false)
     {
         if ( $seperateTables ){
+        	error_log( 'seperateTables' );
         	foreach ($parentClass->associationMappings as $field => $mapping) {
         		$mapping['inherited'] = $subClass->name;
 	        	$mapping['declared'] = $subClass->name;

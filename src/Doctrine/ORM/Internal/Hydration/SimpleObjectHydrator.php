@@ -89,7 +89,10 @@ class SimpleObjectHydrator extends AbstractHydrator
         $data       = array();
 
         // We need to find the correct entity class name if we have inheritance in resultset
-        if ($this->class->inheritanceType !== ClassMetadata::INHERITANCE_TYPE_NONE) {
+        
+        if ($this->class->inheritanceType === ClassMetadata::INHERITANCE_TYPE_TABLE_PER_CLASS ){
+        	
+        }elseif ($this->class->inheritanceType !== ClassMetadata::INHERITANCE_TYPE_NONE) {
             $discrColumnName = $this->_platform->getSQLResultCasing($this->class->discriminatorColumn['name']);
 
             if ( ! isset($sqlResult[$discrColumnName])) {

@@ -424,6 +424,7 @@ class SqlWalker implements TreeWalker
 
         switch($targetEntity->inheritanceType) {
             case ClassMetadata::INHERITANCE_TYPE_NONE:
+            case ClassMetadata::INHERITANCE_TYPE_TABLE_PER_CLASS:
                 break;
             case ClassMetadata::INHERITANCE_TYPE_JOINED:
                 // The classes in the inheritance will be added to the query one by one,

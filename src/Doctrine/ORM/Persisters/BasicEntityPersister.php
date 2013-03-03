@@ -1125,6 +1125,7 @@ class BasicEntityPersister
             if ($assoc['type'] & ClassMetadata::TO_ONE && ($assoc['fetch'] == ClassMetadata::FETCH_EAGER || !$assoc['isOwningSide'])) {
                 $eagerEntity = $this->_em->getClassMetadata($assoc['targetEntity']);
 
+                // TODO - upgrade : do i care about this?
                 if ($eagerEntity->inheritanceType != ClassMetadata::INHERITANCE_TYPE_NONE) {
                     continue; // now this is why you shouldn't use inheritance
                 }

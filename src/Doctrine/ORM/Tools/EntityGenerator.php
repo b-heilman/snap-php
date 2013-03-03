@@ -789,7 +789,9 @@ public function __construct()
 
     private function generateDiscriminatorColumnAnnotation($metadata)
     {
-        if ($metadata->inheritanceType != ClassMetadataInfo::INHERITANCE_TYPE_NONE) {
+    	if ( $metadata->inheritanceType === ClassMetadataInfo::INHERITANCE_TYPE_TABLE_PER_CLASS ){
+    		// TODO : don't think I need this
+    	}elseif ($metadata->inheritanceType != ClassMetadataInfo::INHERITANCE_TYPE_NONE) {
             $discrColumn = $metadata->discriminatorValue;
             $columnDefinition = 'name="' . $discrColumn['name']
                 . '", type="' . $discrColumn['type']
@@ -801,7 +803,10 @@ public function __construct()
 
     private function generateDiscriminatorMapAnnotation($metadata)
     {
-        if ($metadata->inheritanceType != ClassMetadataInfo::INHERITANCE_TYPE_NONE) {
+    	
+        if ( $metadata->inheritanceType === ClassMetadataInfo::INHERITANCE_TYPE_TABLE_PER_CLASS ){
+    		// TODO : don't think I need this
+    	}elseif ($metadata->inheritanceType != ClassMetadataInfo::INHERITANCE_TYPE_NONE) {
             $inheritanceClassMap = array();
 
             foreach ($metadata->discriminatorMap as $type => $class) {
