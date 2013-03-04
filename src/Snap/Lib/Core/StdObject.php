@@ -6,10 +6,10 @@ class StdObject {
 	
 	static protected 
 		$projectRoot,
-		$pageURI,
-		$pageRequest,
-		$pageScript = null,
-		$pageData,
+		$pageURI,           // entire called script
+		$pageRequest,       // relative reference to page, no path data included
+		$pageScript = null, // direct reference to page
+		$pageData,          // any extra url data
 		$phpRoot,
 		$webRoot,
 		$fileDocuments = array(),
@@ -21,30 +21,39 @@ class StdObject {
 	
 	static protected function init(){
 		if ( static::$pageScript == null ){
-			$path = explode( '/', $_SERVER['REQUEST_URI'] );
-			$url = explode( '/', $_SERVER['SCRIPT_NAME'] );
-			$request = array();
-			
-			// clean up the very last element of the path, as it might have GET data
-			$check = count($path) - 1;
-			$p = $path[$check];
-			$pos = strpos( $p, '?' );
-			if ( $pos !== false ){
-				$path[$check] = substr($p, 0, $pos);
-			}
-			
-			// build the actual request path
-			while( !empty($url) ){
-				if ( strcmp($path[0], array_shift($url)) === 0 ){
-					$request[] = array_shift($path);
+			if ( isset($_SERVER['REDIRECT_URL']) ){
+				$path = explode( '/', $_SERVER['REQUEST_URI'] );
+				$url = explode( '/', $_SERVER['SCRIPT_NAME'] );
+				$request = array();
+				
+				// clean up the very last element of the path, as it might have GET data
+				$check = count($path) - 1;
+				$p = $path[$check];
+				$pos = strpos( $p, '?' );
+				if ( $pos !== false ){
+					$path[$check] = substr($p, 0, $pos);
 				}
+				
+				// build the actual request path
+				while( !empty($url) ){
+					if ( strcmp($path[0], array_shift($url)) === 0 ){
+						$request[] = array_shift($path);
+					}
+				}
+				
+				// this is supposed to be the reflexive url to the page, sans any GET data
+				self::$pageURI     = $_SERVER['REQUEST_URI'];
+				self::$pageScript  = $_SERVER['SCRIPT_NAME'];
+				self::$pageRequest = implode( '/', $request );
+				self::$pageData    = $path;
+			}else{
+				self::$pageURI     = $_SERVER['REQUEST_URI'];
+				self::$pageScript  = $_SERVER['SCRIPT_NAME'];
+				self::$pageRequest = $_SERVER['SCRIPT_NAME'];
+				self::$pageData    = isset($_SERVER['PATH_INFO']) 
+					? explode( '/', substr($_SERVER['PATH_INFO'], 1) )
+					: array();
 			}
-			
-			// this is supposed to be the reflexive url to the page, sans any GET data
-			self::$pageURI = $_SERVER['REQUEST_URI'];
-			self::$pageRequest = implode( '/', $request );
-			self::$pageScript = $_SERVER['SCRIPT_NAME'];
-			self::$pageData = $path;
 			
 			// figure out internal roots
 			$cwd = getcwd();
