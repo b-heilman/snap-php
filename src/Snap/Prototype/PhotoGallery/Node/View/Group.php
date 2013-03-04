@@ -35,7 +35,7 @@ class Group extends \Snap\Node\Core\View
 		}
 		
 		$accessor = $group->getAccessor();
-		$manager = $this->page->getManager();
+		$manager = $this->page->fileManager;
 		$images = $group->getImages();
 		$links = array();
 		

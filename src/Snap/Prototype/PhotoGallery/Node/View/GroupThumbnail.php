@@ -7,14 +7,14 @@ class GroupThumbnail extends \Snap\Node\Core\View
 
 	public function getStyles(){
 		return array(
-				new \Snap\Lib\Linking\Resource\Local( $this )
+			new \Snap\Lib\Linking\Resource\Local( $this )
 		);
 	}
 	
 	public function getActions(){
 		return array(
-				new \Snap\Lib\Linking\Resource\Local( $this ),
-				new \Snap\Lib\Linking\Resource\Local( $this, 'jquery.carousel.js' )
+			new \Snap\Lib\Linking\Resource\Local( $this ),
+			new \Snap\Lib\Linking\Resource\Local( $this, 'jquery.carousel.js' )
 		);
 	}
 	
@@ -24,7 +24,7 @@ class GroupThumbnail extends \Snap\Node\Core\View
 
 	protected function makeProcessContent(){
 		$group = $this->getStreamData()->get(0);
-		$manager = $this->page->getManager();
+		$manager = $this->page->fileManager;
 		$accessor = $group->getAccessor();
 		
 		return array(
