@@ -26,7 +26,7 @@ class Collection
 			$this->variables = $data->variables;
 		}elseif ( $data instanceof \ArrayAccess && $data instanceof \Countable ){
 			$this->data = $data;
-		}else{
+		}else{ // array and instances
 			$this->data = new \Snap\Lib\Mvc\Stack();
 			if ( $data ){
 				$this->data->add( $data );
@@ -63,7 +63,22 @@ class Collection
 	}
 	
 	public function add( $data ){
-		$this->data[] = $data;
+		if ( $data instanceof Collection ){
+			foreach( $data->data as $d ){
+				$this->data[] = $d;
+			}
+			
+			foreach( $data->variables as $k => $v ){
+				$this->variables[$k] = $v;
+			}
+		}elseif ( $data instanceof \ArrayAccess && $data instanceof \Countable || is_array($data) ){
+			foreach( $data as $d ){
+				$this->data[] = $d;
+			}
+		}else{
+			$this->data[] = $data;
+		}
+		
 		return $this;
 	}
 	

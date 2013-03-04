@@ -43,7 +43,7 @@ abstract class Form extends \Snap\Control\Feed {
 					$rtn = $this->processInput( $proc );
 				}catch( \Exception $ex ){
 					$proc->addFormError( 'Form unable to be processed' );
-					$proc->addDebug( $ex->getMessage() );
+					$proc->addDebug( $ex );
 				}
 				
 				if ( $proc->hasErrors() ){

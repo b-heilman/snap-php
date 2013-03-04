@@ -41,7 +41,7 @@ class Row extends \Snap\Prototype\Installation\Control\Form\Row {
 				}catch( \Exception $ex ){
 					$error = $ex->getMessage();
 					
-					$formData->addDebug( $error.' : '.$ex->getFile().$ex->getLine() );
+					$formData->addDebug( $ex );
 					
 					// TODO : this is hard coded for Mysql, need to change that
 					if ( strpos($error, 'Duplicate entry') !== false ){

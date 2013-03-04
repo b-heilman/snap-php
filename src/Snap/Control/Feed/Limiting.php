@@ -40,7 +40,6 @@ class Limiting extends NavigationQuery {
 			->setMaxResults( 1 );
 
 		$q = $qb->getQuery();
-		error_log( $q->getSQL() );
 		return $q->getSingleResult();
 	}
 	
@@ -64,8 +63,6 @@ class Limiting extends NavigationQuery {
 			->setParameter( 'id', $rowId );
 		
 		$q = $qb->getQuery();
-		error_log( $q->getSQL() );
-		
 		return $q->getResult();
 	}
 	
@@ -77,11 +74,7 @@ class Limiting extends NavigationQuery {
 		}
 		
 		$q = $qb->getQuery();
-		error_log( 'All Rows' );
-		error_log( $q->getSQL() );
-		$res = $q->getResult();
-		error_log( count($res) );
-		return $res;
+		return $q->getResult();
 	}
 	
 	protected function makeData( $input = array() ){

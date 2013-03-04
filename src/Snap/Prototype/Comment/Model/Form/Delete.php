@@ -12,7 +12,7 @@ class Delete extends \Snap\Model\Form {
 	
 	public function __construct( Models\Comment $comment ){
 		$this->comment = $comment;
-		$this->setUniqueTag( $this->comment->id() );
+		$this->setUniqueTag( $this->comment->getId() );
 		
 		parent::__construct();
 		

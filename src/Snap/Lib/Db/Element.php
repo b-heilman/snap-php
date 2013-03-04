@@ -2,6 +2,7 @@
 
 namespace Snap\Lib\Db;
 
+// TODO : get rid of this class
 abstract class Element extends Definition 
 	implements \Snap\Lib\Core\Arrayable {
 	
@@ -22,7 +23,10 @@ abstract class Element extends Definition
 	}
 
 	public function duplicate( $data ){
-		if ( $data == null ){
+		
+		if ( $data instanceof \Snap\Model\Doctrine ){
+			throw new \Exception('Mixing old with new');
+		}elseif ( $data == null ){
 			
 		}elseif( $data instanceof Element){
 			$this->info = $data->info;

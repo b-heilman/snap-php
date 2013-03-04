@@ -54,6 +54,10 @@ class Topic extends \Snap\Model\Doctrine {
 		return $this->thread;
 	}
 	
+	public function getCreationDate(){
+		return $this->creationDate;
+	}
+	
 	public function setType( \Snap\Prototype\Topic\Model\Doctrine\Type $type ){
 		$this->type = $type;
 	}

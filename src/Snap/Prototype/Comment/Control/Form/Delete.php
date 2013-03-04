@@ -10,10 +10,10 @@ class Delete extends \Snap\Control\Form {
 
 	protected function processInput( \Snap\Lib\Form\Result $formData ){
 		if ( $formData->hasChanged('remove') ){
-			$this->model->remove();
-			$this->model->flush();
+			$this->model->comment->remove();
+			$this->model->comment->flush();
 		}
 
-		return $this->model;
+		return $this->model->comment;
 	}
 }

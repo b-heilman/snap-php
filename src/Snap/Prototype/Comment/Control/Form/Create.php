@@ -13,10 +13,13 @@ class Create extends \Snap\Control\Form {
 			
 		$comment = new \Snap\Prototype\Comment\Model\Doctrine\Comment();
 		$comment->setUser( \Snap\Prototype\User\Lib\Current::getUser() );
-		$comment->setParent( $this->model->parent );
 		$comment->setThread( $this->model->thread );
 		$comment->setContent( $inputs['comment']->getValue() );
 
+		if ( $this->model->parent ){
+			$comment->setParent( $this->model->parent );
+		}
+		
 		$comment->persist();
 		$comment->flush();
 		

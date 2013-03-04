@@ -26,7 +26,7 @@ class Base extends \Snap\Node\Core\View {
 		return array(
 			'comment' => $comment,	
 			'user'    => $comment->getUser()->getDisplay(),
-			'time'    => $comment->getCreationTime()->format( 'm-d-Y H:i:s' )
+			'time'    => $comment->getCreationDate()->format( 'm-d-Y H:i:s' )
 		);
 	}
 }
