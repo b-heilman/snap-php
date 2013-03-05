@@ -17,6 +17,10 @@ abstract class Listing extends \Snap\Node\Core\View {
 		parent::__construct( $settings );
 	}
 	
+	protected function baseClass(){
+		return 'listing-view';
+	}
+	
 	protected function parseListData( $in ){
 		return $in;
 	}

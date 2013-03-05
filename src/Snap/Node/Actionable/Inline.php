@@ -1,6 +1,6 @@
 <?php
 
-namespace Snap\Node\Core\Actionable;
+namespace Snap\Node\Actionable;
 
 interface Inline {
 	public function getInlineJavascript();

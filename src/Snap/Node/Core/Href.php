@@ -25,7 +25,7 @@ class Href extends Block {
 		// allow the link to be defined later for links, is someone really wants to do that
 		if ( is_callable($this->href) ){
 			$func = $this->href;
-			$this->href = $func();
+			$this->href = $func( $this->page );
 		}
 		
 		return parent::getAttributes()." href=\"{$this->href}\"";

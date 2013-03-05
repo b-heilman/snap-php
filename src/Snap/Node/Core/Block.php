@@ -261,7 +261,7 @@ class Block extends \Snap\Node\Core\Simple
 		
 		$addition = '';
 		
-		if ( $this instanceof \Snap\Node\Core\Actionable\Inline ){
+		if ( $this instanceof \Snap\Node\Actionable\Inline ){
 			$inline = $this->getInlineJavascript();
 			if ( $inline && is_string($inline) ){
 				$addition = "\n<script type='text/javascript'>{$inline}</script>";
