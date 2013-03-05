@@ -9,12 +9,10 @@ class ThreadListing extends \Snap\Node\View\Listing {
 	}
 	
 	protected function parseListData( $in ){
-		$comment = $in;
-		
 		return array(
-			'comment' => $comment,	
-			'user'    => $comment->getUser()->getDisplay(),
-			'time'    => $comment->getCreationDate()->format('m-d-Y H:i:s')
+			'comment' => new Base(array(
+				'inputStream' => new \Snap\Lib\Mvc\Data\Collection( $in )
+			))
 		);
 	}
 	
