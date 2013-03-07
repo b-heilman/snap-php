@@ -138,11 +138,10 @@ abstract class Template extends Block {
 	 			$this->addTemplateContent( $this->makeProcessContent() );
 	 			$this->processTemplateString( $this->getTemplateHTML() );
 	 		}catch( Exception $ex ){
-	 			throw new \Exception(
-	 				"==== ".get_class($this)." - processTemplate ====\n"
-	 				. "\n{$ex->getFile()}: {$ex->getLine()}\n----"
-	 				. "\n{$ex->getMessage()}\n++++\n".$ex->getTraceAsString()
-	 			);
+	 			// TODO : make this a template exception
+	 			throw new \Exception('Template processing error');
+	 			error_log( $ex->getMessage(). ' - '.$ex->getFile().' : '.$ex->getLine() );
+	 			error_log( $ex->getTraceAsString() );
 	 		}
  		}
  	}

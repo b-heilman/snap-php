@@ -21,6 +21,7 @@ class Current {
 				try{
 					static::$user = User::find((int)$id);
 				}catch( \Exception $ex ){
+					error_log('system explodes');
 					// TODO : how can I tell if users is installed?
 				}
 			}

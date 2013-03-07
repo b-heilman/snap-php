@@ -30,8 +30,8 @@ abstract class Page extends Node\Core\Template
 		try{
 			Block::__construct( $settings );
 		}catch( Exception $ex ){
-			echo $ex->getMessage().' : '.$ex->getFile().' => '.$ex->getLine()
-				."\n".$ex->getTraceAsString();
+			error_log( $ex->getMessage().' - '.$ex->getFile().' : '.$ex->getLine() );
+			error_log( $ex->getTraceAsString() );
 		}
 		
 		$this->debugContent .= ob_get_contents();
@@ -179,7 +179,7 @@ abstract class Page extends Node\Core\Template
 			}catch( \Exception $ex ){
 				// TODO : make a global way to handle exceptions and logging
 				// TODO : there has to be a better way to do this than... this
-				error_log( $ex->getMessage(). ' : '.$ex->getFile().' => '.$ex->getLine() );
+				error_log( $ex->getMessage(). ' - '.$ex->getFile().' : '.$ex->getLine() );
 				error_log( $ex->getTraceAsString() );
 			}
 		}
@@ -245,14 +245,9 @@ abstract class Page extends Node\Core\Template
 				$jsContent .= '</script>';
 			}
 		} catch( Exception $ex ){
-			$html = 
-				'<pre class="page-node">'
-				. $ex->getMessage()
-				. "\n---------\n"
-				. $ex->getFile().': '.$ex->getLine()
-				. "\n=========\n"
-				. $ex->getTraceAsString()
-				.'</pre>';
+			$html = '-- No HTML --';
+			error_log( $ex->getMessage().' - '.$ex->getFile().' : '.$ex->getLine() );
+			error_log( $ex->getTraceAsString() );
 		}
 
 		$junk = trim( ob_get_contents() );

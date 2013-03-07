@@ -1,8 +1,4 @@
 <?php
-if ( isset($__messages) ){
-	$this->append( $__messages );
-}
-
 $this->append( new \Snap\Node\Form\Input\Basic(array(
 	'type'  => 'text',
 	'input' => $text
@@ -54,5 +50,3 @@ $this->append( new \Snap\Node\Form\Input\Button(array(
 		'input' => $button,
 		'text' => 'Button Thing'
 )) );
-
-$this->append( new \Snap\Node\Form\Control() );

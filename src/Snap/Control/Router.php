@@ -2,6 +2,9 @@
 
 namespace Snap\Control;
 
+use
+	\Snap\Lib\Control\Redirect;
+
 class Router extends \Snap\Lib\Core\StdObject {
 	
 	protected
@@ -178,12 +181,25 @@ class Router extends \Snap\Lib\Core\StdObject {
 	}
 	
 	public function serve(){
-		$settings = $this->translateRoute( $this->findRoute(static::$pageData) );
-		
-		if ( $settings['action'] ){
-			$settings['action']->serve( $settings['info'] );
-		}else{
-			echo '<!-- Page Not Found -->';
+		$this->serveRoute( static::$pageData );
+	}
+	
+	protected function serveRoute( $route ){
+		try{
+			$settings = $this->translateRoute( $this->findRoute($route) );
+			
+			if ( $settings['action'] ){
+				$settings['action']->serve( $settings['info'] );
+			}else{
+				echo '<!-- Page Not Found -->';
+			}
+		}catch( Redirect $redirect ){
+			// TODO : this is a stop gap measure right now
+			$this->serveRoute( explode('/',$redirect->getRedirect()) );
+		}catch( \Exception $ex ){
+			echo 'System Error';
+			error_log( $ex->getMessage().' - '.$ex->getFile().' : '.$ex->getLine() );
+			error_log( $ex->getTraceAsString() );
 		}
 	}
 }

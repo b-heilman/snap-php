@@ -7,20 +7,6 @@ use
 
 class Create extends \Snap\Control\Form {
 	
-	public function __construct( $settings = array() ){
-		parent::__construct( $settings );
-	}
-	
-	public static function getSettings(){
-		return parent::getSettings() + array(
-			'loginAfterCreation' => 'to log in as the user after creation'
-		);
-	}
-	
-	public function loginAfterCreation( $bool ){
-		$this->login = $bool;
-	}
-	
 	public function getOuputStream(){
 		return 'user_added'; // TODO : really?
 	}
@@ -35,7 +21,7 @@ class Create extends \Snap\Control\Form {
 		$user->setPassword( $inputs['password1']->getValue(), new \Snap\Prototype\User\Lib\Auth() );
 				
 		if ( $model->admin ) {
-				$user->setAdmin( true );
+			$user->setAdmin( true );
 		}
 		
 		try {
@@ -64,6 +50,8 @@ class Create extends \Snap\Control\Form {
 				}
 			}else{
 				$formData->addFormError( 'Failure to create user' );
+				error_log( $ex->getMessage(). ' - '.$ex->getFile().' : '.$ex->getLine() );
+	 			error_log( $ex->getTraceAsString() );
 			}
 		}
 		 
