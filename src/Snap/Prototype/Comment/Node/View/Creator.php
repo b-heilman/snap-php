@@ -4,6 +4,7 @@ namespace Snap\Prototype\Comment\Node\View;
 
 // TODO : abstaract this kind of logic out to be a callback function?
 //      : how to make this more flexible?
+//      : this does not belong here...
 
 class Creator extends \Snap\Node\Core\View {
 	

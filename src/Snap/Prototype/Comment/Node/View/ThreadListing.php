@@ -1,6 +1,6 @@
 <?php
 
-namespace \Snap\Prototype\Comment\Node\View;
+namespace Snap\Prototype\Comment\Node\View;
 
 class ThreadListing extends \Snap\Node\View\Listing {
 	
@@ -9,19 +9,15 @@ class ThreadListing extends \Snap\Node\View\Listing {
 	}
 	
 	protected function parseListData( $in ){
-		$comment = $in;
-		
 		return array(
-			'comment' => $comment,	
-			'user'    => $comment->getUser()->getDisplay(),
-			'time'    => $comment->getCreationTime()->format('m-d-Y H:i:s')
+			'comment' => new Base(array(
+				'inputStream' => new \Snap\Lib\Mvc\Data\Collection( $in )
+			))
 		);
 	}
 	
 	protected function parseStreamData( \Snap\Lib\Mvc\Data $data ){
-		if ( $data->count() > 1 ){
-			return $data;
-		}else{
+		if ( $data->count() == 1 ){
 			$el = $data->get(0);
 			
 			if ( $el instanceof \Snap\Prototype\Comment\Model\Doctrine\Thread ){
