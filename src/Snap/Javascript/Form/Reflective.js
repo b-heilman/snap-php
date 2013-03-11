@@ -7,8 +7,7 @@
 			var
 				$form = jQuery( this ),
 				form = this,
-				$wrapper = $form.closest('.form-reflective-wrapper'),
-				wrapper = $wrapper[0];
+				$wrapper = $form.closest('.form-reflective-wrapper');
 			
 			if ( !form.iframe ){
 				var 

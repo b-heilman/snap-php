@@ -12,19 +12,24 @@ abstract class Page extends Node\Core\Template
 	
 	protected 
 		$mode,
-		$needsAdded = true,
+		$extender,
 		$title,
 		$router,
 		$basePath = '/',
+		$needsAdded = true,
 		$debugContent = '',
 		$contentOnly;
 	
 	public function __construct( $settings = array() ){
 		ob_start();
 		
+		$this->extender = $this->makeExtender();
+		
 		if ( isset($_GET['__contentOnly']) ){
 			$this->contentOnly = true;
 			$settings['unwrapped'] = true;
+		}else{
+			$this->extender->addNode( $this, true );
 		}
 		
 		try{
@@ -39,17 +44,18 @@ abstract class Page extends Node\Core\Template
 		ob_end_clean();
 	}
 	
-	protected function pend( \Snap\Node\Core\Snapable $in ){
- 		if ( $this->inside->count() == 0 ){
- 			if ( !$this->contentOnly && $this->needsAdded ){
- 				$this->needsAdded = false; // TODO : proof this is goofed up
- 				// Need to do this, as page will be top level and not in the extensions
- 				$this->inside->getExtender()->addNode( $this, true );
- 			}
- 		}
- 		
- 		return parent::pend($in);
- 	}
+	protected function makeExtender(){
+		$extender = new \Snap\Lib\Node\Extender();
+	
+		$extender->addExtension( \Snap\Lib\Node\Extension\Streams::getInstance() );
+		$extender->addExtension( \Snap\Lib\Node\Extension\Builder::getInstance() );
+		$extender->addExtension( \Snap\Lib\Node\Extension\Processor::getInstance() );
+		$extender->addExtension( \Snap\Lib\Node\Extension\Javascript::getInstance() );
+		$extender->addExtension( \Snap\Lib\Node\Extension\Css::getInstance() );
+		$extender->addExtension( \Snap\Lib\Node\Extension\Finalizer::getInstance() );
+	
+		return $extender;
+	}
 	
 	protected function parseSettings( $settings = array() ){
 		$settings['tag'] = 'div';
@@ -72,6 +78,7 @@ abstract class Page extends Node\Core\Template
 	protected function takeControl( \Snap\Node\Core\Snapable $in ){
 		// Nothing should be above the page, so no call to the parent::
 		$in->setPage( $this );
+		$this->extender->addNode( $in );
 	}
 	
 	// allow a page to just be an object, no template needed, but preferred
@@ -145,12 +152,6 @@ abstract class Page extends Node\Core\Template
 		$this->router = $router;
 		$this->fileManager = new \Snap\Lib\File\Manager( $rootUrl );
 		
-		if ( !$this->contentOnly && $this->needsAdded ){
-			$this->needsAdded = false; // TODO : proof this is goofed up
-			// Need to do this, as page will be top level and not in the extensions
-			$this->inside->getExtender()->addNode( $this, true );
-		}
-		
 		if ( count($data) > 0 ){
 			$mode = $data[0];
 			$info = implode( '/', array_slice($data, 1) );
@@ -187,9 +188,7 @@ abstract class Page extends Node\Core\Template
 	
 	public function inner(){
 		if ( $this->rendered == '' ){
-			// TODO : this need to go to inner...
-			$extender = $this->inside->getExtender();
-			$extender->run();
+			$this->extender->run();
 		}
 		
 		return parent::inner();
@@ -205,7 +204,7 @@ abstract class Page extends Node\Core\Template
 		
 		ob_start();
 		try{
-			$extender = $this->inside->getExtender();
+			$extender = $this->extender;
 			
 			if ( $this->contentOnly ){
 				// run the build only, do not add to extensions

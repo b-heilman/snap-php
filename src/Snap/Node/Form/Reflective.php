@@ -27,7 +27,15 @@ abstract class Reflective extends \Snap\Node\Core\Block
 		if ( !isset($settings['view']) ){
 			throw \Exception( get_class($this).' requires a view' );
 		}else{
-			$this->append( $settings['view']);
+			$view = $settings['view'];
+			
+			if ( is_array($view) ){
+				foreach( $view as $v ){
+					$this->append( $v );
+				}
+			}else{
+				$this->append( $view );
+			}
 		}
 		
 		if ( isset($settings['control']) ){
@@ -45,8 +53,6 @@ abstract class Reflective extends \Snap\Node\Core\Block
 	}
 	
 	public function getActions(){
-		return array(
-				new \Snap\Lib\Linking\Resource\Local( $this )
-		);
+		return array( new \Snap\Lib\Linking\Resource\Local($this) );
 	}
 }

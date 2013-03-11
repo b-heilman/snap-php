@@ -82,14 +82,10 @@ class Extender {
 		return $ext;
 	}
 	
-	public function addNode( Snapable $node, $front = false ){
-		if ( !$node->hasExtender() ){
+	public function addNode( Snapable $node, $force = false ){
+		if ( !$node->hasExtender() || $force ){
 			$node->setExtender( $this );
-			if ( $front ){
-				array_unshift( $this->queuedNodes, $node );
-			}else{
-				$this->queuedNodes[] = $node;
-			}
+			$this->queuedNodes[] = $node;
 		}
 	}
 	

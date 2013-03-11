@@ -19,15 +19,13 @@
 			}
 		};
 		
-		$this
-			.attr('target', 'oFrame')
+		$this.attr('target', 'oFrame')
 			.attr( 'action', "<?php print $this->page->getAjaxLink('',''); ?>" )
 			// It is ok to do that, I am overwriting the __ajaxClass and __ajaxInit
 			.append( "<input type='hidden' name='ajaxClass' value='"+$this.attr("data-ajax-class")+"'/>" )
 			.append( "<input type='hidden' name='ajaxInit' value='"+$this.attr("data-ajax-init")+"'/>" );
 			
 		$( '#oFrame' )
-			.attr( 'src', 'o.O' )
-			.load( func ); // clear the frame
+			.attr( 'src', 'o.O' ).load( func ); // clear the frame
 	});
 }( jQuery, this ));

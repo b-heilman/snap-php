@@ -10,11 +10,9 @@ class Stack extends Core\Stack {
 	
 	protected 
 		$references = array(),
-		$extender, 
 		$master;
 	
-	public function __construct( Node\Core\Snapping $master, \Snap\Lib\Node\Extender $extender ){
-		$this->extender = $extender;
+	public function __construct( Node\Core\Snapping $master ){
 		$this->master = $master;
 		
 		parent::__construct();
@@ -46,10 +44,6 @@ class Stack extends Core\Stack {
 	
 	public function getReference( $ref ){
 		return isset($this->references[$ref]) ? $this->references[$ref] : null;
-	}
-	
-	public function getExtender(){
-		return $this->extender;
 	}
 	
 	public function getChildClasses(){
@@ -108,14 +102,8 @@ class Stack extends Core\Stack {
 			$this->master->verifyControl( $node );
 		}
 		
-		$this->extender->addNode( $node );
+		
 		
 		parent::_add( $node, $where );
-	}
-	
-	protected function _remove( Node\Core\Snapable $node ){
-		$this->extender->removeNode( $node );
-		
-		parent::_remove($node);
 	}
 }

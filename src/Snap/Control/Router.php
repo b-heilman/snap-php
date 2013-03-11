@@ -197,7 +197,7 @@ class Router extends \Snap\Lib\Core\StdObject {
 			// TODO : this is a stop gap measure right now
 			$this->serveRoute( explode('/',$redirect->getRedirect()) );
 		}catch( \Exception $ex ){
-			echo 'System Error';
+			echo '-=System Error=-';
 			error_log( $ex->getMessage().' - '.$ex->getFile().' : '.$ex->getLine() );
 			error_log( $ex->getTraceAsString() );
 		}

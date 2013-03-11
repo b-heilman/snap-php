@@ -177,8 +177,7 @@ class Form extends \Snap\Node\Core\Template {
 			$output = array();
 		}
 		
-		
-		if ( $this->messaging && $this->messagingOwner ){
+		if ( $this->messaging && $this->messagingOwner && !$this->messaging->hasParent() ){
 			$output['__messages'] = $this->messaging;
 		}else{
 			$output['__messages'] = null;
@@ -187,6 +186,10 @@ class Form extends \Snap\Node\Core\Template {
 		return $output;
 	}
     
+	public function getMessagingBlock(){
+		return $this->messaging;
+	}
+	
     // TODO : search the treee and see if a message block has been set via the template
     protected function activateMessaging( \Snap\Node\Core\Snapping $block = null ){
     	if ( $block == null ){
