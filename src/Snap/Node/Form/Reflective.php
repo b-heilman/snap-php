@@ -23,16 +23,16 @@ abstract class Reflective extends \Snap\Node\Core\Block
 	abstract function buildPairing( $settings );
 	
 	protected function parseComponents( $settings ){
+		// TODO : allow auto generation if a model is passed in
 		if ( !isset($settings['view']) ){
 			throw \Exception( get_class($this).' requires a view' );
+		}else{
+			$this->append( $settings['view']);
 		}
 		
-		if ( !isset($settings['control']) ){
-			throw \Exception( get_class($this).' requires a control' );
+		if ( isset($settings['control']) ){
+			$this->append( $settings['control'] );
 		}
-		
-		$this->append( $settings['control'] );
-		$this->append( $settings['view']);
 	}
 	
 	protected function baseClass(){

@@ -4,14 +4,10 @@ namespace Snap\Node\Form\Input;
 
 class Pickable extends \Snap\Node\Form\Input\Basic {
 
-	public function __construct( $settings = array() ){
+	protected function parseSettings( $settings = array() ){
 		$settings['tag'] = 'fieldset';
 		$settings['type'] = 'junk';
 		
-		parent::__construct( $settings );
-	}
-	
-	protected function parseSettings( $settings = array() ){
 		if ( !isset($settings['input']) || !($settings['input'] instanceof \Snap\Lib\Form\Input\Optionable) ){
 			throw new \Exception( 'A '.get_class($this).' requires an instance of \Snap\Lib\Form\Input\Optionable,'
 					.' instead recieved '.get_class($settings['input']) );

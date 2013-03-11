@@ -146,6 +146,7 @@ abstract class Template extends Block {
  		}
  	}
 	
+ 	//TODO : this should be makeTemplatePath( $template )
  	protected function getTemplate( $template ){
  		if ( $template instanceof \Snap\Node\Core\Template ){
  			return $this->getClassTemplate( get_class($template) );
