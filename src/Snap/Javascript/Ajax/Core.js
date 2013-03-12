@@ -8,38 +8,85 @@
 		global.Snap = {};
 	}
 	
+	function loadStyleSheet( path, onload ){
+		var
+			css,
+			style,
+			sheet,
+			interval = null;
+		
+		if (document.createStyleSheet){
+			style = document.createStyleSheet( link );
+		} else {
+			var 
+				head = document.getElementsByTagName( 'head' )[0];
+			
+			style = document.createElement( 'link' );
+			style.setAttribute( 'href', path );
+			style.setAttribute( 'rel', 'stylesheet' );
+			style.setAttribute( 'type', 'text/css' );
+			
+			head.appendChild( style );
+		}
+		
+		if ( style.sheet ){
+			sheet = 'sheet';
+			css = 'cssRules';
+		}else{
+			sheet = 'styleSheet';
+			css = 'rules';
+		}
+		
+		interval = setInterval( function(){
+			try{
+				if ( style[sheet] && style[sheet][css] && style[sheet][css].length ){
+					clearInterval( interval );
+					onload();
+				}
+			}catch( ex ){ /* I feel dirty */ }
+		},10 );
+	}
+	
 	global.Snap.decodeJson = function( json, display ){
 		var
 			js = json.js,
-			css = json.css;
+			css = json.css,
+			fileCount = 1;
+		
+		function fileDone(){
+			fileCount--;
+			console.log( fileCount );
+			if ( fileCount == 0 ){
+				display();
+			}
+		}
 		
 		for( var i = 0; i < js.length; i++ ){
 			var 
-				link = js[i],
-				script = document.createElement( 'script' );
-				script.type = 'text/javascript';
-				script.src = link;
+				link = js[i];
 				
-			if ( !jsLinks[link] ){
+			if ( link && !jsLinks[link] ){
+				console.log( link );
 				jsLinks[link] = true;
-				document.head.appendChild( script );
+				fileCount++;
+				
+				$.ajax({ url : link, dataType : 'script', success : fileDone });
 			}
 		}
 
 		for( var i = 0; i < css.length; i++ ){
 			var 
-				link = css[i],
-				script = document.createElement( 'link' );
-				script.type = 'text/css';
-				script.href = link;
-				script.rel = 'stylesheet';
+				link = css[i];
 				
-			if ( !cssLinks[link] ){
+			if ( link && !cssLinks[link] ){
+				console.log( link );
 				cssLinks[link] = true;
-				document.head.appendChild( script );
+				fileCount++;
+				
+				loadStyleSheet( link, fileDone );
 			}
 		}
 		
-		display();
+		fileDone();
 	};
 }( jQuery, this ));
