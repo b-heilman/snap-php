@@ -31,7 +31,7 @@ class Listing extends \Snap\Lib\Form\Input {
 	
 	public function getInstances(){
 		if ( $this->cache && !$this->hasChanged() ){
-			$res = $this->cache;
+			$res = is_array($this->cache) ? $this->cache : $this->cache->toArray();
 		}else{
 			$class = $this->mappedClass;
 			$search = $this->getValue();
