@@ -262,10 +262,14 @@ class Block extends \Snap\Node\Core\Simple
 		$addition = '';
 		
 		if ( $this instanceof \Snap\Node\Actionable\Inline ){
-			$inline = $this->getInlineJavascript();
-			if ( $inline && is_string($inline) ){
-				$addition = "\n<script type='text/javascript'>{$inline}</script>";
-			}
+			$addition .= "\n<script type='text/javascript'>{$this->getInlineJavascript()}</script>";
+		}
+		
+		// TODO : because I am lazy, this is going here, should to go being an accessor, but I will fix in upcoming refactoring that is needed
+		if ( $this instanceof \Snap\Node\Actionable\Template ){
+			$addition .= "\n<script type='text/xml' id='{$this->getJavascriptTemplateId()}'>\n"
+				. "<![CDATA[\n{$this->getJavascriptTemplate()}\n]]>"
+				. "\n</script>";
 		}
 		
 		return $this->rendered.$addition;

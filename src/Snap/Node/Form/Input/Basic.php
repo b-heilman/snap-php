@@ -3,7 +3,7 @@
 // was form_input_node
 namespace Snap\Node\Form\Input;
 
-class Basic extends \Snap\Node\Form\Input {
+class Basic extends \Snap\Node\Form\Input\Abstracted {
 	
 	protected 
 		$type;

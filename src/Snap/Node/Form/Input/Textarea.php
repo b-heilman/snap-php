@@ -2,7 +2,7 @@
 
 namespace Snap\Node\Form\Input;
 
-class Textarea extends \Snap\Node\Form\Input {
+class Textarea extends \Snap\Node\Form\Input\Abstracted {
 
 	protected 
 		$rows, 

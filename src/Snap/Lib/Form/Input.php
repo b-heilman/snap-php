@@ -10,9 +10,9 @@ abstract class Input {
     	$currValue, 
     	$origValue;
 
-    public function __construct( $name, $value ){
-    	$this->name = $name;
-    	$this->error = null;
+	public function __construct( $name, $value ){
+		$this->name = $name;
+		$this->error = null;
 		$this->currValue = $this->origValue = $value;
 	}
 	

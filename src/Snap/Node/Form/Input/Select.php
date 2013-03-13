@@ -2,7 +2,7 @@
 
 namespace Snap\Node\Form\Input;
 
-class Select extends \Snap\Node\Form\Input {
+class Select extends \Snap\Node\Form\Input\Abstracted {
 	
 	protected 
 		$options;
