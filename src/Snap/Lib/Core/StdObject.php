@@ -10,7 +10,7 @@ class StdObject {
 		$pageRequest,       // relative reference to page, no path data included
 		$pageScript = null, // direct reference to page
 		$pageData,          // any extra url data
-		$phpRoot,
+		$srcRoot,
 		$webRoot,
 		$fileDocuments = array(),
 		$phpLibraries = array();
@@ -61,10 +61,10 @@ class StdObject {
 			// calculate the different roots for the site
 			self::$projectRoot = substr( $cwd, 0, strripos($cwd, DIRECTORY_SEPARATOR.'www')+1 );
 			self::$webRoot = self::$projectRoot.'/www';
-			self::$phpRoot = self::$projectRoot.'/php';
+			self::$srcRoot = self::$projectRoot.'/src';
 			
 			$dirs = explode( PATH_SEPARATOR, get_include_path() );
-			array_unshift( $dirs, self::$phpRoot );
+			array_unshift( $dirs, self::$srcRoot );
 				
 			// scan the include path
 			for( $i = 0, $c = count($dirs); $i < $c; $i++ ){
