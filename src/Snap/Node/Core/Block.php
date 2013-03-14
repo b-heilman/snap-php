@@ -33,12 +33,6 @@ class Block extends \Snap\Node\Core\Simple
 		$this->rendered = '';
 		
 		$this->parseSettings($settings);
-		
-		/*
-		 * Moving this to an extension because I want the page to be defined before the template rendering kicks off.
-		 * This simply means template will need to be appended before they are processed, and it shouldn't break anything
-		 */
-		// $this->build();
 	}
 	
 	protected function parseSettings( $settings = array() ){
@@ -83,24 +77,13 @@ class Block extends \Snap\Node\Core\Simple
 	}
 	
 	// This element is taking control of another element
+	// parent is $this
 	public function verifyControl( Snapable $in ){
 		$parent = $in->getParent();
 		
 		if ( $parent == null || $parent != $this ){
 			$in->setParent( $this );
-			$this->takeControl($in);
-			
-			// if you are a block object, send your children up
-			if ( $in instanceof Block ){
-				$c = $in->inside->count();
-				for( $i = 0; $i < $c; $i++ ){
-					$t = $in->inside->get($i);
-						
-					if ( $t instanceof Snapable ){
-						$this->takeControl( $t );
-					}
-				}
-			}
+			$this->takeControl( $in );
 		}
 	}
 	
@@ -109,6 +92,17 @@ class Block extends \Snap\Node\Core\Simple
 	protected function takeControl( Snapable $in ){
 		if ( $this->parent ){
 			$this->parent->takeControl( $in );
+		}
+		
+		if ( $in instanceof Block ){
+			$c = $in->inside->count();
+			for( $i = 0; $i < $c; $i++ ){
+				$t = $in->inside->get($i);
+					
+				if ( $t instanceof Snapable ){
+					$this->takeControl( $t );
+				}
+			}
 		}
 	}
 	
@@ -132,8 +126,6 @@ class Block extends \Snap\Node\Core\Simple
 		}
 
 		$this->rendered = '';
-
-		$this->verifyControl($in);
 
 	    return $in;
 	}

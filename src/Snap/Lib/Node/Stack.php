@@ -102,8 +102,6 @@ class Stack extends Core\Stack {
 			$this->master->verifyControl( $node );
 		}
 		
-		
-		
 		parent::_add( $node, $where );
 	}
 }

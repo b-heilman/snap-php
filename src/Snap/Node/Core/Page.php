@@ -76,9 +76,10 @@ abstract class Page extends Node\Core\Template
 	}
 	
 	protected function takeControl( \Snap\Node\Core\Snapable $in ){
-		// Nothing should be above the page, so no call to the parent::
 		$in->setPage( $this );
 		$this->extender->addNode( $in );
+		
+		parent::takeControl( $in );
 	}
 	
 	// allow a page to just be an object, no template needed, but preferred
