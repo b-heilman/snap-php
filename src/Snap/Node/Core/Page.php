@@ -262,6 +262,10 @@ abstract class Page extends Node\Core\Template
 		}
 	}
 	
+	protected function getBodyClass(){
+		return 'page';
+	}
+	
 	protected function makeHtml( $title, $meta, $jsLinks, $jsContent, $cssLinks, $html, $debug, $junk ){
 		if ( $this->contentOnly ){
 			return $html;
@@ -296,7 +300,7 @@ abstract class Page extends Node\Core\Template
 		<!-- css links -->
 		{$css}
 	</head>
-	<body>
+	<body class="{$this->getBodyClass()}">
 		<pre>{$debug}</pre>
 		{$junk}
 		{$html}

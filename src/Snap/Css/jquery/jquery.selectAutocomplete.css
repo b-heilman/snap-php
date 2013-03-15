@@ -1,0 +1,18 @@
+.select-autocomplete {
+	position : relative;
+}
+
+.select-autocomplete select { 
+	/* need this because display none won't send the select's data */
+	position : absolute;
+	top : -99999px;
+	left : -99999px;
+}
+
+.autocomplete-labels {
+	line-height: 22px;
+	padding: 3px;
+	position : absolute;
+	top : 0px;
+	left : 0px;
+}

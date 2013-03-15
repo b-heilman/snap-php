@@ -63,6 +63,11 @@ abstract class Form {
 		
 		foreach( $inputs as $input ){
 			/* @var $input \Snap\Lib\Form\Input */
+			
+			if ( $input instanceof \Snap\Lib\Form\Input\Composite ){
+				$this->setInputs( $input->getSubcomponents() );
+			}
+			
 			if ( $this->uniqueness ){
 				$name = $input->getName();
 			
