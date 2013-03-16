@@ -5,7 +5,7 @@
 		var settings = jQuery.extend({}, {
 			autocomplete : {},
 			textName : 'text',
-			makeLabel : function( value, label ){
+			makeLabel : function( label, value ){
 				return '<span class="autocomplete-label" data-value="'+value+'">'+label+'</span>'
 			}
 		}, settings);
@@ -18,6 +18,7 @@
 				$select = $(this),
 				$text = $('<input type="text" name="'+settings.textName+'"/>'),
 				$labels = $('<span class="autocomplete-labels"/>'),
+				vals = $select.val(),
 				options = [],
 				availableTags = [],
 				multiMode = $select.attr('multiple') ? [] : null;
@@ -50,6 +51,16 @@
 				$this.remove();
 				$text.css( 'text-indent', $labels.width() ).focus();			
 			});
+
+			function addLabel( label, value ){
+				$labels.append( settings.makeLabel(label,value) );
+				multiMode.push( value );
+				
+				$text.val( '' );
+				$select.val( multiMode );
+				
+				$text.css( 'text-indent', $labels.width() );
+			}
 			
 			$text.autocomplete( jQuery.extend({}, settings.autocomplete, {
 				source    : options,        // the select's options
@@ -63,13 +74,7 @@
 						$text.val( ui.item.label );
 						$select.val( ui.item.value );
 					}else{
-						$labels.append( settings.makeLabel(ui.item.value,ui.item.label) );
-						multiMode.push( ui.item.value );
-						
-						$text.val( '' );
-						$select.val( multiMode );
-						
-						$text.css( 'text-indent', $labels.width() );
+						addLabel( ui.item.label,ui.item.value );
 					}
 					
 					if ( settings.autocomplete.select != undefined ){
@@ -79,6 +84,29 @@
 					return false;
 				}
 			}) );
+			
+			if ( select.selectedIndex != -1 ){
+				if ( multiMode ){
+					var
+						ops = select.options;
+					
+					for( var i = 0, l = ops.length; i < l; i++ ){
+						var
+							op = ops[ i ];
+						
+						if ( op.selected ){
+							addLabel( op.textContent ? op.textContent : op.innerText, op.value );
+						}
+					}
+				}else{
+					var
+						op = select.options[ select.selectedIndex ];
+		
+					if ( op ){
+						$text.val( op.textContent ? op.textContent : op.innerText, op.value );
+					}
+				}
+			}
 		});
 	}
 }( jQuery ));
