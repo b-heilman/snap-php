@@ -110,7 +110,7 @@ final class AnnotationRegistry
      */
     static public function loadAnnotationClass($class)
     {
-        foreach (self::$autoloadNamespaces AS $namespace => $dirs) {
+			foreach (self::$autoloadNamespaces AS $namespace => $dirs) {
             if (strpos($class, $namespace) === 0) {
                 $file = str_replace("\\", DIRECTORY_SEPARATOR, $class) . ".php";
                 if ($dirs === null) {
@@ -134,6 +134,7 @@ final class AnnotationRegistry
                 return true;
             }
         }
+        
         return false;
     }
 }

@@ -602,7 +602,7 @@ class ClassMetadataInfo implements ClassMetadata
      */
     public function __construct($entityName, NamingStrategy $namingStrategy = null)
     {
-        $this->name = $entityName;
+    	  $this->name = $entityName;
         $this->rootEntityName = $entityName;
         $this->namingStrategy = $namingStrategy ?: new DefaultNamingStrategy();
     }
@@ -2276,8 +2276,8 @@ class ClassMetadataInfo implements ClassMetadata
     protected function _storeAssociationMapping(array $assocMapping)
     {
         $sourceFieldName = $assocMapping['fieldName'];
-
-        if (isset($this->fieldMappings[$sourceFieldName]) || isset($this->associationMappings[$sourceFieldName])) {
+				if ( (isset($this->fieldMappings[$sourceFieldName]) || isset($this->associationMappings[$sourceFieldName]))
+						&& $this->inheritanceType != \Doctrine\ORM\Mapping\ClassMetadata::INHERITANCE_TYPE_TABLE_PER_CLASS ) {
             throw MappingException::duplicateFieldMapping($this->name, $sourceFieldName);
         }
 

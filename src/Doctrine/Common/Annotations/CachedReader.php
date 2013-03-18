@@ -63,7 +63,7 @@ final class CachedReader implements Reader
      */
     public function __construct(Reader $reader, Cache $cache, $debug = false)
     {
-        $this->delegate = $reader;
+    		$this->delegate = $reader;
         $this->cache = $cache;
         $this->debug = (Boolean) $debug;
     }

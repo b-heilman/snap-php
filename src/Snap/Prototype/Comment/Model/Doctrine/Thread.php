@@ -4,6 +4,7 @@ namespace Snap\Prototype\Comment\Model\Doctrine;
 
 /**
  * @Entity @Table(name="comment_threads")
+ * @InheritanceType("TABLE_PER_CLASS")
  **/
 class Thread extends \Snap\Model\Doctrine {
 	
@@ -17,13 +18,13 @@ class Thread extends \Snap\Model\Doctrine {
 	 **/
 		$active = false,
 	/**
-     * @ManyToOne(targetEntity="\Snap\Prototype\User\Model\Doctrine\User")
-     **/
+   * @ManyToOne(targetEntity="\Snap\Prototype\User\Model\Doctrine\User")
+   **/
     	$user,
 	/**
-     * @OneToMany(targetEntity="\Snap\Prototype\Comment\Model\Doctrine\Comment", mappedBy="thread")
-     * @var \Snap\Prototype\Comment\Model\Doctrine\Comment[]
-     **/
+   * @OneToMany(targetEntity="\Snap\Prototype\Comment\Model\Doctrine\Comment", mappedBy="thread")
+   * @var \Snap\Prototype\Comment\Model\Doctrine\Comment[]
+   **/
 		$comments;
 	
 	public function deactivate(){

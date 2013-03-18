@@ -371,12 +371,13 @@ final class DocParser
      */
     private function classExists($fqcn)
     {
-        if (isset($this->classExists[$fqcn])) {
+    		if (isset($this->classExists[$fqcn])) {
             return $this->classExists[$fqcn];
         }
 
         // first check if the class already exists, maybe loaded through another AnnotationReader
-        if (class_exists($fqcn, false)) {
+        // why would you not autoload...
+        if ( class_exists($fqcn) ) {
             return $this->classExists[$fqcn] = true;
         }
 
@@ -564,7 +565,7 @@ final class DocParser
             $found = false;
             if ($this->namespaces) {
                 foreach ($this->namespaces as $namespace) {
-                    if ($this->classExists($namespace.'\\'.$name)) {
+                		if ($this->classExists($namespace.'\\'.$name)) {
                         $name = $namespace.'\\'.$name;
                         $found = true;
                         break;
@@ -585,7 +586,7 @@ final class DocParser
             }
 
             if (!$found) {
-                if ($this->ignoreNotImportedAnnotations || isset($this->ignoredAnnotationNames[$name])) {
+            		if ($this->ignoreNotImportedAnnotations || isset($this->ignoredAnnotationNames[$name])) {
                     return false;
                 }
 

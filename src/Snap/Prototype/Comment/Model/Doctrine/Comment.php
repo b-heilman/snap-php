@@ -4,6 +4,7 @@ namespace Snap\Prototype\Comment\Model\Doctrine;
 
 /**
  * @Entity @Table(name="comments")
+ * @InheritanceType("TABLE_PER_CLASS")
  **/
 class Comment extends \Snap\Model\Doctrine {
 	

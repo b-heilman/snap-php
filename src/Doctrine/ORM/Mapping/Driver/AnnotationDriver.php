@@ -50,8 +50,8 @@ class AnnotationDriver extends AbstractAnnotationDriver
      */
     public function loadMetadataForClass($className, ClassMetadata $metadata)
     {
-        /* @var $metadata \Doctrine\ORM\Mapping\ClassMetadataInfo */
-        $class = $metadata->getReflectionClass();
+    	  /* @var $metadata \Doctrine\ORM\Mapping\ClassMetadataInfo */
+    		$class = $metadata->getReflectionClass();
         if ( ! $class) {
             // this happens when running annotation driver in combination with
             // static reflection services. This is not the nicest fix
@@ -202,7 +202,7 @@ class AnnotationDriver extends AbstractAnnotationDriver
             $inheritanceTypeAnnot = $classAnnotations['Doctrine\ORM\Mapping\InheritanceType'];
             $metadata->setInheritanceType(constant('Doctrine\ORM\Mapping\ClassMetadata::INHERITANCE_TYPE_' . $inheritanceTypeAnnot->value));
 
-            if ($metadata->inheritanceType != \Doctrine\ORM\Mapping\ClassMetadata::INHERITANCE_TYPE_TABLE_PER_CLASS) {
+            if ($metadata->inheritanceType == \Doctrine\ORM\Mapping\ClassMetadata::INHERITANCE_TYPE_TABLE_PER_CLASS) {
             	// dunno
             }elseif ($metadata->inheritanceType != \Doctrine\ORM\Mapping\ClassMetadata::INHERITANCE_TYPE_NONE) {
                 // Evaluate DiscriminatorColumn annotation
@@ -225,7 +225,7 @@ class AnnotationDriver extends AbstractAnnotationDriver
                 }
             }
         }
-
+       
 
         // Evaluate DoctrineChangeTrackingPolicy annotation
         if (isset($classAnnotations['Doctrine\ORM\Mapping\ChangeTrackingPolicy'])) {
@@ -236,14 +236,18 @@ class AnnotationDriver extends AbstractAnnotationDriver
         // Evaluate annotations on properties/fields
         /* @var $property \ReflectionProperty */
         foreach ($class->getProperties() as $property) {
-            if ($metadata->isMappedSuperclass && ! $property->isPrivate()
-                ||
-                $metadata->isInheritedField($property->name)
-                ||
-                $metadata->isInheritedAssociation($property->name)) {
-                continue;
+        		// TODO : this is a bit of a hack fix, but I can deal with it for now
+            if ( $metadata->isMappedSuperclass && ! $property->isPrivate()
+                	|| $metadata->isInheritedField($property->name)
+                	|| $metadata->isInheritedAssociation($property->name) ) {
+            		if ( $this->reader->getPropertyAnnotation($property, 'Doctrine\ORM\Mapping\ClassChange')
+            				&&  $metadata->inheritanceType == \Doctrine\ORM\Mapping\ClassMetadata::INHERITANCE_TYPE_TABLE_PER_CLASS ){
+            			// nothing
+            		}else{
+            			continue;
+            		}
             }
-
+           
             $mapping = array();
             $mapping['fieldName'] = $property->getName();
 
@@ -366,7 +370,7 @@ class AnnotationDriver extends AbstractAnnotationDriver
                 $metadata->mapManyToMany($mapping);
             }
         }
-
+        
         // Evaluate AssociationOverrides annotation
         if (isset($classAnnotations['Doctrine\ORM\Mapping\AssociationOverrides'])) {
             $associationOverridesAnnot = $classAnnotations['Doctrine\ORM\Mapping\AssociationOverrides'];
