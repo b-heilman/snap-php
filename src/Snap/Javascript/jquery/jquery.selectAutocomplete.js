@@ -2,12 +2,13 @@
 	"use strict";
 
 	$.fn.selectAutocomplete = function( settings ){
-		var settings = jQuery.extend({}, {
+		settings = jQuery.extend({}, {
 			autocomplete : {},
 			textName : 'text',
 			makeLabel : function( label, value ){
 				return '<span class="autocomplete-label" data-value="'+value+'">'+label+'</span>'
-			}
+			},
+			ignoreValue : null
 		}, settings);
 		
 		return this.each(function(){
@@ -20,8 +21,8 @@
 				$labels = $('<span class="autocomplete-labels"/>'),
 				vals = $select.val(),
 				options = [],
-				availableTags = [],
-				multiMode = $select.attr('multiple') ? [] : null;
+				multiMode = $select.attr('multiple') ? [] : null,
+				ignoreValue = settings.ignoreValue;
 			
 			// Create the new structure and wrap the element
 			$select.wrap( '<div class="select-autocomplete ui-widget"/>' )
@@ -34,11 +35,12 @@
 					value = this.value,
 					text  = this.textContent ? this.textContent : this.innerText;
 					
-				availableTags.push( text );
-				options.push({
-					value : value,
-					label : text
-				});
+				if ( ignoreValue === null || value !== ignoreValue ){
+					options.push({
+						value : value,
+						label : text
+					});
+				}
 			});
 			
 			$labels.on('click', '.autocomplete-label', function(){
@@ -102,7 +104,7 @@
 					var
 						op = select.options[ select.selectedIndex ];
 		
-					if ( op ){
+					if ( op && op.value !== ignoreValue ){
 						$text.val( op.textContent ? op.textContent : op.innerText, op.value );
 					}
 				}

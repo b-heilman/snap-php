@@ -5,6 +5,9 @@ namespace Snap\Node\Form\Input;
 class Autocomplete extends Select 
 	implements \Snap\Node\Core\Styleable, \Snap\Node\Actionable\Inline, \Snap\Node\Core\Actionable {
 	
+	protected
+		$acSettings;
+	
 	protected function parseSettings( $settings = array() ){
 		if ( !($settings['input'] instanceof \Snap\Lib\Form\Input\Autocomplete) ){
 			// TODO : this needs to be made into a generic pattern
@@ -19,6 +22,9 @@ class Autocomplete extends Select
 		}
 		
 		parent::parseSettings( $settings );
+		
+		$this->acSettings = (isset($settings['acSettings']) ? $settings['acSettings'] : array() ) 
+			+ array( 'textName' => $this->input->getText()->getName() );
 	}
 	
 	public function getStyles(){
@@ -30,6 +36,6 @@ class Autocomplete extends Select
 	}
 	
 	public function getInlineJavascript(){
-		return "$( '#{$this->id}' ).selectAutocomplete({textName : '{$this->input->getText()->getName()}'});";
+		return "$( '#{$this->id}' ).selectAutocomplete(".json_encode($this->acSettings).");";
 	}
 }
