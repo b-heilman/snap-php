@@ -2,24 +2,35 @@
 
 namespace Snap\Prototype\Tagging\Control\Form;
 
-class Create extends \Snap\Model\Form {
+class Create extends \Snap\Control\Form {
 
-	public
-		$taggable,
-		$tagClass;
+	protected function processInput( \Snap\Lib\Form\Result $formRes ){
+		$inputs = $formRes->getInputs();
+		$tag = null;
 
-	public function __construct( \Snap\Prototype\Tagging\Lib\Taggable $taggable = null, $tagClass = null ){
-		parent::__construct();
+		$user = \Estenda\Lib\CurrentUser::getUser();
+		$taggable = $this->model->taggable;
+		$tagClass = $this->model->tagClass;
+		$name = $inputs['name']->getValue();
 
-		$this->taggable = $taggable;
-		$this->tagClass = $tagClass;
+		$temp = $tagClass::find( array('name' => $name) );
 
-		$this->setInputs(array(
-				new \Snap\Lib\Form\Input\Basic( 'name', '' )
-		));
+		if ( !$temp ){
+			$tag = new $tagClass();
+			$tag->setName( $name );
+			$tag->addTarget( $taggable );
+			$tag->persist();
 
-		$this->setValidations(array(
-				new \Snap\Lib\Form\Validation\Required( 'name', 'Need something to tag' )
-		));
+			$tag->flush();
+
+			$this->model->reset();
+			$formRes->addNote( "Tag Created" );
+		}else{
+			$tag = $temp;
+			$formRes->addFormError( 'Tag already exists' );
+		}
+
+		// TODO : add the interest to your list
+		return $tag;
 	}
 }
