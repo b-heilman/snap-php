@@ -7,14 +7,14 @@ abstract class Listing extends \Snap\Node\Core\View {
 	protected
 		$childTag;
 	
-	public function __construct( $settings = array() ){
+	protected function parseSettings( $settings = array() ){
 		if ( !isset($settings['tag']) ){
 			$settings['tag'] = 'ul';
 		}
 		
 		$this->childTag = isset($settings['childTag']) ? $settings['childTag'] : 'li';
 		
-		parent::__construct( $settings );
+		parent::parseSettings( $settings );
 	}
 	
 	protected function baseClass(){

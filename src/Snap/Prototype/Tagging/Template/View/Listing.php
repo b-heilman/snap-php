@@ -1,0 +1,1 @@
+<span class='tag-list-item' data-tag="<?php echo $id; ?>"><?php echo $name; ?></span>

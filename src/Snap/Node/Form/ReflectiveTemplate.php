@@ -3,7 +3,7 @@
 namespace Snap\Node\Form;
 
 // TODO : for this to work, the element can't be broken down, since the reflection needs $el->inner, so watch when cacheing
-abstract class Reflective extends \Snap\Node\Core\Block 
+abstract class Reflective extends \Snap\Node\Core\Template 
 	implements \Snap\Node\Core\Actionable, \Snap\Node\Accessor\Reflective {
 	
 	protected
@@ -13,34 +13,6 @@ abstract class Reflective extends \Snap\Node\Core\Block
 		parent::parseSettings( $settings );
 		
 		$this->inSettings = $settings;
-		
-		$this->parseComponents( $this->buildPairing($settings) );
-	}
-	
-	/**
-	 * @return array
-	 */
-	abstract function buildPairing( $settings );
-	
-	protected function parseComponents( $settings ){
-		// TODO : allow auto generation if a model is passed in
-		if ( !isset($settings['view']) ){
-			throw \Exception( get_class($this).' requires a view' );
-		}else{
-			$view = $settings['view'];
-			
-			if ( is_array($view) ){
-				foreach( $view as $v ){
-					$this->append( $v );
-				}
-			}else{
-				$this->append( $view );
-			}
-		}
-		
-		if ( isset($settings['control']) ){
-			$this->append( $settings['control'] );
-		}
 	}
 	
 	protected function baseClass(){
