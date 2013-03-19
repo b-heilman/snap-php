@@ -11,9 +11,10 @@ abstract class Support {
 		$INSTALL_MODE = true,
 		$UNINSTALL_MODE = false;
 	
-	abstract protected function mysqlInstall();
-	abstract protected function mysqlUninstall();
-
+	abstract public function install();
+	abstract public function uninstall();
+	abstract public function alteration();
+	
 	public function setMode( $mode  = false ){
 		$this->mode = $mode;
 	}
@@ -28,16 +29,5 @@ abstract class Support {
 		}
 
 		return implode($glue, $options);
-	}
-
-	public function __toString(){
-		if ( !isset($this->ops['designedFor']) )
-			$this->ops['designedFor'] = 'mysql';
-
-		switch( $this->ops['designedFor'] ){
-			case 'mysql' :
-			default :
-				return ($this->mode)?$this->mysqlInstall():$this->mysqlUninstall();
-		}
 	}
 }

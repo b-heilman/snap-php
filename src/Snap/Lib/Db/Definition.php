@@ -12,7 +12,11 @@ class Definition {
 	static public function addTable( $table, $options = array(), $engine = null ){
 		$class = SITE_DB_TABLE_DEFINITION;
 
-		self::$tables[$table] = new $class( $table, $options, $engine );
+		if ( isset(self::$tables[$table]) ){
+			self::$tables[$table]->mergeTable( $table, $options, $engine );
+		}else{
+			self::$tables[$table] = new $class( $table, $options, $engine );
+		}
 	}
 	
 	static public function addTableField($table, $field, $type, $nullable = true, $options = array()){
