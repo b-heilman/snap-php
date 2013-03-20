@@ -3,7 +3,7 @@
 namespace Snap\Node\Form;
 
 // TODO : for this to work, the element can't be broken down, since the reflection needs $el->inner, so watch when cacheing
-abstract class Reflective extends \Snap\Node\Core\Template 
+abstract class ReflectiveTemplate extends \Snap\Node\Core\Template 
 	implements \Snap\Node\Core\Actionable, \Snap\Node\Accessor\Reflective {
 	
 	protected

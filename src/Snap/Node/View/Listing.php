@@ -25,7 +25,34 @@ abstract class Listing extends \Snap\Node\Core\View {
 		return $in;
 	}
 	
+	// allow for late explosion of functions that were passed in
 	protected function parseStreamData( \Snap\Lib\Mvc\Data $data ){
+		$hasFunction = false;
+		
+		for( $i = 0, $c = $data->count(); $i < $c; $i++ ){
+			if ( is_callable($data->get($i)) ){
+				$hasFunction = true;
+			}
+		}
+		
+		if ( $hasFunction ){
+			$t = new \Snap\Lib\Mvc\Data\Collection();
+			for( $i = 0, $c = $data->count(); $i < $c; $i++ ){
+				$v = $data->get($i);
+				
+				if ( is_callable($v) ){
+					$t2 = $v();
+					foreach( $t2 as $nt ){
+						$t->add( $nt );
+					}
+				}else{
+					$t->add( $v );
+				}
+			}
+			
+			$data = $t;
+		}
+		
 		return $data;
 	}
 	
