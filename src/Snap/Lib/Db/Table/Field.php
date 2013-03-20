@@ -18,4 +18,8 @@ abstract class Field extends Support{
 		$this->null = $nullable;
 		$this->ops = $options;
 	}
+	
+	public function getName(){
+		return $this->name;
+	}
 }

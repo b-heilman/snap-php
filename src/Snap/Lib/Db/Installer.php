@@ -7,14 +7,12 @@ namespace Snap\Lib\Db;
 class Installer {
 
 	static private 
-		$count = null,
-		$connections,
-		$tables,
 		$instance,
+		$tables,
+		$count = null,
 		$db = null;
 
 	public static function init(){
-		self::$connections = array();
 		self::$tables = array();
 		self::$instance = null;
 		self::$count = 0;
@@ -41,7 +39,11 @@ class Installer {
 				// TODO instead of dropping the table, can we upgrade the table?
 				// $handler->tableDrop( $table );
 				if ( !$handler->tableExists( $table ) ){
-					if ( !$handler->multi( $def->__toString() ) ){
+					if ( !$handler->multi( $def->install() ) ){
+						return false;
+					}
+				}else{
+					if ( !$handler->multi( $def->alteration() ) ){
 						return false;
 					}
 				}

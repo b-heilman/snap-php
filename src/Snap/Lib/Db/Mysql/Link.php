@@ -59,10 +59,12 @@ class Link {
     }
 
     public function processQuery($sql){
+    	error_log( $sql );
     	return $this->connection->query($sql);
     }
 
     public function processMulti($sql, $useResults = false){
+    	error_log( $sql );
     	if ( $this->connection->multi_query($sql) ){
     		if ( $useResults ){
     			$res = array();

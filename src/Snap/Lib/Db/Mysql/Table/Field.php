@@ -4,14 +4,18 @@ namespace Snap\Lib\Db\Mysql\Table;
 
 class Field extends \Snap\Lib\Db\Table\Field {
 
-	protected function mysqlInstall(){
+	public function install(){
 		$null = $this->null?'NULL':'NOT NULL';
 		$options = $this->getOptions();
 
 		return "{$this->name} {$this->type} $null $options";
 	}
 
-	protected function mysqlUninstall(){
+	public function alteration(){
+		return '';
+	}
+	
+	public function uninstall(){
 		return '';
 	}
 }
