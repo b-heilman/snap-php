@@ -57,43 +57,43 @@ class Simple extends \Snap\Lib\Core\StdObject
 	}
 
 	public function addClass( $class ){
-        $this->class .= ' '.$class;
-    }
+		$this->class .= ' '.$class;
+	}
 
-    public function removeClass( $class ){
-        $this->class = str_ireplace( $class, '', $this->class );
-    }
+	public function removeClass( $class ){
+		$this->class = str_ireplace( $class, '', $this->class );
+	}
 
-    public function clearClass(){
-        $this->class = '';
-    }
+	public function clearClass(){
+		$this->class = '';
+	}
 
-    public function removeFromParent(){
-    	if ( !is_null($this->parent) ){
-    		if ( is_array($this->parent) ){
-    			foreach( $this->parent as $parent ){
-    				$parent->remove( $this );
-    			}
-    		}else{
-    			$this->parent->remove( $this );
-    		}
-    	}
-    }
+	public function removeFromParent(){
+		if ( !is_null($this->parent) ){
+			if ( is_array($this->parent) ){
+				foreach( $this->parent as $parent ){
+					$parent->remove( $this );
+				}
+			}else{
+				$this->parent->remove( $this );
+			}
+		}
+	}
 
-    public function closest( $class ){
-    	$parent = $this->parent;
+	public function closest( $class ){
+		$parent = $this->parent;
     	
-    	while( $parent != null && !($parent instanceof $class) ){
-    		$parent = $parent->parent;
-    	}
+		while( $parent != null && !($parent instanceof $class) ){
+			$parent = $parent->parent;
+		}
     	
-    	return $parent;
-    }
+		return $parent;
+	}
     
 	protected function getAttributes(){
-    	return ( $this->id ? "id=\"{$this->id}\"" : '' )
-    		. ( $this->class != '' ? " class=\"{$this->class}\"" : '' );
-    }
+  	return ( $this->id ? "id=\"{$this->id}\"" : '' )
+  		. ( $this->class != '' ? " class=\"{$this->class}\"" : '' );
+	}
     
 	// Copy the important information of the object
 	public function copy( $in ){

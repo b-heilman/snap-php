@@ -9,6 +9,9 @@ class Attach extends \Snap\Model\Form {
 		$tagClass;
 
 	public function __construct( \Snap\Prototype\Tagging\Lib\Taggable $taggable = null, $tagClass = null ){
+		$class = explode('\\',get_class($taggable));
+		$this->setUniqueTag( array_pop($class).'_'.$taggable->getId() );
+		
 		parent::__construct();
 
 		$this->taggable = $taggable;
