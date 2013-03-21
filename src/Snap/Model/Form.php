@@ -13,6 +13,7 @@ abstract class Form {
 		$method = null,
 		$inputs = array(),
 		$values = array(),
+		$series = array(),
 		$formName = null,
 		$encoding = null,
 		$validator = null,
@@ -60,37 +61,103 @@ abstract class Form {
 	
 	// TODO : This should be an add
 	protected function setInputs( $inputs ){
+		$this->addInputs( $inputs );
+	}
+	
+	protected function addInputs( $inputs ){
 		$submitted = $this->wasFormSubmitted();
 		
 		foreach( $inputs as $input ){
-			/* @var $input \Snap\Lib\Form\Input */
-			
-			if ( $input instanceof \Snap\Lib\Form\Input\Composite ){
-				$this->setInputs( $input->getSubcomponents() );
+			$this->setInput( $input, $submitted, $this->uniqueness );
+		}
+	}
+	
+	protected function setSeries( $series, $inputs ){
+		$submitted = $this->wasFormSubmitted();
+		$s = array();
+		
+		if ( $this->uniqueness ){
+			$sname = $series.$this->uniqueness;
+		}else{
+			$sname = $series;
+		}
+		
+		$this->setInput( $control = new \Snap\Lib\Form\Input\Basic($sname,1), $submitted, null );
+		
+		foreach( $inputs as $input ){
+			$s[] = $input->getName();
+		}
+		
+		// doing this numerically, but trying to keep it so I can maybe make it a hash?
+		for( $i = 0, $c = $control->getValue(); $i < $c; $i++ ){
+			foreach( $inputs as $input ){
+				$this->setInput( $input, $submitted, $sname.'_'.$i, $i );
 			}
+		}
+		
+		$this->series[ $series ] = $s;
+	}
+	
+	public function getSeries( $series ){
+		$inputs = $this->getResults()->getInputs();
+		
+		if ( $this->uniqueness ){
+			$sname = $series.$this->uniqueness;
+		}else{
+			$sname = $series;
+		}
+		
+		if ( isset($this->series[$series]) ){
+			$t = array();
+			$names = $this->series[$series];
 			
-			if ( $this->uniqueness ){
-				$name = $input->getName();
-			
-				$input->addTag( $this->uniqueness );
-			
-				$tagName = $input->getName();
-			}else{
-				$name = $tagName = $input->getName();
-			}
-			
-			if ( $submitted ){
-				if ( $this->wasSubmitted($tagName) ){
-					$input->changeValue( $this->getValue($tagName) );
-				}else{
-					$input->changeValue( null );
+			// doing this numerically, but trying to keep it so I can maybe make it a hash?
+			for( $i = 0, $c = $inputs[$sname]->getValue(); $i < $c; $i++ ){
+				$t2 = array();
+				foreach( $names as $name ){
+					$t2[$name] = $inputs[$name][$i];
 				}
-			}
-				
-			if ( $input instanceof \Snap\Lib\Form\Input\Encoded ){
-				$this->encoding = $input->getEncoding();
+				$t[ $i ] = $t2;
 			}
 			
+			return $t;
+		}else return array();
+	}
+	
+	private function setInput( \Snap\Lib\Form\Input $input, $submitted, $uniqueness, $series = null ){
+		if ( $input instanceof \Snap\Lib\Form\Input\Composite ){
+			$this->setInputs( $input->getSubcomponents() );
+		}
+			
+		if ( $uniqueness ){
+			$name = $input->getName();
+				
+			$input->addTag( $uniqueness );
+				
+			$tagName = $input->getName();
+		}else{
+			$name = $tagName = $input->getName();
+		}
+			
+		if ( $submitted ){
+			if ( $this->wasSubmitted($tagName) ){
+				$input->changeValue( $this->getValue($tagName) );
+			}else{
+				$input->changeValue( null );
+			}
+		}
+		
+		if ( $input instanceof \Snap\Lib\Form\Input\Encoded ){
+			$this->encoding = $input->getEncoding();
+		}
+			
+		if ( $series ){
+			if ( !isset($this->inputs[ $name ]) ){
+				$this->inputs[ $name ] = array();
+			}
+			
+			$this->inputs[ $name ][$series] = $input;
+		}else{
 			$this->inputs[ $name ] = $input;
 		}
 	}

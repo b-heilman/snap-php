@@ -30,9 +30,11 @@ class Result {
 	}
 
 	protected function addInput( $name, $in ){
-		if ( $in instanceof Input ){
-			$this->data[ $name ] = $in;
-	
+		$this->data[ $name ] = $in;
+		
+		if ( is_array($in) ){
+			// TODO : I am not sure about this
+		}elseif ( $in instanceof Input ){
 			if ( $in->hasChanged() ){
 				$this->changes[ $name ] = true;
 			}
