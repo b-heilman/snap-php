@@ -58,6 +58,7 @@ abstract class Form {
 		}
 	}
 	
+	// TODO : This should be an add
 	protected function setInputs( $inputs ){
 		$submitted = $this->wasFormSubmitted();
 		
@@ -110,12 +111,17 @@ abstract class Form {
 		$this->formName = $formName;
 	}
 	
+	// TODO : this should be an add
 	protected function setValidations( $validations ){
 		if ( $this->validator ){
 			$this->validator->add( $validations );
 		}else{
 			$this->validator = new \Snap\Lib\Form\Validator( $validations );
 		}
+	}
+	
+	protected function clearValidations(){
+		$this->validator = null;
 	}
 	
 	public function getEncoding(){

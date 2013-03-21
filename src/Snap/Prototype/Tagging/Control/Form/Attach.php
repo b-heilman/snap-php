@@ -31,7 +31,7 @@ class Attach extends \Snap\Control\Form {
 			
 			$this->model->reset();
 			
-			$formRes->addFormError( 'Tag added' );
+			$formRes->addNote( 'Tag added' );
 		}
 
 		// TODO : add the interest to your list

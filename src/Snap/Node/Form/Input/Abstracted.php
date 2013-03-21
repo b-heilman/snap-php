@@ -28,7 +28,7 @@ abstract class Abstracted extends \Snap\Node\Core\Block
 		
 		$this->input = $settings['input'];
 		if ( !($this->input instanceof \Snap\Lib\Form\Input) ){
-			throw new Exception("A form's content needs to be instance of \Snap\Lib\Form\Input");
+			throw new \Exception("A form's content needs to be instance of \Snap\Lib\Form\Input, received ".get_class($this->input));
 		}
 		
 		parent::parseSettings( $settings );

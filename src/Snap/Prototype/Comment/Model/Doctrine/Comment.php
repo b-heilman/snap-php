@@ -22,12 +22,12 @@ class Comment extends \Snap\Model\Doctrine {
 	 **/
 		$active = false,
 	/**
-   * @ManyToOne(targetEntity="\Snap\Prototype\User\Model\Doctrine\User")
-   **/
-  	$user,
-  /**
-   * @ManyToOne(targetEntity="\Snap\Prototype\Comment\Model\Doctrine\Thread")
-   **/
+	 * @ManyToOne(targetEntity="\Snap\Prototype\User\Model\Doctrine\User")
+	 **/
+  		$user,
+	/**
+	 * @ManyToOne(targetEntity="\Snap\Prototype\Comment\Model\Doctrine\Thread")
+	 **/
 		$thread,
 	/**
 	 * @ManyToOne(targetEntity="\Snap\Prototype\Comment\Model\Doctrine\Comment")

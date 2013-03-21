@@ -21,7 +21,6 @@ class Create extends \Snap\Control\Form {
 		}
 		
 		$comment->persist();
-		$comment->flush();
 		
 		$formData->addNote( 'Comment Created' );
 		$this->model->reset();
