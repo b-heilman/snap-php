@@ -19,7 +19,7 @@
 				$select = $(this),
 				$text = $('<input type="text" name="'+settings.textName+'"/>'),
 				$labels = $('<span class="autocomplete-labels"/>'),
-				vals = $select.val(),
+				index = {},
 				options = [],
 				multiMode = $select.attr('multiple') ? [] : null,
 				ignoreValue = settings.ignoreValue;
@@ -36,6 +36,7 @@
 					text  = this.textContent ? this.textContent : this.innerText;
 					
 				if ( ignoreValue === null || value !== ignoreValue ){
+					index[text] = value;
 					options.push({
 						value : value,
 						label : text
@@ -64,13 +65,32 @@
 				$text.css( 'text-indent', $labels.width() );
 			}
 			
+			$text.blur(function(){
+				var
+					t = $text.val(),
+					v = index[ t ];
+				
+				if ( multiMode == null ){
+					if ( v == undefined ){
+						$select[0].selectedIndex = 0; // assume 0 is throw away
+					}else{
+						$select.val(v);
+					}
+				}else{
+					if ( v == undefined ){
+						$text.val('');
+					}else{
+						addLabel( t, v );
+					}
+				}
+				
+				$select.change();
+			});
+			
 			$text.autocomplete( jQuery.extend({}, settings.autocomplete, {
 				source    : options,        // the select's options
 				appendTo  : $select.parent(), // append to the wrapper
-				focus: function() {
-					// prevent value inserted on focus
-					return false;
-				},
+				focus: function() { return false; },
 				select : function( event, ui ){
 					if ( multiMode == null ){
 						$text.val( ui.item.label );
@@ -78,6 +98,8 @@
 					}else{
 						addLabel( ui.item.label,ui.item.value );
 					}
+					
+					$select.change();
 					
 					if ( settings.autocomplete.select != undefined ){
 						settings.autocomplete.select( event, ui );
@@ -107,6 +129,7 @@
 					if ( op && op.value !== ignoreValue ){
 						$text.val( op.textContent ? op.textContent : op.innerText, op.value );
 					}
+					$select.change();
 				}
 			}
 		});

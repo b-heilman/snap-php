@@ -4,15 +4,10 @@ namespace Snap\Node\View;
 
 abstract class Listing extends \Snap\Node\Core\View {
 	
-	protected
-		$childTag;
-	
 	protected function parseSettings( $settings = array() ){
 		if ( !isset($settings['tag']) ){
 			$settings['tag'] = 'ul';
 		}
-		
-		$this->childTag = isset($settings['childTag']) ? $settings['childTag'] : 'li';
 		
 		parent::parseSettings( $settings );
 	}
@@ -56,12 +51,7 @@ abstract class Listing extends \Snap\Node\Core\View {
 		return $data;
 	}
 	
-	protected function getTemplateHTML(){
- 		if ( $this->path == '' ){
- 			throw new \Exception( 'Path is blank for '.get_class($this) );
- 		}
- 		
- 		// TODO : how to avoid the collisions???
+	protected function loadTemplate( $__template ){
  		$content = '';
  		$data = $this->parseStreamData( $this->getStreamData() );
  		$c = $data->count();
@@ -70,12 +60,11 @@ abstract class Listing extends \Snap\Node\Core\View {
  			$this->addClass('empty');
  		}else{
 	 		for( $i = 0; $i < $c; $i++ ){
+	 			echo '<li>';
 	 			$this->setTemplateData( $this->parseListData($data->get($i)) );
-	 			$t = parent::getTemplateHTML();
-	 			$content .= "<{$this->childTag}>$t</{$this->childTag}>";
+	 			parent::loadTemplate( $__template );
+	 			echo '</li>';
 	 		}
  		}
- 		
- 		return $content;
  	}
 }

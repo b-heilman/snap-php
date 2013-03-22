@@ -68,63 +68,37 @@ abstract class Form {
 		$submitted = $this->wasFormSubmitted();
 		
 		foreach( $inputs as $input ){
-			$this->setInput( $input, $submitted, $this->uniqueness );
+			$this->addInput( $input, $submitted, $this->uniqueness );
 		}
 	}
 	
-	protected function setSeries( $series, $inputs ){
+	public function addSeriesSet( \Snap\Lib\Form\Series $series, array $set, $setId ){
 		$submitted = $this->wasFormSubmitted();
+		$uniqueness = $series->getUniqueness().'_'.$setId;
+		
+		foreach( $set as $input ){
+			$this->addInput( $input, $submitted, $uniqueness, false );
+		}
+	}
+	
+	protected function setSeries( \Snap\Lib\Form\Series $series ){
 		$s = array();
 		
 		if ( $this->uniqueness ){
-			$sname = $series.$this->uniqueness;
-		}else{
-			$sname = $series;
+			$series->setUnique( $series->getName().$this->uniqueness );
 		}
 		
-		$this->setInput( $control = new \Snap\Lib\Form\Input\Basic($sname,1), $submitted, null );
+		$this->addInput( $series->getControl(), $this->wasFormSubmitted(), $this->uniqueness, false );
 		
-		foreach( $inputs as $input ){
-			$s[] = $input->getName();
-		}
-		
-		// doing this numerically, but trying to keep it so I can maybe make it a hash?
-		for( $i = 0, $c = $control->getValue(); $i < $c; $i++ ){
-			foreach( $inputs as $input ){
-				$this->setInput( $input, $submitted, $sname.'_'.$i, $i );
-			}
-		}
-		
-		$this->series[ $series ] = $s;
+		$series->setModel( $this );
+		$this->series[ $series->getName() ] = $series;
 	}
 	
-	public function getSeries( $series ){
-		$inputs = $this->getResults()->getInputs();
-		
-		if ( $this->uniqueness ){
-			$sname = $series.$this->uniqueness;
-		}else{
-			$sname = $series;
-		}
-		
-		if ( isset($this->series[$series]) ){
-			$t = array();
-			$names = $this->series[$series];
-			
-			// doing this numerically, but trying to keep it so I can maybe make it a hash?
-			for( $i = 0, $c = $inputs[$sname]->getValue(); $i < $c; $i++ ){
-				$t2 = array();
-				foreach( $names as $name ){
-					$t2[$name] = $inputs[$name][$i];
-				}
-				$t[ $i ] = $t2;
-			}
-			
-			return $t;
-		}else return array();
+	public function getSeries(){
+		return $this->series;
 	}
 	
-	private function setInput( \Snap\Lib\Form\Input $input, $submitted, $uniqueness, $series = null ){
+	private function addInput( \Snap\Lib\Form\Input $input, $submitted, $uniqueness, $join = true ){
 		if ( $input instanceof \Snap\Lib\Form\Input\Composite ){
 			$this->setInputs( $input->getSubcomponents() );
 		}
@@ -151,13 +125,7 @@ abstract class Form {
 			$this->encoding = $input->getEncoding();
 		}
 			
-		if ( $series ){
-			if ( !isset($this->inputs[ $name ]) ){
-				$this->inputs[ $name ] = array();
-			}
-			
-			$this->inputs[ $name ][$series] = $input;
-		}else{
+		if ( $join ){
 			$this->inputs[ $name ] = $input;
 		}
 	}
@@ -218,6 +186,7 @@ abstract class Form {
 	 */
 	public function getResults(){
 		if ( $this->proc == null ) {
+			// TODO : also pass in series
 			$this->proc = new \Snap\Lib\Form\Result( $this->inputs );
 			
 			if ( $this->validator && $this->wasFormSubmitted() ){

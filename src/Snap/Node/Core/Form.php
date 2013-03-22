@@ -172,7 +172,7 @@ class Form extends \Snap\Node\Core\Template {
 	protected function makeProcessContent(){
 		if ( $this->model && $this->model instanceof \Snap\Model\Form ){
 			/** @var \Snap\Lib\Form\Result **/
-			$output = $this->model->getInputs();
+			$output = $this->model->getSeries() + $this->model->getInputs();
 		}else{
 			$output = array();
 		}

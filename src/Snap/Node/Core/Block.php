@@ -221,6 +221,9 @@ class Block extends \Snap\Node\Core\Simple
     }
 	
     public function build(){
+    	if ( $this instanceof \Snap\Node\Actionable\Template ){
+    		$this->page->append( $this->getJavascriptTemplate() );
+    	}
     }
     
 	public function process(){
@@ -258,11 +261,6 @@ class Block extends \Snap\Node\Core\Simple
 		}
 		
 		// TODO : because I am lazy, this is going here, should to go being an accessor, but I will fix in upcoming refactoring that is needed
-		if ( $this instanceof \Snap\Node\Actionable\Template ){
-			$addition .= "\n<script type='text/xml' id='{$this->getJavascriptTemplateId()}'>\n"
-				. "<![CDATA[\n{$this->getJavascriptTemplate()}\n]]>"
-				. "\n</script>";
-		}
 		
 		return $this->rendered.$addition;
 	}

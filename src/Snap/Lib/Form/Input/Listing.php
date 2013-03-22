@@ -8,6 +8,7 @@ class Listing extends \Snap\Lib\Form\Input {
 		$mappedClass,
 		$cache = null;
 	
+	// works by passing back as array
 	public function __construct( $name, $values, $mappedClass ){
 		$reflection = new \ReflectionClass( $mappedClass );
 		if( !$reflection->implementsInterface('Snap\Lib\Model\Inputable') ){

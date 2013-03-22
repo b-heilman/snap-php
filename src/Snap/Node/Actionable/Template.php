@@ -4,5 +4,4 @@ namespace Snap\Node\Actionable;
 
 interface Template {
 	public function getJavascriptTemplate();
-	public function getJavascriptTemplateId();
 }

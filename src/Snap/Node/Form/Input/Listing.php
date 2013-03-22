@@ -49,26 +49,21 @@ class Listing extends \Snap\Node\View\Listing
 	}
 	
 	protected function getAttributes(){
-		return parent::getAttributes()." data-snap-template=\"{$this->getJavascriptTemplateId()}\"";
+		return parent::getAttributes()." data-snap-template=\"{$this->input->getName()}\"";
 	}
 	
 	public function getJavascriptTemplate(){
-		$this->setTemplateData( array(
+		return new \Snap\Node\Ajax\Template( $this->path, $this->input->getName(), array(
+			'input'   => $this->input,
 			'display' => '<%= this.display %>',
 			'value'   => '<%= this.value %>'
 		) );
-		
-		return \Snap\Node\Core\View::getTemplateHTML();
-	}
-	
-	public function getJavascriptTemplateId(){
-		return $this->input->getName();
 	}
 	
 	public function getActions(){
 		return array( 
-				new \Snap\Lib\Linking\Resource\Local('jquery/jquery.jqote2.js'),
-				new \Snap\Lib\Linking\Resource\Local( $this, 'Form/Input/Listing.js'),
+			new \Snap\Lib\Linking\Resource\Local('jquery/jquery.jqote2.js'),
+			new \Snap\Lib\Linking\Resource\Local( $this, 'Form/Input/Listing.js')
 		);
 	}
 }
