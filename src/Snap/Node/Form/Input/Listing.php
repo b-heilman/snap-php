@@ -43,6 +43,7 @@ class Listing extends \Snap\Node\View\Listing
 	
 	protected function parseListData( $in ){
 		return array(
+			'input'   => $this->input,
 			'display' => $in->getDisplay(),
 			'value'   => $in->getValue()
 		);
