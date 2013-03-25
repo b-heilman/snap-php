@@ -11,22 +11,40 @@ class Control extends \Snap\Node\Form\Row {
 	}
 	
 	public function __construct( $settings = array() ){
-		$name = isset($settings['name']) ? $settings['name'] : get_class($this).'_'.static::$instances++;
-		
-		$buttons = isset($settings['buttons']) 
-			? $settings['buttons'] : array( 'Submit' => 'submit', 'Reset' => 'reset');
-			
-		// $settings['alignment'] = count($buttons);
-		
-		parent::__construct($settings);
-			
-		$i = 0;
-		foreach( $buttons as $val => $type ){
-			$this->append( new \Snap\Node\Form\Input\Button(array(
-					'input' => new \Snap\Lib\Form\Input\Basic($name, $val),
-					'text'  => $val,
-					'type'  => $type,
-			)) );
+		if( !is_array($settings) ){
+			$settings = array( 'input' => $settings );
 		}
+		
+		parent::__construct( $settings );
+	}
+	
+	protected function parseSettings( $settings = array() ){
+		if ( isset($settings['input']) ){
+			$input = $settings['input'];
+			$name = $input->getName();
+			
+			foreach( $input->getOptions() as $value => $display ){
+				$this->append( new \Snap\Node\Form\Input\Button(array(
+					'input' => new \Snap\Lib\Form\Input\Basic($name, $value),
+					'text'  => $display,
+					'type'  => 'submit',
+				)) );
+			}
+		}else{
+			$name = 'formControl_'.static::$instances++;
+			$this->append( new \Snap\Node\Form\Input\Button(array(
+				'input' => new \Snap\Lib\Form\Input\Basic($name, 'submit'),
+				'text'  => 'Reset',
+				'type'  => 'submit',
+			)) );
+			$this->append( new \Snap\Node\Form\Input\Button(array(
+				'input' => new \Snap\Lib\Form\Input\Basic($name, 'reset'),
+				'text'  => 'Reset',
+				'type'  => 'reset',
+			)) );
+			
+		}
+		
+		parent::parseSettings($settings);
 	}
 }
