@@ -8,10 +8,20 @@ class Autocomplete extends Optionable
 	protected
 		$text;
 	
-	public function __construct( $name, $value, $options, $multiple = false ){
+	public function __construct( $name, $value, $options, $multiple = false, $blockValue = null ){
 		parent::__construct( $name, $value, $options, $multiple );
 		
-		$this->text = new Basic( $name.'_text', '' );
+		$text = '';
+		if ( !$multiple && $value !== $blockValue && isset($options[$value]) ){
+			$text = $options[$value];
+		}
+		
+		$this->text = new Basic( $name.'_text', $text );
+	}
+	
+	public function textToOption( $value ){
+		$this->options[ $value ] = $this->text->getValue();
+		$this->changeValue( $value );
 	}
 	
 	public function getSubcomponents(){

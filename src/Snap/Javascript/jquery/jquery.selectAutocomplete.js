@@ -5,6 +5,7 @@
 		settings = jQuery.extend({}, {
 			autocomplete : {},
 			textName : 'text',
+			textValue : null,
 			makeLabel : function( label, value ){
 				return '<span class="autocomplete-label" data-value="'+value+'">'+label+'</span>'
 			},
@@ -17,7 +18,7 @@
 				options,
 				select = this,
 				$select = $(this),
-				$text = $('<input type="text" name="'+settings.textName+'"/>'),
+				$text = $('<input type="text" name="'+settings.textName+'" value="'+(settings.textValue?settings.textValue:'')+'"/>'),
 				$labels = $('<span class="autocomplete-labels"/>'),
 				index = {},
 				options = [],
