@@ -2280,7 +2280,6 @@ class ClassMetadataInfo implements ClassMetadata
 						&& $this->inheritanceType != \Doctrine\ORM\Mapping\ClassMetadata::INHERITANCE_TYPE_TABLE_PER_CLASS ) {
             throw MappingException::duplicateFieldMapping($this->name, $sourceFieldName);
         }
-
         $this->associationMappings[$sourceFieldName] = $assocMapping;
     }
 
