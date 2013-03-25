@@ -34,7 +34,7 @@ class Control extends \Snap\Node\Form\Row {
 			$name = 'formControl_'.static::$instances++;
 			$this->append( new \Snap\Node\Form\Input\Button(array(
 				'input' => new \Snap\Lib\Form\Input\Basic($name, 'submit'),
-				'text'  => 'Reset',
+				'text'  => 'Submit',
 				'type'  => 'submit',
 			)) );
 			$this->append( new \Snap\Node\Form\Input\Button(array(
@@ -42,7 +42,6 @@ class Control extends \Snap\Node\Form\Row {
 				'text'  => 'Reset',
 				'type'  => 'reset',
 			)) );
-			
 		}
 		
 		parent::parseSettings($settings);
