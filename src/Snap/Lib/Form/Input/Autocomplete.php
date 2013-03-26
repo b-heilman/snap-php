@@ -6,17 +6,24 @@ class Autocomplete extends Optionable
 	implements Composite {
 	
 	protected
-		$text;
+		$text,
+		$ignoreValue;
 	
-	public function __construct( $name, $value, $options, $multiple = false, $blockValue = null ){
+	public function __construct( $name, $value, $options, $multiple = false, $ignoreValue = null ){
 		parent::__construct( $name, $value, $options, $multiple );
 		
+		$this->ignoreValue = $ignoreValue;
+		
 		$text = '';
-		if ( !$multiple && $value !== $blockValue && isset($options[$value]) ){
+		if ( !$multiple && $value !== $ignoreValue && isset($options[$value]) ){
 			$text = $options[$value];
 		}
 		
 		$this->text = new Basic( $name.'_text', $text );
+	}
+	
+	public function getIgnoredValue(){
+		return $this->ignoreValue;
 	}
 	
 	public function textToOption( $value ){
