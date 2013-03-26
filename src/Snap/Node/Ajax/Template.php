@@ -5,11 +5,17 @@ namespace Snap\Node\Ajax;
 class Template extends \Snap\Node\Core\Template {
 	
 	protected
-		$templateData;
+		$templateData,
+		$templateWrapper;
 	
 	public function __construct( $settings = array(), $id = null, $data = null ){
-		if ( is_string($settings) ){
-			$settings = array( 'template' => $settings, 'templateData' => $data, 'id' => $id );
+		if ( is_object($settings) ){
+			$settings = array( 
+				'template' => $settings->getPath(),
+				'templateWrapper' => $settings->getWrapper(),
+				'templateData' => $data, 
+				'id' => $id 
+			);
 		}
 		
 		parent::__construct( $settings );
@@ -29,11 +35,13 @@ class Template extends \Snap\Node\Core\Template {
 			throw new \Exception('Need content for '.get_class($this) );
 		}
 		
+		$this->templateWrapper = $settings['templateWrapper'];
+		
 		parent::parseSettings( $settings ); 
 	}
 	
 	public function html(){
-		$inner = htmlentities( $this->inner() );
+		$inner = htmlentities( '<'.$this->templateWrapper.'>'.$this->inner().'</'.$this->templateWrapper.'>' );
 		return "<script type='text/xml' id='{$this->id}'>\n<![CDATA[\n{$inner}\n]]>\n</script>";
 	}
 }

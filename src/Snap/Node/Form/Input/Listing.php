@@ -53,8 +53,16 @@ class Listing extends \Snap\Node\View\Listing
 		return parent::getAttributes()." data-snap-template=\"{$this->input->getName()}\"";
 	}
 	
+	public function getWrapper(){
+		return 'li';
+	}
+	
+	public function getPath(){
+		return $this->path;
+	}
+	
 	public function getJavascriptTemplate(){
-		return new \Snap\Node\Ajax\Template( $this->path, $this->input->getName(), array(
+		return new \Snap\Node\Ajax\Template( $this, $this->input->getName(), array(
 			'input'   => $this->input,
 			'display' => '<%= this.display %>',
 			'value'   => '<%= this.value %>'

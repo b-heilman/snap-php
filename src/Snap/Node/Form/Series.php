@@ -38,10 +38,10 @@ abstract class Series extends \Snap\Node\Core\Template
 			$this->addClass('empty');
 		}else{
 			foreach( $inputs as $set ){
-				echo '<fieldset>';
+				echo '<'.$this->getWrapper().'>';
 				$this->setTemplateData( $set );
 				parent::loadTemplate( $__template );
-				echo '</fieldset>';
+				echo '</'.$this->getWrapper().'>';
 			}
 		}
 	}
@@ -50,8 +50,16 @@ abstract class Series extends \Snap\Node\Core\Template
 		return parent::getAttributes()." data-snap-template=\"{$this->series->getUniqueness()}\"";
 	}
 	
+	public function getWrapper(){
+		return 'fieldset';
+	}
+	
+	public function getPath(){
+		return $this->path;
+	}
+	
 	public function getJavascriptTemplate(){
-		return new \Snap\Node\Ajax\Template( $this->path, $this->series->getUniqueness(), $this->series->makeSet('<%= this.set %>') );
+		return new \Snap\Node\Ajax\Template( $this, $this->series->getUniqueness(), $this->series->makeSet('<%= this.set %>') );
 	}
 	
 	public function getActions(){
