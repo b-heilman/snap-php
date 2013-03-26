@@ -119,7 +119,7 @@
 						var
 							op = ops[ i ];
 						
-						if ( op.selected ){
+						if ( op.selected && op.value != ignoreValue){
 							addLabel( op.textContent ? op.textContent : op.innerText, op.value );
 						}
 					}
