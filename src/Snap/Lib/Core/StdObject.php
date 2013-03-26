@@ -5,6 +5,7 @@ namespace Snap\Lib\Core;
 class StdObject {
 	
 	static protected 
+		$configs,
 		$projectRoot,
 		$pageURI,           // entire called script
 		$pageRequest,       // relative reference to page, no path data included
@@ -17,6 +18,19 @@ class StdObject {
 	
 	public function __construct(){
 		static::init();
+	}
+	
+	protected function getConfig( $path ){
+		$config = new \Snap\Lib\Core\Configuration( $this, $path );
+		$path = $config->__path;
+		
+		if ( isset(static::$configs[$path]) ){
+			$config = static::$configs[$path];
+		}else{
+			static::$configs[$path] = $config;
+		}
+		
+		return $config;
 	}
 	
 	static protected function init(){
