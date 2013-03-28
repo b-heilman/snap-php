@@ -22,11 +22,14 @@ class Base extends \Snap\Node\Core\View {
 	protected function makeProcessContent(){
 		/** @var \Snap\Prototype\Comment\Model\Doctrine\Comment */
 		$this->comment = $comment = $this->getStreamData()->get(0);
+		$format = $this->getConfig('//Format');
 		
 		$info = array(
-			'comment' => $comment,	
-			'user'    => $comment->getUser()->getDisplay(),
-			'time'    => $comment->getCreationDate()->format( 'm-d-Y H:i:s' )
+			'comment'   => $comment,	
+			'user'      => $comment->getUser()->getDisplay(),
+			'date'      => $comment->getCreationDate()->format( $format->date ),
+			'time'      => $comment->getCreationDate()->format( $format->time ),
+			'timestamp' => $comment->getCreationDate()->format( $format->timestamp )
 		);
 		
 		if ( \Snap\Prototype\User\Lib\Current::isAdmin() ){

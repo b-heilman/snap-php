@@ -36,7 +36,7 @@ class Thread extends \Snap\Model\Doctrine {
 	}
 	
 	public function addComment( \Snap\Prototype\Comment\Model\Doctrine\Comment $comment ){
-		$comment->addThread( $this );
+		$comment->setThread( $this );
 		$this->comments[] = $comment;
 	}
 	

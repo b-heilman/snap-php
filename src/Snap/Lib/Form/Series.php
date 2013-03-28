@@ -25,7 +25,7 @@ class Series {
 	public function setModel( \Snap\Model\Form $model ){
 		$this->model = $model;
 		$this->inputs = array();
-			error_log( ':'.$this->control->getValue() );
+		
 		for( $i = 0, $c = $this->control->getValue(); $i < $c; $i++ ){
 			$this->inputs[ $i ] = $this->makeSet( $i );
 		}
@@ -70,7 +70,6 @@ class Series {
 	}
 	
 	public function setUnique( $unique ){
-		error_log('setting unique');
 		$this->control = new \Snap\Lib\Form\Input\Basic( $unique, 1 );
 	}
 }
