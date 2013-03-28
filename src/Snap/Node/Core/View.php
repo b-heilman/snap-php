@@ -13,6 +13,14 @@ abstract class View extends \Snap\Node\Core\Template
 		$inputStream,
 		$waitingQueue = null;
 	
+	public function __construct( $settings = array() ){
+		if ( !is_array($settings) ){
+			$settings = array( 'inputStream' => $settings ); 
+		}
+		
+		parent::__construct( $settings );
+	}
+	
 	/**
 	 *  TODO : \Snap\Lib\Mvc\Data is uniform for just one stream, each element on the stack needs to be of the same class.
 	 *  Ideally, this needs to be switched up so that different types from different streams can be merged into a view
@@ -21,7 +29,9 @@ abstract class View extends \Snap\Node\Core\Template
 		if ( isset($settings['inputStream']) ){
 			$input = $settings['inputStream'];
 			
-			if ( $input instanceof \Snap\Lib\Mvc\Data ){
+			if ( $input instanceof \Snap\Node\Core\Producer ){
+				$this->inputStream = $input->getOuputStream();
+			}elseif ( $input instanceof \Snap\Lib\Mvc\Data ){
 				$this->inputStream = '_inputStream';
 				$this->addData( $this->inputStream , $input );
 			}else{

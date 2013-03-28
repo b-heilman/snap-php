@@ -36,7 +36,7 @@ abstract class Query extends \Snap\Control\Feed {
 	
 	protected function makeData( $input = array() ){
 		try{
-			$res = $this->query->getResult();
+			$res = $this->query->getQuery()->getResult();
 		}catch( \Exception $ex ){
 			$res = array();
 			error_log( $ex->getMessage().' - '.$ex->getFile().' : '.$ex->getLine() );
