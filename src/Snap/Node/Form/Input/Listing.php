@@ -6,7 +6,7 @@ namespace Snap\Node\Form\Input;
 //----
 // TODO - come up with standard way to bind templates to objects 
 class Listing extends \Snap\Node\View\Listing 
-	implements \Snap\Node\Actionable\Template, \Snap\Node\Core\Actionable {
+	implements \Snap\Node\Actionable\Template, \Snap\Node\Actionable\Templatable, \Snap\Node\Core\Actionable {
 	
 	protected
 		$input;

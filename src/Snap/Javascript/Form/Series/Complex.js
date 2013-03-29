@@ -1,5 +1,5 @@
 ;(function( $ ){ $(document).ready(function(){	
-	$(document.body).on('addNode', '.form-series', function( e, data ){
+	$(document.body).on('addNode', '.form-series-complex', function( e, data ){
 		// TODO : this needs to become a global
 		var
 			$el = $(this),

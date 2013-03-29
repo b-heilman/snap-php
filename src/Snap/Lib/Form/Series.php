@@ -11,9 +11,9 @@ class Series {
 		$inputs = null,
 		$control = null;
 		
-	public function __construct( $name, array $inputs ){
+	public function __construct( $name, array $inputs, $count = 1 ){
 		$this->name = $name;
-		$this->control = new \Snap\Lib\Form\Input\Basic( $name,1 );
+		$this->control = new \Snap\Lib\Form\Input\Basic( $name, $count );
 		
 		$base = array();
 		foreach( $inputs as $input ){

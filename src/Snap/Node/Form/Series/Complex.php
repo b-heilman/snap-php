@@ -2,7 +2,7 @@
 
 namespace Snap\Node\Form;
 
-abstract class Series extends \Snap\Node\Core\Template 
+abstract class Complex extends \Snap\Node\Core\Template 
 	implements \Snap\Node\Actionable\Template, \Snap\Node\Core\Actionable {
 	
 	protected
@@ -27,8 +27,9 @@ abstract class Series extends \Snap\Node\Core\Template
 		
 		$this->parent->append( new \Snap\Node\Form\Input\Hidden($this->series->getControl()) );
 	}
+	
 	protected function baseClass(){
-		return 'form-series';
+		return 'form-series-complex';
 	}
 	
 	protected function loadTemplate( $__template ){
@@ -65,7 +66,7 @@ abstract class Series extends \Snap\Node\Core\Template
 	public function getActions(){
 		return array(
 			new \Snap\Lib\Linking\Resource\Local('jquery/jquery.jqote2.js'),
-			new \Snap\Lib\Linking\Resource\Local( $this, 'Form/Series.js'),
+			new \Snap\Lib\Linking\Resource\Local( $this, 'Form/Series/Complex.js'),
 		);
 	}
 }
