@@ -9,7 +9,7 @@ class Template extends \Snap\Node\Core\Template {
 		$templateData,
 		$templateWrapper;
 	
-	public function __construct( $settings, $id, $data = null ){
+	public function __construct( $settings = array(), $id = null, $data = null ){
 		if ( is_object($settings) ){
 			if ( $settings instanceof \Snap\Node\Actionable\Templatable ){
 				$settings = array( 
@@ -19,6 +19,9 @@ class Template extends \Snap\Node\Core\Template {
 				);
 			}else{
 				$settings = array(
+					'template' => '',
+					'templateWrapper' => '',
+					'templateData' => array(),
 					'base' => $settings
 				);
 			}
@@ -33,9 +36,16 @@ class Template extends \Snap\Node\Core\Template {
 		return $this->templateData;
 	}
 	
+	protected function processTemplate(){
+		if ( !$this->base ){
+			parent::processTemplate();
+		}
+	}
+	
 	protected function parseSettings( $settings = array() ){
 		if ( isset($settings['base']) ){
 			$this->base = $settings['base'];
+			$this->templateData = array();
 		}else{
 			if ( !isset($settings['template']) ){
 				throw new \Exception('Need template for '.get_class($this) );

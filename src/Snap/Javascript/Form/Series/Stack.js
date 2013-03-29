@@ -1,5 +1,5 @@
 ;(function( $ ){ $(document).ready(function(){	
-	$(document.body).on('click', '.form-series-stack-target .form-series-stack-control button.add', function(){
+	$(document.body).on('click', '.form-series-stack .form-series-stack-control button.add', function(){
 		// TODO : this needs to become a global
 		var
 			$el = $(this).closest('.form-series-stack'),
@@ -9,6 +9,7 @@
 			content = $('<div/>').html( t ).text(),
 			count = $count.val();
 		
+		$el.removeClass('empty');
 		$target.append( $.jqote($.jqotec(content),{'set' : count++}) );
 		
 		$count.val( count );

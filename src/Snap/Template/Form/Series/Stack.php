@@ -5,4 +5,4 @@ foreach( $inputs as $input ){
 }
 ?>
 </div>
-<div class='form-series-stack-control><button type='button' class='add'>Add Another</button></div>
+<div class='form-series-stack-control'><button type='button' class='add'>Add Another</button></div>

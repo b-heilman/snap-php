@@ -1,8 +1,8 @@
 <?php
 
-namespace Snap\Node\Form;
+namespace Snap\Node\Form\Series;
 
-abstract class Complex extends \Snap\Node\Core\Template 
+class Stack extends \Snap\Node\Core\Template 
 	implements \Snap\Node\Actionable\Template, \Snap\Node\Core\Actionable {
 	
 	protected
@@ -20,9 +20,11 @@ abstract class Complex extends \Snap\Node\Core\Template
 		parent::build();
 		
 		$control = $this->series->getControl();
-		$control->addClass('form-series-stack-count');
 		
-		$this->parent->append( new \Snap\Node\Form\Input\Hidden($control) );
+		$this->append( new \Snap\Node\Form\Input\Hidden(array(
+			'input' => $control,
+			'class' => 'form-series-stack-count'
+		)) );
 	}
 	
 	protected function baseClass(){
@@ -51,7 +53,9 @@ abstract class Complex extends \Snap\Node\Core\Template
 	
 	public function getJavascriptTemplate(){
 		$class = $this->inputClass;
-		$node = new $class( array_pop($this->series->makeSet('<%= this.set %>')) );
+		$set = $this->series->makeSet('<%= this.set %>');
+		
+		$node = new $class( array_pop($set) );
 		
 		return new \Snap\Node\Ajax\Template( $node, $this->series->getUniqueness() );
 	}

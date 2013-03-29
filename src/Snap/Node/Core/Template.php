@@ -68,15 +68,19 @@ abstract class Template extends Block {
  	}
  	
 	protected function addTemplateContent( $content ){
-		foreach( $content as $name => $component ){
- 			if ( $component instanceof \Snap\Control\Feed ){
- 				$this->addTemplateFeed( $component, $name );
- 			}elseif( $component instanceof \Snap\Node\Core\Snapable ){
- 				$this->addTemplateNode( $component, $name );
- 			}else{
- 				$this->addTemplateVariable( $component, $name );
- 			}
- 		}
+		if ( is_array($content) ){
+			foreach( $content as $name => $component ){
+	 			if ( $component instanceof \Snap\Control\Feed ){
+	 				$this->addTemplateFeed( $component, $name );
+	 			}elseif( $component instanceof \Snap\Node\Core\Snapable ){
+	 				$this->addTemplateNode( $component, $name );
+	 			}else{
+	 				$this->addTemplateVariable( $component, $name );
+	 			}
+	 		}
+		}else{
+			error_log( 'Node\Core\Template : bad content => '.get_class($this) );
+		}
  	}
  	
  	private function addTemplateFeed( \Snap\Control\Feed $in, $name ){
