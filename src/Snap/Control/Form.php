@@ -42,7 +42,7 @@ abstract class Form extends \Snap\Control\Feed {
 				try {
 					$rtn = $this->processInput( $proc );
 				}catch( \Exception $ex ){
-					if ( $ex instanceof \Snap\Lib\Control\Redirect ){
+					if ( $ex instanceof \Snap\Lib\Control\Redirect || $ex instanceof \Snap\Lib\Control\Reroute ){
 						throw $ex;
 					}else{
 						$proc->addFormError( 'Form unable to be processed' );

@@ -114,77 +114,19 @@ abstract class Page extends Node\Core\Template
 		$this->title = $title;
 	}
 	
-	protected function loadHeaders( $ctype ){
-		switch ( $ctype ){
-			case 'js' :
-				header('Content-type: application/javascript');
-				break;
-			case 'css' :
-				header('Content-type: text/css');
-				break;
-	
-			case "jpeg":
-				$ctype = 'jpg';
-			case "jpg" :
-			case "gif" :
-			case "png" :
-				header('Content-type: image/'.$ctype);
-				break;
-				
-			default :
-				break;
-		}
-	}
-	
 	public function getSiteUrl( $url ){
 		return static::$pageRequest.$url;
 	}
 	
-	// TODO : some of this logic should be moved to the construct
-	public function serve( $data = null, \Snap\Control\Router $router = null ){
+	// TODO : this is no longer really a 'serve'
+	public function serve( \Snap\Control\Router $router = null ){
 		$tmp = null;
 		
-		if ( $data == null ){
-			$data = static::$pageData;
-		}
-		
-		$rootUrl = static::$pageRequest; // needs to be exactly self referencing, so resources always load
-		
 		$this->router = $router;
-		$this->fileManager = new \Snap\Lib\File\Manager( $rootUrl );
+		$this->fileManager = new \Snap\Lib\File\Manager( static::$pageRequest );
 		
-		if ( count($data) > 0 ){
-			$mode = $data[0];
-			$info = implode( '/', array_slice($data, 1) );
-			
-			$fileManager = new \Snap\Lib\File\Manager( $rootUrl, $mode, $info ); // populate from $_GET
-			
-			if ( $fileManager->getMode() ){
-				$this->loadHeaders( $fileManager->getAccessor()->getContentType() );
-				$tmp = $fileManager->getContent( $this );
-			}
-		}
-		
-		if ( is_null($tmp) ){
-			$this->addTemplateContent( $this->makeTemplateContent() ); // moved to here to keep from extra processing resources
-			$tmp = $this->html();
-		}
-		
-		\Snap\Lib\Core\Session::save();
-		
-		echo $tmp;
-		
-		$em = \Snap\Model\Doctrine::getEntityManager();
-		if ( $em ){
-			try {
-				$em->flush();
-			}catch( \Exception $ex ){
-				// TODO : make a global way to handle exceptions and logging
-				// TODO : there has to be a better way to do this than... this
-				error_log( $ex->getMessage(). ' - '.$ex->getFile().' : '.$ex->getLine() );
-				error_log( $ex->getTraceAsString() );
-			}
-		}
+		$this->addTemplateContent( $this->makeTemplateContent() ); // moved to here to keep from extra processing resources
+		return $this->getReponse();
 	}
 	
 	public function inner(){
@@ -195,7 +137,7 @@ abstract class Page extends Node\Core\Template
 		return parent::inner();
 	}
 	
-	public function html(){
+	protected function getReponse(){
 		$html = '';
 		$meta = '';
 		$title = '';
@@ -212,7 +154,7 @@ abstract class Page extends Node\Core\Template
 				$this->build(); 
 			}
 			
-			$html = parent::html();
+			$html = $this->html();
 			
 			$title = $this->getTitle();
 			$meta = $this->getMeta();
@@ -221,6 +163,8 @@ abstract class Page extends Node\Core\Template
 			$javascript = $javascript[0];
 			
 			$jsLinks    = $javascript->getLinks();
+			
+			//TODO : this shouyyy
 			$jsContent  = $javascript->getContent();
 			
 			$css = $extender->findExtension('\Snap\Lib\Node\Extension\Css');
@@ -253,84 +197,36 @@ abstract class Page extends Node\Core\Template
 		$junk = trim( ob_get_contents() );
 		ob_end_clean();
 		
-		if ( isset($_GET['__asJson']) ){
-			return $this->makeJson( $title, $meta, $jsLinks, $jsContent, 
-						$cssLinks, $html, $this->debugContent, $junk );
-		}else{
-			return $this->makeHtml( $title, $meta, $jsLinks, $jsContent, 
-						$cssLinks, $html, $this->debugContent, $junk );
-		}
+		return $this->makeReponse( $title, $meta, $jsLinks, $jsContent, $cssLinks, $html, $this->debugContent, $junk );
 	}
 	
 	protected function getBodyClass(){
 		return 'page';
 	}
 	
-	protected function makeHtml( $title, $meta, $jsLinks, $jsContent, $cssLinks, $html, $debug, $junk ){
-		if ( $this->contentOnly ){
-			return $html;
-		}else{
-			
-			$js = '';
-			foreach( $jsLinks as $name => $link ){
-				$l = $this->fileManager->makeLink( new \Snap\Lib\File\Accessor\Resource($link) );
-				if ( $l != '' ){ /* TODO : where is this coming from ? */
-					$js .= "\n<script type='text/javascript' src='$l'></script>";
-				}
-			}
-				
-			$css = '';
-			foreach( $cssLinks as $link ){
-				$l = $this->fileManager->makeLink( new \Snap\Lib\File\Accessor\Resource($link) );
-				if ( $l != '' ){
-					$css .= "\n<link type='text/css' rel='stylesheet' href='$l'/>";
-				}
-			}
-			
-			return <<<HTML
-<!DOCTYPE HTML>
-<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en'>
-	<head>
-		<title>{$title}</title>
-	
-		<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'>
-		{$meta}
-		<!-- js links -->
-		{$js}
-		<!-- css links -->
-		{$css}
-	</head>
-	<body class="{$this->getBodyClass()}">
-		<pre>{$debug}</pre>
-		{$junk}
-		{$html}
-		{$jsContent}
-	</body>
-</html>
-HTML;
-		}
-	}
-	
-	protected function makeJson( $title, $meta, $jsLinks, $jsContent, $cssLinks, $html, $debug, $junk ){
+	protected function makeReponse( $title, $meta, $jsLinks, $jsContent, $cssLinks, $html, $debug, $junk ){
 		$js = array();
 		foreach( $jsLinks as $name => $link ){
 			$js[] .= $this->fileManager->makeLink( new \Snap\Lib\File\Accessor\Resource($link) );
 		}
-		
+	
 			
 		$css = array();
 		foreach( $cssLinks as $link ){
 			$css[] = $this->fileManager->makeLink( new \Snap\Lib\File\Accessor\Resource($link) );
 		}
-		
-		return json_encode(array(
-			'title'  => $title,
-			'onload' => $jsContent,
-			'css'    => $css,
-			'js'     => $js,
-			'html'   => $html,
-			'debug'  => $debug
-		));
+	
+		return array(
+			'bodyClass' => $this->getBodyClass(),
+			'title'     => $title,
+			'meta'      => $meta,
+			'onload'    => $jsContent,
+			'css'       => $css,
+			'js'        => $js,
+			'html'      => $html,
+			'junk'      => $junk,
+			'debug'     => $debug
+		);
 	}
 	
 	protected function getTitle(){
@@ -343,8 +239,8 @@ HTML;
  	
  	public function getActions(){
  		return array(
- 				new \Snap\Lib\Linking\Resource\Local( '/jquery.min.js'),
- 				new \Snap\Lib\Linking\Resource\Local( '/core.js')
+ 			new \Snap\Lib\Linking\Resource\Local( '/jquery.min.js'),
+ 			new \Snap\Lib\Linking\Resource\Local( '/core.js')
  		);
  	}
  	

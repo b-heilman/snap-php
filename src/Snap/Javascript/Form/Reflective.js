@@ -17,11 +17,17 @@
 				
 				form.iframe = global.frames[name];
 				form.target = name;
-				form.action = $wrapper.data('reflection');
+				form.action = $wrapper.data('reflection')+'&__asJson=1';
 				
 				form.iframe.onload = function(){
 					if ( this.document.body.innerHTML != '' ){
-						$wrapper.html( this.document.body.innerHTML );
+						console.log( this.document.body.innerHTML );
+						var
+							json = $.parseJSON( $(this.document.body).text() );
+						
+						global.Snap.decodeJson( json, function(){
+							$wrapper.html( json.html );
+						});
 					}
 				};
 			}

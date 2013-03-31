@@ -55,38 +55,40 @@
 		
 		function fileDone(){
 			fileCount--;
-			console.log( fileCount );
 			if ( fileCount == 0 ){
 				display();
 			}
 		}
 		
-		for( var i = 0; i < js.length; i++ ){
-			var 
-				link = js[i];
-				
-			if ( link && !jsLinks[link] ){
-				console.log( link );
-				jsLinks[link] = true;
-				fileCount++;
-				
-				$.ajax({ url : link, dataType : 'script', success : fileDone });
-			}
-		}
-
-		for( var i = 0; i < css.length; i++ ){
-			var 
-				link = css[i];
-				
-			if ( link && !cssLinks[link] ){
-				console.log( link );
-				cssLinks[link] = true;
-				fileCount++;
-				
-				loadStyleSheet( link, fileDone );
-			}
-		}
+		if ( json.redirect ){
+			window.location = json.request+'/'+json.redirect;
+		}else{
 		
-		fileDone();
+			for( var i = 0; i < js.length; i++ ){
+				var 
+					link = js[i];
+					
+				if ( link && !jsLinks[link] ){
+					jsLinks[link] = true;
+					fileCount++;
+					
+					$.ajax({ url : link, dataType : 'script', success : fileDone });
+				}
+			}
+	
+			for( var i = 0; i < css.length; i++ ){
+				var 
+					link = css[i];
+					
+				if ( link && !cssLinks[link] ){
+					cssLinks[link] = true;
+					fileCount++;
+					
+					loadStyleSheet( link, fileDone );
+				}
+			}
+			
+			fileDone();
+		}
 	};
 }( jQuery, this ));

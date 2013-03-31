@@ -23,10 +23,6 @@ class Manager extends \Snap\Lib\Core\StdObject {
 		
 		$this->rootUrl = $rootUrl; 
 		
-		if ( self::$lookUp == null ){
-			self::$lookUp = array_flip( self::$accessors );
-		}
-		
 		if ( $accessor ){
 			if ( is_object($accessor) ){
 				$this->setAccessor( $accessor );
@@ -47,6 +43,11 @@ class Manager extends \Snap\Lib\Core\StdObject {
 	
 	public function setAccessor( Accessor $accessor ){
 		$this->accessor = $accessor;
+		
+		if ( self::$lookUp == null ){
+			self::$lookUp = array_flip( self::$accessors );
+		}
+		
 		$this->mode = self::$lookUp[ get_class($accessor) ];
 	}
 	

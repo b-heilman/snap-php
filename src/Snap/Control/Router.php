@@ -3,12 +3,21 @@
 namespace Snap\Control;
 
 use
-	\Snap\Lib\Control\Redirect;
+	\Snap\Lib\Control\Redirect,
+	\Snap\Lib\Control\Reroute;
 
 class Router extends \Snap\Lib\Core\StdObject {
 	
 	protected
-		$routingTable = array();
+		$routingTable = array(),
+		$redirect = '',
+		$asJson;
+	
+	public function __construct(){
+		parent::__construct();
+		
+		$this->asJson = isset($_GET['__asJson']);
+	}
 	
 	protected function duplicate( Router $in ){
 		$this->routingTable = &$in->routingTable;
@@ -180,22 +189,164 @@ class Router extends \Snap\Lib\Core\StdObject {
 		);
 	}
 	
+	protected function loadHeaders( $ctype ){
+		switch ( $ctype ){
+			case 'htm' :
+			case 'html' :
+				header('Content-type: text/html');
+				break;
+				
+			case 'json' : 
+				if (isset($_SERVER['HTTP_ACCEPT']) && (strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false)) {
+    				header('Content-type: application/json');
+				} else {
+					header('Content-type: text/plain');
+				}
+				break;
+				
+			case 'js' :
+				header('Content-type: application/javascript');
+				break;
+				
+			case 'css' :
+				header('Content-type: text/css');
+				break;
+				
+			case "jpeg":
+				$ctype = 'jpg';
+			case "jpg" :
+			case "gif" :
+			case "png" :
+				header('Content-type: image/'.$ctype);
+				break;
+	
+			default :
+				break;
+		}
+	}
+	
+	protected function respond( $data ){
+		\Snap\Lib\Core\Session::save();
+		
+		echo $this->asJson ? $this->makeJson( $data ) : $this->makeHtml($data);
+		
+		$em = \Snap\Model\Doctrine::getEntityManager();
+		if ( $em ){
+			try {
+				$em->flush();
+			}catch( \Exception $ex ){
+				// TODO : make a global way to handle exceptions and logging
+				// TODO : there has to be a better way to do this than... this
+				error_log( $ex->getMessage(). ' - '.$ex->getFile().' : '.$ex->getLine() );
+				error_log( $ex->getTraceAsString() );
+			}
+		}
+	}
+	
+	protected function makeJson( $response ){
+		$this->loadHeaders( 'json' );
+	
+		$response['request'] = static::$pageRequest;
+		$response['redirect'] = $this->redirect;
+	
+		return json_encode( $response );
+	}
+	
+	protected function makeHtml( $response ){
+		if ( $this->redirect ){
+			header( 'Location: '.static::$pageRequest.'/'.$this->redirect ) ;
+		}elseif ( isset($response['content']) ){
+			return $response['content'];
+		}elseif ( isset($_GET['__contentOnly']) ){
+			return $response['html'];
+		}else{
+			$this->loadHeaders( 'htm' );
+			
+			$js = '';
+			foreach( $response['js'] as $link ){
+				if ( $link != '' ){ /* TODO : where is this coming from ? */
+					$js .= "\n<script type='text/javascript' src='$link'></script>";
+				}
+			}
+	
+			$css = '';
+			foreach( $response['css'] as $link ){
+				if ( $link != '' ){
+					$css .= "\n<link type='text/css' rel='stylesheet' href='$link'/>";
+				}
+			}
+
+			$title = isset($response['title']) ? $response['title'] : '';
+			$meta = isset($response['meta']) ? $response['meta'] : '';
+			$bodyClass = isset($response['bodyClass']) ? $response['bodyClass'] : '';
+			$debug = isset($response['debug']) ? $response['debug'] : '';
+			$junk = isset($response['junk']) ? $response['junk'] : '';
+			$html = isset($response['html']) ? $response['html'] : '';
+			$onload = isset($response['onload']) ? $response['onload'] : '';
+			
+			return <<<HTML
+<!DOCTYPE HTML>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en'>
+	<head>
+		<title>{$title}</title>
+	
+		<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'>
+		{$meta}
+		<!-- js links -->
+		{$js}
+		<!-- css links -->
+		{$css}
+	</head>
+	<body class="{$bodyClass}">
+		<pre>{$debug}</pre>
+		{$junk}
+		{$html}
+		{$onload}
+	</body>
+</html>
+HTML;
+		}
+	}
+	
 	public function serve(){
 		$this->serveRoute( static::$pageData );
 	}
 	
 	protected function serveRoute( $route ){
 		try{
-			$settings = $this->translateRoute( $this->findRoute($route) );
+			$response = null;
 			
-			if ( $settings['action'] ){
-				$settings['action']->serve( $settings['info'] );
-			}else{
-				echo '<!-- Page Not Found -->';
+			if ( count($route) > 0 ){
+				$data = $route;
+				$mode = $data[0];
+				$info = implode( '/', array_slice($data, 1) );
+					
+				$fileManager = new \Snap\Lib\File\Manager( static::$pageRequest, $mode, $info ); // populate from $_GET
+					
+				if ( $fileManager->getMode() ){
+					$this->loadHeaders( $fileManager->getAccessor()->getContentType() );
+					$response = array( 'content' => $fileManager->getContent(new \Snap\Node\Page\Basic()) );
+				}
 			}
+			
+			if ( is_null($response) ){
+				$settings = $this->translateRoute( $this->findRoute($route) );
+				
+				if ( $settings['action'] ){
+					$response = $settings['action']->serve( $this );
+				}else{
+					$response = array( 'content' => '<!-- Page Not Found -->' );
+				}
+			}
+			
+			$this->respond( $response );
+		}catch( Reroute $reroute ){
+			// TODO : this is a stop gap measure right now
+			$this->serveRoute( explode('/',$reroute->getReroute()) );
 		}catch( Redirect $redirect ){
 			// TODO : this is a stop gap measure right now
-			$this->serveRoute( explode('/',$redirect->getRedirect()) );
+			$this->redirect = $redirect->getRedirect();
+			$this->respond( array('content' => '') );
 		}catch( \Exception $ex ){
 			echo '-=System Error=-';
 			error_log( $ex->getMessage().' - '.$ex->getFile().' : '.$ex->getLine() );
