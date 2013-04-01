@@ -123,7 +123,6 @@ abstract class Page extends Node\Core\Template
 		$tmp = null;
 		
 		$this->router = $router;
-		$this->fileManager = new \Snap\Lib\File\Manager( static::$pageRequest );
 		
 		$this->addTemplateContent( $this->makeTemplateContent() ); // moved to here to keep from extra processing resources
 		return $this->getReponse();
@@ -131,6 +130,7 @@ abstract class Page extends Node\Core\Template
 	
 	public function inner(){
 		if ( $this->rendered == '' ){
+			$this->fileManager = new \Snap\Lib\File\Manager( static::$pageRequest );
 			$this->extender->run();
 		}
 		
@@ -223,7 +223,7 @@ abstract class Page extends Node\Core\Template
 			'onload'    => $jsContent,
 			'css'       => $css,
 			'js'        => $js,
-			'html'      => $html,
+			'content'   => $html,
 			'junk'      => $junk,
 			'debug'     => $debug
 		);

@@ -1,3 +1,5 @@
 <?php 
 // meant to work with the \Snap\Core\Router
-$this->write( $content );
+if ( isset($content) ){
+	$this->write( $content );
+}

@@ -25,6 +25,10 @@ class Reflective
 		}
 	}
 	
+	public function isRawContent(){
+		return false;
+	}
+	
 	public function isValid(){
 		return class_exists( $this->class ) && array_search( 'Snap\Node\Accessor\Reflective', class_implements($this->class) );
 	}

@@ -8,7 +8,7 @@
 				$form = jQuery( this ),
 				form = this,
 				$wrapper = $form.closest('.form-reflective-wrapper');
-			
+	
 			if ( !form.iframe ){
 				var 
 					name = 'reflection_'+(iframes++);
@@ -21,12 +21,12 @@
 				
 				form.iframe.onload = function(){
 					if ( this.document.body.innerHTML != '' ){
-						console.log( this.document.body.innerHTML );
 						var
 							json = $.parseJSON( $(this.document.body).text() );
 						
 						global.Snap.decodeJson( json, function(){
-							$wrapper.html( json.html );
+							console.log( json );
+							$wrapper.html( json.content );
 						});
 					}
 				};

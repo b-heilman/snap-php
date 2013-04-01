@@ -19,7 +19,7 @@
 					
 					list.hide();
 					pane.show();
-					content.html( json.html );
+					content.html( json.content );
 				});
 			}
 		});

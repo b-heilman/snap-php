@@ -64,30 +64,33 @@
 			window.location = json.request+'/'+json.redirect;
 		}else{
 		
-			for( var i = 0; i < js.length; i++ ){
-				var 
-					link = js[i];
-					
-				if ( link && !jsLinks[link] ){
-					jsLinks[link] = true;
-					fileCount++;
-					
-					$.ajax({ url : link, dataType : 'script', success : fileDone });
-				}
-			}
-	
-			for( var i = 0; i < css.length; i++ ){
-				var 
-					link = css[i];
-					
-				if ( link && !cssLinks[link] ){
-					cssLinks[link] = true;
-					fileCount++;
-					
-					loadStyleSheet( link, fileDone );
+			if ( js ){
+				for( var i = 0; i < js.length; i++ ){
+					var 
+						link = js[i];
+						
+					if ( link && !jsLinks[link] ){
+						jsLinks[link] = true;
+						fileCount++;
+						
+						$.ajax({ url : link, dataType : 'script', success : fileDone });
+					}
 				}
 			}
 			
+			if ( css ){
+				for( var i = 0; i < css.length; i++ ){
+					var 
+						link = css[i];
+						
+					if ( link && !cssLinks[link] ){
+						cssLinks[link] = true;
+						fileCount++;
+						
+						loadStyleSheet( link, fileDone );
+					}
+				}
+			}
 			fileDone();
 		}
 	};

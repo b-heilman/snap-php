@@ -27,6 +27,10 @@ abstract class Crawler extends \Snap\Lib\Core\StdObject
 		}
 	}
 
+	public function isRawContent(){
+		return true;
+	}
+	
 	// return an array of all viable directories
 	public function scanDir(){
 		$temps = array();

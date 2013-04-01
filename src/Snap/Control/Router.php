@@ -11,12 +11,14 @@ class Router extends \Snap\Lib\Core\StdObject {
 	protected
 		$routingTable = array(),
 		$redirect = '',
-		$asJson;
+		$asJson,
+		$isRaw;
 	
 	public function __construct(){
 		parent::__construct();
 		
 		$this->asJson = isset($_GET['__asJson']);
+		$this->isRaw = isset($_GET['__contentOnly']);
 	}
 	
 	protected function duplicate( Router $in ){
@@ -255,10 +257,8 @@ class Router extends \Snap\Lib\Core\StdObject {
 	protected function makeHtml( $response ){
 		if ( $this->redirect ){
 			header( 'Location: '.static::$pageRequest.'/'.$this->redirect ) ;
-		}elseif ( isset($response['content']) ){
+		}elseif ( $this->isRaw ){
 			return $response['content'];
-		}elseif ( isset($_GET['__contentOnly']) ){
-			return $response['html'];
 		}else{
 			$this->loadHeaders( 'htm' );
 			
@@ -281,7 +281,7 @@ class Router extends \Snap\Lib\Core\StdObject {
 			$bodyClass = isset($response['bodyClass']) ? $response['bodyClass'] : '';
 			$debug = isset($response['debug']) ? $response['debug'] : '';
 			$junk = isset($response['junk']) ? $response['junk'] : '';
-			$html = isset($response['html']) ? $response['html'] : '';
+			$content = isset($response['content']) ? $response['content'] : '';
 			$onload = isset($response['onload']) ? $response['onload'] : '';
 			
 			return <<<HTML
@@ -300,7 +300,7 @@ class Router extends \Snap\Lib\Core\StdObject {
 	<body class="{$bodyClass}">
 		<pre>{$debug}</pre>
 		{$junk}
-		{$html}
+		{$content}
 		{$onload}
 	</body>
 </html>
@@ -324,7 +324,9 @@ HTML;
 				$fileManager = new \Snap\Lib\File\Manager( static::$pageRequest, $mode, $info ); // populate from $_GET
 					
 				if ( $fileManager->getMode() ){
-					$this->loadHeaders( $fileManager->getAccessor()->getContentType() );
+					$accessor = $fileManager->getAccessor();
+					$this->loadHeaders( $accessor->getContentType() );
+					$this->isRaw = $accessor->isRawContent();
 					$response = array( 'content' => $fileManager->getContent(new \Snap\Node\Page\Basic()) );
 				}
 			}
