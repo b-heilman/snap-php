@@ -215,22 +215,22 @@ abstract class Template extends Block {
  	}
  	
  	protected function getTemplateHTML(){
- 		if ( $this->path == '' ){
- 			throw new \Exception( 'Path is blank for '.get_class($this) );
- 		}
- 		
- 		$this->translating = true;
- 		
- 		ob_start();
- 		
- 		$this->loadTemplate( $this->path );
- 		
- 		$__content = ob_get_contents();
- 		ob_end_clean();
- 		
- 		$this->translating = false;
- 		
- 		return $__content;
+ 		if ( $this->path === '' ){
+	 		throw new \Exception( 'Path is blank for '.get_class($this) );
+	 	}
+	 		
+	 	$this->translating = true;
+	 	
+	 	ob_start();
+	 		
+	 	$this->loadTemplate( $this->path );
+	 		
+	 	$__content = ob_get_contents();
+	 	ob_end_clean();
+	 		
+	 	$this->translating = false;
+	 	
+	 	return $__content;
  	}
  	
  	// __ is used to avoid collisions here, not sure if better way?

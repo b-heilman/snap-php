@@ -10,7 +10,7 @@ class Router extends \Snap\Lib\Core\StdObject {
 	
 	protected
 		$routingTable = array(),
-		$redirect = '',
+		$redirect = null,
 		$asJson,
 		$isRaw;
 	
@@ -255,7 +255,7 @@ class Router extends \Snap\Lib\Core\StdObject {
 	}
 	
 	protected function makeHtml( $response ){
-		if ( $this->redirect ){
+		if ( !is_null($this->redirect) ){
 			header( 'Location: '.static::$pageRequest.'/'.$this->redirect ) ;
 		}elseif ( $this->isRaw ){
 			return $response['content'];
@@ -263,19 +263,23 @@ class Router extends \Snap\Lib\Core\StdObject {
 			$this->loadHeaders( 'htm' );
 			
 			$js = '';
-			foreach( $response['js'] as $link ){
-				if ( $link != '' ){ /* TODO : where is this coming from ? */
-					$js .= "\n<script type='text/javascript' src='$link'></script>";
+			if ( isset($response['js']) ){
+				foreach( $response['js'] as $link ){
+					if ( $link != '' ){ /* TODO : where is this coming from ? */
+						$js .= "\n<script type='text/javascript' src='$link'></script>";
+					}
 				}
 			}
-	
+			
 			$css = '';
-			foreach( $response['css'] as $link ){
-				if ( $link != '' ){
-					$css .= "\n<link type='text/css' rel='stylesheet' href='$link'/>";
+			if ( isset($response['css']) ){
+				foreach( $response['css'] as $link ){
+					if ( $link != '' ){
+						$css .= "\n<link type='text/css' rel='stylesheet' href='$link'/>";
+					}
 				}
 			}
-
+			
 			$title = isset($response['title']) ? $response['title'] : '';
 			$meta = isset($response['meta']) ? $response['meta'] : '';
 			$bodyClass = isset($response['bodyClass']) ? $response['bodyClass'] : '';
@@ -344,9 +348,11 @@ HTML;
 			$this->respond( $response );
 		}catch( Reroute $reroute ){
 			// TODO : this is a stop gap measure right now
+			error_log('rerouting');
 			$this->serveRoute( explode('/',$reroute->getReroute()) );
 		}catch( Redirect $redirect ){
 			// TODO : this is a stop gap measure right now
+			error_log('redirecting');
 			$this->redirect = $redirect->getRedirect();
 			$this->respond( array('content' => '') );
 		}catch( \Exception $ex ){

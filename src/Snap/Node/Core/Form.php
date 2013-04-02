@@ -8,6 +8,7 @@ class Form extends \Snap\Node\Core\Template {
 		$hasSubmit = false;
 	
     protected 
+    	$active = true,
     	$action, 
     	$target,
     	$model,         
@@ -55,6 +56,10 @@ class Form extends \Snap\Node\Core\Template {
 		$this->action = isset($settings['action']) ? $settings['action'] : static::$pageURI;
 		
 		parent::parseSettings($settings);
+    }
+    
+    protected function setInactive(){
+    	$this->active = false;
     }
     
     // allows for a form to be created that is a wrapper around other forms
@@ -129,7 +134,7 @@ class Form extends \Snap\Node\Core\Template {
 	protected function _finalize(){
 		parent::_finalize();
 		
-		if ( !$this->hasSubmit && $this->tag == 'form' ){
+		if ( !$this->hasSubmit && $this->tag == 'form' && $this->active ){
 			$this->append( new \Snap\Node\Form\Control() );
 		}
 		

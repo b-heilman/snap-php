@@ -61,8 +61,13 @@ abstract class Listing extends \Snap\Node\Core\View {
  		}else{
 	 		for( $i = 0; $i < $c; $i++ ){
 	 			echo '<li>';
-	 			$this->setTemplateData( $this->parseListData($data->get($i)) );
-	 			parent::loadTemplate( $__template );
+	 			$d = $this->parseListData( $data->get($i) );
+	 			if ( is_array($d) ){
+	 				$this->setTemplateData( $d );
+	 				parent::loadTemplate( $__template );
+	 			}else{
+	 				$this->write( $d );
+	 			}
 	 			echo '</li>';
 	 		}
  		}

@@ -24,10 +24,7 @@
 						var
 							json = $.parseJSON( $(this.document.body).text() );
 						
-						global.Snap.decodeJson( json, function(){
-							console.log( json );
-							$wrapper.html( json.content );
-						});
+						global.Snap.decodeJson( json, function(){ $wrapper.html( json.content ); });
 					}
 				};
 			}
