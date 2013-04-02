@@ -12,7 +12,7 @@ class Template extends \Snap\Node\Core\Template {
 	public function __construct( $settings = array(), $id = null, $data = null ){
 		if ( is_object($settings) ){
 			if ( $settings instanceof \Snap\Node\Actionable\Templatable ){
-				$settings = array( 
+				$settings = array(
 					'template' => $settings->getPath(),
 					'templateWrapper' => $settings->getWrapper(),
 					'templateData' => $data

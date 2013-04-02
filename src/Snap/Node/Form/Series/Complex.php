@@ -3,7 +3,7 @@
 namespace Snap\Node\Form\Series;
 
 abstract class Complex extends \Snap\Node\Core\Template 
-	implements \Snap\Node\Actionable\Template, \Snap\Node\Core\Actionable {
+	implements \Snap\Node\Actionable\Template, \Snap\Node\Actionable\Templatable, \Snap\Node\Core\Actionable {
 	
 	protected
 		$series;
