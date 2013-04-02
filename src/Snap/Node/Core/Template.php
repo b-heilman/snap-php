@@ -241,6 +241,10 @@ abstract class Template extends Block {
  			${$__var} = $__val;
  		}
  		
+ 		if ( !$__template ){
+ 			$ex = new \Exception();
+ 			error_log( $ex->getTraceAsString() );
+ 		}
  		// call the template
  		include $__template;
  	}

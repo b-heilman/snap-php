@@ -51,6 +51,14 @@ abstract class Listing extends \Snap\Node\Core\View {
 		return $data;
 	}
 	
+	protected function open( $data ){
+		return '<li>';
+	}
+	
+	protected function close( $data ){
+		return '</li>';
+	}
+	
 	protected function loadTemplate( $__template ){
  		$content = '';
  		$data = $this->parseStreamData( $this->getStreamData() );
@@ -60,15 +68,16 @@ abstract class Listing extends \Snap\Node\Core\View {
  			$this->addClass('empty');
  		}else{
 	 		for( $i = 0; $i < $c; $i++ ){
-	 			echo '<li>';
 	 			$d = $this->parseListData( $data->get($i) );
+	 			
+	 			echo $this->open( $d );
 	 			if ( is_array($d) ){
 	 				$this->setTemplateData( $d );
 	 				parent::loadTemplate( $__template );
 	 			}else{
 	 				$this->write( $d );
 	 			}
-	 			echo '</li>';
+	 			echo $this->close( $d );
 	 		}
  		}
  	}
