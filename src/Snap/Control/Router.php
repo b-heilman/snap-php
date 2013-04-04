@@ -348,11 +348,9 @@ HTML;
 			$this->respond( $response );
 		}catch( Reroute $reroute ){
 			// TODO : this is a stop gap measure right now
-			error_log('rerouting');
 			$this->serveRoute( explode('/',$reroute->getReroute()) );
 		}catch( Redirect $redirect ){
 			// TODO : this is a stop gap measure right now
-			error_log('redirecting');
 			$this->redirect = $redirect->getRedirect();
 			$this->respond( array('content' => '') );
 		}catch( \Exception $ex ){
