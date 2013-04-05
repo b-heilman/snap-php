@@ -53,12 +53,12 @@ class Pickable extends \Snap\Node\Form\Input\Basic {
     }
     
     protected function makeCheckbox( $name, $label, $value, $checked ){
-    	return "<label>$label<input type=\"checkbox\" value=\"".htmlentities($value)
+    	return "<label><span class='label-content'>$label</span><input type=\"checkbox\" value=\"".htmlentities($value)
     		.'" '.( $checked ? 'checked="checked"' : '' )." name=\"{$name}[]\" /></label>";
     }
     
     protected function makeRadio( $name, $label, $value, $checked ){
-    	return "<label>$label<input type=\"radio\" value=\"".htmlentities($value)
+    	return "<label><span class='label-content'>$label</span><input type=\"radio\" value=\"".htmlentities($value)
     	.'" '.( $checked ? 'checked="checked"' : '' )." name=\"{$name}[]\" /></label>";
     }
 }

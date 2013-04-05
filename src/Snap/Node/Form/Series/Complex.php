@@ -25,7 +25,11 @@ abstract class Complex extends \Snap\Node\Core\Template
 	public function build(){
 		parent::build();
 		
-		$this->parent->append( new \Snap\Node\Form\Input\Hidden($this->series->getControl()) );
+		$this->parent->append( new \Snap\Node\Form\Input\Hidden(array(
+				'input' => $this->series->getControl(),
+				'class' => 'form-series-complex-count series-control-'.$this->series->getName()
+			))
+		);
 	}
 	
 	protected function baseClass(){

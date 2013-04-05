@@ -21,14 +21,33 @@ class Control extends \Snap\Node\Form\Row {
 	protected function parseSettings( $settings = array() ){
 		if ( isset($settings['input']) ){
 			$input = $settings['input'];
-			$name = $input->getName();
 			
-			foreach( $input->getOptions() as $value => $display ){
+			if ( is_string($input) ){
+				$name = 'formControl_'.static::$instances++;
 				$this->append( new \Snap\Node\Form\Input\Button(array(
-					'input' => new \Snap\Lib\Form\Input\Basic($name, $value),
-					'text'  => $display,
-					'type'  => 'submit',
+						'input' => new \Snap\Lib\Form\Input\Basic('__button', 'submit'),
+						'text'  => $input,
+						'type'  => 'submit',
 				)) );
+			}elseif ( is_array($input) ){
+				$name = 'formControl_'.static::$instances++;
+				foreach( $input as $label => $type ){
+					$this->append( new \Snap\Node\Form\Input\Button(array(
+							'input' => new \Snap\Lib\Form\Input\Basic($name, $type),
+							'text'  => $label,
+							'type'  => $type,
+					)) );
+				}
+			}else{
+				$name = $input->getName();
+				
+				foreach( $input->getOptions() as $value => $display ){
+					$this->append( new \Snap\Node\Form\Input\Button(array(
+						'input' => new \Snap\Lib\Form\Input\Basic($name, $value),
+						'text'  => $display,
+						'type'  => 'submit',
+					)) );
+				}
 			}
 		}else{
 			$name = 'formControl_'.static::$instances++;

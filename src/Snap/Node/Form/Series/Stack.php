@@ -19,11 +19,9 @@ class Stack extends \Snap\Node\Core\Template
 	public function build(){
 		parent::build();
 		
-		$control = $this->series->getControl();
-		
 		$this->append( new \Snap\Node\Form\Input\Hidden(array(
-			'input' => $control,
-			'class' => 'form-series-stack-count'
+			'input' => $this->series->getControl(),
+			'class' => 'form-series-stack-count series-control-'.$this->series->getName()
 		)) );
 	}
 	

@@ -21,9 +21,13 @@ abstract class Form {
 		$resultStream = null,
 		$controlInput;
 	
-	public function __construct(){
+	public function __construct( $tag = null ){
 		// inputs are meant to be defined in the class
-		
+		/* TODO : uniqueTag
+		if ( $tag !== null ){
+			$this->setUniqueTag( $tag );
+		}
+		*/
 		if ( static::$adapter == null ){
 			static::$adapter = new \Snap\Adapter\Form();
 		}
@@ -52,10 +56,13 @@ abstract class Form {
 	}
 	
 	protected function setUniqueTag( $tag ){
-		$this->uniqueness = '_'.$tag;
+		error_log( 'uniqueing : '.$tag );
+		if ( $tag !== null ){
+			$this->uniqueness = '_'.$tag;
 		
-		if ( $this->controlInput ){
-			$this->controlInput->addTag( $this->uniqueness );
+			if ( $this->controlInput ){
+				$this->controlInput->addTag( $this->uniqueness );
+			}
 		}
 	}
 	
