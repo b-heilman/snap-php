@@ -6,7 +6,7 @@ use
 	\Snap\Lib\Control\Redirect,
 	\Snap\Lib\Control\Reroute;
 
-class Router extends \Snap\Lib\Core\StdObject {
+abstract class Router extends \Snap\Lib\Core\StdObject {
 	
 	protected
 		$routingTable = array(),
@@ -245,6 +245,8 @@ class Router extends \Snap\Lib\Core\StdObject {
 		}
 	}
 	
+	abstract protected function loadRoutes();
+	
 	protected function makeJson( $response ){
 		$this->loadHeaders( 'json' );
 	
@@ -336,6 +338,8 @@ HTML;
 			}
 			
 			if ( is_null($response) ){
+				// delay this to improve performance of reflective resource delivery
+				$this->loadRoutes();
 				$settings = $this->translateRoute( $this->findRoute($route) );
 				
 				if ( $settings['action'] ){
