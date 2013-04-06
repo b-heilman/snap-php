@@ -10,6 +10,10 @@ class Configuration extends \stdClass {
 	
 	public function __construct( $reference, $path ){
 		if ( $path{0} != '/' ){
+			$this->__scope = $path;
+		}elseif( $path{1} == '/' ){
+			$this->__scope = 'Snap/Config'.substr( $path, 1 );
+		}else{
 			$class = get_class( $reference );
 			
 			if ( ($pos = strpos('Node',$class)) !== false 
@@ -19,10 +23,6 @@ class Configuration extends \stdClass {
 				|| ($pos = strpos('Adapter',$class)) !== false ){
 				$this->__scope = substr( str_replace('\\', '/', $class), 0, $pos ).'Config/'.$path;
 			}
-		}elseif( $path{1} == '/' ){
-			$this->__scope = 'Snap/Config'.substr( $path, 1 );
-		}else{
-			$this->__scope = $path;
 		}
 		
 		if ( $this->__scope ){
