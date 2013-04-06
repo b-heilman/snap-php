@@ -88,8 +88,12 @@ class StdObject {
 			
 			$dirs = explode( PATH_SEPARATOR, get_include_path() );
 			array_unshift( $dirs, self::$srcRoot ); // standard source file
-			array_unshift( $dirs, self::$projectRoot.'/local' ); // computer override
-			
+
+			$dir = self::$projectRoot.'/local';
+			if ( file_exists($dir) ){
+				array_unshift( $dirs, $dir ); // computer override
+			}
+
 			// scan the include path
 			for( $i = 0, $c = count($dirs); $i < $c; $i++ ){
 				$dir = $dirs[$i];
