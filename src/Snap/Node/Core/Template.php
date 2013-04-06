@@ -27,9 +27,7 @@ abstract class Template extends Block {
  	}
  	
  	protected function parseSettings( $settings = array() ){
- 		$this->path = isset($settings['template']) 
-			? $settings['template'] 
- 			: $this->getDefaultPath();
+ 		$this->path = isset($settings['template']) ? $settings['template'] : $this->getDefaultPath();
  		
  		if ( isset($settings['data']) && !$settings['data'] ){
 			$this->delayed = true;
@@ -79,7 +77,7 @@ abstract class Template extends Block {
 	 			}
 	 		}
 		}else{
-			error_log( 'Node\Core\Template : bad content => '.get_class($this) );
+			$this->logError( 'Node\Core\Template : bad content => '.get_class($this) );
 		}
  	}
  	
@@ -144,8 +142,6 @@ abstract class Template extends Block {
 	 		}catch( Exception $ex ){
 	 			// TODO : make this a template exception
 	 			throw new \Exception('Template processing error');
-	 			error_log( $ex->getMessage(). ' - '.$ex->getFile().' : '.$ex->getLine() );
-	 			error_log( $ex->getTraceAsString() );
 	 		}
  		}
  	}
@@ -167,7 +163,7 @@ abstract class Template extends Block {
 			if ( $pos === false ){
 				$path = null;
 			}else{
-				$path = Bootstrap::testFile( substr($class,0,$pos).'Template/'.$template );
+				$path = Bootstrap::testFile( str_replace('\\','/',substr($class,0,$pos)).'Template/'.$template );
 			}
  		}
  		
@@ -243,7 +239,7 @@ abstract class Template extends Block {
  		
  		if ( !$__template ){
  			$ex = new \Exception();
- 			error_log( $ex->getTraceAsString() );
+ 			$this->logError( $ex );
  		}
  		// call the template
  		include $__template;

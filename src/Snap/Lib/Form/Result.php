@@ -111,12 +111,6 @@ class Result {
 	}
 	
 	public function addDebug( $debug ){
-		// for now, I just dump the info out to the error_log
-		if ( $debug instanceof \Exception ){
-			error_log( $debug->getMessage().' - '.$debug->getFile().' : '.$debug->getLine() );
-			error_log( $debug->getTraceAsString() );
-		}else{
-			error_log( $debug );
-		}
+		$this->logError( $debug );
 	}
 }

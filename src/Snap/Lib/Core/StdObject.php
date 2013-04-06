@@ -20,6 +20,15 @@ class StdObject {
 		static::init();
 	}
 	
+	protected function logError( $error ){
+		if ( $error instanceof \Exception ){
+			$this->logError( $error->getMessage(). ' - '.$error->getFile().' : '.$error->getLine() );
+			$this->logError( $error->getTraceAsString() );
+		}else{
+			error_log( $error );
+		}
+	}
+	
 	protected function getConfig( $path ){
 		$config = new \Snap\Lib\Core\Configuration( $this, $path );
 		$path = $config->__path;
@@ -78,8 +87,9 @@ class StdObject {
 			self::$srcRoot = self::$projectRoot.'/src';
 			
 			$dirs = explode( PATH_SEPARATOR, get_include_path() );
-			array_unshift( $dirs, self::$srcRoot );
-				
+			array_unshift( $dirs, self::$srcRoot ); // standard source file
+			array_unshift( $dirs, self::$projectRoot.'/local' ); // computer override
+			
 			// scan the include path
 			for( $i = 0, $c = count($dirs); $i < $c; $i++ ){
 				$dir = $dirs[$i];

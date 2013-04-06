@@ -2,7 +2,7 @@
 
 namespace Snap\Node\Core;
 
-class Comment 
+class Comment extends \Snap\Lib\Core\StdObject
 	implements \Snap\Node\Core\Snapable {
 
 	protected 

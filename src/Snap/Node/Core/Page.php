@@ -35,8 +35,7 @@ abstract class Page extends Node\Core\Template
 		try{
 			Block::__construct( $settings );
 		}catch( Exception $ex ){
-			error_log( $ex->getMessage().' - '.$ex->getFile().' : '.$ex->getLine() );
-			error_log( $ex->getTraceAsString() );
+			$this->logError( $ex );
 		}
 		
 		$this->debugContent .= ob_get_contents();
@@ -190,8 +189,7 @@ abstract class Page extends Node\Core\Template
 			}
 		} catch( Exception $ex ){
 			$html = '-- No HTML --';
-			error_log( $ex->getMessage().' - '.$ex->getFile().' : '.$ex->getLine() );
-			error_log( $ex->getTraceAsString() );
+			$this->logError( $ex );
 		}
 
 		$junk = trim( ob_get_contents() );

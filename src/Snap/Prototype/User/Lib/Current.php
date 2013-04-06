@@ -4,7 +4,7 @@ namespace Snap\Prototype\User\Lib;
 
 use \Snap\Prototype\User\Model\Doctrine\User;
 
-class Current {
+class Current extends \Snap\Lib\Core\StdObject {
 
 	protected static
 		$vars,
@@ -21,7 +21,8 @@ class Current {
 				try{
 					static::$user = User::find((int)$id);
 				}catch( \Exception $ex ){
-					error_log('system explodes');
+					$this->logError( 'system nuke' );
+					$this->logError( $ex );
 					// TODO : how can I tell if users is installed?
 				}
 			}

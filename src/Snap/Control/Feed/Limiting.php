@@ -109,8 +109,7 @@ class Limiting extends NavigationQuery {
 				}
 			}
 		}catch( \Exception $ex ){
-			error_log( $ex->getMessage().' - '.$ex->getFile().' : '.$ex->getLine() );
-			error_log( $ex->getTraceAsString() );
+			$this->logError( $ex );
 		}
 		
 		return $data;

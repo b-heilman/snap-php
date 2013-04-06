@@ -56,7 +56,6 @@ abstract class Form {
 	}
 	
 	protected function setUniqueTag( $tag ){
-		error_log( 'uniqueing : '.$tag );
 		if ( $tag !== null ){
 			$this->uniqueness = '_'.$tag;
 		

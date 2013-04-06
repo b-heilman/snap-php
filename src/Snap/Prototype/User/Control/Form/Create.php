@@ -50,8 +50,7 @@ class Create extends \Snap\Control\Form {
 				}
 			}else{
 				$formData->addFormError( 'Failure to create user' );
-				error_log( $ex->getMessage(). ' - '.$ex->getFile().' : '.$ex->getLine() );
-	 			error_log( $ex->getTraceAsString() );
+				$this->logError( $ex );
 			}
 		}
 		 

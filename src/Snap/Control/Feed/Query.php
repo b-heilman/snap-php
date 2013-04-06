@@ -39,8 +39,7 @@ abstract class Query extends \Snap\Control\Feed {
 			$res = $this->query->getQuery()->getResult();
 		}catch( \Exception $ex ){
 			$res = array();
-			error_log( $ex->getMessage().' - '.$ex->getFile().' : '.$ex->getLine() );
-			error_log( $ex->getTraceAsString() );
+			$this->logError( $ex );
 		}
 		
 		return new \Snap\Lib\Mvc\Data\Collection( $res );

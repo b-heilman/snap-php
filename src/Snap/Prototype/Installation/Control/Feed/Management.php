@@ -81,8 +81,8 @@ class Management extends \Snap\Control\Feed\Converter {
 						$success = array_merge( $success, $inst->runHooks($handler) );
 					}
 				}else{
-					error_log( $handler->lastQuery() );
-					error_log( $handler->lastError() );
+					$this->logError( $handler->lastQuery() );
+					$this->logError( $handler->lastError() );
 					$errors[] = 'Installation failed';
 				}
 			
