@@ -21,8 +21,7 @@ class Current extends \Snap\Lib\Core\StdObject {
 				try{
 					static::$user = User::find((int)$id);
 				}catch( \Exception $ex ){
-					$this->logError( 'system nuke' );
-					$this->logError( $ex );
+					error_log( 'system nuke' );
 					// TODO : how can I tell if users is installed?
 				}
 			}
