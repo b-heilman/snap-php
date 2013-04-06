@@ -2,7 +2,7 @@
 
 namespace Snap\Lib\Core;
 
-class Configuration {
+class Configuration extends \stdClass {
 	
 	public
 		$__path = null,
@@ -17,10 +17,10 @@ class Configuration {
 				|| ($pos = strpos('Control',$class)) !== false 
 				|| ($pos = strpos('Template',$class)) !== false 
 				|| ($pos = strpos('Adapter',$class)) !== false ){
-				$this->__scope = substr( $path, 0, $pos ).'Config/'.$path;
+				$this->__scope = substr( str_replace('\\', '/', $class), 0, $pos ).'Config/'.$path;
 			}
 		}elseif( $path{1} == '/' ){
-			$this->__scope = '/Snap/Config'.substr( $path, 1 );
+			$this->__scope = 'Snap/Config'.substr( $path, 1 );
 		}else{
 			$this->__scope = $path;
 		}
