@@ -11,7 +11,7 @@ class Web extends Crawler {
 	}
 
 	// TODO : this isn't entirely right
-	public function getLink( $root ){
+	public function getLink( $serviceRoot, $webRoot ){
 		return $this->path ? '/'.$this->path : null;
 	}
 }

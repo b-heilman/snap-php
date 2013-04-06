@@ -10,7 +10,7 @@ class Document extends Crawler {
 		parent::__construct( $path );
 	}
 	
-	public function getLink( $root ){
-		return $this->path ? $root.$this->path : null;
+	public function getLink( $serviceRoot, $webRoot ){
+		return $this->path ? $serviceRoot.$this->path : null;
 	}
 }

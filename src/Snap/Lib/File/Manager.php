@@ -96,7 +96,8 @@ class Manager extends \Snap\Lib\Core\StdObject {
 		}
 		
 		if ( $this->accessor->isValid() ){
-			return $this->accessor->getLink( $this->rootUrl.'/'.$this->mode.'/' );
+			$root = $this->rootUrl.'/';
+			return $this->accessor->getLink( $root.$this->mode.'/', $root );
 		}else return null;
 	}
 }

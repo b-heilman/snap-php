@@ -43,8 +43,8 @@ class Reflective
 		return $el->inner();
 	}
 	
-	public function getLink( $root ){
-		return $root.str_replace( '\\','/', $this->class ).'?__reflectiveInit='.urlencode( json_encode($this->data) );
+	public function getLink( $serviceRoot, $webRoot ){
+		return $serviceRoot.str_replace( '\\','/', $this->class ).'?__reflectiveInit='.urlencode( json_encode($this->data) );
 	}
 	
 	public function getContentType(){

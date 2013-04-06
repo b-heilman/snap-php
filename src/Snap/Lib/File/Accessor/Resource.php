@@ -10,7 +10,13 @@ class Resource extends Crawler {
 		parent::__construct( $path );
 	}
 
-	public function getLink( $root ){
-		return $this->path ? $root.$this->path : null;
+	public function getLink( $serviceRoot, $webRoot ){
+		$server = $this->getConfig('//Server');
+		
+		if ( $server->resourceMode ){
+			return $this->path ? $webRoot.'resources/'.$this->path : null;
+		}else{
+			return $this->path ? $serviceRoot.$this->path : null;
+		}
 	}
 }

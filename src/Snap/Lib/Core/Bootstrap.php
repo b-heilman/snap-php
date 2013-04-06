@@ -211,5 +211,4 @@ Bootstrap::init();
 
 spl_autoload_register('\Snap\Lib\Core\Bootstrap::includeClass');
 
-Bootstrap::includeConfig('Snap/Config/server.php');
 Bootstrap::includeConfig('Snap/Config/general.php');
