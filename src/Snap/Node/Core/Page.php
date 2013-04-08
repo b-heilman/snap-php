@@ -129,7 +129,7 @@ abstract class Page extends Node\Core\Template
 	
 	public function inner(){
 		if ( $this->rendered == '' ){
-			$this->fileManager = new \Snap\Lib\File\Manager( static::$pageRequest );
+			$this->fileManager = new \Snap\Lib\File\Manager( static::$pageRoot );
 			$this->extender->run();
 		}
 		

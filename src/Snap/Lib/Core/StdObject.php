@@ -10,6 +10,7 @@ class StdObject {
 		$pageURI,           // entire called script
 		$pageRequest,       // relative reference to page, no path data included
 		$pageScript = null, // direct reference to page
+		$pageRoot,
 		$pageData,          // any extra url data
 		$srcRoot,
 		$webRoot,
@@ -68,14 +69,16 @@ class StdObject {
 				self::$pageURI     = $_SERVER['REQUEST_URI'];
 				self::$pageScript  = $_SERVER['SCRIPT_NAME'];
 				self::$pageRequest = implode( '/', $request );
+				self::$pageRoot    = self::$pageRequest;
 				self::$pageData    = $path;
 			}else{
+				$sName = $_SERVER['SCRIPT_NAME'];
+				
 				self::$pageURI     = $_SERVER['REQUEST_URI'];
-				self::$pageScript  = $_SERVER['SCRIPT_NAME'];
-				self::$pageRequest = $_SERVER['SCRIPT_NAME'];
-				self::$pageData    = isset($_SERVER['PATH_INFO']) 
-					? explode( '/', substr($_SERVER['PATH_INFO'], 1) )
-					: array();
+				self::$pageScript  = $sName;
+				self::$pageRequest = $sName;
+				self::$pageRoot    = substr( $sName, 0, strrpos($_SERVER['SCRIPT_NAME'],'/') );
+				self::$pageData    = isset($_SERVER['PATH_INFO']) ? explode( '/', substr($_SERVER['PATH_INFO'], 1) ) : array();
 			}
 			
 			// figure out internal roots
