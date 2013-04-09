@@ -33,10 +33,14 @@ class Current extends \Snap\Lib\Core\StdObject {
 	}
 
 	static public function setVar( $var, $value ){
+		static::init();
+		
 		static::$vars->setVar( $var, $value );
 	}
 	
 	static public function getVar( $var ){
+		static::init();
+		
 		return static::$vars->getVar( $var );
 	}
 	
