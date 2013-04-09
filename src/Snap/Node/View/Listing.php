@@ -59,12 +59,18 @@ abstract class Listing extends \Snap\Node\Core\View {
 		return '</li>';
 	}
 	
+	protected function emptyMessage(){
+		return '';
+	}
+	
 	protected function loadTemplate( $__template ){
  		$content = '';
  		$data = $this->parseStreamData( $this->getStreamData() );
  		$c = $data->count();
  		
  		if ( $c == 0 ){
+ 			error_log( get_class($this).' : '.$this->emptyMessage() );
+ 			$this->write( $this->emptyMessage(), array('tag' => 'li') );
  			$this->addClass('empty');
  		}else{
 	 		for( $i = 0; $i < $c; $i++ ){

@@ -14,6 +14,10 @@ class Listing extends \Snap\Node\View\Listing {
 		parent::__construct( $settings );
 	}
 	
+	protected function emptyMessage(){
+		return 'No tags yet.';
+	}
+	
 	protected function parseListData( $in ){
 		return array(
 			'id'   => $in->getId(), 

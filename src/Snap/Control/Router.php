@@ -249,7 +249,7 @@ abstract class Router extends \Snap\Lib\Core\StdObject {
 	protected function makeJson( $response ){
 		$this->loadHeaders( 'json' );
 	
-		$response['request'] = static::$pageRequest;
+		$response['request'] = static::$pageRoot;
 		$response['redirect'] = $this->redirect;
 	
 		return json_encode( $response );
@@ -257,7 +257,7 @@ abstract class Router extends \Snap\Lib\Core\StdObject {
 	
 	protected function makeHtml( $response ){
 		if ( !is_null($this->redirect) ){
-			header( 'Location: '.static::$pageRequest.'/'.$this->redirect ) ;
+			header( 'Location: '.static::$pageRoot.'/'.$this->redirect ) ;
 		}elseif ( $this->isRaw ){
 			return $response['content'];
 		}else{
