@@ -5,7 +5,7 @@ namespace Snap\Node\Form\Input;
 class Button extends \Snap\Node\Form\Input\Basic {
 
 	protected 
-		$text;
+		$title;
 	
 	protected function parseSettings( $settings = array() ){
 		// TODO : is this all the types?
@@ -16,6 +16,11 @@ class Button extends \Snap\Node\Form\Input\Basic {
 		parent::parseSettings($settings);
 		
 		$this->write( isset($settings['text']) ? $settings['text'] : 'Clicky' );
+		$this->title = isset($settings['title']) ? $settings['title'] : null;
+	}
+	
+	protected function getAttributes(){
+		return parent::getAttributes() .( $this->title ? " title='{$this->title}'" : '' );
 	}
 	
 	protected function getInputValue(){

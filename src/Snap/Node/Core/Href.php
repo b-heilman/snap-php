@@ -5,7 +5,8 @@ namespace Snap\Node\Core;
 class Href extends Block {
 	
 	protected
-		$href;
+		$href = '',
+		$title = '';
 	
 	protected function parseSettings( $settings = array() ){
 		$settings['tag'] = 'a';
@@ -19,6 +20,10 @@ class Href extends Block {
 		if ( isset($settings['href']) ){
 			$this->href = $settings['href'];
 		}
+		
+		if ( isset($settings['title']) ){
+			$this->title = $settings['title'];
+		}
 	}
 	
 	protected function getAttributes(){
@@ -28,6 +33,6 @@ class Href extends Block {
 			$this->href = $func( $this->page );
 		}
 		
-		return parent::getAttributes()." href=\"{$this->href}\"";
+		return parent::getAttributes()." href=\"{$this->href}\" title=\"{$this->title}\"";
 	}
 }
