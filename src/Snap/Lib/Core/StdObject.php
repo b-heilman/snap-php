@@ -77,7 +77,7 @@ class StdObject {
 				self::$pageURI     = $_SERVER['REQUEST_URI'];
 				self::$pageScript  = $sName;
 				self::$pageRequest = $sName;
-				self::$pageRoot    = substr( $sName, 0, strrpos($_SERVER['SCRIPT_NAME'],'/') );
+				self::$pageRoot    = substr( $sName, 0, strrpos($sName,'/') );
 				self::$pageData    = isset($_SERVER['PATH_INFO']) ? explode( '/', substr($_SERVER['PATH_INFO'], 1) ) : array();
 			}
 			
