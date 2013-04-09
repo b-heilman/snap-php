@@ -121,6 +121,14 @@ class Form extends \Snap\Node\Core\Template {
 		parent::processTemplate();
 	}
 	
+	public function wasSubmitted(){
+		return $this->model->wasFormSubmitted();
+	}
+	
+	public function hasErrors(){
+		return $this->model->hasFormErrors();
+	}
+	
 	public function takeControl( \Snap\Node\Core\Snapable $in ){
 		if ( $in instanceof Form && $this->tag != 'div' ){
 			$this->alterSubForm( $in );

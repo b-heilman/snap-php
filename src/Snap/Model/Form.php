@@ -173,6 +173,10 @@ abstract class Form {
 		return $this->wasSubmitted( $this->controlInput->getName() );
 	}
 	
+	public function hasFormErrors(){
+		return $this->getResults()->hasErrors();
+	}
+	
 	public function getMethod(){
 		return ( $this->method ? 'POST' : 'GET' );
 	}
