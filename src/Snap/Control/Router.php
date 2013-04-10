@@ -251,7 +251,9 @@ abstract class Router extends \Snap\Lib\Core\StdObject {
 	
 		$response['request'] = static::$pageRoot;
 		$response['redirect'] = $this->redirect;
-	
+		// TODO : protect from some darkness that can come with the data, would rather not need to do this?
+		$response['content'] = utf8_encode( $response['content'] );
+		
 		return json_encode( $response );
 	}
 	

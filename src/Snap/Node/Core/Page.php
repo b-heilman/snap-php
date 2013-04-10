@@ -241,16 +241,4 @@ abstract class Page extends Node\Core\Template
  			new \Snap\Lib\Linking\Resource\Local( '/core.js')
  		);
  	}
- 	
- 	public function __toString(){
- 		ob_start();
- 		
- 		$this->serve();
- 		
- 		$t = ob_get_contents();
- 		
- 		ob_clean();
- 	
- 		return $t;
- 	}
 }

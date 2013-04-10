@@ -4,9 +4,16 @@ namespace Snap\Node\View;
 
 abstract class Listing extends \Snap\Node\Core\View {
 	
+	protected
+		$emptyMsg = '';
+	
 	protected function parseSettings( $settings = array() ){
 		if ( !isset($settings['tag']) ){
 			$settings['tag'] = 'ul';
+		}
+		
+		if ( isset($settings['emptyMessage']) ){
+			$this->emptyMsg = $settings['emptyMessage'];
 		}
 		
 		parent::parseSettings( $settings );
@@ -60,17 +67,21 @@ abstract class Listing extends \Snap\Node\Core\View {
 	}
 	
 	protected function emptyMessage(){
-		return '';
+		return $this->emptyMsg;
 	}
 	
 	protected function loadTemplate( $__template ){
  		$content = '';
+ 		
  		$data = $this->parseStreamData( $this->getStreamData() );
  		$c = $data->count();
  		
  		if ( $c == 0 ){
- 			error_log( get_class($this).' : '.$this->emptyMessage() );
- 			$this->write( $this->emptyMessage(), array('tag' => 'li') );
+ 			$msg = $this->emptyMessage();
+ 			
+ 			if ( $msg ){
+ 				$this->write( $msg, array('tag' => 'li') );
+ 			}
  			$this->addClass('empty');
  		}else{
 	 		for( $i = 0; $i < $c; $i++ ){
