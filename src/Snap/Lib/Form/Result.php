@@ -2,11 +2,13 @@
 
 namespace Snap\Lib\Form;
 
+use Snap\Lib\Core\StdObject;
+
 use
 	\Snap\Lib\Form\Error;
 
 // Data type to be bassed back by a form_node
-class Result {
+class Result extends StdObject {
 	
 	protected
 		$data,

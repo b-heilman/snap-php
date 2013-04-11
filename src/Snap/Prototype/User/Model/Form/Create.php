@@ -23,6 +23,7 @@ class Create extends \Snap\Model\Form {
 		
 		$this->setValidations(array(
 			new \Snap\Lib\Form\Validation\Paired( 'password1', 'password2', 'Passwords need to match' ),
+			new \Snap\Lib\Form\Validation\Required( 'password1', 'You need a password' ),
 			new \Snap\Lib\Form\Validation\Required( 'login', 'Login needs to be filled in' ),
 			new \Snap\Lib\Form\Validation\Required( 'display', 'Display needs to be filled in' )
 		));

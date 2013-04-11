@@ -37,5 +37,3 @@ $this->append( new Element(array(
 	)),
 	'label' => 'Password Again'
 )) );
-
-$this->append( new \Snap\Node\Form\Control() );

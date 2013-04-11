@@ -9,13 +9,17 @@ class Text extends Simple {
     	 $rendered = '';    // This is the rendered insides of the html object
 	// Build the object and copy the static text to rendered.  'rendered' is inherently the inner html of the object, since these tags only
 	// are meant to wrap text, this will save some time
-	protected function parseSettings( $settings = array() ){
+	public function __construct( $settings = array() ){
 		if ( is_string($settings) ){
 			$settings = array('text' => $settings, 'tag' => 'span');
 		}elseif ( !isset($settings['tag']) ){
 			$settings['tag'] = 'span';
 		}
 		
+		parent::__construct( $settings );
+	}
+	
+	protected function parseSettings( $settings = array() ){	
 		parent::parseSettings( $settings );
 		
 		$this->rendered = isset($settings['text']) ? $settings['text'] : '';

@@ -13,7 +13,5 @@ $this->append( new Element(array(
 	
 $this->append( new Element(array(
 	'input' => new \Snap\Node\Form\Input\Password( $password ),
-  'label' => 'Password'
+	'label' => 'Password'
 )) );
-	
-$this->append( new \Snap\Node\Form\Control() );

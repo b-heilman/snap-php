@@ -29,6 +29,10 @@ abstract class Reflective extends \Snap\Node\Core\Block
 		}else{
 			$view = $settings['view'];
 			
+			if ( is_callable($view) ){
+				$view = $view();
+			}
+			
 			if ( is_array($view) ){
 				foreach( $view as $v ){
 					$this->append( $v );
@@ -53,6 +57,9 @@ abstract class Reflective extends \Snap\Node\Core\Block
 	}
 	
 	public function getActions(){
-		return array( new \Snap\Lib\Linking\Resource\Local($this, 'Form\Reflective.js') );
+		return array( 
+			new \Snap\Lib\Linking\Resource\Local($this, 'Ajax\Core.js'),
+			new \Snap\Lib\Linking\Resource\Local($this, 'Form\Reflective.js')
+		);
 	}
 }

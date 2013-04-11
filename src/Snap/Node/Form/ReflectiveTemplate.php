@@ -25,6 +25,9 @@ abstract class ReflectiveTemplate extends \Snap\Node\Core\Template
 	}
 	
 	public function getActions(){
-		return array( new \Snap\Lib\Linking\Resource\Local($this, 'Form\Reflective.js') );
+		return array( 
+			new \Snap\Lib\Linking\Resource\Local($this, 'Ajax\Core.js'),
+			new \Snap\Lib\Linking\Resource\Local($this, 'Form\Reflective.js')
+		);
 	}
 }
