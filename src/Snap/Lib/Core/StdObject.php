@@ -23,7 +23,7 @@ class StdObject {
 	
 	protected function logError( $error ){
 		if ( $error instanceof \Exception ){
-			$this->logError( $error->getMessage(). ' - '.$error->getFile().' : '.$error->getLine() );
+			$this->logError( get_class($this).' => '.$error->getMessage(). ' - '.$error->getFile().' : '.$error->getLine() );
 			$this->logError( $error->getTraceAsString() );
 		}else{
 			error_log( $error );
