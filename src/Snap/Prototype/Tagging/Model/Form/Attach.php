@@ -17,14 +17,14 @@ class Attach extends \Snap\Model\Form {
 		$this->taggable = $taggable;
 		$this->tagClass = $tagClass;
 
-		$options = array( '' => 'Pick an Interest' );
+		$options = array( '' => 'Pick a Tag' );
 		// TODO : bruteforce for the win
 		foreach( $tagClass::all() as $tag ){
 			$options[ $tag->getId() ] = $tag->getName();
 		}
 		
 		$this->setInputs(array(
-			new \Snap\Lib\Form\Input\Autocomplete( 'name', '', $options )
+			new \Snap\Lib\Form\Input\Autocomplete( 'name', '', $options, false, '', true )
 		));
 
 		$this->setValidations(array(
@@ -36,7 +36,7 @@ class Attach extends \Snap\Model\Form {
 						return null;
 					}
 				}, 
-				'Need something to tag' 
+				'Please supply a tag' 
 			)
 		));
 	}

@@ -26,7 +26,12 @@ class Autocomplete extends Select
 		$text = $this->input->getText();
 		
 		$this->acSettings = (isset($settings['acSettings']) ? $settings['acSettings'] : array() ) 
-			+ array( 'textName' => $text->getName(), 'textValue' => $text->getValue(), 'ignoreValue' => $this->input->getIgnoredValue() );
+			+ array( 
+				'textName' => $text->getName(), 
+				'textValue' => $text->getValue(), 
+				'ignoreValue' => $this->input->getIgnoredValue(),
+				'clearIgnore' => $this->input->clearIgnore()
+			);
 	}
 	
 	public function getStyles(){

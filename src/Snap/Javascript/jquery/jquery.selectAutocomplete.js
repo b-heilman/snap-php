@@ -9,7 +9,8 @@
 			makeLabel : function( label, value ){
 				return '<span class="autocomplete-label" data-value="'+value+'">'+label+'</span>'
 			},
-			ignoreValue : null
+			ignoreValue : null,
+			clearIgnore : false
 		}, settings);
 		
 		return this.each(function(){
@@ -23,7 +24,8 @@
 				index = {},
 				options = [],
 				multiMode = $select.attr('multiple') ? [] : null,
-				ignoreValue = settings.ignoreValue;
+				ignoreValue = settings.ignoreValue,
+				ignoreText = null;
 			
 			// Create the new structure and wrap the element
 			$select.wrap( '<div class="select-autocomplete ui-widget"/>' )
@@ -42,6 +44,8 @@
 						value : value,
 						label : text
 					});
+				}else if ( value === ignoreValue ){
+					ignoreText = text;
 				}
 			});
 			
@@ -66,6 +70,14 @@
 				$text.css( 'text-indent', $labels.width() );
 			}
 			
+			if( settings.clearIgnore ){
+				$text.focus(function(){
+					if ( $text.val() == ignoreText ){
+						$text.val('');
+					}
+				});
+			}
+			
 			$text.blur(function(){
 				var
 					t = $text.val(),
@@ -86,6 +98,10 @@
 				}
 				
 				$select.change();
+				
+				if( settings.clearIgnore && $text.val() == '' ){
+					$text.val( ignoreText );
+				}
 			});
 			
 			$text.autocomplete( jQuery.extend({}, settings.autocomplete, {

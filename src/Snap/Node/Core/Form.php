@@ -43,19 +43,19 @@ class Form extends \Snap\Node\Core\Template {
     		throw new \Exception("A form's model needs to be instance of \Snap\Model\Form");
     	}
     	
-		// turn of messaging for this form.  Messaging can actually be explicitly turned off
-		if ( !isset($settings['messaging']) || $settings['messaging'] ){
-			$this->activateMessaging();
-		}
-		
-		// messaging rollup means the messages are rolled up from the children to the parent form
-		$this->messagingOwner = true;
-		$this->messagingRollup = isset($settings['messagingRollup']) ? $settings['messagingRollup'] : true;
-		
-		$this->target = isset($settings['target']) ? $settings['target'] : '_self';
-		$this->action = isset($settings['action']) ? $settings['action'] : static::$pageURI;
-		
-		parent::parseSettings($settings);
+			// turn of messaging for this form.  Messaging can actually be explicitly turned off
+			if ( !isset($settings['messaging']) || $settings['messaging'] ){
+				$this->activateMessaging();
+			}
+			
+			// messaging rollup means the messages are rolled up from the children to the parent form
+			$this->messagingOwner = true;
+			$this->messagingRollup = isset($settings['messagingRollup']) ? $settings['messagingRollup'] : true;
+			
+			$this->target = isset($settings['target']) ? $settings['target'] : '_self';
+			$this->action = isset($settings['action']) ? $settings['action'] : static::$pageURI;
+			
+			parent::parseSettings($settings);
     }
     
     protected function setInactive(){
@@ -230,7 +230,7 @@ class Form extends \Snap\Node\Core\Template {
     		$form->messagingOwner = false;
     	}
     
-    	// anything here will be pulled up
+ 	  	// anything here will be pulled up
     	if ( $form->encoding !== 'application/x-www-form-urlencoded' ){
     		$this->setEncoding( $form->encoding );
     	}

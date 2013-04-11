@@ -2,24 +2,31 @@
 
 namespace Snap\Lib\Form\Input;
 
+// TODO : a lot of this should go to the Node, can run off default value?
 class Autocomplete extends Optionable 
 	implements Composite {
 	
 	protected
 		$text,
-		$ignoreValue;
+		$ignoreValue,
+		$clearIgnore;
 	
-	public function __construct( $name, $value, $options, $multiple = false, $ignoreValue = null ){
+	public function __construct( $name, $value, $options, $multiple = false, $ignoreValue = null, $clearIgnore = false ){
 		parent::__construct( $name, $value, $options, $multiple );
 		
 		$this->ignoreValue = $ignoreValue;
+		$this->clearIgnore = $clearIgnore;
 		
 		$text = '';
-		if ( !$multiple && $value !== $ignoreValue && isset($options[$value]) ){
+		if ( !$multiple && ( $value !== $ignoreValue || $clearIgnore ) && isset($options[$value]) ){
 			$text = $options[$value];
 		}
 		
 		$this->text = new Basic( $name.'_text', $text );
+	}
+	
+	public function clearIgnore(){
+		return $this->clearIgnore;
 	}
 	
 	public function getIgnoredValue(){
