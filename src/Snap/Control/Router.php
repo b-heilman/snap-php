@@ -291,12 +291,13 @@ abstract class Router extends \Snap\Lib\Core\StdObject {
 			$content = isset($response['content']) ? $response['content'] : '';
 			$onload = isset($response['onload']) ? $response['onload'] : '';
 			
+			// TODO : favicon would be nice...
 			return <<<HTML
 <!DOCTYPE HTML>
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en'>
 	<head>
 		<title>{$title}</title>
-	
+		<link rel="icon" type="image/ico" href="/resources/favicon.ico"/>
 		<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'>
 		{$meta}
 		<!-- js links -->
