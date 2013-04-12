@@ -29,9 +29,9 @@
 							json = $.parseJSON( $(this.document.body).text() );
 						
 						global.Snap.decodeJson( json, function(){ $wrapper.html( json.content ); });
+						
+						iframe.parentNode.removeChild( iframe );
 					}
-					
-					iframe.parentNode.removeChild( iframe );
 				};
 				//console.log(window.parent.formAjaxCallbacks); 
 				$(document.body).append('<iframe onload="var win = window.parent; win.formAjaxCallbacks.'+name+'.call( win.frames.'+name+' );" class="reflective" id="'

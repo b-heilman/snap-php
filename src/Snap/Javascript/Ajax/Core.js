@@ -15,36 +15,30 @@
 			sheet,
 			interval = null;
 		
-		if (document.createStyleSheet){
-			style = document.createStyleSheet( link );
-		} else {
-			var 
-				head = document.getElementsByTagName( 'head' )[0];
-			
-			style = document.createElement( 'link' );
-			style.setAttribute( 'href', path );
-			style.setAttribute( 'rel', 'stylesheet' );
-			style.setAttribute( 'type', 'text/css' );
-			
-			head.appendChild( style );
-		}
+		style = document.createElement( 'link' );
+		style.setAttribute( 'href', path );
+		style.setAttribute( 'rel', 'stylesheet' );
+		style.setAttribute( 'type', 'text/css' );
 		
 		if ( style.sheet ){
 			sheet = 'sheet';
 			css = 'cssRules';
+			
+			interval = setInterval( function(){
+				try{
+				//	console.log( style[sheet] );
+					if ( style[sheet] && style[sheet][css] && style[sheet][css].length ){
+						clearInterval( interval );
+						onload();
+					}
+				}catch( ex ){ /* I feel dirty */ }
+			},10 );
 		}else{
-			sheet = 'styleSheet';
-			css = 'rules';
+			// IE specific
+			$( style ).bind('load', onload );
 		}
 		
-		interval = setInterval( function(){
-			try{
-				if ( style[sheet] && style[sheet][css] && style[sheet][css].length ){
-					clearInterval( interval );
-					onload();
-				}
-			}catch( ex ){ /* I feel dirty */ }
-		},10 );
+		$('head').append( style );
 	}
 	
 	global.Snap.decodeJson = function( json, display ){
